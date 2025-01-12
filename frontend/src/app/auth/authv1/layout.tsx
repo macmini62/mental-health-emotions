@@ -20,7 +20,7 @@ const AuthLayout = ({
   }
 
   return (
-    <div className="w-[512px] rounded-md border border-black p-10">
+    <div className="w-[512px] rounded-md shadow-lg shadow-gray-300 p-10">
       <div className="flex gap-4 justify-center">
         <img src="/logo/logo-white.png" alt="" className="w-48 h-14"/>
       </div>

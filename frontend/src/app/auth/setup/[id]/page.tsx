@@ -44,11 +44,11 @@ const Page = () => {
 
   // Reload more topics
   const handleTopicsLoad = () => {
-
+    
   };
 
   return (
-    <div className="p-4 flex flex-col gap-6 items-center">
+    <form className="p-4 flex flex-col gap-6 items-center">
       {/* ROLES */}
       <div className="w-full mx-4">
         <div className="">
@@ -60,11 +60,10 @@ const Page = () => {
               <li className=""><span className="font-semibold">Mental Health Education Seeker:</span> If you’re here to learn, grow, or gain knowledge about mental health.</li>
             </ul>
           </span> 
-          Your role will help us ensure that you get the most relevant features and resources. Don’t worry—you can always update your role later if needed!
+          Your role and topics selected will help us ensure that you get the most relevant features and resources. Don’t worry—you can always update your role later if needed!
           </div>
         </div>
         <div className="w-full">
-          <p className="my-4">Select Role to get started</p>
           <div className="flex flex-col gap-6 px-4 my-6">
             <FormControl required sx={{ minWidth: 120 }}>
               <InputLabel id="role-label">Role</InputLabel>
@@ -114,26 +113,25 @@ const Page = () => {
       </div>
       {/* TOPICS */}
       <div className="w-full my-6 flex flex-col items-center">
-        <h2 className="self-start text-2xl font-semibold">Explore Topics</h2>
+        <h2 className="self-start text-2xl font-semibold">Topics to Explore</h2>
         <div className="w-full max-h-fit flex flex-wrap col-span-2 gap-4 my-8">
           {
             topics.map((topic: string, index: number) => (
-              <button
+              <div
                 className="text-sm py-4 px-6 rounded-full bg-gray-100 text-black capitalize cursor-pointer border-2 border-gray-100"
                 style={selectedTopics.includes(topic) == true ? {background: "transparent", borderColor: "black"} : {}}
-                name={topic}
                 key={index}
                 onClick={() => handleTopicSelect(topic)}
               >
                 {topic}
-              </button>
+              </div>
             ))
           }
         </div>
         <p className="hover:underline text-sm font-semibold cursor-pointer" onClick={() => handleTopicsLoad()}>Load More</p>
       </div>
-      <button className="w-1/2 h-12 bg-black active:bg-white active:border active:text-black text-white border-black rounded-lg">Continue</button>
-    </div>
+      <button className="w-1/2 h-12 bg-black active:bg-white active:border active:text-black text-white border-black rounded-full">Continue</button>
+    </form>
   )
 }
 

@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import InputFields from "../../../components/authComponents/InputFields";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   email: z.string().email({message: "Invalid email address!"}),
@@ -21,10 +22,26 @@ const LogInPage = () => {
   } = useForm<Inputs>({
     resolver: zodResolver(schema),
   });
-  // const router = useRouter();
-  const onSubmit = handleSubmit((data) => {
+
+  // Verify user.
+  async function verifyUser(email: string, password: string): Promise<boolean>{
+    const res = await fetch(`http://localhost:3001/users/verify?email=${email}&password=${password}`,{
+      method: "GET",
+      headers:{
+        "Content-Type": "application/json"
+      }
+    });
+  
+    console.log(res);
+    if(res.status === 200){ return true; }else{ return false; }
+  }
+
+  const router = useRouter();
+  const onSubmit = handleSubmit(async (data) => {
     console.log(data);
-    // router.push("/");
+
+    const userValid: boolean = await verifyUser(data.email, data.password);
+    // userValid && router.push("/articles");
   });
 
   return (
@@ -44,7 +61,11 @@ const LogInPage = () => {
         error={errors.password}
         type="password"
       />
-      <button className="w-full h-12 rounded-full bg-black text-white font-semibold my-4 active:bg-white active:border active:border-black active:text-black">Log In</button>
+      <button
+        className="w-full h-12 rounded-full bg-black text-white font-semibold my-4 active:bg-white active:border active:border-black active:text-black"
+      >
+        Log In
+      </button>
     </form>
   )
 }
