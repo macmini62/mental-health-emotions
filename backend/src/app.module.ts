@@ -1,14 +1,12 @@
 import { Module } from "@nestjs/common";
-import { ProfessionalsModule } from "./professionals/professionals.module";
-import { SeekersModule } from './seekers/seekers.module';
 import { MongooseModule } from "@nestjs/mongoose";
+import { UsersModule } from './users/users.module';
 import "dotenv/config";
 
 @Module({
   imports: [
-    ProfessionalsModule,
-    SeekersModule,
-    MongooseModule.forRoot(process.env.MONGODB_URL)
+    MongooseModule.forRoot(process.env.MONGODB_URL),
+    UsersModule
   ],
   controllers: [],
   providers: [],
