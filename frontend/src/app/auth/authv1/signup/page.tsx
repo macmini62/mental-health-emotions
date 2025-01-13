@@ -8,6 +8,7 @@ import InputFields from "../../../components/authComponents/InputFields";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
+import Auth0Options from "@/app/components/authComponents/Auth0Options";
 
 const schema = z.object({
   name: z.string().min(3, {message: "Full Name must be more than 3 characters long!"}).toLowerCase(),
@@ -66,45 +67,55 @@ const SignUpPage = () => {
 
 
   return (
-    <form onSubmit={onSubmit}>
-      <InputFields
-        name="name"
-        label="Full Name"
-        type="text"
-        register={register}
-        error={errors.name}
-        placeholder="John Doe"
-      />
-      <InputFields
-        name="email"
-        label="Email Address"
-        type="email"
-        register={register}
-        error={errors.email}
-        placeholder="Johndoe@gmail.com"
-      />
-      <InputFields
-        name="password"
-        label="Password"
-        type="password"
-        register={register}
-        error={errors.password}
-      />
-      <InputFields
-        name="phoneNumber"
-        label="PhoneNumber"
-        type="text"
-        register={register}
-        error={errors.phoneNumber}
-      />
-      <div className="flex gap-2 my-2 p-2">
-        <span onClick={() => handleCheck()} className="flex justify-center items-center w-6 h-6 border border-black rounded-md cursor-pointer">
-          <FaCheck style={ checkBox === false ? { visibility: "hidden" } : { visibility: "visible" }}/>
-        </span>
-        <p>I want to receive updates through this email.</p>
+    <div className="">
+      <div className="flex gap-4 justify-center">
+        <img src="/logo/logo-white.png" alt="" className="w-48 h-14"/>
       </div>
-      <button className="w-full h-12 rounded-full bg-black text-white font-semibold my-4 active:bg-white active:border active:border-black active:text-black">Sign Up</button>
-    </form>
+      {/* Form Details */}
+      <form onSubmit={onSubmit}>
+        <InputFields
+          name="name"
+          label="Full Name"
+          type="text"
+          register={register}
+          error={errors.name}
+          placeholder="John Doe"
+        />
+        <InputFields
+          name="email"
+          label="Email Address"
+          type="email"
+          register={register}
+          error={errors.email}
+          placeholder="Johndoe@gmail.com"
+        />
+        <InputFields
+          name="password"
+          label="Password"
+          type="password"
+          register={register}
+          error={errors.password}
+        />
+        <InputFields
+          name="phoneNumber"
+          label="PhoneNumber"
+          type="text"
+          register={register}
+          error={errors.phoneNumber}
+        />
+        <div className="flex gap-2 my-2 p-2">
+          <span onClick={() => handleCheck()} className="flex justify-center items-center w-6 h-6 border border-black rounded-md cursor-pointer">
+            <FaCheck style={ checkBox === false ? { visibility: "hidden" } : { visibility: "visible" }}/>
+          </span>
+          <p>I want to receive updates through this email.</p>
+        </div>
+        <button className="w-full h-12 rounded-full bg-black text-white font-semibold my-4 active:bg-white active:border active:border-black active:text-black">Sign Up</button>
+      </form>
+      {/* Auth0Options */}
+      <Auth0Options
+        auth={"signup"}
+      />
+    </div>
   )
 }
 
