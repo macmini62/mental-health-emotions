@@ -28,6 +28,7 @@ let VerifyUser = class VerifyUser {
         if (user === null) {
             return res.status(401).send({ message: "Not verified" });
         }
+        res.status(200).send({ ...user });
         next();
     }
 };

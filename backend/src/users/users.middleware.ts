@@ -16,6 +16,9 @@ export class VerifyUser implements NestMiddleware {
     if(user === null){
       return res.status(401).send({ message: "Not verified" });
     }
+    
+    res.status(200).send({...user});
+
     next();
   }
 }

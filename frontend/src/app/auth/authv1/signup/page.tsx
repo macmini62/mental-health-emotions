@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import Auth0Options from "@/app/components/authComponents/Auth0Options";
+import axios from "axios";
 
 const schema = z.object({
   name: z.string().min(3, {message: "Full Name must be more than 3 characters long!"}).toLowerCase(),
@@ -41,27 +42,24 @@ const SignUpPage = () => {
   }
 
   // Uploads user data
-  async function uploadData(data: object): Promise<number> {
-    const res = await fetch("http://localhost:3001/users/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    console.log(res);
-    return res.status;
-  }
-
   const router = useRouter();
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
 
     const userId = uuidv4();
-    const status = await uploadData({_id: userId, ...data});
+    const res = await axios.post("http://localhost:3001/users/add", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: JSON.stringify(data),
+    }).then((res) => {
+      console.log(res);
+      return res.status;
+    }).catch((err) => {
+      console.log(err);
+    });
 
-    status === 201 && router.push(`/auth/setup/${userId}`);
+    res === 201 && router.push(`/auth/setup/${userId}`);
   });
   
 

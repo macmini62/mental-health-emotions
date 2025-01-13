@@ -7,6 +7,7 @@ import InputFields from "../../../components/authComponents/InputFields";
 import { useRouter } from "next/navigation";
 import Auth0Options from "@/app/components/authComponents/Auth0Options";
 import { useState } from "react";
+import axios from "axios";
 
 const schema = z.object({
   email: z.string().email({message: "Invalid email address!"}),
@@ -27,8 +28,7 @@ const LogInPage = () => {
 
   // Verify user.
   async function verifyUser(email: string, password: string): Promise<boolean>{
-    const res = await fetch(`http://localhost:3001/users/verify?email=${email}&password=${password}`,{
-      method: "GET",
+    const res = await axios.get(`http://localhost:3001/users/verify?email=${email}&password=${password}`,{
       headers:{
         "Content-Type": "application/json"
       }
@@ -43,7 +43,7 @@ const LogInPage = () => {
     console.log(data);
 
     const userValid: boolean = await verifyUser(data.email, data.password);
-    // userValid && router.push("/articles");
+    userValid && router.push("/articles");
   });
 
   return (

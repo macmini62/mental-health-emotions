@@ -36,4 +36,4 @@ const Auth0Options = ({
   )
 }
 
-export default Auth0Options
+export default Auth0Options;
