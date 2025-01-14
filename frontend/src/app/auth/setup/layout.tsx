@@ -17,11 +17,6 @@ const setupLayout = ({
       <div className="w-full h-[calc(100%-84px)] flex justify-center pt-8">
         {children}
       </div>
-      <hr className="w-full border-black border-1" />
-      <div className="flex items-center justify-between w-full h-20 px-8">
-        <button className="w-48 h-12 bg-black rounded-full active:bg-white active:border border-black active:text-black text-white">Back</button>
-        <button className="w-48 h-12 bg-black rounded-full active:bg-white active:border border-black active:text-black text-white">Continue</button>
-      </div>
     </div>
   )
 }

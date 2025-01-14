@@ -23,9 +23,8 @@ const TitlePage = () => {
   }
 
   return (
-    <div className="w-1/3 p-4 flex flex-col gap-6 items-center">
-      {/* ROLES */}
-      <div className="w-full mx-4">
+    <div className="w-full p-4 flex flex-col gap-6 items-center justify-between">
+      <div className="w-1/3 mx-4">
         <h2 className="text-center font-semibold text-2xl">Being a professional what title best suits you?</h2>
         <div className="w-full mt-10">
           <div className="flex justify-center gap-10 my-12">
@@ -44,6 +43,10 @@ const TitlePage = () => {
             }
           </div>
         </div>
+      </div>
+      <div className="flex items-center justify-between w-full h-20 px-8 border-t-2 border-black">
+        <button className="w-48 h-12 bg-black rounded-full active:bg-white active:border border-black active:text-black text-white">Back</button>
+        <button className="w-48 h-12 bg-black rounded-full active:bg-white active:border border-black active:text-black text-white">Continue</button>
       </div>
     </div>
   )

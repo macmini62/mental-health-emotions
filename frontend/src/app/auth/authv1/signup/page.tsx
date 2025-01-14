@@ -7,7 +7,6 @@ import { z } from "zod";
 import InputFields from "../../../components/authComponents/InputFields";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { v4 as uuidv4 } from "uuid";
 import Auth0Options from "@/app/components/authComponents/Auth0Options";
 import axios from "axios";
 
@@ -46,20 +45,17 @@ const SignUpPage = () => {
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
 
-    const userId = uuidv4();
-    const res = await axios.post("http://localhost:3001/users/add", 
+    await axios.post("http://localhost:3001/users/create", 
       data
     ).then((res) => {
       console.log(res);
-      return res.status;
+      if(res.status === 201){
+        localStorage.setItem("userId", JSON.stringify(res.data._id));
+      }
     }).catch((err) => {
       console.log(err);
     });
-
-    res === 201 && router.push(`/auth/setup/${userId}`);
   });
-  
-
 
   return (
     <div className="">

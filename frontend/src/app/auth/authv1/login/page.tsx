@@ -6,7 +6,6 @@ import { z } from "zod";
 import InputFields from "../../../components/authComponents/InputFields";
 import { useRouter } from "next/navigation";
 import Auth0Options from "@/app/components/authComponents/Auth0Options";
-import { useState } from "react";
 import axios from "axios";
 
 const schema = z.object({
@@ -31,16 +30,16 @@ const LogInPage = () => {
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
 
-    const res = await axios.post("http://localhost:3001/users/verify", 
+    const userId = await axios.post("http://localhost:3001/users/verify", 
       data
     ).then((res) => {
       console.log(res);
-      return res.status;
+      return res.data;
     }).catch((e) => {
       console.log(e)
     });
 
-    // res === 200 && router.push("/articles");
+    console.log(userId);
   });
 
   return (

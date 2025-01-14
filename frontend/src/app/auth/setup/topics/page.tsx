@@ -50,11 +50,11 @@ const TopicsPage = () => {
   };
 
   return (
-    <div>
-      <div className="w-full my-4 flex flex-col items-center">
-      <h2 className="text-center font-semibold text-2xl">Select topics to explore.</h2>
+    <div className="w-full my-4 flex flex-col items-center justify-between">
+      <div className="w-1/2 mx-4">
+        <h2 className="text-center font-semibold text-2xl">Select topics to explore.</h2>
         <div className="flex flex-col items-center gap-16 w-full mt-12">
-          <div className="w-1/2 justify-center flex flex-wrap gap-4">
+          <div className="w-full justify-center flex flex-wrap gap-4">
             {
               topics.map((topic: string, index: number) => (
                 <div
@@ -70,6 +70,10 @@ const TopicsPage = () => {
           </div>
           <p className="hover:underline text-sm font-semibold cursor-pointer" onClick={() => handleTopicsLoad()}>Load More</p>
         </div>
+      </div>
+      <div className="flex items-center justify-between w-full h-20 px-8 border-t-2 border-black">
+        <button className="w-48 h-12 bg-black rounded-full active:bg-white active:border border-black active:text-black text-white">Back</button>
+        <button className="w-48 h-12 bg-black rounded-full active:bg-white active:border border-black active:text-black text-white">Continue</button>
       </div>
     </div>
   )

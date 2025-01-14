@@ -1,5 +1,7 @@
 "use client"
 
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const RolePage = () => {
@@ -16,10 +18,34 @@ const RolePage = () => {
     });
   };
 
+  React.useEffect(() => {
+    updateUserRole();
+  }, [role]);
+
+  const updateUserRole = async () => {
+    if (role !== ""){
+      const userId = localStorage.getItem("userId");
+      console.log("Id", userId);
+      console.log("role:", role);
+      await axios.put(`http://localhost:3001/users/id/${userId}`,
+        {role: role}
+      )
+        .then((res) => {
+          console.log(res);
+        }).catch((e) => {
+          console.log(e);
+        });
+    }
+  }
+
+  const handleRoute = () => {
+    role !== "" && useRouter().push("/auth/setup/title");
+  };
+
   return (
-    <div className="w-1/3 p-4 flex flex-col gap-6 items-center">
+    <div className="w-full p-4 flex flex-col gap-6 items-center justify-between">
       {/* ROLES */}
-      <div className="w-full mx-4">
+      <div className="w-1/3 mx-4">
         <h2 className="text-center font-semibold text-2xl">How do you intend to use the platform for?</h2>
         <div className="w-full mt-10">
           <div className="flex justify-center gap-10 my-12">
@@ -41,15 +67,20 @@ const RolePage = () => {
             </button>
           </div>
         </div>
-        {/* Visual Effect */}
-        <div className="flex justify-center">
-          {/* professional */}
-          <div className="">
-
-          </div>
-          {/* health seeker */}
-          <div className=""></div>
-        </div>
+      </div>
+      <div className="flex items-center justify-between w-full h-20 px-8 border-t-2 border-black">
+        <button 
+          className="w-48 h-12 bg-black rounded-full text-white opacity-20 cursor-not-allowed"
+        >
+          Back
+        </button>
+        <button 
+          className={`${role === "" ? "w-48 h-12 bg-black rounded-full text-white opacity-20 cursor-not-allowed"
+             : "w-48 h-12 bg-black rounded-full active:bg-white active:border border-black active:text-black text-white"}`}
+          onClick={() => handleRoute()}
+        >
+          Continue
+        </button>
       </div>
     </div>
   )
