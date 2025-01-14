@@ -27,23 +27,20 @@ const LogInPage = () => {
   });
 
   // Verify user.
-  async function verifyUser(email: string, password: string): Promise<boolean>{
-    const res = await axios.get(`http://localhost:3001/users/verify?email=${email}&password=${password}`,{
-      headers:{
-        "Content-Type": "application/json"
-      }
-    });
-  
-    console.log(res);
-    if(res.status === 200){ return true; }else{ return false; }
-  }
-
   const router = useRouter();
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
 
-    const userValid: boolean = await verifyUser(data.email, data.password);
-    userValid && router.push("/articles");
+    const res = await axios.post("http://localhost:3001/users/verify", 
+      data
+    ).then((res) => {
+      console.log(res);
+      return res.status;
+    }).catch((e) => {
+      console.log(e)
+    });
+
+    // res === 200 && router.push("/articles");
   });
 
   return (

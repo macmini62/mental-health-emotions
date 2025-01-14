@@ -47,12 +47,9 @@ const SignUpPage = () => {
     console.log(data);
 
     const userId = uuidv4();
-    const res = await axios.post("http://localhost:3001/users/add", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: JSON.stringify(data),
-    }).then((res) => {
+    const res = await axios.post("http://localhost:3001/users/add", 
+      data
+    ).then((res) => {
       console.log(res);
       return res.status;
     }).catch((err) => {

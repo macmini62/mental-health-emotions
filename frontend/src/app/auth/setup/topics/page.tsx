@@ -20,7 +20,12 @@ const TopicsPage = () => {
     "amazon",
     "openAI",
     "technologies",
-    "books"
+    "books",
+    "depression",
+    "suicide",
+    "attention deficiet hypertension disorder (ADHD)",
+    "obsession compulsion disorder (OCD)",
+    "machine learning"
   ];
 
   // Selection of topics
