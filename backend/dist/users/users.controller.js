@@ -25,11 +25,19 @@ let UsersController = class UsersController {
     get(userId) {
         return this.usersService.getUser(userId);
     }
-    async verify(response) {
-        return response;
+    async verify(data, res) {
+        const userId = await this.usersService.verifyUser(data);
+        if (userId) {
+            return res.status(200).send({ ...userId });
+        }
+        return res.status(500).send({ Error: "User does not exists!" });
     }
-    async add(data) {
-        return this.usersService.addUser(data);
+    async add(data, res) {
+        const userId = await this.usersService.addUser(data);
+        if (userId) {
+            return res.status(201).send({ _id: userId });
+        }
+        return res.status(500).send({ Error: "Email address has already been used!" });
     }
     update(data, userId) {
         return this.usersService.updateUser(userId, data);
@@ -53,17 +61,19 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "get", null);
 __decorate([
-    (0, common_1.Get)("/verify"),
-    __param(0, (0, common_1.Res)()),
+    (0, common_1.Post)("verify"),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Response]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "verify", null);
 __decorate([
-    (0, common_1.Post)("add"),
+    (0, common_1.Post)("create"),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "add", null);
 __decorate([
@@ -82,7 +92,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "delete", null);
 exports.UsersController = UsersController = __decorate([
-    (0, common_1.Controller)('users'),
+    (0, common_1.Controller)("users"),
     __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);
 //# sourceMappingURL=users.controller.js.map

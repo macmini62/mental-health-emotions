@@ -22,13 +22,6 @@ let VerifyUser = class VerifyUser {
         this.userModel = userModel;
     }
     async use(req, res, next) {
-        const data = { email: req.query.email, password: req.query.password };
-        const user = await this.userModel.exists({ ...data });
-        console.log(user);
-        if (user === null) {
-            return res.status(401).send({ message: "Not verified" });
-        }
-        res.status(200).send({ ...user });
         next();
     }
 };

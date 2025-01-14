@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, Req, Res } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { Body, Controller, Delete, Get, Param, Post, Put, Res } from "@nestjs/common";
+import { UsersService } from "./users.service";
+import { user } from "./interface/user";
+import { Response } from "express";
 
-@Controller('users')
+@Controller("users")
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
@@ -15,14 +17,24 @@ export class UsersController {
     return this.usersService.getUser(userId);
   }
 
-  @Get("/verify")
-  async verify(@Res() response: Response){
-    return response;
+  @Post("verify")
+  async verify(@Body() data: user, @Res() res: Response){
+    const userId: object = await this.usersService.verifyUser(data);
+  
+    if(userId){
+      return res.status(200).send({...userId});
+    }
+    return res.status(500).send({ Error: "User does not exists!" });
   }
   
-  @Post("add")
-  async add(@Body() data: object){
-    return this.usersService.addUser(data);
+  @Post("create")
+  async add(@Body() data: user, @Res() res: Response){
+    const userId: string = await this.usersService.addUser(data);
+  
+    if(userId){
+      return res.status(201).send({_id: userId});
+    }
+    return res.status(500).send({ Error: "Email address has already been used!" });
   }
 
   @Put("/id/:id")

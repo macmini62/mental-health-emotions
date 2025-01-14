@@ -17,8 +17,11 @@ export class User{
   phoneNumber: string
   @Prop()
   role: string
-  @Prop()
-  licenseNo: string
+  @Prop({ type: Object })
+  title: {
+    name: string,
+    licenseNo: string
+  }
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

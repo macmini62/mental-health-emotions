@@ -7,7 +7,10 @@ export declare class User {
     password: string;
     phoneNumber: string;
     role: string;
-    licenseNo: string;
+    title: {
+        name: string;
+        licenseNo: string;
+    };
 }
 export declare const UserSchema: import("mongoose").Schema<User, import("mongoose").Model<User, any, any, any, import("mongoose").Document<unknown, any, User> & User & Required<{
     _id: string;

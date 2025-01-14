@@ -17,13 +17,30 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const user_schema_1 = require("./schema/user.schema");
 const mongoose_2 = require("mongoose");
+const uuid_1 = require("uuid");
 let UsersService = class UsersService {
     constructor(UserModel) {
         this.UserModel = UserModel;
     }
     async addUser(data) {
-        console.log("data", data);
-        return new this.UserModel(data).save();
+        try {
+            const userId = (0, uuid_1.v4)();
+            const exUserEmail = await this.UserModel.exists({ email: data.email });
+            console.log(exUserEmail);
+            if (!exUserEmail) {
+                const user = await new this.UserModel(data).save();
+                if (!user) {
+                    throw new Error("Error creating user!");
+                }
+                return userId;
+            }
+            else {
+                throw new Error("User with the email exists!!");
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
     async getUser(profId) {
         console.log("profId:", profId);
@@ -46,6 +63,22 @@ let UsersService = class UsersService {
     }
     async updateUser(profId, data) {
         return await this.UserModel.updateOne({ _id: profId }, { ...data });
+    }
+    async verifyUser(data) {
+        try {
+            console.log(data);
+            const userId = await this.UserModel.exists({ ...data });
+            console.log(userId);
+            if (!userId) {
+                throw new Error();
+            }
+            else {
+                return userId;
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
 };
 exports.UsersService = UsersService;

@@ -39,9 +39,9 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], User.prototype, "licenseNo", void 0);
+    (0, mongoose_1.Prop)({ type: Object }),
+    __metadata("design:type", Object)
+], User.prototype, "title", void 0);
 exports.User = User = __decorate([
     (0, mongoose_1.Schema)()
 ], User);
