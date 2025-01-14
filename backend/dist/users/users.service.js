@@ -28,7 +28,7 @@ let UsersService = class UsersService {
             const exUserEmail = await this.UserModel.exists({ email: data.email });
             console.log(exUserEmail);
             if (!exUserEmail) {
-                const user = await new this.UserModel(data).save();
+                const user = await new this.UserModel({ _id: userId, ...data }).save();
                 if (!user) {
                     throw new Error("Error creating user!");
                 }
@@ -42,9 +42,9 @@ let UsersService = class UsersService {
             console.log(e);
         }
     }
-    async getUser(profId) {
-        console.log("profId:", profId);
-        const user = await this.UserModel.findById({ _id: profId });
+    async getUser(userId) {
+        console.log("userId:", userId);
+        const user = await this.UserModel.findById({ _id: userId });
         console.log("user:", user);
         return user;
     }
@@ -56,13 +56,15 @@ let UsersService = class UsersService {
         console.log(users);
         return users;
     }
-    async deleteUser(profId) {
-        const users = await this.UserModel.deleteOne({ _id: profId });
+    async deleteUser(userId) {
+        const users = await this.UserModel.deleteOne({ _id: userId });
         console.log(users);
         return users;
     }
-    async updateUser(profId, data) {
-        return await this.UserModel.updateOne({ _id: profId }, { ...data });
+    async updateUser(userId, data) {
+        console.log(userId);
+        console.log(data);
+        return await this.UserModel.updateOne({ _id: userId }, { ...data });
     }
     async verifyUser(data) {
         try {

@@ -16,16 +16,6 @@ export class UsersController {
   get(@Param("id") userId: string) {
     return this.usersService.getUser(userId);
   }
-
-  @Post("verify")
-  async verify(@Body() data: user, @Res() res: Response){
-    const userId: object = await this.usersService.verifyUser(data);
-  
-    if(userId){
-      return res.status(200).send({...userId});
-    }
-    return res.status(500).send({ Error: "User does not exists!" });
-  }
   
   @Post("create")
   async add(@Body() data: user, @Res() res: Response){
@@ -37,6 +27,16 @@ export class UsersController {
     return res.status(500).send({ Error: "Email address has already been used!" });
   }
 
+  @Post("verify")
+  async verify(@Body() data: user, @Res() res: Response){
+    const userId: object = await this.usersService.verifyUser(data);
+  
+    if(userId){
+      return res.status(200).send({...userId});
+    }
+    return res.status(500).send({ Error: "User does not exists!" });
+  }
+  
   @Put("/id/:id")
   update(@Body() data: object, @Param("id") userId: string){
     return this.usersService.updateUser(userId, data);

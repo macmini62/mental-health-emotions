@@ -25,19 +25,19 @@ let UsersController = class UsersController {
     get(userId) {
         return this.usersService.getUser(userId);
     }
-    async verify(data, res) {
-        const userId = await this.usersService.verifyUser(data);
-        if (userId) {
-            return res.status(200).send({ ...userId });
-        }
-        return res.status(500).send({ Error: "User does not exists!" });
-    }
     async add(data, res) {
         const userId = await this.usersService.addUser(data);
         if (userId) {
             return res.status(201).send({ _id: userId });
         }
         return res.status(500).send({ Error: "Email address has already been used!" });
+    }
+    async verify(data, res) {
+        const userId = await this.usersService.verifyUser(data);
+        if (userId) {
+            return res.status(200).send({ ...userId });
+        }
+        return res.status(500).send({ Error: "User does not exists!" });
     }
     update(data, userId) {
         return this.usersService.updateUser(userId, data);
@@ -61,14 +61,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "get", null);
 __decorate([
-    (0, common_1.Post)("verify"),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], UsersController.prototype, "verify", null);
-__decorate([
     (0, common_1.Post)("create"),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
@@ -76,6 +68,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "add", null);
+__decorate([
+    (0, common_1.Post)("verify"),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "verify", null);
 __decorate([
     (0, common_1.Put)("/id/:id"),
     __param(0, (0, common_1.Body)()),

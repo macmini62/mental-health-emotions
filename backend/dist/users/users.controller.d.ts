@@ -6,8 +6,8 @@ export declare class UsersController {
     constructor(usersService: UsersService);
     getAll(): Promise<import("./schema/user.schema").User[]>;
     get(userId: string): Promise<import("./schema/user.schema").User>;
-    verify(data: user, res: Response): Promise<Response<any, Record<string, any>>>;
     add(data: user, res: Response): Promise<Response<any, Record<string, any>>>;
+    verify(data: user, res: Response): Promise<Response<any, Record<string, any>>>;
     update(data: object, userId: string): Promise<import("mongoose").UpdateWriteOpResult>;
     delete(userId: string): Promise<import("mongodb").DeleteResult>;
 }

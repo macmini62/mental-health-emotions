@@ -18,7 +18,7 @@ export class UsersService {
       console.log(exUserEmail);
 
       if(!exUserEmail){
-        const user = await new this.UserModel(data).save();
+        const user = await new this.UserModel({ _id: userId, ...data }).save();
         if(!user){
           throw new Error("Error creating user!");
         }
@@ -32,9 +32,9 @@ export class UsersService {
     }    
   }
 
-  async getUser(profId: string): Promise<User>{
-    console.log("profId:", profId);
-    const user = await this.UserModel.findById({ _id: profId });
+  async getUser(userId: string): Promise<User>{
+    console.log("userId:", userId);
+    const user = await this.UserModel.findById({ _id: userId });
 
     console.log("user:", user);
     return user;
@@ -50,16 +50,18 @@ export class UsersService {
     return users;
   }
 
-  async deleteUser(profId: string){
-    const users = await this.UserModel.deleteOne({ _id: profId });
+  async deleteUser(userId: string){
+    const users = await this.UserModel.deleteOne({ _id: userId });
 
     console.log(users);
     return users;
   }
 
-  async updateUser(profId: string, data: object ){
+  async updateUser(userId: string, data: object ){
+    console.log(userId);
+    console.log(data);
     return await this.UserModel.updateOne(
-      { _id: profId },
+      { _id: userId },
       { ...data }
     );
   }

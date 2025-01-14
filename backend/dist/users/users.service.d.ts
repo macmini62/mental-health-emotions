@@ -5,9 +5,9 @@ export declare class UsersService {
     private UserModel;
     constructor(UserModel: Model<User>);
     addUser(data: user): Promise<string>;
-    getUser(profId: string): Promise<User>;
+    getUser(userId: string): Promise<User>;
     getAllUsers(): Promise<Array<User>>;
-    deleteUser(profId: string): Promise<import("mongodb").DeleteResult>;
-    updateUser(profId: string, data: object): Promise<import("mongoose").UpdateWriteOpResult>;
+    deleteUser(userId: string): Promise<import("mongodb").DeleteResult>;
+    updateUser(userId: string, data: object): Promise<import("mongoose").UpdateWriteOpResult>;
     verifyUser(data: user): Promise<object>;
 }
