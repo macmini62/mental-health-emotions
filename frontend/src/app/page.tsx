@@ -16,8 +16,6 @@ import Image from "next/image";
 
 export default function LandingPage() {
 
-  const[show, setShow] = useState<Boolean>(true);
-
   return (
     <div className="w-screen flex justify-center">
       {<div className="w-3/4 h-scr">

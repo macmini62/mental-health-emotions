@@ -6,7 +6,6 @@ import { FaCheck } from "react-icons/fa";
 import { z } from "zod";
 import InputFields from "../../../components/authComponents/InputFields";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Auth0Options from "@/app/components/authComponents/Auth0Options";
 import axios from "axios";
 import Image from "next/image";
@@ -42,7 +41,6 @@ const SignUpPage = () => {
   }
 
   // Uploads user data
-  const router = useRouter();
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
 

@@ -60,7 +60,7 @@ const TopicsPage = () => {
         axios.put(`http://localhost:3001/users/id/c699086a-a8b9-4951-a107-69a9c7147a5f`,
           {selectedTopics: selectedTopics}
         ).then((res) => {
-            res.status === 200 && router.replace("/articles");
+            if(res.status === 200){ router.replace("/articles"); }
             console.log(res);
           }).catch((err) => {
             console.log(err);

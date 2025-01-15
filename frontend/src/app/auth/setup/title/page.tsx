@@ -44,7 +44,11 @@ const TitlePage = () => {
     const btn = e.target as HTMLButtonElement;
     if(btn.name === "continue"){
       if(title !== ""){
-        title === "professional" ? router.push("title") : router.push("topics");
+        if(title === "professional"){
+          router.push("title");
+        }else{
+          router.push("topics");
+        }
       }
     }else{
       router.back();

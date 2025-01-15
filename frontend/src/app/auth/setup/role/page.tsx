@@ -36,7 +36,11 @@ const RolePage = () => {
   const router = useRouter();
   const handleRoute = () => {
     if(role !== ""){
-      role === "professional" ? router.push("title") : router.push("topics");
+      if(role === "professional"){
+        router.push("title");
+      }else{
+        router.push("topics");
+      }
     }
   };
 

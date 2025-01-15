@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import InputFields from "../../../components/authComponents/InputFields";
-import { useRouter } from "next/navigation";
 import Auth0Options from "@/app/components/authComponents/Auth0Options";
 import axios from "axios";
 import Image from "next/image";
@@ -27,7 +26,6 @@ const LogInPage = () => {
   });
 
   // Verify user.
-  const router = useRouter();
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
 
