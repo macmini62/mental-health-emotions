@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
 import { TopicsService } from './topics.service';
 import { topic } from './interface/topic';
 import { Response } from 'express';
@@ -19,8 +19,8 @@ export class TopicsController {
   }
 
   @Get("")
-  async fetch(@Res() res: Response){
-    const topics = await this.topicService.fetchTopics();
+  async fetch(@Query("size") size: number, @Res() res: Response){
+    const topics = await this.topicService.fetchTopics(size);
 
     if(topics){
       res.send(topics);

@@ -4,5 +4,5 @@ export declare class TopicsController {
     private topicService;
     constructor(topicService?: TopicsService);
     add(data: string[], res: Response): Promise<void>;
-    fetch(res: Response): Promise<void>;
+    fetch(size: number, res: Response): Promise<void>;
 }

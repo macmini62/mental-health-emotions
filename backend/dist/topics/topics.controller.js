@@ -28,8 +28,8 @@ let TopicsController = class TopicsController {
             res.status(500).send({ message: "Failed to add the topic!!" });
         }
     }
-    async fetch(res) {
-        const topics = await this.topicService.fetchTopics();
+    async fetch(size, res) {
+        const topics = await this.topicService.fetchTopics(size);
         if (topics) {
             res.send(topics);
         }
@@ -49,9 +49,10 @@ __decorate([
 ], TopicsController.prototype, "add", null);
 __decorate([
     (0, common_1.Get)(""),
-    __param(0, (0, common_1.Res)()),
+    __param(0, (0, common_1.Query)("size")),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], TopicsController.prototype, "fetch", null);
 exports.TopicsController = TopicsController = __decorate([

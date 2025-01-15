@@ -314,5 +314,5 @@ export declare class TopicsService {
         startSession(options?: import("mongoose").ClientSessionOptions): Promise<import("mongoose").ClientSession>;
     });
     createTopic(data: string[]): Promise<string[]>;
-    fetchTopics(): Promise<Topic[]>;
+    fetchTopics(size: number): Promise<Topic[]>;
 }
