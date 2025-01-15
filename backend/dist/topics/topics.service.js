@@ -24,15 +24,20 @@ let TopicsService = class TopicsService {
     }
     async createTopic(data) {
         try {
-            const topicId = (0, uuid_1.v4)();
-            const exTopic = await this.TopicModel.exists({ name: data.name });
-            if (exTopic === null) {
-                const topic = await new this.TopicModel({ _id: topicId, ...data }).save();
-                return topic;
+            const createdTopics = [];
+            for (var i = 0; i < data.length; i++) {
+                console.log(data[i]);
+                const topicId = (0, uuid_1.v4)();
+                const exTopic = await this.TopicModel.exists({ name: data[i] });
+                if (exTopic === null) {
+                    const topic = await new this.TopicModel({ _id: topicId, name: data[i] }).save();
+                    createdTopics.push(data[i]);
+                }
+                else {
+                    continue;
+                }
             }
-            else {
-                throw new Error("Topic already exits!!");
-            }
+            return createdTopics;
         }
         catch (err) {
             console.log(err);

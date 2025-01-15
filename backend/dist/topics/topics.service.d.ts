@@ -1,6 +1,5 @@
 import { Topic } from './schema/topic.schema';
 import { Model } from 'mongoose';
-import { topic } from './interface/topic';
 export declare class TopicsService {
     private TopicModel;
     constructor(TopicModel?: {
@@ -314,6 +313,6 @@ export declare class TopicsService {
         syncIndexes(options?: import("mongoose").SyncIndexesOptions): Promise<Array<string>>;
         startSession(options?: import("mongoose").ClientSessionOptions): Promise<import("mongoose").ClientSession>;
     });
-    createTopic(data: topic): Promise<Topic>;
+    createTopic(data: string[]): Promise<string[]>;
     fetchTopics(): Promise<Topic[]>;
 }

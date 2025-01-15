@@ -9,17 +9,22 @@ import { v4 as uuidv4 } from "uuid";
 export class TopicsService {
   constructor(@InjectModel(Topic.name) private TopicModel = Model<Topic>){}
 
-  async createTopic(data: topic): Promise<Topic>{
+  async createTopic(data: string[]): Promise<string[]>{
    try{
-    const topicId = uuidv4();
-    const exTopic = await this.TopicModel.exists({ name: data.name });
-    if(exTopic === null){
-      const topic = await new this.TopicModel({ _id: topicId, ...data}).save();
-
-      return topic;
-    }else{
-      throw new Error("Topic already exits!!");
+    const createdTopics: string[] = [];
+    for(var i = 0; i < data.length; i++){
+      console.log(data[i])
+      const topicId = uuidv4();
+      const exTopic = await this.TopicModel.exists({ name: data[i] });
+      if(exTopic === null){
+        const topic = await new this.TopicModel({ _id: topicId, name: data[i] }).save();
+        createdTopics.push(data[i]);
+      }else{
+        continue;
+      }
     }
+
+    return createdTopics;
    }
    catch(err){
     console.log(err);

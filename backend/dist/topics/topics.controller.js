@@ -21,7 +21,7 @@ let TopicsController = class TopicsController {
     }
     async add(data, res) {
         const topic = await this.topicService.createTopic(data);
-        if (topic) {
+        if (topic.at(0) !== undefined) {
             res.status(201).send(topic);
         }
         else {
@@ -44,7 +44,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Array, Object]),
     __metadata("design:returntype", Promise)
 ], TopicsController.prototype, "add", null);
 __decorate([
