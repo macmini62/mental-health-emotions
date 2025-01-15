@@ -1,3 +1,5 @@
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
 const Layout = ({
   children
 }:{
@@ -6,6 +8,7 @@ const Layout = ({
   return (
     <div className="flex justify-center items-center w-full h-screen">
       {children}
+      <SpeedInsights/>
     </div>
   )
 }
