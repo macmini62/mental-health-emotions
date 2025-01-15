@@ -4,33 +4,14 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
 
+interface topic {
+  _id: string,
+  name: string
+}
+
 const TopicsPage = () => {
 
-  const topics: string[] = [
-    "movies",
-    "language learning",
-    "devOps",
-    "programming languages",
-    "astronomy",
-    "reading",
-    "gaming",
-    "pc",
-    "dynamic programming",
-    "comics",
-    "engineering",
-    "artificial intelligence",
-    "amazon",
-    "openAI",
-    "technologies",
-    "books",
-    "depression",
-    "suicide",
-    "attention deficiet hypertension disorder (ADHD)",
-    "obsession compulsion disorder (OCD)",
-    "machine learning"
-  ];
-
-  // Selection of topics
+  const [topics, setTopics] = React.useState<topic[]>([]);
   const [selectedTopics, setSelectedTopics] = React.useState<string[]>([]);
 
   const handleTopicSelect = (t: string) => {
@@ -46,20 +27,27 @@ const TopicsPage = () => {
     }
   };
 
+  // Load topics data
+  React.useEffect(() => {
+    axios.get(`http://localhost:3001/topics?size=${15}`)
+    .then((res) => {
+      setTopics(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, []);
+  
   // Reload more topics
   const handleTopicsLoad = () => {
-    
-  };
-
-  React.useEffect(() => {
-    axios.get("")
+    axios.get(`http://localhost:3001/topics?size=${topics.length+15}`)
       .then((res) => {
-        console.log(res);
+        setTopics(res.data);
       })
       .catch((err) => {
-        console.log(err)
-      })
-  }, []);
+        console.log(err);
+      });
+  };
 
   const router = useRouter();
   const handleRoute = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -69,10 +57,10 @@ const TopicsPage = () => {
         const userId = localStorage.getItem("userId");
         console.log("Id", userId);
         console.log("selectedTopics:", selectedTopics);
-        axios.put(`http://localhost:3001/users/id/${userId}`,
+        axios.put(`http://localhost:3001/users/id/c699086a-a8b9-4951-a107-69a9c7147a5f`,
           {selectedTopics: selectedTopics}
         ).then((res) => {
-            res.status === 201 && router.replace("/articles");
+            res.status === 200 && router.replace("/articles");
             console.log(res);
           }).catch((err) => {
             console.log(err);
@@ -85,19 +73,19 @@ const TopicsPage = () => {
 
   return (
     <div className="w-full my-4 flex flex-col items-center justify-between">
-      <div className="w-1/2 mx-4">
+      <div className="w-1/2 mx-4 overflow-y-auto">
         <h2 className="text-center font-semibold text-2xl">Select topics to explore.</h2>
-        <div className="flex flex-col items-center gap-16 w-full mt-12">
+        <div className="flex flex-col items-center gap-10 w-full mt-12 mb-6">
           <div className="w-full justify-center flex flex-wrap gap-4">
             {
-              topics.map((topic: string, index: number) => (
+              topics.map((tp: topic, index: number) => (
                 <div
                   className="text-sm py-4 px-14 rounded-full bg-gray-100 text-black capitalize cursor-pointer border-2 border-gray-100"
-                  style={selectedTopics.includes(topic) == true ? {background: "transparent", borderColor: "black"} : {}}
+                  style={selectedTopics.includes(tp._id) == true ? {background: "transparent", borderColor: "black"} : {}}
                   key={index}
-                  onClick={() => handleTopicSelect(topic)}
+                  onClick={() => handleTopicSelect(tp._id)}
                 >
-                  {topic}
+                  {tp.name}
                 </div>
               ))
             }
@@ -126,4 +114,4 @@ const TopicsPage = () => {
   )
 }
 
-export default TopicsPage
+export default TopicsPage;
