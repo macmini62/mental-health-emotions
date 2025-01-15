@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { BsDot } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
@@ -13,7 +14,7 @@ const Post = () => {
       {/* HEADER */}
       <div className="w-full flex justify-between py-3 px-4 border-b-2 fixed z-50 left-0 top-0 bg-white shadow-sm">
         <div className="flex gap-6 items-center">
-          <Link href="/"><img src="/logo/logo-white.png" alt="" className="w-36 h-10"/></Link>
+          <Link href="/"><Image src="/logo/logo-white.png" alt="" className="w-36 h-10"/></Link>
           <div className="max-w-fit h-10 flex px-3 gap-3 items-center bg-gray-100 rounded-full group">
             <IoSearchOutline className="w-7 h-7 group-focus-within:text-black"/>
             <input type="text" name="" id="" className="px-2 w-52 outline-none bg-transparent focus:text-black" placeholder="Search"/>
@@ -25,7 +26,7 @@ const Post = () => {
             <p className="">Write</p>
           </Link>
           <Link href="/" className="relative"><GoBell className="w-7 h-7 hover:text-black"/><GoDotFill className="animate-ping absolute w-3 h-3 bottom-0 -right-1 text-black"/></Link>
-          <button><img src="/faces/face1.jpg" alt="" className="w-10 h-10 rounded-full hover:opacity-80"/></button>
+          <button><Image src="/faces/face1.jpg" alt="" className="w-10 h-10 rounded-full hover:opacity-80"/></button>
         </div>
       </div>
       {/* CONTENTS */}
@@ -35,7 +36,7 @@ const Post = () => {
           <h2 className="text-5xl text-black font-semibold my-3">366/366</h2>
           <h3 className="text-xl my-3">Long story short, you survived the year 2024.</h3>
           <div className="flex gap-4 items-center my-6">
-            <Link href="/"><img src="/faces/face4.jpg" alt="" className="w-14 h-14 rounded-full hover:opacity-80"/></Link>
+            <Link href="/"><Image src="/faces/face4.jpg" alt="" className="w-14 h-14 rounded-full hover:opacity-80"/></Link>
             <div className="max-w-fit">
               <Link href="/"><p className="text-black hover:underline">eMotions</p></Link>
               <div className="flex items-center gap-1 text-sm">
@@ -69,7 +70,7 @@ const Post = () => {
         {/* body */}
         <div className="w-full border-b border-gray-200 mt-8">
           <div className="flex flex-col w-full items-center justify-center gap-4 py-8">
-            <img src="/calm/calm2.webp" alt="" className="w-2/3 h-[400px]"/>
+            <Image src="/calm/calm2.webp" alt="" className="w-2/3 h-[400px]"/>
             <p className="text-sm">Image by eMotions staff.</p>
           </div>
           <div className="py-8 mb-8">

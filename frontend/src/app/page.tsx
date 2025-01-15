@@ -11,6 +11,7 @@ import { PiFlowerLotusFill } from "react-icons/pi";
 import { IoIosArrowRoundDown, IoIosArrowRoundForward, IoIosArrowRoundUp, IoMdArrowForward } from "react-icons/io";
 import { FaFan, FaInstagram, FaTelegram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { useState } from "react";
+import Image from "next/image";
 
 
 export default function LandingPage() {
@@ -22,7 +23,7 @@ export default function LandingPage() {
       {<div className="w-3/4 h-scr">
         {/* HEADER */}
         <header className="flex justify-between items-center w-full h-48 border-b-4 border-black">
-          <Link href={"/"}><img src="logo/logo-white.png" alt="" className="w-48 h-14"/></Link>
+          <Link href={"/"}><Image src="logo/logo-white.png" alt="" className="w-48 h-14"/></Link>
           <div className="flex justify-between gap-14 items-center font-[500] text-2xl">
             <Link href={"/"}>ABOUT</Link>
             <Link href={"/"}>SERVICES</Link>
@@ -77,9 +78,9 @@ export default function LandingPage() {
                       >
                         <IoIosArrowRoundForward className="w-8 h-8"/>
                       </Link>
-                      <img src="/faces/face5.jpg" alt="" className="absolute right-24 z-20 w-16 h-16 rounded-full"/>
-                      <img src="/faces/face1.jpg" alt="" className="absolute right-12 z-10 w-16 h-16 rounded-full"/>
-                      <img src="/faces/face4.jpg" alt="" className="absolute right-0 w-16 h-16 rounded-full"/>
+                      <Image src="/faces/face5.jpg" alt="" className="absolute right-24 z-20 w-16 h-16 rounded-full"/>
+                      <Image src="/faces/face1.jpg" alt="" className="absolute right-12 z-10 w-16 h-16 rounded-full"/>
+                      <Image src="/faces/face4.jpg" alt="" className="absolute right-0 w-16 h-16 rounded-full"/>
                     </div>
                     <div className="flex items-center font-[500] gap-4 ml-4">
                       <p className="text-4xl">50+</p>
@@ -98,7 +99,7 @@ export default function LandingPage() {
             </div>
             {/* RIGHT */}
             <div className="relative w-[598px]">
-              <img src="/calm/calm2.webp" alt="" className="absolute h-[550px] w-[448px] rounded-xl right-0"/>
+              <Image src="/calm/calm2.webp" alt="" className="absolute h-[550px] w-[448px] rounded-xl right-0"/>
               <div className="absolute w-72 h-40 z-10 top-28 left-10 p-6 rounded-3xl backdrop-blur-sm backdrop-brightness-90">
                 <p className="font-[500] text-lg">
                   BUILDING MENTAL<br/>RESILIENCE
@@ -128,7 +129,7 @@ export default function LandingPage() {
                   <BiCircleHalf className="absolute right-0 w-16 h-16"/>
                 </Link>
               </div>
-              <img src="/one_with_nature.jpg" alt="" className="rounded-2xl w-[240px] h-[155px]"/>
+              <Image src="/one_with_nature.jpg" alt="" className="rounded-2xl w-[240px] h-[155px]"/>
             </div>
           </div>
           {/* MIDDLE */}

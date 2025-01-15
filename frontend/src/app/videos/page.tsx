@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FiEdit } from "react-icons/fi";
 import { GoBell, GoDotFill } from "react-icons/go";
@@ -11,7 +12,7 @@ const Videos = () => {
       {/* HEADER */}
       <div className="w-full flex justify-between py-3 px-4 border-b-2 fixed z-50 left-0 top-0 bg-white shadow-sm">
         <div className="flex gap-6 items-center">
-          <Link href="/"><img src="/logo/logo-white.png" alt="" className="w-36 h-10"/></Link>
+          <Link href="/"><Image src="/logo/logo-white.png" alt="" className="w-36 h-10"/></Link>
           <div className="max-w-fit h-10 flex px-3 gap-3 items-center bg-gray-100 rounded-full group">
             <button className="hover:rounded-full hover:bg-gray-300 p-1 group-focus-within:text-black"><IoSearchOutline className="w-6 h-6"/></button>
             <input type="text" name="" id="" className="px-2 w-52 outline-none bg-transparent group-focus-within:text-black" placeholder="Search"/>
@@ -23,7 +24,7 @@ const Videos = () => {
             <p className="">Write</p>
           </Link>
           <Link href="/" className="relative"><GoBell className="w-7 h-7 hover:text-black"/><GoDotFill className="animate-ping absolute w-3 h-3 bottom-0 -right-1 text-black"/></Link>
-          <button><img src="/faces/face1.jpg" alt="" className="w-10 h-10 rounded-full hover:opacity-80"/></button>
+          <button><Image src="/faces/face1.jpg" alt="" className="w-10 h-10 rounded-full hover:opacity-80"/></button>
         </div>
       </div>
       {/* BODY */}
@@ -94,9 +95,9 @@ const Videos = () => {
           {/* contents */}
             <div className="w-full flex flex-wrap col-span-4 gap-y-6 justify-between mt-6">
               <div className="w-[260px] hover:shadow-md rounded-b-md">
-                <Link href="/videos"><img src="/calm/calm2.webp" alt="" className="h-[150px] w-full rounded-md" /></Link>
+                <Link href="/videos"><Image src="/calm/calm2.webp" alt="" className="h-[150px] w-full rounded-md" /></Link>
                 <div className="w-full flex justify-between my-4 px-1">
-                  <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
+                  <Link href="/"><Image src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
                     <Link href="/videos"><h3 className="text-black text-lg font-semibold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
@@ -106,9 +107,9 @@ const Videos = () => {
                 </div>
               </div>
               <div className="w-[260px] hover:shadow-md rounded-b-md">
-                <Link href="/videos"><img src="/calm/calm2.webp" alt="" className="h-[150px] w-full rounded-md" /></Link>
+                <Link href="/videos"><Image src="/calm/calm2.webp" alt="" className="h-[150px] w-full rounded-md" /></Link>
                 <div className="w-full flex justify-between my-4 px-1">
-                  <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
+                  <Link href="/"><Image src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
                     <Link href="/videos"><h3 className="text-black text-lg font-semibold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
@@ -118,9 +119,9 @@ const Videos = () => {
                 </div>
               </div>
               <div className="w-[260px] hover:shadow-md rounded-b-md">
-                <Link href="/videos"><img src="/calm/calm2.webp" alt="" className="h-[150px] w-full rounded-md" /></Link>
+                <Link href="/videos"><Image src="/calm/calm2.webp" alt="" className="h-[150px] w-full rounded-md" /></Link>
                 <div className="w-full flex justify-between my-4 px-1">
-                  <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
+                  <Link href="/"><Image src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
                     <Link href="/videos"><h3 className="text-black text-lg font-semibold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
@@ -130,9 +131,9 @@ const Videos = () => {
                 </div>
               </div>
               <div className="w-[260px] hover:shadow-md rounded-b-md">
-                <Link href="/videos"><img src="/calm/calm2.webp" alt="" className="h-[150px] w-full rounded-md" /></Link>
+                <Link href="/videos"><Image src="/calm/calm2.webp" alt="" className="h-[150px] w-full rounded-md" /></Link>
                 <div className="w-full flex justify-between my-4 px-1">
-                  <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
+                  <Link href="/"><Image src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
                     <Link href="/videos"><h3 className="text-black text-lg font-semibold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
@@ -142,9 +143,9 @@ const Videos = () => {
                 </div>
               </div>
               <div className="w-[260px] hover:shadow-md rounded-b-md">
-                <Link href="/videos"><img src="/calm/calm2.webp" alt="" className="h-[150px] w-full rounded-md" /></Link>
+                <Link href="/videos"><Image src="/calm/calm2.webp" alt="" className="h-[150px] w-full rounded-md" /></Link>
                 <div className="w-full flex justify-between my-4 px-1">
-                  <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
+                  <Link href="/"><Image src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
                     <Link href="/videos"><h3 className="text-black text-lg font-semibold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
