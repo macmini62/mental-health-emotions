@@ -9,8 +9,6 @@ export class Topic{
   _id: string
   @Prop({required:true})
   name: string
-  @Prop()
-  users: string[]
 }
 
 export const TopicSchema = SchemaFactory.createForClass(Topic);

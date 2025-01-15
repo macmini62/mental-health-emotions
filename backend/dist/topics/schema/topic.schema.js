@@ -22,10 +22,6 @@ __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Topic.prototype, "name", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", Array)
-], Topic.prototype, "users", void 0);
 exports.Topic = Topic = __decorate([
     (0, mongoose_1.Schema)()
 ], Topic);
