@@ -6,24 +6,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.TopicsController = void 0;
 const common_1 = require("@nestjs/common");
-const mongoose_1 = require("@nestjs/mongoose");
-const users_module_1 = require("./users/users.module");
-const topics_module_1 = require("./topics/topics.module");
-require("dotenv/config");
-let AppModule = class AppModule {
+let TopicsController = class TopicsController {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
-    (0, common_1.Module)({
-        imports: [
-            mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URL),
-            users_module_1.UsersModule,
-            topics_module_1.TopicsModule
-        ],
-        controllers: [],
-        providers: [],
-    })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+exports.TopicsController = TopicsController;
+exports.TopicsController = TopicsController = __decorate([
+    (0, common_1.Controller)('topics')
+], TopicsController);
+//# sourceMappingURL=topics.controller.js.map

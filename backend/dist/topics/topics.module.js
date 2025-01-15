@@ -6,24 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.TopicsModule = void 0;
 const common_1 = require("@nestjs/common");
+const topics_controller_1 = require("./topics.controller");
+const topics_service_1 = require("./topics.service");
 const mongoose_1 = require("@nestjs/mongoose");
-const users_module_1 = require("./users/users.module");
-const topics_module_1 = require("./topics/topics.module");
-require("dotenv/config");
-let AppModule = class AppModule {
+const topic_schema_1 = require("./schema/topic.schema");
+let TopicsModule = class TopicsModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.TopicsModule = TopicsModule;
+exports.TopicsModule = TopicsModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URL),
-            users_module_1.UsersModule,
-            topics_module_1.TopicsModule
-        ],
-        controllers: [],
-        providers: [],
+        controllers: [topics_controller_1.TopicsController],
+        providers: [topics_service_1.TopicsService],
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: topic_schema_1.Topic.name, schema: topic_schema_1.TopicSchema }])]
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], TopicsModule);
+//# sourceMappingURL=topics.module.js.map
