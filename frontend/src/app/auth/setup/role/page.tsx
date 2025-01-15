@@ -19,27 +19,25 @@ const RolePage = () => {
   };
 
   React.useEffect(() => {
-    updateUserRole();
-  }, [role]);
-
-  const updateUserRole = async () => {
     if (role !== ""){
       const userId = localStorage.getItem("userId");
       console.log("Id", userId);
       console.log("role:", role);
-      await axios.put(`http://localhost:3001/users/id/${userId}`,
+      axios.put(`http://localhost:3001/users/id/${userId}`,
         {role: role}
-      )
-        .then((res) => {
+      ).then((res) => {
           console.log(res);
-        }).catch((e) => {
-          console.log(e);
+        }).catch((err) => {
+          console.log(err);
         });
     }
-  }
+  }, [role]);
 
+  const router = useRouter();
   const handleRoute = () => {
-    role !== "" && useRouter().push("/auth/setup/title");
+    if(role !== ""){
+      role === "professional" ? router.push("title") : router.push("topics");
+    }
   };
 
   return (
