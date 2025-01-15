@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import React from "react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const interSans = Inter({
   variable: "--font-inter-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
         className={`${interSans.className} ${interMono.className} antialiased bg-white text-black`}
       >
         {children}
+        <SpeedInsights/>
       </body>
     </html>
   );
