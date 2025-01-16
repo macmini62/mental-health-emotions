@@ -1,4 +1,4 @@
-import Image from "next/image";
+ 
 import Link from "next/link";
 import { CiCircleMinus } from "react-icons/ci";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
@@ -8,6 +8,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { IoAdd, IoBookmark, IoBookmarkOutline, IoSearchOutline } from "react-icons/io5";
 import { SlOptions } from "react-icons/sl";
 import { TbMessageCircle, TbMessageCircleFilled } from "react-icons/tb";
+import Menu from "../components/sideMenu/menu";
 
 const Articles = () => {
   return (
@@ -15,7 +16,7 @@ const Articles = () => {
       {/* HEADER */}
       <div className="w-full flex justify-between py-3 px-4 border-b-2 fixed z-50 left-0 top-0 bg-white shadow-sm">
         <div className="flex gap-6 items-center">
-          <Link href="/"><Image src="/logo/logo-white.png" alt="" className="w-36 h-10"/></Link>
+          <Link href="/"><img src="/logo/logo-white.png" alt="" className="w-36 h-10"/></Link>
           <div className="max-w-fit h-10 flex px-3 gap-3 items-center bg-gray-100 rounded-full group">
             <button className="hover:rounded-full hover:bg-gray-300 p-1 group-focus-within:text-black"><IoSearchOutline className="w-6 h-6"/></button>
             <input type="text" name="" id="" className="px-2 w-52 outline-none bg-transparent group-focus-within:text-black" placeholder="Search"/>
@@ -27,42 +28,15 @@ const Articles = () => {
             <p className="">Write</p>
           </Link>
           <Link href="/" className="relative"><GoBell className="w-7 h-7 hover:text-black"/><GoDotFill className="animate-ping absolute w-3 h-3 bottom-0 -right-1 text-black"/></Link>
-          <button><Image src="/faces/face1.jpg" alt="" className="w-10 h-10 rounded-full hover:opacity-80"/></button>
+          <button><img src="/faces/face1.jpg" alt="" className="w-10 h-10 rounded-full hover:opacity-80"/></button>
         </div>
       </div>
       {/* BODY */}
       <div className="w-[1338px] flex justify-between p-4 mt-4">
         {/* MENU SECTION */}
-        <div className="flex flex-col items-start w-[144px] mt-8 py-8 pl-2 text-lg text-nowrap border-r-2 border-gray-300 fixed">
-            <Link href="/articles" className="w-full">
-              <button className="flex items-start w-full my-3 text-black border-r-2 border-black">
-                <p className="pr-10">
-                  Aritcles
-                </p>
-              </button>
-            </Link>
-            <Link href="/videos" className="w-full">
-              <button className="flex items-start w-full my-3 hover:text-black focus:text-black focus:border-r-2 border-black">
-                <p className="pr-10">
-                  Videos
-                </p>
-              </button>
-            </Link>
-            <Link href="/live_sessions" className="w-full">
-              <button className="flex items-start w-full my-3 hover:text-black focus:text-black focus:border-r-2 border-black">
-                <p className="pr-10">
-                  Live Sessions
-                </p>
-              </button>
-            </Link>
-            <Link href="/communities" className="w-full">
-              <button className="flex items-start w-full my-3 hover:text-black focus:text-black focus:border-r-2 border-black">
-                <p className="pr-10">
-                  Communities
-                </p>
-              </button>
-            </Link>
-        </div>
+        <Menu
+          menu="articles"
+        />
         {/* CONTENT SECTION */}
         <div className="w-[728px] max-h-fit mt-10 py-4 ml-[196px]">
           {/* header */}
@@ -91,9 +65,9 @@ const Articles = () => {
               <div className="flex flex-col gap-4">
                 {/* header */}
                 <div className="flex gap-2 items-center text-black">
-                  <Link href="/"><Image src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
+                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
                   <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
-                  <Image src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
+                  <img src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
                 </div>
                 
                 <div className="flex gap-10">
@@ -112,7 +86,7 @@ const Articles = () => {
                     {/* footer */}
                     <div className="flex items-center justify-between">
                       <Link href="/" className="flex gap-6 text-md">
-                        {/* <Image src="/faces/face5.jpg" alt="" className="" /> */}
+                        {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
                         <p className="h-5">Dec 21</p>
                         <div className="flex gap-1.5 items-center">
                           <FcLikePlaceholder className="w-5 h-5"/>
@@ -134,7 +108,7 @@ const Articles = () => {
                     </div>
                   </div>
                   {/* image */}
-                  <Link href="/"><Image src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
+                  <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
                 </div>
               </div>
             </li>
@@ -142,9 +116,9 @@ const Articles = () => {
               <div className="flex flex-col gap-4">
                 {/* header */}
                 <div className="flex gap-2 items-center text-black">
-                  <Link href="/"><Image src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
+                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
                   <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
-                  <Image src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
+                  <img src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
                 </div>
                 
                 <div className="flex gap-10">
@@ -163,7 +137,7 @@ const Articles = () => {
                     {/* footer */}
                     <div className="flex items-center justify-between">
                       <Link href="/" className="flex gap-6 text-md">
-                        {/* <Image src="/faces/face5.jpg" alt="" className="" /> */}
+                        {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
                         <p className="h-5">Dec 21</p>
                         <div className="flex gap-1.5 items-center">
                           {/* <FcLikePlaceholder className="w-5 h-5"/> */}
@@ -185,7 +159,7 @@ const Articles = () => {
                     </div>
                   </div>
                   {/* image */}
-                  <Link href="/"><Image src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
+                  <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
                 </div>
               </div>
             </li>
@@ -193,9 +167,9 @@ const Articles = () => {
               <div className="flex flex-col gap-4">
                 {/* header */}
                 <div className="flex gap-2 items-center text-black">
-                  <Link href="/"><Image src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
+                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
                   <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
-                  <Image src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
+                  <img src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
                 </div>
                 
                 <div className="flex gap-10">
@@ -214,7 +188,7 @@ const Articles = () => {
                     {/* footer */}
                     <div className="flex items-center justify-between">
                       <Link href="/" className="flex gap-6 text-md">
-                        {/* <Image src="/faces/face5.jpg" alt="" className="" /> */}
+                        {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
                         <p className="h-5">Dec 21</p>
                         <div className="flex gap-1.5 items-center">
                           {/* <FcLikePlaceholder className="w-5 h-5"/> */}
@@ -236,7 +210,7 @@ const Articles = () => {
                     </div>
                   </div>
                   {/* image */}
-                  <Link href="/"><Image src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
+                  <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
                 </div>
               </div>
             </li>
@@ -244,9 +218,9 @@ const Articles = () => {
               <div className="flex flex-col gap-4">
                 {/* header */}
                 <div className="flex gap-2 items-center text-black">
-                  <Link href="/"><Image src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
+                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
                   <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
-                  <Image src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
+                  <img src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
                 </div>
                 
                 <div className="flex gap-10">
@@ -265,7 +239,7 @@ const Articles = () => {
                     {/* footer */}
                     <div className="flex items-center justify-between">
                       <Link href="/" className="flex gap-6 text-md">
-                        {/* <Image src="/faces/face5.jpg" alt="" className="" /> */}
+                        {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
                         <p className="h-5">Dec 21</p>
                         <div className="flex gap-1.5 items-center">
                           {/* <FcLikePlaceholder className="w-5 h-5"/> */}
@@ -287,7 +261,7 @@ const Articles = () => {
                     </div>
                   </div>
                   {/* image */}
-                  <Link href="/"><Image src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
+                  <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
                 </div>
               </div>
             </li>
@@ -295,9 +269,9 @@ const Articles = () => {
               <div className="flex flex-col gap-4">
                 {/* header */}
                 <div className="flex gap-2 items-center text-black">
-                  <Link href="/"><Image src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
+                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
                   <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
-                  <Image src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
+                  <img src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
                 </div>
                 
                 <div className="flex gap-10">
@@ -316,7 +290,7 @@ const Articles = () => {
                     {/* footer */}
                     <div className="flex items-center justify-between">
                       <Link href="/" className="flex gap-6 text-md">
-                        {/* <Image src="/faces/face5.jpg" alt="" className="" /> */}
+                        {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
                         <p className="h-5">Dec 21</p>
                         <div className="flex gap-1.5 items-center">
                           {/* <FcLikePlaceholder className="w-5 h-5"/> */}
@@ -338,7 +312,7 @@ const Articles = () => {
                     </div>
                   </div>
                   {/* image */}
-                  <Link href="/"><Image src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
+                  <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
                 </div>
               </div>
             </li>
@@ -346,9 +320,9 @@ const Articles = () => {
               <div className="flex flex-col gap-4">
                 {/* header */}
                 <div className="flex gap-2 items-center text-black">
-                  <Link href="/"><Image src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
+                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
                   <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
-                  <Image src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
+                  <img src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
                 </div>
                 
                 <div className="flex gap-10">
@@ -367,7 +341,7 @@ const Articles = () => {
                     {/* footer */}
                     <div className="flex items-center justify-between">
                       <Link href="/" className="flex gap-6 text-md">
-                        {/* <Image src="/faces/face5.jpg" alt="" className="" /> */}
+                        {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
                         <p className="h-5">Dec 21</p>
                         <div className="flex gap-1.5 items-center">
                           {/* <FcLikePlaceholder className="w-5 h-5"/> */}
@@ -389,7 +363,7 @@ const Articles = () => {
                     </div>
                   </div>
                   {/* image */}
-                  <Link href="/"><Image src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
+                  <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
                 </div>
               </div>
             </li>
@@ -397,9 +371,9 @@ const Articles = () => {
               <div className="flex flex-col gap-4">
                 {/* header */}
                 <div className="flex gap-2 items-center text-black">
-                  <Link href="/"><Image src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
+                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
                   <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
-                  <Image src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
+                  <img src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
                 </div>
                 
                 <div className="flex gap-10">
@@ -418,7 +392,7 @@ const Articles = () => {
                     {/* footer */}
                     <div className="flex items-center justify-between">
                       <Link href="/" className="flex gap-6 text-md">
-                        {/* <Image src="/faces/face5.jpg" alt="" className="" /> */}
+                        {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
                         <p className="h-5">Dec 21</p>
                         <div className="flex gap-1.5 items-center">
                           {/* <FcLikePlaceholder className="w-5 h-5"/> */}
@@ -440,7 +414,7 @@ const Articles = () => {
                     </div>
                   </div>
                   {/* image */}
-                  <Link href="/"><Image src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
+                  <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
                 </div>
               </div>
             </li>
@@ -454,7 +428,7 @@ const Articles = () => {
             <div className="flex flex-col py-4">
               <div className="flex flex-col gap-3 my-4">
                 <div className="flex items-center gap-2">
-                  <Link href="/"><Image src="/faces/face5.jpg" alt="" className="w-6 h-6 hover:opacity-90" /></Link>
+                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 hover:opacity-90" /></Link>
                   <p className="text-sm">
                     In<Link href="/"><span className="hover:underline text-black mx-1">The eMotions Blog</span></Link>
                     by<Link href="/"><span className="hover:underline text-black ml-1">eMotion staff</span></Link>
@@ -467,7 +441,7 @@ const Articles = () => {
               </div>
               <div className="flex flex-col gap-3 my-4">
                 <div className="flex items-center gap-2">
-                  <Link href="/"><Image src="/faces/face5.jpg" alt="" className="w-6 h-6 hover:opacity-90" /></Link>
+                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 hover:opacity-90" /></Link>
                   <p className="text-sm">
                     In<Link href="/"><span className="hover:underline text-black mx-1">The eMotions Blog</span></Link>
                     by<Link href="/"><span className="hover:underline text-black ml-1">eMotion staff</span></Link>
@@ -480,7 +454,7 @@ const Articles = () => {
               </div>
               <div className="flex flex-col gap-3 my-4">
                 <div className="flex items-center gap-2">
-                  <Link href="/"><Image src="/faces/face5.jpg" alt="" className="w-6 h-6 hover:opacity-90" /></Link>
+                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 hover:opacity-90" /></Link>
                   <p className="text-sm">
                     In<Link href="/"><span className="hover:underline text-black mx-1">The eMotions Blog</span></Link>
                     by<Link href="/"><span className="hover:underline text-black ml-1">eMotion staff</span></Link>
