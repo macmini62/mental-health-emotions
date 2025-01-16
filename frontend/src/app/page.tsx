@@ -10,9 +10,7 @@ import { GiCircleCage, GiFlowerTwirl } from "react-icons/gi";
 import { PiFlowerLotusFill } from "react-icons/pi";
 import { IoIosArrowRoundDown, IoIosArrowRoundForward, IoIosArrowRoundUp, IoMdArrowForward } from "react-icons/io";
 import { FaFan, FaInstagram, FaTelegram, FaTwitter, FaYoutube } from "react-icons/fa";
-import { useState } from "react";
  
-
 
 export default function LandingPage() {
 

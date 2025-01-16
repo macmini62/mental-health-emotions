@@ -10,7 +10,7 @@ const Menu = ({
   const menus = [
     "articles",
     "videos",
-    "live sessions",
+    "live_sessions",
     "communities"
   ];
 
@@ -23,7 +23,7 @@ const Menu = ({
               className={`${menu === m && "border-r-2 border-black"} flex items-start w-full my-3 text-black`}
             >
               <p className="pr-10 capitalize">
-                {m}
+                {m.replace("_", " ")}
               </p>
             </button>
           </Link>

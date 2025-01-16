@@ -1,4 +1,6 @@
- 
+ "use client"
+
+
 import Link from "next/link";
 import { CiCircleMinus } from "react-icons/ci";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
@@ -9,8 +11,40 @@ import { IoAdd, IoBookmark, IoBookmarkOutline, IoSearchOutline } from "react-ico
 import { SlOptions } from "react-icons/sl";
 import { TbMessageCircle, TbMessageCircleFilled } from "react-icons/tb";
 import Menu from "../components/sideMenu/menu";
+import axios from "axios";
+import React from "react";
+import Footer from "../components/footerOptions/footer";
+
+interface topic {
+  _id: string,
+  name: string
+}
 
 const Articles = () => {
+  const [topics, setTopics] = React.useState<topic[]>([]);
+  
+  // Load topics data
+  React.useEffect(() => {
+    axios.get(`http://localhost:3001/topics?size=${10}`)
+    .then((res) => {
+      setTopics(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, []);
+
+  // Reload more topics
+  const handleTopicsLoad = () => {
+    axios.get(`http://localhost:3001/topics?size=${topics.length+5}`)
+      .then((res) => {
+        setTopics(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
       {/* HEADER */}
@@ -39,7 +73,7 @@ const Articles = () => {
         />
         {/* CONTENT SECTION */}
         <div className="w-[728px] max-h-fit mt-10 py-4 ml-[196px]">
-          {/* header */}
+          {/* section-header */}
           <div className="flex pt-2 px-14 relative overflow-visible text-nowrap">
             <Link href="/"><button className="group absolute left-2"><IoAdd className="w-8 h-8 pb-2 group-hover:text-black"/></button></Link>
             <button className="group absolute left-2 invisible"><IoIosArrowBack className="w-8 h-8 pb-2 group-hover:text-black"/></button>
@@ -63,7 +97,7 @@ const Articles = () => {
           <ul className="mt-4">
             <li className="py-8 border-b border-gray-300">
               <div className="flex flex-col gap-4">
-                {/* header */}
+                {/* section-header */}
                 <div className="flex gap-2 items-center text-black">
                   <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
                   <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
@@ -83,7 +117,7 @@ const Articles = () => {
                         </p>
                       </div>
                     </Link>
-                    {/* footer */}
+                    {/* section-footer */}
                     <div className="flex items-center justify-between">
                       <Link href="/" className="flex gap-6 text-md">
                         {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
@@ -114,7 +148,7 @@ const Articles = () => {
             </li>
             <li className="py-8 border-b border-gray-300">
               <div className="flex flex-col gap-4">
-                {/* header */}
+                {/* section-header */}
                 <div className="flex gap-2 items-center text-black">
                   <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
                   <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
@@ -134,7 +168,7 @@ const Articles = () => {
                         </p>
                       </div>
                     </Link>
-                    {/* footer */}
+                    {/* section-footer */}
                     <div className="flex items-center justify-between">
                       <Link href="/" className="flex gap-6 text-md">
                         {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
@@ -165,7 +199,7 @@ const Articles = () => {
             </li>
             <li className="py-8 border-b border-gray-300">
               <div className="flex flex-col gap-4">
-                {/* header */}
+                {/* section-header */}
                 <div className="flex gap-2 items-center text-black">
                   <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
                   <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
@@ -185,7 +219,7 @@ const Articles = () => {
                         </p>
                       </div>
                     </Link>
-                    {/* footer */}
+                    {/* section-footer */}
                     <div className="flex items-center justify-between">
                       <Link href="/" className="flex gap-6 text-md">
                         {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
@@ -216,7 +250,7 @@ const Articles = () => {
             </li>
             <li className="py-8 border-b border-gray-300">
               <div className="flex flex-col gap-4">
-                {/* header */}
+                {/* section-header */}
                 <div className="flex gap-2 items-center text-black">
                   <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
                   <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
@@ -236,7 +270,7 @@ const Articles = () => {
                         </p>
                       </div>
                     </Link>
-                    {/* footer */}
+                    {/* section-footer */}
                     <div className="flex items-center justify-between">
                       <Link href="/" className="flex gap-6 text-md">
                         {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
@@ -267,7 +301,7 @@ const Articles = () => {
             </li>
             <li className="py-8 border-b border-gray-300">
               <div className="flex flex-col gap-4">
-                {/* header */}
+                {/* section-header */}
                 <div className="flex gap-2 items-center text-black">
                   <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
                   <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
@@ -287,7 +321,7 @@ const Articles = () => {
                         </p>
                       </div>
                     </Link>
-                    {/* footer */}
+                    {/* section-footer */}
                     <div className="flex items-center justify-between">
                       <Link href="/" className="flex gap-6 text-md">
                         {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
@@ -318,7 +352,7 @@ const Articles = () => {
             </li>
             <li className="py-8 border-b border-gray-300">
               <div className="flex flex-col gap-4">
-                {/* header */}
+                {/* section-header */}
                 <div className="flex gap-2 items-center text-black">
                   <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
                   <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
@@ -338,7 +372,7 @@ const Articles = () => {
                         </p>
                       </div>
                     </Link>
-                    {/* footer */}
+                    {/* section-footer */}
                     <div className="flex items-center justify-between">
                       <Link href="/" className="flex gap-6 text-md">
                         {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
@@ -369,7 +403,7 @@ const Articles = () => {
             </li>
             <li className="py-8 border-b border-gray-300">
               <div className="flex flex-col gap-4">
-                {/* header */}
+                {/* section-header */}
                 <div className="flex gap-2 items-center text-black">
                   <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
                   <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
@@ -389,7 +423,7 @@ const Articles = () => {
                         </p>
                       </div>
                     </Link>
-                    {/* footer */}
+                    {/* section-footer */}
                     <div className="flex items-center justify-between">
                       <Link href="/" className="flex gap-6 text-md">
                         {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
@@ -470,25 +504,17 @@ const Articles = () => {
             {/* topics */}
             <div className="my-10">
               <h3 className="font-semibold text-black">Recommended topics</h3>
-              <div className="w-full max-h-fit flex flex-wrap col-span-2 gap-4 my-4">
-                <button className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">mathematics</button>
-                <button className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">movies</button>
-                <button className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">language learning</button>
-                <button className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">devOps</button>
-                <button className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">programming languages</button>
-                <button className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">astronomy</button>
-                <button className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">reading</button>
+              <div className="w-full flex flex-wrap col-span-2 gap-2 my-4">
+              {
+                topics.map((t: topic, i: number) => (
+                  <button key={i} className="py-4 px-4 rounded-full bg-gray-100 text-black capitalize text-sm">{t.name}</button>
+                ))
+              }
               </div>
-              <p className="text-sm hover:underline hover:cursor-pointer my-8">See more topics</p>
+              <p className="text-sm hover:underline hover:cursor-pointer my-8" onClick={() => handleTopicsLoad()}>See more topics</p>
             </div>
-            {/* footer */}
-            <div className="flex text-sm gap-3 my-4">
-              <Link href="/articles" className="hover:underline hover:text-black">Help</Link>
-              <Link href="/articles" className="hover:underline hover:text-black">About</Link>
-              <Link href="/articles" className="hover:underline hover:text-black">Careers</Link>
-              <Link href="/articles" className="hover:underline hover:text-black">Privacy</Link>
-              <Link href="/articles" className="hover:underline hover:text-black">Terms</Link>
-            </div>
+            {/* FOOTER */}
+            <Footer/>
           </div>
           <div className=""></div>
         </div>

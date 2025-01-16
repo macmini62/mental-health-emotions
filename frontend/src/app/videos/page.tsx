@@ -6,6 +6,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { IoAdd, IoSearchOutline } from "react-icons/io5";
 import { SlOptionsVertical } from "react-icons/sl";
 import Menu from "../components/sideMenu/menu";
+import Footer from "../components/footerOptions/footer";
 
 const Videos = () => {
   return (
@@ -131,6 +132,8 @@ const Videos = () => {
             </div>
         </div>
       </div>
+      {/* FOOTER */}
+      <Footer/>
     </div>
   )
 }
