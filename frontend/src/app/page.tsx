@@ -23,8 +23,8 @@ export default function LandingPage() {
           <div className="flex justify-between gap-14 items-center font-[500] text-2xl">
             <Link href={"/"}>ABOUT</Link>
             <Link href={"/"}>SERVICES</Link>
-            <Link href={"/"}>BLOG</Link>
-            <Link href={"/"}>CONTACTS</Link>
+            <Link href={"/"}>HELP</Link>
+            <Link href={"/"}>CAREERS</Link>
           </div>
           <div className="w-72 flex items-center relative">
             <Link href="auth/authv1/signup"
@@ -81,7 +81,7 @@ export default function LandingPage() {
                     <div className="flex items-center font-[500] gap-4 ml-4">
                       <p className="text-4xl">50+</p>
                       <p className="opacity-50 leading-6">
-                        <span className="">INSPIRING<br/></span><span className="">STORIES</span>
+                        <span className="">INSPIRING<br/></span><span className="">ARTICLES</span>
                       </p>
                     </div>
                   </div>
