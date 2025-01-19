@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArticlesController = void 0;
 const common_1 = require("@nestjs/common");
@@ -42,7 +43,7 @@ __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_article_dto_1.CreateArticleDto]),
+    __metadata("design:paramtypes", [typeof (_a = typeof create_article_dto_1.CreateArticleDto !== "undefined" && create_article_dto_1.CreateArticleDto) === "function" ? _a : Object]),
     __metadata("design:returntype", void 0)
 ], ArticlesController.prototype, "create", null);
 __decorate([
@@ -63,7 +64,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_article_dto_1.UpdateArticleDto]),
+    __metadata("design:paramtypes", [String, typeof (_b = typeof update_article_dto_1.UpdateArticleDto !== "undefined" && update_article_dto_1.UpdateArticleDto) === "function" ? _b : Object]),
     __metadata("design:returntype", void 0)
 ], ArticlesController.prototype, "update", null);
 __decorate([
