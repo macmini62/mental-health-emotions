@@ -1,11 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class ArticlesService {
-  create(createArticleDto: CreateArticleDto) {
-    return 'This action adds a new article';
+  create() {
+    return "This action adds a new article";
   }
 
   findAll() {
@@ -16,7 +14,7 @@ export class ArticlesService {
     return `This action returns a #${id} article`;
   }
 
-  update(id: number, updateArticleDto: UpdateArticleDto) {
+  update(id: number) {
     return `This action updates a #${id} article`;
   }
 

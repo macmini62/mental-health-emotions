@@ -9,6 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArticlesModule = void 0;
 const common_1 = require("@nestjs/common");
 const articles_service_1 = require("./articles.service");
+const mongoose_1 = require("@nestjs/mongoose");
+const article_schema_1 = require("./schema/article.schema");
 const articles_controller_1 = require("./articles.controller");
 let ArticlesModule = class ArticlesModule {
 };
@@ -17,6 +19,7 @@ exports.ArticlesModule = ArticlesModule = __decorate([
     (0, common_1.Module)({
         controllers: [articles_controller_1.ArticlesController],
         providers: [articles_service_1.ArticlesService],
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: article_schema_1.Article.name, schema: article_schema_1.ArticleSchema }])]
     })
 ], ArticlesModule);
 //# sourceMappingURL=articles.module.js.map

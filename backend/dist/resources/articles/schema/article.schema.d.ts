@@ -6,7 +6,10 @@ export declare class Article {
     creatorName: string;
     Tags: string[];
     uploadDate: string;
-    thumbnail: string;
+    thumbnail: {
+        link: string;
+        caption: string;
+    };
     copyrightInfo: string;
     likes: number;
 }

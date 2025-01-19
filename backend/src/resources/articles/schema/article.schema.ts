@@ -15,8 +15,11 @@ export class Article{
   Tags: string[]
   @Prop()
   uploadDate: string
-  @Prop()
-  thumbnail: string
+  @Prop({ type: Object })
+  thumbnail: {
+    link: string
+    caption: string
+  }
   @Prop()
   copyrightInfo: string
   @Prop()

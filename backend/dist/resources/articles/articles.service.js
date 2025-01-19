@@ -9,8 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArticlesService = void 0;
 const common_1 = require("@nestjs/common");
 let ArticlesService = class ArticlesService {
-    create(createArticleDto) {
-        return 'This action adds a new article';
+    create() {
+        return "This action adds a new article";
     }
     findAll() {
         return `This action returns all articles`;
@@ -18,7 +18,7 @@ let ArticlesService = class ArticlesService {
     findOne(id) {
         return `This action returns a #${id} article`;
     }
-    update(id, updateArticleDto) {
+    update(id) {
         return `This action updates a #${id} article`;
     }
     remove(id) {
