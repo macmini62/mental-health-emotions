@@ -1,8 +1,8 @@
  
+import Footer from "@/app/components/footerOptions/footer";
 import Link from "next/link";
 import { BsDot } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
-import { FiEdit } from "react-icons/fi";
 import { GoBell, GoDotFill } from "react-icons/go";
 import { IoBookmarkOutline, IoSearchOutline, IoShareOutline } from "react-icons/io5";
 import { SlOptions } from "react-icons/sl";
@@ -14,23 +14,22 @@ const Post = () => {
       {/* HEADER */}
       <div className="w-full flex justify-between py-3 px-4 border-b-2 fixed z-50 left-0 top-0 bg-white shadow-sm">
         <div className="flex gap-6 items-center">
-          <Link href="/"><img src="/logo/logo-white.png" alt="" className="w-36 h-10"/></Link>
+          <Link href=""><img src="/logo/logo-white.png" alt="" className="w-36 h-10"/></Link>
           <div className="max-w-fit h-10 flex px-3 gap-3 items-center bg-gray-100 rounded-full group">
             <IoSearchOutline className="w-7 h-7 group-focus-within:text-black"/>
             <input type="text" name="" id="" className="px-2 w-52 outline-none bg-transparent focus:text-black" placeholder="Search"/>
           </div>
         </div>
         <div className="w-56 flex justify-between items-center mr-2">
-          <Link href="/" className="max-w-fit flex items-center gap-2 hover:text-black">
-            <FiEdit className="w-7 h-7"/>
-            <p className="">Write</p>
+          <Link href="" className="max-w-fit flex items-center gap-1 text-white bg-black active:text-black active:bg-white active:border-black border py-1 px-4 rounded-full">
+            <p className="">Create</p>
           </Link>
-          <Link href="/" className="relative"><GoBell className="w-7 h-7 hover:text-black"/><GoDotFill className="animate-ping absolute w-3 h-3 bottom-0 -right-1 text-black"/></Link>
+          <Link href="" className="relative"><GoBell className="w-7 h-7 hover:text-black"/><GoDotFill className="animate-ping absolute w-3 h-3 bottom-0 -right-1 text-black"/></Link>
           <button><img src="/faces/face1.jpg" alt="" className="w-10 h-10 rounded-full hover:opacity-80"/></button>
         </div>
       </div>
-      {/* CONTENTS */}
-      <div className="flex flex-col items-start w-1/3 mt-20 py-8 text-lg text-nowrap">
+      {/* ARTICLE */}
+      <article className="flex flex-col items-start w-1/3 mt-20 py-8 text-lg text-nowrap">
         {/* heading */}
         <div className="w-full p-2">
           <h2 className="text-5xl text-black font-semibold my-3">366/366</h2>
@@ -67,29 +66,30 @@ const Post = () => {
             </div>
           </div>
         </div>
-        {/* body */}
+        {/* content */}
         <div className="w-full border-b border-gray-200 mt-8">
-          <div className="flex flex-col w-full items-center justify-center gap-4 py-8">
+          {/* thumbnail */}
+          <div className="flex flex-col w-full items-center justify-center gap-4 py-4">
             <img src="/calm/calm2.webp" alt="" className="w-2/3 h-[400px]"/>
             <p className="text-sm">Image by eMotions staff.</p>
           </div>
-          <div className="py-8 mb-8">
-            <div className="text-wrap text-black flex flex-col gap-6">
-              <p className="">
-                2024 has finally come to an end. You've made it to the last day of the year and as you look back at everything you've been through,
-                I hope you see how far you've come. There were good times and tough times, but you kept moving forward. Every challenge you faced 
-                and every step you took brought you to where you are today.
-              </p>
-              <p className="">
-                It was a hard year, but you made it. You survived, and that's a big deal. I'm proud of you and always will be.
-              </p>
-              <p className="">
-                Keep moving forward, keep believing in yourself, and know that you've already accomplished much. The future is full of possiblities
-                -so go after it, because you've earned every step of it. You've got this. Keep shining my brave little fighter.
-              </p>
-            </div>
+          {/* paragraphs */}
+          <div className="text-wrap text-black flex flex-col items-center gap-4 py-8 mb-8">
+            <p className="">
+              2024 has finally come to an end. You've made it to the last day of the year and as you look back at everything you've been through,
+              I hope you see how far you've come. There were good times and tough times, but you kept moving forward. Every challenge you faced 
+              and every step you took brought you to where you are today.
+            </p>
+            <p className="">
+              It was a hard year, but you made it. You survived, and that's a big deal. I'm proud of you and always will be.
+            </p>
+            <p className="">
+              Keep moving forward, keep believing in yourself, and know that you've already accomplished much. The future is full of possiblities
+              -so go after it, because you've earned every step of it. You've got this. Keep shining my brave little fighter.
+            </p>
           </div>
-          <div className="py-4">
+          {/* tags */}
+          <div className="">
             <div className="w-full max-h-fit flex flex-wrap col-span-2 gap-4 my-4">
               <Link href="" className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">mathematics</Link>
               <Link href="" className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">movies</Link>
@@ -99,7 +99,7 @@ const Post = () => {
               <Link href="" className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">astronomy</Link>
               <Link href="" className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">reading</Link>
             </div>
-            <div className="w-full p-3 flex justify-between items-center mt-6">
+            <div className="w-full p-3 flex justify-between items-center mt-8">
               <div className="flex gap-6 text-md">
                 <div className="flex gap-1.5 items-center h-6">
                   {/* <FcLikePlaceholder className="w-5 h-5"/> */}
@@ -121,14 +121,9 @@ const Post = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex text-sm gap-3 my-4">
-        <Link href="/articles" className="hover:underline hover:text-black">Help</Link>
-        <Link href="/articles" className="hover:underline hover:text-black">About</Link>
-        <Link href="/articles" className="hover:underline hover:text-black">Careers</Link>
-        <Link href="/articles" className="hover:underline hover:text-black">Privacy</Link>
-        <Link href="/articles" className="hover:underline hover:text-black">Terms</Link>
-      </div>
+      </article>
+      {/* FOOTER */}
+      <Footer/>
     </div>
   )
 }

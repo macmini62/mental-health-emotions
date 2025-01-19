@@ -10,8 +10,8 @@ const Footer = () => {
   ]
 
   return (
-    <div className="flex flex-col items-center text-sm">
-      <div className="flex gap-3 my-4">
+    <div className="flex flex-col gap-2 items-center text-sm my-4">
+      <div className="flex gap-3">
         {
           options.map((o: string, i: number) => (
             <Link href={`/emotions/${o}`} key={i} className="hover:underline hover:text-black capitalize">{o}</Link>
