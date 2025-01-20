@@ -3,7 +3,7 @@ import { SlOptions } from "react-icons/sl";
 
 const Page = () => {
   return (
-    <div className="w-1/2 border p-2">
+    <div className="w-1/2 p-2">
       {/* HEADER */}
       <header className="flex justify-between">
         <div className="">
@@ -17,7 +17,7 @@ const Page = () => {
       </header>
       {/* EDITING SECTION */}
       <div className="flex flex-col py-4">
-
+        
       </div>
     </div>
   )
