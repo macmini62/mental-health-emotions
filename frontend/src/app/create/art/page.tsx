@@ -32,6 +32,14 @@ const Page = () => {
   
 
   const [image, setImage] = React.useState<object>({});
+
+  const handleCaption = () => {
+
+  }
+
+  const handleContent = () => {
+    
+  }
   
 
   return (
@@ -53,39 +61,59 @@ const Page = () => {
         <input type="text" className="text-7xl text-black outline-none px-2 font-semibold placeholder:font-normal" placeholder="TITLE"/>
         <input type="text" className="text-4xl text-black outline-none px-6" placeholder="SUB-TITLE"/>
         {/* thumbnail */}
-        <div className="flex items-center justify-center gap-20">
+        <div className="flex flex-col items-center gap-2 py-2 px-8 my-4">
           <Button
             component="label"
             role={undefined}
             variant="contained"
             tabIndex={-1}
             startIcon={<FiUploadCloud />}
-            style={buttonStyle}
+            style={{...buttonStyle, visibility: "hidden"}}
           >
-            Upload Image
+            upload thumbnail
             <VisuallyHiddenInput
               type="file"
               onChange={(event) => console.log(event.target.files)}
               multiple
             />
           </Button>
-          <Button
-            component="label"
-            role={undefined}
-            variant="contained"
-            tabIndex={-1}
-            startIcon={<MdDeleteOutline />}
-            style={buttonStyle}
-          >
-            delete image
-          </Button>
-          <div className="my-4 flex flex-col items-center">
+          <div className="my-4 flex flex-col items-center relative group">
             <img src="/calm/calm2.webp" alt="" className="w-[400px] rounded-md" />
-            <p className="text-sm text-gray-500 text-center my-4 w-fit">calm person from getty images</p>
+            <div className="flex items-center justify-center absolute z-10 w-full h-full invisible group-hover:visible backdrop-blur-2xl rounded-md">
+              <Button
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<MdDeleteOutline />}
+                style={{...buttonStyle, color: "red", borderColor: "red"}}
+              >
+                delete image
+              </Button>
+            </div>
+          </div>
+          <div className="flex flex-col items-center gap-4 w-full">
+            <input
+              name="caption"
+              type="text"
+              value="calmness from getty images"
+              className="text-sm text-gray-500 text-center my-4 w-fit py-1 px-2 border-b-2 border-black outline-none max-w-fit"
+              onChange={() => handleCaption()}
+            />
+            <Button
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              style={buttonStyle}
+            >
+              add caption
+            </Button>
           </div>
         </div>
+        {/* content */}
         <div className="">
-
+          <input name="" value="paragraph" type="text" className="" onChange={() => handleContent()}/>
         </div>
       </div>
     </div>
