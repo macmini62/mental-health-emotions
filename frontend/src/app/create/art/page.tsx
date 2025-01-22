@@ -7,6 +7,9 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { FiUploadCloud } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
+import { IoAddOutline, IoImageOutline } from "react-icons/io5";
+import { HiOutlineBars3BottomLeft } from "react-icons/hi2";
+
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -38,7 +41,11 @@ const Page = () => {
   }
 
   const handleContent = () => {
-    
+
+  }
+
+  const handleInsert = () => {
+
   }
   
 
@@ -113,7 +120,31 @@ const Page = () => {
         </div>
         {/* content */}
         <div className="">
-          <input name="" value="paragraph" type="text" className="" onChange={() => handleContent()}/>
+          <input
+            name=""
+            value=""
+            type="text"
+            className="outline-none text-black text-lg"
+            placeholder="Paragraph"
+            onChange={() => handleContent()}
+          />
+          {/* insert button */}
+          <div className="">
+            <div className="flex gap-4 p-4" onClick={() => handleInsert()}>
+              <div className="max-w-fit p-2 rounded-full border border-black cursor-pointer">
+                <IoAddOutline className="w-8 h-8 text-black"/>
+              </div>
+              <div className="max-w-fit p-2 rounded-full border border-black cursor-pointer">
+                <IoAddOutline className="w-8 h-8 text-black rotate-45"/>
+              </div>
+              <div className="max-w-fit p-2 rounded-full border border-black cursor-pointer">
+                <HiOutlineBars3BottomLeft className="w-8 h-8 text-black"/>
+              </div>
+              <div className="max-w-fit p-2 rounded-full border border-black cursor-pointer">
+                <IoImageOutline className="w-8 h-8 text-black"/>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
