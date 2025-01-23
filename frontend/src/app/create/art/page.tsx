@@ -44,8 +44,16 @@ const Page = () => {
 
   }
 
-  const handleInsert = () => {
+  const handleInsertOptions = () => {
 
+  }
+
+  const [optVis, setOptVis] = React.useState<boolean>(false);
+  const handleOptionsVisibility = () => {
+    setOptVis((opt: boolean) => {
+      opt = !opt;
+      return opt;
+    });
   }
   
 
@@ -120,28 +128,24 @@ const Page = () => {
         </div>
         {/* content */}
         <div className="">
-          <input
-            name=""
-            value=""
-            type="text"
-            className="outline-none text-black text-lg"
-            placeholder="Paragraph"
-            onChange={() => handleContent()}
-          />
-          {/* insert button */}
-          <div className="">
-            <div className="flex gap-4 p-4" onClick={() => handleInsert()}>
-              <div className="max-w-fit p-2 rounded-full border border-black cursor-pointer">
-                <IoAddOutline className="w-8 h-8 text-black"/>
+          {/* insert options */}
+          
+          <div className="w-full relative">
+            <div className="flex gap-4 p-4 group w-full" onClick={() => handleInsertOptions()}>
+              <div
+                className="max-w-fit p-2 rounded-full border border-black cursor-pointer"
+                onClick={() => handleOptionsVisibility()}
+              >
+                <IoAddOutline className={`w-8 h-8 text-black transition-transform duration-[.5s] ${optVis && "rotate-[405deg] ease-in-out"}`}/>
               </div>
-              <div className="max-w-fit p-2 rounded-full border border-black cursor-pointer">
-                <IoAddOutline className="w-8 h-8 text-black rotate-45"/>
-              </div>
-              <div className="max-w-fit p-2 rounded-full border border-black cursor-pointer">
-                <HiOutlineBars3BottomLeft className="w-8 h-8 text-black"/>
-              </div>
-              <div className="max-w-fit p-2 rounded-full border border-black cursor-pointer">
-                <IoImageOutline className="w-8 h-8 text-black"/>
+              {/* options */}
+              <div className={`flex gap-4 absolute left-24 ${optVis ? "visible" : "collapse left-64"} transition-all ease-in-out duration-[.8s] text-gray-500`}>
+                <div className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black">
+                  <HiOutlineBars3BottomLeft className="w-8 h-8"/>
+                </div>
+                <div className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black">
+                  <IoImageOutline className="w-8 h-8"/>
+                </div>
               </div>
             </div>
           </div>
