@@ -34,7 +34,24 @@ const buttonStyle = {
 const Page = () => {
   
 
-  const [image, setImage] = React.useState<object>({});
+  const [image, setImage] = React.useState<string>();
+
+  const handleImageUpload = (imgData: FileList | null) => {
+    console.log(imgData);
+    setImage(() => {
+      const selImg = imgData?.item(0);
+      if(selImg !== null){
+        if(selImg?.type.split("/")[0] === "image"){
+          const img = URL.createObjectURL(selImg);
+          return img.toString();
+        }else{
+          console.log("File uploaded must be an image!!");
+        }
+      }
+    });
+  }
+
+  console.log(image)
 
   const handleCaption = () => {
 
@@ -77,61 +94,67 @@ const Page = () => {
         <input type="text" className="text-4xl text-black outline-none px-6" placeholder="SUB-TITLE"/>
         {/* thumbnail */}
         <div className="flex flex-col items-center gap-2 py-2 px-8 my-4">
-          <Button
-            component="label"
-            role={undefined}
-            variant="contained"
-            tabIndex={-1}
-            startIcon={<FiUploadCloud />}
-            style={{...buttonStyle, visibility: "hidden"}}
-          >
-            upload thumbnail
-            <VisuallyHiddenInput
-              type="file"
-              onChange={(event) => console.log(event.target.files)}
-              multiple
-            />
-          </Button>
+          {
+            !image &&
+            <Button
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              startIcon={<FiUploadCloud />}
+              style={{...buttonStyle, visibility: "visible"}}
+            >
+              upload thumbnail
+              <VisuallyHiddenInput
+                type="file"
+                onChange={(event) => handleImageUpload(event.target.files)}
+              />
+            </Button>
+          }
           <div className="my-4 flex flex-col items-center relative group">
-            <img src="/calm/calm2.webp" alt="" className="w-[400px] rounded-md" />
-            <div className="flex items-center justify-center absolute z-10 w-full h-full invisible group-hover:visible backdrop-blur-2xl rounded-md">
+            <img src={image} alt="" className="w-[400px] rounded-md" />
+            <div className="flex items-center justify-center absolute z-10 w-full h-full invisible group-hover:visible bg-gray-50 opacity-80 rounded-md">
               <Button
                 component="label"
                 role={undefined}
                 variant="contained"
                 tabIndex={-1}
                 startIcon={<MdDeleteOutline />}
-                style={{...buttonStyle, color: "red", borderColor: "red"}}
+                style={buttonStyle}
+                onClick={() => setImage("")}
               >
-                delete image
+                delete thumbnail
               </Button>
             </div>
           </div>
-          <div className="flex flex-col items-center gap-4 w-full">
-            <input
-              name="caption"
-              type="text"
-              value="calmness from getty images"
-              className="text-sm text-gray-500 text-center my-4 w-fit py-1 px-2 border-b-2 border-black outline-none max-w-fit"
-              onChange={() => handleCaption()}
-            />
-            <Button
-              component="label"
-              role={undefined}
-              variant="contained"
-              tabIndex={-1}
-              style={buttonStyle}
-            >
-              add caption
-            </Button>
-          </div>
+          {
+            image &&
+            <div className="flex flex-col items-center gap-4 w-full">
+              <input
+                name="caption"
+                type="text"
+                value="calmness from getty images"
+                className="text-sm text-gray-500 text-center my-4 w-fit py-1 px-2 border-b-2 border-black outline-none max-w-fit"
+                onChange={() => handleCaption()}
+              />
+              <Button
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                style={buttonStyle}
+              >
+                add caption
+              </Button>
+            </div>
+          }
         </div>
         {/* content */}
         <div className="">
           {/* insert options */}
           
           <div className="w-full relative">
-            <div className="flex gap-4 p-4 group w-full" onClick={() => handleInsertOptions()}>
+            <div className="flex gap-4 p-4 w-full" onClick={() => handleInsertOptions()}>
               <div
                 className="max-w-fit p-2 rounded-full border border-black cursor-pointer"
                 onClick={() => handleOptionsVisibility()}
@@ -139,7 +162,7 @@ const Page = () => {
                 <IoAddOutline className={`w-8 h-8 text-black transition-transform duration-[.5s] ${optVis && "rotate-[405deg] ease-in-out"}`}/>
               </div>
               {/* options */}
-              <div className={`flex gap-4 absolute left-24 ${optVis ? "visible" : "collapse left-64"} transition-all ease-in-out duration-[.8s] text-gray-500`}>
+              <div className={`flex gap-4 absolute left-24 ${optVis ? "visible" : "collapse left-64"} transition-all ease-in-out duration-[1s] text-gray-500`}>
                 <div className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black">
                   <HiOutlineBars3BottomLeft className="w-8 h-8"/>
                 </div>
