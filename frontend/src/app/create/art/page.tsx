@@ -35,7 +35,6 @@ const Page = () => {
   
 
   const [image, setImage] = React.useState<string>();
-
   const handleImageUpload = (imgData: FileList | null) => {
     console.log(imgData);
     setImage(() => {
@@ -50,11 +49,14 @@ const Page = () => {
       }
     });
   }
+  // console.log(image)
 
-  console.log(image)
+  const [caption, setCaption] = React.useState<string>("");
+  const handleCaption = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    const input = target.value;
 
-  const handleCaption = () => {
-
+    setCaption(input);
   }
 
   const handleContent = () => {
@@ -112,7 +114,7 @@ const Page = () => {
             </Button>
           }
           <div className="my-4 flex flex-col items-center relative group">
-            <img src={image} alt="" className="w-[400px] rounded-md" />
+            { image && <img src={image} alt="" className="w-[450px] h-[450px] rounded-md" /> }
             <div className="flex items-center justify-center absolute z-10 w-full h-full invisible group-hover:visible bg-gray-50 opacity-80 rounded-md">
               <Button
                 component="label"
@@ -121,7 +123,7 @@ const Page = () => {
                 tabIndex={-1}
                 startIcon={<MdDeleteOutline />}
                 style={buttonStyle}
-                onClick={() => setImage("")}
+                onClick={() => setImage(undefined)}
               >
                 delete thumbnail
               </Button>
@@ -133,19 +135,11 @@ const Page = () => {
               <input
                 name="caption"
                 type="text"
-                value="calmness from getty images"
-                className="text-sm text-gray-500 text-center my-4 w-fit py-1 px-2 border-b-2 border-black outline-none max-w-fit"
-                onChange={() => handleCaption()}
+                value={caption}
+                placeholder="Caption"
+                className="text-sm text-gray-500 w-fit py-1 px-2 border-b-2 border-black outline-none max-w-fit"
+                onChange={(event) => handleCaption(event)}
               />
-              <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                style={buttonStyle}
-              >
-                add caption
-              </Button>
             </div>
           }
         </div>
