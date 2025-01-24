@@ -29,15 +29,29 @@ const buttonStyle = {
   boxShadow: "none",
   border: "2px solid black",
   borderRadius: "10px"
-}
+};
+
+const insertButtonStyle = {
+  width: "max-content",
+  backgroundColor: "transparent",
+  padding: "0px",
+  borderRadius: "9999px",
+  border: "1px solid #6b7280",
+  boxShadow: "none",
+  cursor: "pointer",
+  color: "black",
+  display: "flex",
+  justifyContent: "center",
+  alignItem: "center"
+};
 
 const Page = () => {
   
 
-  const [image, setImage] = React.useState<string>();
-  const handleImageUpload = (imgData: FileList | null) => {
+  const [thumbnail, setThumbnail] = React.useState<string>();
+  const handleThumbnailUpload = (imgData: FileList | null) => {
     console.log(imgData);
-    setImage(() => {
+    setThumbnail(() => {
       const selImg = imgData?.item(0);
       if(selImg !== null){
         if(selImg?.type.split("/")[0] === "image"){
@@ -49,14 +63,17 @@ const Page = () => {
       }
     });
   }
-  // console.log(image)
+  // console.log(thumbnail)
 
   const [caption, setCaption] = React.useState<string>("");
   const handleCaption = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
-    const input = target.value;
+    setCaption(target.value);
+  }
 
-    setCaption(input);
+  const [images, setImages] = React.useState<string[]>();
+  const handleImageUpload = (imgData: FileList | null) => {
+
   }
 
   const handleContent = () => {
@@ -77,9 +94,9 @@ const Page = () => {
   
 
   return (
-    <div className="w-1/2 p-2">
+    <div className="w-1/2 p-2 relative">
       {/* HEADER */}
-      <header className="flex justify-between">
+      <header className="flex justify-between border-b-2 border-black px-2 absolute top-0 z-10 w-full">
         <div className="">
           <Link href=""><img src="/logo/logo-white.png" alt="" className="w-54 h-16"/></Link>
         </div>
@@ -90,14 +107,14 @@ const Page = () => {
         </div>
       </header>
       {/* EDITING SECTION */}
-      <div className="flex flex-col gap-4 py-4 mt-4">
+      <div className="flex flex-col gap-4 py-4 mt-16 overflow-y-auto">
         {/* titles */}
         <input type="text" className="text-7xl text-black outline-none px-2 font-semibold placeholder:font-normal" placeholder="TITLE"/>
         <input type="text" className="text-4xl text-black outline-none px-6" placeholder="SUB-TITLE"/>
         {/* thumbnail */}
         <div className="flex flex-col items-center gap-2 py-2 px-8 my-4">
           {
-            !image &&
+            !thumbnail &&
             <Button
               component="label"
               role={undefined}
@@ -109,12 +126,12 @@ const Page = () => {
               upload thumbnail
               <VisuallyHiddenInput
                 type="file"
-                onChange={(event) => handleImageUpload(event.target.files)}
+                onChange={(event) => handleThumbnailUpload(event.target.files)}
               />
             </Button>
           }
           <div className="my-4 flex flex-col items-center relative group">
-            { image && <img src={image} alt="" className="w-[450px] h-[450px] rounded-md" /> }
+            { thumbnail && <img src={thumbnail} alt="" className="w-[450px] h-[450px] rounded-md" /> }
             <div className="flex items-center justify-center absolute z-10 w-full h-full invisible group-hover:visible bg-gray-50 opacity-80 rounded-md">
               <Button
                 component="label"
@@ -123,14 +140,14 @@ const Page = () => {
                 tabIndex={-1}
                 startIcon={<MdDeleteOutline />}
                 style={buttonStyle}
-                onClick={() => setImage(undefined)}
+                onClick={() => setThumbnail(undefined)}
               >
                 delete thumbnail
               </Button>
             </div>
           </div>
           {
-            image &&
+            thumbnail &&
             <div className="flex flex-col items-center gap-4 w-full">
               <input
                 name="caption"
@@ -146,7 +163,6 @@ const Page = () => {
         {/* content */}
         <div className="">
           {/* insert options */}
-          
           <div className="w-full relative">
             <div className="flex gap-4 p-4 w-full" onClick={() => handleInsertOptions()}>
               <div
@@ -157,12 +173,37 @@ const Page = () => {
               </div>
               {/* options */}
               <div className={`flex gap-4 absolute left-24 ${optVis ? "visible" : "collapse left-64"} transition-all ease-in-out duration-[1s] text-gray-500`}>
-                <div className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black">
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<HiOutlineBars3BottomLeft className="w-8 h-8" />}
+                  style={insertButtonStyle}
+                ></Button>
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<IoImageOutline className="w-6 h-6" />}
+                  style={insertButtonStyle}
+                >
+                  <VisuallyHiddenInput
+                    type="file"
+                    onChange={(event) => handleImageUpload(event.target.files)}
+                  />
+                </Button>
+                <button className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black">
                   <HiOutlineBars3BottomLeft className="w-8 h-8"/>
-                </div>
-                <div className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black">
+                </button>
+                <button className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black">
                   <IoImageOutline className="w-8 h-8"/>
-                </div>
+                  <VisuallyHiddenInput
+                    type="file"
+                    onChange={(event) => handleImageUpload(event.target.files)}
+                  />
+                </button>
               </div>
             </div>
           </div>
