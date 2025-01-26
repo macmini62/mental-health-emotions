@@ -40,9 +40,6 @@ const insertButtonStyle = {
   boxShadow: "none",
   cursor: "pointer",
   color: "black",
-  display: "flex",
-  justifyContent: "center",
-  alignItem: "center"
 };
 
 const Page = () => {
@@ -71,9 +68,14 @@ const Page = () => {
     setCaption(target.value);
   }
 
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  }
+
   const [images, setImages] = React.useState<string[]>();
   const handleImageUpload = (imgData: FileList | null) => {
-
+    
   }
 
   const handleContent = () => {
@@ -173,34 +175,19 @@ const Page = () => {
               </div>
               {/* options */}
               <div className={`flex gap-4 absolute left-24 ${optVis ? "visible" : "collapse left-64"} transition-all ease-in-out duration-[1s] text-gray-500`}>
-                <Button
-                  component="label"
-                  role={undefined}
-                  variant="contained"
-                  tabIndex={-1}
-                  startIcon={<HiOutlineBars3BottomLeft className="w-8 h-8" />}
-                  style={insertButtonStyle}
-                ></Button>
-                <Button
-                  component="label"
-                  role={undefined}
-                  variant="contained"
-                  tabIndex={-1}
-                  startIcon={<IoImageOutline className="w-6 h-6" />}
-                  style={insertButtonStyle}
+                <button
+                  className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black"  
                 >
-                  <VisuallyHiddenInput
-                    type="file"
-                    onChange={(event) => handleImageUpload(event.target.files)}
-                  />
-                </Button>
-                <button className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black">
-                  <HiOutlineBars3BottomLeft className="w-8 h-8"/>
+                  <HiOutlineBars3BottomLeft className="w-8 h-8 m-0"/>
                 </button>
-                <button className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black">
+                <button
+                  className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black"
+                  onClick={() => handleButtonClick()}
+                >
                   <IoImageOutline className="w-8 h-8"/>
                   <VisuallyHiddenInput
                     type="file"
+                    ref={fileInputRef}
                     onChange={(event) => handleImageUpload(event.target.files)}
                   />
                 </button>
