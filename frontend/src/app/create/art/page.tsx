@@ -9,6 +9,7 @@ import { FiUploadCloud } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
 import InsertOptions from "@/app/components/createComponents/insertOptions";
 import ImageSection from "@/app/components/createComponents/imageSection";
+import ContentSection from "@/app/components/createComponents/contentSection";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -55,12 +56,49 @@ const Page = () => {
     setCaption(target.value);
   }
 
-  const [content, setContent] = React.useState<React.ReactNode[]>([<InsertOptions/>, <ImageSection/>]);
+  const [content, setContent] = React.useState<React.ReactNode[]>([
+    // <InsertOptions
+    //   uploadImage={(imgData: FileList | null) => handleImageUpload(imgData)}
+    //   insertOptions={handleInsertOptions}
+    // />
+  ]);
 
-  const handleContent = () => {
+  const handleImageUpload = (imgData: FileList|null) => {
+    // console.log(imgData);
+    const selImg = imgData?.item(0);
+    if(selImg !== null){
+      if(selImg?.type.split("/")[0] === "image"){
+        const img = URL.createObjectURL(selImg);
+        setContent((c: React.ReactNode[]) => {
+          c.unshift(
+            <ImageSection
+              image={img}
+            />
+          );
+          return[...c];
+        });
+      }else{
+        console.log("File uploaded must be an image!!");
+      }
+    }
+  }
+
+  const handleInsertParagraph = () => {
 
   }
 
+  const [contentSection, setContentSection] = React.useState<Array<React.ReactNode>>([
+    <ContentSection
+      handleInsertParagraph={() => handleInsertParagraph()}
+      handleUploadImage={(imgData: FileList|null) => handleImageUpload(imgData)}
+      content={undefined}
+    />
+  ]);
+
+  const handleContentSection = () => {
+
+  }
+  
   return (
     <div className="w-1/2 p-2 relative">
       {/* HEADER */}
@@ -131,8 +169,10 @@ const Page = () => {
         {/* content */}
         <div className="">
           {
-            content.map((comp: React.ReactNode, i: number) => (
-              <React.Fragment key={i}>{comp}</React.Fragment>
+            contentSection.map((cs: React.ReactNode, i: number) => (
+              <React.Fragment key={i}>
+                {cs}
+              </React.Fragment>
             ))
           }
         </div>
