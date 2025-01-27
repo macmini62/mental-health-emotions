@@ -7,9 +7,8 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { FiUploadCloud } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
-import { IoAddOutline, IoImageOutline } from "react-icons/io5";
-import { HiOutlineBars3BottomLeft } from "react-icons/hi2";
-
+import InsertOptions from "@/app/components/createComponents/insertOptions";
+import ImageSection from "@/app/components/createComponents/imageSection";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -31,19 +30,7 @@ const buttonStyle = {
   borderRadius: "10px"
 };
 
-const insertButtonStyle = {
-  width: "max-content",
-  backgroundColor: "transparent",
-  padding: "0px",
-  borderRadius: "9999px",
-  border: "1px solid #6b7280",
-  boxShadow: "none",
-  cursor: "pointer",
-  color: "black",
-};
-
 const Page = () => {
-  
 
   const [thumbnail, setThumbnail] = React.useState<string>();
   const handleThumbnailUpload = (imgData: FileList | null) => {
@@ -68,32 +55,11 @@ const Page = () => {
     setCaption(target.value);
   }
 
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const handleButtonClick = () => {
-    fileInputRef.current?.click();
-  }
-
-  const [images, setImages] = React.useState<string[]>();
-  const handleImageUpload = (imgData: FileList | null) => {
-    
-  }
+  const [content, setContent] = React.useState<React.ReactNode[]>([<InsertOptions/>, <ImageSection/>]);
 
   const handleContent = () => {
 
   }
-
-  const handleInsertOptions = () => {
-
-  }
-
-  const [optVis, setOptVis] = React.useState<boolean>(false);
-  const handleOptionsVisibility = () => {
-    setOptVis((opt: boolean) => {
-      opt = !opt;
-      return opt;
-    });
-  }
-  
 
   return (
     <div className="w-1/2 p-2 relative">
@@ -164,36 +130,11 @@ const Page = () => {
         </div>
         {/* content */}
         <div className="">
-          {/* insert options */}
-          <div className="w-full relative">
-            <div className="flex gap-4 p-4 w-full" onClick={() => handleInsertOptions()}>
-              <div
-                className="max-w-fit p-2 rounded-full border border-black cursor-pointer"
-                onClick={() => handleOptionsVisibility()}
-              >
-                <IoAddOutline className={`w-8 h-8 text-black transition-transform duration-[.5s] ${optVis && "rotate-[405deg] ease-in-out"}`}/>
-              </div>
-              {/* options */}
-              <div className={`flex gap-4 absolute left-24 ${optVis ? "visible" : "collapse left-64"} transition-all ease-in-out duration-[1s] text-gray-500`}>
-                <button
-                  className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black"  
-                >
-                  <HiOutlineBars3BottomLeft className="w-8 h-8 m-0"/>
-                </button>
-                <button
-                  className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black"
-                  onClick={() => handleButtonClick()}
-                >
-                  <IoImageOutline className="w-8 h-8"/>
-                  <VisuallyHiddenInput
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={(event) => handleImageUpload(event.target.files)}
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
+          {
+            content.map((comp: React.ReactNode, i: number) => (
+              <React.Fragment key={i}>{comp}</React.Fragment>
+            ))
+          }
         </div>
       </div>
     </div>
