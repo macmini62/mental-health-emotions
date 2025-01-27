@@ -10,18 +10,18 @@ const ContentSection = ({
 }:{
   handleUploadImage: (imgData: FileList | null) => void,
   handleInsertParagraph: () => void,
-  content: React.ReactNode
+  content: React.JSX.Element[]
 }) => {
 
-
+  console.log(content);
   
   return (
     <div>
+      { content.map((c: React.JSX.Element, i: number) => (c)) }
       <InsertOptions
         handleUploadImage={(imgData: FileList|null) => handleUploadImage(imgData)}
         handleInsertParagraph={handleInsertParagraph}
       />
-      {content}
     </div>
   )
 }

@@ -13,10 +13,13 @@ const buttonStyle = {
 };
 
 const ImageSection = ({
+  key,
   image,
-  
+  deleteImage
 }:{
+  key: number,
   image: string,
+  deleteImage: (key: number) => void
 }) => {
 
   const [caption, setCaption] = React.useState<string>("");
@@ -26,9 +29,9 @@ const ImageSection = ({
   }
 
   return(
-    <div className="flex flex-col items-center gap-2 py-2 px-8 my-4">
+    <div key={key} className="flex flex-col items-center gap-2 py-2 px-8 my-4">
       <div className="my-4 flex flex-col items-center relative group">
-        { image && <img src={image} alt="" className="w-[450px] h-[450px] rounded-md" /> }
+        { image && <img src={image} alt="" className="w-[600px] h-[400px] rounded-md" /> }
         <div className="flex items-center justify-center absolute z-10 w-full h-full invisible group-hover:visible bg-gray-50 opacity-80 rounded-md">
           <Button
             component="label"
@@ -37,7 +40,7 @@ const ImageSection = ({
             tabIndex={-1}
             startIcon={<MdDeleteOutline />}
             style={buttonStyle}
-            // onClick={() => setImage(undefined)}
+            onClick={() => deleteImage(key)}
           >
             delete image
           </Button>
