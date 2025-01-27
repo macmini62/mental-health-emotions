@@ -1,0 +1,77 @@
+"use client"
+
+import React from "react";
+import { HiOutlineBars3BottomLeft } from "react-icons/hi2";
+import { IoAddOutline, IoImageOutline } from "react-icons/io5";
+import { styled } from "@mui/material/styles";
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
+
+const InsertOptions = () => {
+  
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  }
+
+  const [images, setImages] = React.useState<string[]>();
+  const handleImageUpload = (imgData: FileList | null) => {
+
+  }
+
+  const [optVis, setOptVis] = React.useState<boolean>(false);
+  const handleOptionsVisibility = () => {
+    setOptVis((opt: boolean) => {
+      opt = !opt;
+      return opt;
+    });
+  }
+  
+  const handleInsertOptions = () => {
+
+  }
+    
+  return(
+    <div className="w-full relative">
+      <div className="flex gap-4 p-4 w-full" onClick={() => handleInsertOptions()}>
+        <div
+          className="max-w-fit p-2 rounded-full border border-black cursor-pointer"
+          onClick={() => handleOptionsVisibility()}
+        >
+          <IoAddOutline className={`w-8 h-8 text-black transition-transform duration-[.5s] ${optVis && "rotate-[405deg] ease-in-out"}`}/>
+        </div>
+        {/* options */}
+        <div className={`flex gap-4 absolute left-24 ${optVis ? "visible" : "collapse left-64"} transition-all ease-in-out duration-[1s] text-gray-500`}>
+          <button
+            className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black"  
+          >
+            <HiOutlineBars3BottomLeft className="w-8 h-8 m-0"/>
+          </button>
+          <button
+            className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black"
+            onClick={() => handleButtonClick()}
+          >
+            <IoImageOutline className="w-8 h-8"/>
+            <VisuallyHiddenInput
+              type="file"
+              ref={fileInputRef}
+              onChange={(event) => handleImageUpload(event.target.files)}
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+};
+
+export default InsertOptions;
