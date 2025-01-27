@@ -17,16 +17,17 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const InsertOptions = () => {
+const InsertOptions = ({
+  handleUploadImage,
+ handleInsertParagraph
+}:{
+  handleUploadImage: (imgData: FileList | null) => void,
+ handleInsertParagraph: () => void
+}) => {
   
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const handleButtonClick = () => {
     fileInputRef.current?.click();
-  }
-
-  const [images, setImages] = React.useState<string[]>();
-  const handleImageUpload = (imgData: FileList | null) => {
-
   }
 
   const [optVis, setOptVis] = React.useState<boolean>(false);
@@ -36,14 +37,10 @@ const InsertOptions = () => {
       return opt;
     });
   }
-  
-  const handleInsertOptions = () => {
 
-  }
-    
   return(
     <div className="w-full relative">
-      <div className="flex gap-4 p-4 w-full" onClick={() => handleInsertOptions()}>
+      <div className="flex gap-4 p-4 w-full">
         <div
           className="max-w-fit p-2 rounded-full border border-black cursor-pointer"
           onClick={() => handleOptionsVisibility()}
@@ -53,7 +50,8 @@ const InsertOptions = () => {
         {/* options */}
         <div className={`flex gap-4 absolute left-24 ${optVis ? "visible" : "collapse left-64"} transition-all ease-in-out duration-[1s] text-gray-500`}>
           <button
-            className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black"  
+            className="max-w-fit p-2 rounded-full border border-gray-500 cursor-pointer hover:text-black" 
+            onClick={() => handleInsertParagraph()} 
           >
             <HiOutlineBars3BottomLeft className="w-8 h-8 m-0"/>
           </button>
@@ -65,7 +63,7 @@ const InsertOptions = () => {
             <VisuallyHiddenInput
               type="file"
               ref={fileInputRef}
-              onChange={(event) => handleImageUpload(event.target.files)}
+              onChange={(event) => handleUploadImage(event.target.files)}
             />
           </button>
         </div>
