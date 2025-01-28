@@ -17,7 +17,7 @@ const ContentSection = ({
   
   return (
     <div>
-      { content.map((c: React.JSX.Element, i: number) => (c)) }
+      { content.map((c: React.JSX.Element, i: number) => React.cloneElement(c, {key: i, contentKey: i})) }
       <InsertOptions
         handleUploadImage={(imgData: FileList|null) => handleUploadImage(imgData)}
         handleInsertParagraph={handleInsertParagraph}

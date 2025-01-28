@@ -12,7 +12,7 @@ const Page = () => {
   const [content, setContent] = React.useState<Array<React.JSX.Element>>([]);
 
   const handleImageUpload = (imgData: FileList|null) => {
-    // console.log(imgData);
+    console.log(imgData);
     const selImg = imgData?.item(0);
     if(selImg !== null){
       if(selImg?.type.split("/")[0] === "image"){
@@ -21,9 +21,9 @@ const Page = () => {
           return[
             ...c,
             <ImageSection
-              key={c.length}
+              contentKey={undefined}
               image={img}
-              deleteImage={(key: number) => handleDeleteContent(key)}
+              deleteImage={(key?: number) => handleDeleteContent(key)}
             />
           ];
         })
@@ -38,8 +38,12 @@ const Page = () => {
     
   }
   
-  const handleDeleteContent = (key: number) => {
-    console.log("Key:", key);
+  const handleDeleteContent = (key?: number) => {
+    console.log("Key:",key);
+    setContent((c: Array<React.JSX.Element>) => {
+      c = c.filter((e: React.JSX.Element, i: number) => { if(key !== i){ return e } });
+      return c;
+    })
   }
 
   const [contentSection, setContentSection] = React.useState<Array<React.ReactNode>>([]);
