@@ -10,7 +10,7 @@ const ContentSection = ({
   optVis,
   handleUploadImage,
   handleInsertParagraph,
-  content
+  contents
 }:{
   handleButtonClick: () => void,
   fileInputRef: React.RefObject<HTMLInputElement | null>,
@@ -18,14 +18,14 @@ const ContentSection = ({
   optVis: boolean,
   handleUploadImage: (imgData: FileList | null) => void,
   handleInsertParagraph: () => void,
-  content: React.JSX.Element[]
+  contents: React.JSX.Element[]
 }) => {
 
-  console.log(content);
+  // console.log(contents);
   
   return (
     <div>
-      { content.map((c: React.JSX.Element, i: number) => React.cloneElement(c, {key: i, contentKey: i})) }
+      { contents.map((c: React.JSX.Element, i: number) => React.cloneElement(c, {key: i, contentKey: i})) }
       <InsertOptions
         handleButtonClick={handleButtonClick}
         fileInputRef={fileInputRef}

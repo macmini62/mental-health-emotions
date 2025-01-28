@@ -26,14 +26,14 @@ const Page = () => {
   }
 
   // Contents...Paragraph and the Image sections
-  const [content, setContent] = React.useState<Array<React.JSX.Element>>([]);
+  const [contents, setContents] = React.useState<Array<React.JSX.Element>>([]);
 
   const handleImageUpload = (imgData: FileList|null) => {
     const selImg = imgData?.item(0);
     if(selImg !== null){
       if(selImg?.type.split("/")[0] === "image"){
         const img = URL.createObjectURL(selImg);
-        setContent((c: Array<React.JSX.Element>) => {
+        setContents((c: Array<React.JSX.Element>) => {
           return[
             ...c,
             <ImageSection
@@ -50,7 +50,7 @@ const Page = () => {
   }
 
   const handleInsertParagraph = () => {
-    setContent((c: Array<React.JSX.Element>) => {
+    setContents((c: Array<React.JSX.Element>) => {
       return[
         ...c,
         <ParagraphSection
@@ -62,12 +62,11 @@ const Page = () => {
   }
   
   const handleDeleteContent = (key?: number) => {
-    setContent((c: Array<React.JSX.Element>) => {
+    setContents((c: Array<React.JSX.Element>) => {
       c = c.filter((e: React.JSX.Element, i: number) => { if(key !== i){ return e } });
       return c;
     })
   }
-
   
   return (
     <div className="w-1/2 p-2 relative">
@@ -85,9 +84,11 @@ const Page = () => {
       {/* EDITING SECTION */}
       <div className="flex flex-col gap-4 py-4 mt-16 overflow-y-auto">
         {/* titles */}
-        <input type="text" className="text-7xl text-black outline-none px-2 font-semibold placeholder:font-normal" placeholder="TITLE"/>
-        <input type="text" className="text-4xl text-black outline-none px-6" placeholder="SUB-TITLE"/>
-        {/* content */}
+        <div className="my-4 flex flex-col gap-4 text-black">
+          <input type="text" className="text-7xl outline-none px-2 font-semibold placeholder:font-normal" placeholder="TITLE"/>
+          <input type="text" className="text-4xl outline-none px-6" placeholder="SUB-TITLE"/>
+        </div>
+        {/* contents */}
         <div className="">
           <ContentSection
             handleButtonClick={() => handleButtonClick()}
@@ -96,7 +97,7 @@ const Page = () => {
             optVis={optVis}
             handleInsertParagraph={handleInsertParagraph}
             handleUploadImage={handleImageUpload}
-            content={content}
+            contents={contents}
           />
         </div>
       </div>
