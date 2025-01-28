@@ -19,10 +19,10 @@ const VisuallyHiddenInput = styled("input")({
 
 const InsertOptions = ({
   handleUploadImage,
- handleInsertParagraph
+  handleInsertParagraph
 }:{
   handleUploadImage: (imgData: FileList | null) => void,
- handleInsertParagraph: () => void
+  handleInsertParagraph: () => void
 }) => {
   
   const fileInputRef = React.useRef<HTMLInputElement>(null);

@@ -5,6 +5,7 @@ import { SlOptions } from "react-icons/sl";
 import * as React from "react";
 import ImageSection from "@/app/components/createComponents/imageSection";
 import ContentSection from "@/app/components/createComponents/contentSection";
+import ParagraphSection from "@/app/components/createComponents/paragraphSection";
 
 
 const Page = () => {
@@ -21,12 +22,11 @@ const Page = () => {
           return[
             ...c,
             <ImageSection
-              contentKey={undefined}
               image={img}
               deleteImage={(key?: number) => handleDeleteContent(key)}
             />
           ];
-        })
+        });
       }else{
         console.log("File uploaded must be an image!!");
       }
@@ -35,18 +35,23 @@ const Page = () => {
   console.log(content);
 
   const handleInsertParagraph = () => {
-    
+    setContent((c: Array<React.JSX.Element>) => {
+      return[
+        ...c,
+        <ParagraphSection
+          deleteParagraph={(key?: number) => handleDeleteContent(key)}
+        />
+      ];
+    });
   }
   
   const handleDeleteContent = (key?: number) => {
-    console.log("Key:",key);
+    // console.log("Key:",key);
     setContent((c: Array<React.JSX.Element>) => {
       c = c.filter((e: React.JSX.Element, i: number) => { if(key !== i){ return e } });
       return c;
     })
   }
-
-  const [contentSection, setContentSection] = React.useState<Array<React.ReactNode>>([]);
 
   
   return (
