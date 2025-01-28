@@ -10,10 +10,25 @@ import ParagraphSection from "@/app/components/createComponents/paragraphSection
 
 const Page = () => {
 
+  // files upload window
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  }
+
+  // options visibility
+  const [optVis, setOptVis] = React.useState<boolean>(false);
+  const handleOptionsVisibility = () => {
+    setOptVis((opt: boolean) => {
+      opt = !opt;
+      return opt;
+    });
+  }
+
+  // Contents...Paragraph and the Image sections
   const [content, setContent] = React.useState<Array<React.JSX.Element>>([]);
 
   const handleImageUpload = (imgData: FileList|null) => {
-    console.log(imgData);
     const selImg = imgData?.item(0);
     if(selImg !== null){
       if(selImg?.type.split("/")[0] === "image"){
@@ -27,12 +42,12 @@ const Page = () => {
             />
           ];
         });
+        setOptVis(false);
       }else{
         console.log("File uploaded must be an image!!");
       }
     }
   }
-  console.log(content);
 
   const handleInsertParagraph = () => {
     setContent((c: Array<React.JSX.Element>) => {
@@ -43,10 +58,10 @@ const Page = () => {
         />
       ];
     });
+    setOptVis(false);
   }
   
   const handleDeleteContent = (key?: number) => {
-    // console.log("Key:",key);
     setContent((c: Array<React.JSX.Element>) => {
       c = c.filter((e: React.JSX.Element, i: number) => { if(key !== i){ return e } });
       return c;
@@ -75,6 +90,10 @@ const Page = () => {
         {/* content */}
         <div className="">
           <ContentSection
+            handleButtonClick={() => handleButtonClick()}
+            fileInputRef={fileInputRef}
+            handleOptionsVisibility={() => handleOptionsVisibility()}
+            optVis={optVis}
             handleInsertParagraph={handleInsertParagraph}
             handleUploadImage={handleImageUpload}
             content={content}

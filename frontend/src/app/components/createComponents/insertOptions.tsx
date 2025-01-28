@@ -18,25 +18,20 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const InsertOptions = ({
+  handleButtonClick,
+  fileInputRef,
+  handleOptionsVisibility,
+  optVis,
   handleUploadImage,
   handleInsertParagraph
 }:{
+  handleButtonClick: () => void,
+  fileInputRef: React.RefObject<HTMLInputElement | null>,
+  handleOptionsVisibility: () => void,
+  optVis: boolean
   handleUploadImage: (imgData: FileList | null) => void,
   handleInsertParagraph: () => void
 }) => {
-  
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const handleButtonClick = () => {
-    fileInputRef.current?.click();
-  }
-
-  const [optVis, setOptVis] = React.useState<boolean>(false);
-  const handleOptionsVisibility = () => {
-    setOptVis((opt: boolean) => {
-      opt = !opt;
-      return opt;
-    });
-  }
 
   return(
     <div className="w-full relative">

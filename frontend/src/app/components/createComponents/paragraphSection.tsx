@@ -43,7 +43,7 @@ const ParagraphSection = ({
         onChange={handleChange}
         onKeyDown={handleDelete}
         placeholder="Type something here..."
-        className="w-full h-14 bg-transparent outline-none border border-black overflow-hidden resize-none rounded-xl px-4 py-3.5"
+        className="w-full h-14 bg-transparent outline-none border border-gray-300 overflow-hidden resize-none rounded-xl p-4"
       >
 
       </textarea>
