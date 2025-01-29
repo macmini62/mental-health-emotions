@@ -4,7 +4,7 @@ const createLayout = ({
   children: React.ReactNode
 }) => {
   return (
-    <div className="w-screen h-screen flex justify-center">
+    <div className="w-screen h-screen flex justify-center overflow-y-auto">
       {children}
     </div>
   )

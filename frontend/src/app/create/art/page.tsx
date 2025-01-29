@@ -8,7 +8,7 @@ import ContentSection from "@/app/components/createComponents/contentSection";
 import ParagraphSection from "@/app/components/createComponents/paragraphSection";
 
 
-const Page = () => {
+const CreateArticle = () => {
 
   // files upload window
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -71,7 +71,7 @@ const Page = () => {
   return (
     <div className="w-1/2 p-2 relative">
       {/* HEADER */}
-      <header className="flex justify-between border-b-2 border-black px-2 absolute top-0 z-10 w-full">
+      <header className="flex justify-between border-b-2 border-black px-2 fixed top-0 z-10 w-1/2 bg-white">
         <div className="">
           <Link href=""><img src="/logo/logo-white.png" alt="" className="w-54 h-16"/></Link>
         </div>
@@ -85,7 +85,7 @@ const Page = () => {
       <div className="flex flex-col gap-4 py-4 mt-16 overflow-y-auto">
         {/* titles */}
         <div className="my-4 flex flex-col gap-4 text-black">
-          <input type="text" className="text-7xl outline-none px-2 font-semibold placeholder:font-normal" placeholder="TITLE"/>
+          <input type="text" className="text-7xl outline-nimone px-2 font-semibold placeholder:font-normal" placeholder="TITLE"/>
           <input type="text" className="text-4xl outline-none px-6" placeholder="SUB-TITLE"/>
         </div>
         {/* contents */}
@@ -105,4 +105,4 @@ const Page = () => {
   )
 }
 
-export default Page;
+export default CreateArticle;
