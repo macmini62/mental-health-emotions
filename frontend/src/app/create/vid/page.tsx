@@ -137,7 +137,7 @@ const CreateVideo = () => {
                     id=""
                     rows={1}
                     placeholder="Add tags"
-                    className="p-4 overflow-none outline-none resize-none w-full border border-black rounded-lg placeholder:text-gray-400 placeholder:text-sm"
+                    className="p-4 overflow-none outline-none resize-none w-full border border-gray-400 hover:border-black cursor-pointer rounded-lg placeholder:text-gray-400 placeholder:text-sm"
                   ></textarea>
                   <p className="text-sm text-gray-700 mb-1">Enter a comma after each tag</p>
                 </div>
@@ -211,7 +211,7 @@ const CreateVideo = () => {
           {/* video preview */}
           <div className="w-[40%] max-h-fit sticky top-24">
             <div className="w-full flex flex-col border border-black rounded-lg">
-              <video src="" className="w-full h-64">
+              <video src="" className="w-full h-64 border">
 
               </video>
               <div className="w-full px-4">
