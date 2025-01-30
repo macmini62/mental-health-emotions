@@ -31,14 +31,22 @@ const VisuallyHiddenInput = styled("input")({
 
 const CreateVideo = () => {
 
-  const [thumbnail, setThumbnail] = React.useState<FileList>();
+  const [thumbnail, setThumbnail] = React.useState<object>();
 
-  const handleUploadThumbnail = () => {
-
+  const handleUploadThumbnail = (thumData: FileList|null) => {
+    const selThumb = thumData?.item(0);
+    console.log(selThumb);
+    if(selThumb !== null){
+      if(selThumb?.type.split("/")[0] === "image"){
+        setThumbnail(selThumb);
+      }else{
+        console.log("File uploaded must be an image!!");
+      }
+    }
   }
 
   const handleDeleteThumbnail = () => {
-
+    setThumbnail({})
   }
 
   // Video upload handler.
@@ -138,17 +146,42 @@ const CreateVideo = () => {
                 <div className="w-full my-2 flex flex-col items-center relative group">
                   { <img src="" alt="" className="w-[500px] h-[300px] rounded-md" /> }
                   <div className="flex items-center justify-center absolute z-10 w-[500px] h-[300px] invisible group-hover:visible bg-gray-50 opacity-80 rounded-md">
-                    <Button
-                      component="label"
-                      role={undefined}
-                      variant="contained"
-                      tabIndex={-1}
-                      startIcon={<MdDeleteOutline />}
-                      style={buttonStyle}
-                      onClick={() => handleDeleteThumbnail()}
-                    >
-                      delete thumbnail
-                    </Button>
+                    {
+                      !thumbnail ?
+                      <Button
+                        component="label"
+                        role={undefined}
+                        variant="contained"
+                        tabIndex={-1}
+                        startIcon={< MdOutlineFileUpload/>}
+                        style={buttonStyle}
+                        onClick={() => handleButtonClick()}
+                      >
+                        Upload thumbnail
+                        <VisuallyHiddenInput
+                          type="file"
+                          ref={fileInputRef}
+                          onChange={(event) => handleUploadThumbnail(event.target.files)}
+                        />
+                      </Button>
+                      :
+                      <Button
+                        component="label"
+                        role={undefined}
+                        variant="contained"
+                        tabIndex={-1}
+                        startIcon={<MdDeleteOutline />}
+                        style={buttonStyle}
+                        onClick={() => handleButtonClick()}
+                      >
+                        Delete thumbnail
+                        <VisuallyHiddenInput
+                          type="file"
+                          ref={fileInputRef}
+                          onChange={() => handleDeleteThumbnail()}
+                        />
+                      </Button>
+                    }
                   </div>
                 </div>
               </div>
