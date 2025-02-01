@@ -74,7 +74,7 @@ const Videos = () => {
                 <div className="w-full flex justify-between my-4 px-1">
                   <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
-                    <Link href="/videos"><h3 className="text-black text-lg font-semibold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
+                    <Link href="/videos"><h3 className="text-black font-bold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
@@ -86,7 +86,7 @@ const Videos = () => {
                 <div className="w-full flex justify-between my-4 px-1">
                   <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
-                    <Link href="/videos"><h3 className="text-black text-lg font-semibold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
+                    <Link href="/videos"><h3 className="text-black font-bold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
@@ -98,7 +98,7 @@ const Videos = () => {
                 <div className="w-full flex justify-between my-4 px-1">
                   <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
-                    <Link href="/videos"><h3 className="text-black text-lg font-semibold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
+                    <Link href="/videos"><h3 className="text-black font-bold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
@@ -110,7 +110,7 @@ const Videos = () => {
                 <div className="w-full flex justify-between my-4 px-1">
                   <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
-                    <Link href="/videos"><h3 className="text-black text-lg font-semibold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
+                    <Link href="/videos"><h3 className="text-black font-bold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
@@ -122,7 +122,7 @@ const Videos = () => {
                 <div className="w-full flex justify-between my-4 px-1">
                   <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
-                    <Link href="/videos"><h3 className="text-black text-lg font-semibold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
+                    <Link href="/videos"><h3 className="text-black font-bold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
