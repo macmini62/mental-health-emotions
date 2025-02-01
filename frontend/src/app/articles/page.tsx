@@ -48,7 +48,7 @@ const Articles = () => {
   return (
     <div className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
       {/* HEADER */}
-      <div className="w-full flex justify-between py-3 px-4 border-b-2 fixed z-50 left-0 top-0 bg-white shadow-sm">
+      <div className="w-full flex justify-between py-3 px-4 border-b-2 sticky z-50 left-0 top-0 bg-white shadow-sm">
         <div className="flex gap-6 items-center">
           <Link href="/"><img src="/logo/logo-white.png" alt="" className="w-36 h-10"/></Link>
           <div className="max-w-fit h-10 flex px-3 gap-3 items-center bg-gray-100 rounded-full group">
@@ -66,15 +66,15 @@ const Articles = () => {
         </div>
       </div>
       {/* BODY */}
-      <div className="w-[1338px] flex justify-between p-4 mt-4">
+      <div className="w-[1338px] flex justify-between p-4">
         {/* MENU SECTION */}
         <Menu
           menu="articles"
         />
         {/* CONTENT SECTION */}
-        <div className="w-[728px] max-h-fit mt-10 py-4 ml-[196px]">
+        <div className="w-[728px] max-h-fit py-4">
           {/* section-header */}
-          <div className="flex pt-2 px-14 relative overflow-visible text-nowrap">
+          <div className="flex pt-6 px-14 sticky top-16 overflow-visible text-nowrap bg-white border-b border-gray-300 shadow-sm">
             <Link href="/"><button className="group absolute left-2"><IoAdd className="w-8 h-8 pb-2 group-hover:text-black"/></button></Link>
             <button className="group absolute left-2 invisible"><IoIosArrowBack className="w-8 h-8 pb-2 group-hover:text-black"/></button>
             <div className="flex overflow-hidden shadow-3xl">
@@ -92,7 +92,7 @@ const Articles = () => {
             </div>
             <button className="group absolute right-2"><IoIosArrowForward className="w-8 h-8 pb-2 group-hover:text-black"/></button>
           </div>
-          <hr className="w-full border-gray-300" />
+          {/* <hr className="w-full border-gray-300" /> */}
           {/* contents */}
           <ul className="mt-4">
             <li className="py-8 border-b border-gray-300">
@@ -455,9 +455,8 @@ const Articles = () => {
           </ul>
         </div>
         {/* RIGHT SECTION */}
-        <div className="w-[340px] flex flex-col gap-6 mt-8 py-8 pl-10 border-l border-gray-300">
-          <div className="">
-            <h3 className="font-semibold text-black">Top Picks</h3>
+        <div className="w-[340px] max-h-fit flex flex-col gap-6 mt-8 py-8 pl-10 border-l border-gray-300 sticky top-20">
+          <h3 className="font-semibold text-black">Top Picks</h3>
             {/* articles */}
             <div className="flex flex-col py-4">
               <div className="flex flex-col gap-3 my-4">
@@ -515,7 +514,6 @@ const Articles = () => {
             </div>
             {/* FOOTER */}
             <Footer/>
-          </div>
           <div className=""></div>
         </div>
       </div>
