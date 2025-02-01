@@ -56,7 +56,7 @@ const TitlePage = () => {
   };
 
   return (
-    <div className="w-full p-4 flex flex-col gap-6 items-center justify-between">
+    <div className="w-full mt-4 flex flex-col gap-6 items-center justify-between">
       <div className="w-1/3 mx-4">
         <h2 className="text-center font-semibold text-2xl">Being a professional what title best suits you?</h2>
         <div className="w-full mt-10">
@@ -77,7 +77,7 @@ const TitlePage = () => {
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-between w-full h-20 px-8 border-t-2 border-black">
+      <div className="flex items-center justify-between w-full h-24 px-8 border-t-2 border-black">
         <button
           className="w-48 h-12 bg-black rounded-full active:bg-white active:border border-black active:text-black text-white"
           onClick={(e) => handleRoute(e)}

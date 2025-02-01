@@ -45,7 +45,7 @@ const RolePage = () => {
   };
 
   return (
-    <div className="w-full p-4 flex flex-col gap-6 items-center justify-between">
+    <div className="w-full mt-4 flex flex-col gap-6 items-center justify-between">
       {/* ROLES */}
       <div className="w-1/3 mx-4">
         <h2 className="text-center font-semibold text-2xl">How do you intend to use the platform for?</h2>
@@ -70,7 +70,7 @@ const RolePage = () => {
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-between w-full h-20 px-8 border-t-2 border-black">
+      <div className="flex items-center justify-between w-full h-24 px-8 border-t-2 border-black">
         <button 
           className="w-48 h-12 bg-black rounded-full text-white opacity-20 cursor-not-allowed"
         >

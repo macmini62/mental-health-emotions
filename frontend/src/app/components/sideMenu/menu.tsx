@@ -15,7 +15,7 @@ const Menu = ({
   ];
 
   return(
-    <div className="flex flex-col items-start w-[144px] mt-8 py-8 pl-2 text-lg text-nowrap border-r-2 border-gray-300 fixed">
+    <div className="flex flex-col items-start w-[144px] max-h-fit mt-8 py-8 pl-2 text-lg text-nowrap border-r-2 border-gray-300 sticky top-20">
       {
         menus.map((m: string, i: number) => (
           <Link href={`/${m}`} key={i} className="w-full">

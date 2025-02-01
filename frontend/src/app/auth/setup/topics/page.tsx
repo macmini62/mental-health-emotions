@@ -72,7 +72,7 @@ const TopicsPage = () => {
   };
 
   return (
-    <div className="w-full my-4 flex flex-col items-center justify-between">
+    <div className="w-full mt-4 flex flex-col items-center justify-between">
       <div className="w-1/2 mx-4 overflow-y-auto">
         <h2 className="text-center font-semibold text-2xl">Select topics to explore.</h2>
         <div className="flex flex-col items-center gap-10 w-full mt-12 mb-6">
@@ -93,8 +93,8 @@ const TopicsPage = () => {
           <p className="hover:underline text-sm font-semibold cursor-pointer" onClick={() => handleTopicsLoad()}>Load More</p>
         </div>
       </div>
-      <div className="flex items-center justify-between w-full h-20 px-8 border-t-2 border-black">
-        <button
+      <div className="flex items-center justify-between w-full h-24 px-8 border-t-2 border-black">
+        <button 
           className="w-48 h-12 bg-black rounded-full active:bg-white active:border border-black active:text-black text-white"
           onClick={(e) => handleRoute(e)}
           name="back"
