@@ -4,9 +4,8 @@ const AuthLayout = ({
   children: React.ReactNode
 }) => {
 
-
   return (
-    <div className="w-[512px] rounded-md shadow-lg shadow-gray-300 p-10">
+    <div className="">
       {children}
     </div>
   )

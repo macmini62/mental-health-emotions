@@ -5,9 +5,10 @@ import { useForm } from "react-hook-form"
 import { FaCheck } from "react-icons/fa";
 import { z } from "zod";
 import InputFields from "../../../components/authComponents/InputFields";
-import { useState } from "react";
+import * as React from "react";
 import Auth0Options from "@/app/components/authComponents/Auth0Options";
 import axios from "axios";
+import ErrorNotification from "@/app/components/notifications/notificationAlert";
  
 
 const schema = z.object({
@@ -32,7 +33,7 @@ const SignUpPage = () => {
   });
 
   // Handles the checkbox on the form.
-  const [checkBox, setcheckBox] = useState<boolean>(false);
+  const [checkBox, setcheckBox] = React.useState<boolean>(false);
   const handleCheck = () => {
     setcheckBox((check: boolean) => {
       check = !check;
@@ -40,10 +41,18 @@ const SignUpPage = () => {
     });
   }
 
+  // handles the error feedback.
+  const[failed, setFailed] = React.useState<boolean>(false);
+  const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined);
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+
   // Uploads user data
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
-
     await axios.post("http://localhost:3001/users/create", 
       data
     ).then((res) => {
@@ -53,57 +62,67 @@ const SignUpPage = () => {
       }
     }).catch((err) => {
       console.log(err);
+      setFailed(true);
+      timer.current = setTimeout(() => {
+        setFailed(false);
+      }, 5000);
     });
   });
 
   return (
-    <div className="">
-      <div className="flex gap-4 justify-center">
-        <img src="/logo/logo-white.png" alt="" className="w-48 h-14"/>
-      </div>
-      {/* Form Details */}
-      <form onSubmit={onSubmit}>
-        <InputFields
-          name="name"
-          label="Full Name"
-          type="text"
-          register={register}
-          error={errors.name}
-          placeholder="John Doe"
-        />
-        <InputFields
-          name="email"
-          label="Email Address"
-          type="email"
-          register={register}
-          error={errors.email}
-          placeholder="Johndoe@gmail.com"
-        />
-        <InputFields
-          name="password"
-          label="Password"
-          type="password"
-          register={register}
-          error={errors.password}
-        />
-        <InputFields
-          name="phoneNumber"
-          label="PhoneNumber"
-          type="text"
-          register={register}
-          error={errors.phoneNumber}
-        />
-        <div className="flex gap-2 my-2 p-2">
-          <span onClick={() => handleCheck()} className="flex justify-center items-center w-6 h-6 border border-black rounded-md cursor-pointer">
-            <FaCheck style={ checkBox === false ? { visibility: "hidden" } : { visibility: "visible" }}/>
-          </span>
-          <p>I want to receive updates through this email.</p>
+    <div className="h-screen p-6 flex justify-center items-center relative overflow-hidden">
+      <div className="w-[512px] rounded-md shadow-lg shadow-gray-300 p-10">
+        <div className="flex gap-4 justify-center">
+          <img src="/logo/logo-white.png" alt="" className="w-48 h-14"/>
         </div>
-        <button className="w-full h-12 rounded-full bg-black text-white font-semibold my-4 active:bg-white active:border active:border-black active:text-black">Sign Up</button>
-      </form>
-      {/* Auth0Options */}
-      <Auth0Options
-        auth={"signup"}
+        {/* Form Details */}
+        <form onSubmit={onSubmit}>
+          <InputFields
+            name="name"
+            label="Full Name"
+            type="text"
+            register={register}
+            error={errors.name}
+            placeholder="John Doe"
+          />
+          <InputFields
+            name="email"
+            label="Email Address"
+            type="email"
+            register={register}
+            error={errors.email}
+            placeholder="Johndoe@gmail.com"
+          />
+          <InputFields
+            name="password"
+            label="Password"
+            type="password"
+            register={register}
+            error={errors.password}
+          />
+          <InputFields
+            name="phoneNumber"
+            label="PhoneNumber"
+            type="text"
+            register={register}
+            error={errors.phoneNumber}
+          />
+          <div className="flex gap-2 my-2 p-2">
+            <span onClick={() => handleCheck()} className="flex justify-center items-center w-6 h-6 border border-black rounded-md cursor-pointer">
+              <FaCheck style={ checkBox === false ? { visibility: "hidden" } : { visibility: "visible" }}/>
+            </span>
+            <p>I want to receive updates through this email.</p>
+          </div>
+          <button className="w-full h-12 rounded-full bg-black text-white font-semibold my-4 active:bg-white active:border active:border-black active:text-black">Sign Up</button>
+        </form>
+        {/* Auth0Options */}
+        <Auth0Options
+          auth={"signup"}
+        />
+      </div>
+      <ErrorNotification
+        action={"Sign Up"}
+        failed={failed}
       />
     </div>
   )
