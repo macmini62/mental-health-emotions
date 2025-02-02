@@ -2,12 +2,14 @@
 
 import MultipleInputSelect from "@/app/components/createComponents/multipleInputSelect";
 import SingleInputSelect from "@/app/components/createComponents/singleInputSelect";
-import { Button, Checkbox, FormControlLabel, styled } from "@mui/material";
+import { Box, Button, Checkbox, CircularProgress, Fab, FormControlLabel, styled } from "@mui/material";
+import { green, grey } from "@mui/material/colors";
 import Link from "next/link";
 import * as React from "react";
 import { FaCheckCircle, FaRegCircle } from "react-icons/fa";
 import { MdCheckBox, MdDeleteOutline, MdOutlineCheckBoxOutlineBlank, MdOutlineFileUpload } from "react-icons/md";
 import { SlOptions } from "react-icons/sl";
+import { IoMdCheckmark } from "react-icons/io";
 
 const buttonStyle = {
   backgroundColor: "transparent",
@@ -68,6 +70,43 @@ const CreateVideo = () => {
     }
   }
 
+  // video upload buttons.
+  const [loading, setLoading] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
+  const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  const buttonSx = {
+    width: 200,
+    height: 200,
+    "&:hover": {
+      bgcolor: grey[200]
+    },
+    backgroundColor: "white",
+    ...(success && {
+      bgcolor: green[500],
+      "&:hover": {
+        bgcolor: green[700],
+      },
+    }),
+  };
+
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+
+  const handleButton = () => {
+    if (!loading) {
+      setSuccess(false);
+      setLoading(true);
+      timer.current = setTimeout(() => {
+        setSuccess(true);
+        setLoading(false);
+      }, 2000);
+    }
+  };
+
   return (
     <div className="w-1/2 p-2 h-screen">
       {/* HEADER */}
@@ -84,26 +123,35 @@ const CreateVideo = () => {
       {
         !video &&
         <div className="px-4 pb-6 flex flex-col gap-6 justify-center items-center h-[calc(100%-60px)] w-full">
-          <div
-            className="w-52 h-52 rounded-full border-8 border-black flex flex-col gap-2 items-center justify-center cursor-pointer bg-slate-100"
-            onClick={() => handleButtonClick()}
-          >
-            <button
-              className="max-w-fit p-2 rounded-full hover:text-black"
+          <Box sx={{ m: 1, position: "relative", display: "flex", alignItems: "center", justifyContent: "center"}}>
+            <Fab
+              aria-label="save"
+              sx={buttonSx}
+              onClick={() => handleButton()}
             >
-              <MdOutlineFileUpload className="w-24 h-24"/>
-              <VisuallyHiddenInput
-                type="file"
-                ref={fileInputRef}
-                onChange={(event) => handleVideoUpload(event.target.files)}
+              {success ? <IoMdCheckmark className="w-24 h-24 text-white"/> : <MdOutlineFileUpload className="w-24 h-24"/>}
+            </Fab>
+            {loading && (
+              <CircularProgress
+                size={215}
+                sx={{
+                  color: green[500],
+                  position: "absolute",
+                  zIndex: 1,
+                }}
               />
-            </button>
-          </div>
+            )}
+          </Box>
+          <VisuallyHiddenInput
+            type="file"
+            ref={fileInputRef}
+            onChange={(event) => handleVideoUpload(event.target.files)}
+          />
           <p className="">Your videos will be private until you publish them</p>
           <div className="">
             <button
                 className="w-40 p-3 rounded-full text-white border border-black bg-black active:bg-transparent active:text-black"
-                onClick={() => handleButtonClick()}
+                onClick={() => handleButton()}
               >
                 Upload
                 <VisuallyHiddenInput
@@ -197,13 +245,13 @@ const CreateVideo = () => {
                 <p className="font-normal my-2">Do any of the following describe your content?</p>
                 <ol className="list-disc pl-10">
                   <li className="">
-                    Makes a real person appear to say or do something they didn't say or do
+                    Makes a real person appear to say or do something they didn"t say or do
                   </li>
                   <li className="">
                     Alters footage of a real event or place
                   </li>
                   <li className="">
-                    Generates a realistic-looking scene that didn't actually occur
+                    Generates a realistic-looking scene that didn"t actually occur
                   </li>
                 </ol>
                 <div className="flex flex-col my-2">
@@ -248,7 +296,7 @@ const CreateVideo = () => {
                 <h2 className="font-semibold text-xl">Language</h2>
                 <div className="">
                   <p className="my-4">
-                    Select your video's language(s)
+                    Select your video"s language(s)
                   </p>
                   <MultipleInputSelect/>
                 </div>
@@ -266,7 +314,7 @@ const CreateVideo = () => {
                 <h2 className="font-semibold text-xl">License</h2>
                 <div className="">
                   <p className="my-4">
-                    Select your video's language(s)
+                    Select your video"s language(s)
                   </p>
                   <SingleInputSelect/>
                   <div className="flex flex-col my-2">
