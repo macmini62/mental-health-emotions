@@ -33,6 +33,13 @@ const VisuallyHiddenInput = styled("input")({
 
 const CreateVideo = () => {
 
+  // file directory upload.
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  }
+
+  // Thumbnail upload handler.
   const [thumbnail, setThumbnail] = React.useState<object>();
 
   const handleUploadThumbnail = (thumData: FileList|null) => {
@@ -50,30 +57,10 @@ const CreateVideo = () => {
   const handleDeleteThumbnail = () => {
     setThumbnail({})
   }
-
-  // Video upload handler.
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const handleButtonClick = () => {
-    fileInputRef.current?.click();
-  }
-
-  const [video, setVideo] = React.useState<object>();
-  const handleVideoUpload = (vidData: FileList|null) => {
-    const selVid = vidData?.item(0);
-    console.log(selVid);
-    if(selVid !== null){
-      if(selVid?.type.split("/")[0] === "video"){
-        setVideo(selVid);
-      }else{
-        console.log("File uploaded must be a video!!");
-      }
-    }
-  }
-
+ 
   // video upload buttons.
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
-  const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const buttonSx = {
     width: 200,
@@ -89,23 +76,27 @@ const CreateVideo = () => {
       },
     }),
   };
+  
+  // Video upload handler.
 
-  React.useEffect(() => {
-    return () => {
-      clearTimeout(timer.current);
-    };
-  }, []);
-
-  const handleButton = () => {
-    if (!loading) {
-      setSuccess(false);
-      setLoading(true);
-      timer.current = setTimeout(() => {
-        setSuccess(true);
+  const [video, setVideo] = React.useState<object>();
+  const handleVideoUpload = (vidData: FileList|null) => {
+    setLoading(true);
+    const selVid = vidData?.item(0);
+    console.log(selVid);
+    if(selVid !== null){
+      if(selVid?.type.split("/")[0] === "video"){
+        setVideo(selVid);
         setLoading(false);
-      }, 2000);
+        setSuccess(true);
+      }else{
+        console.log("File uploaded must be a video!!");
+        setLoading(false);
+        setSuccess(false);
+      }
     }
-  };
+  }
+
 
   return (
     <div className="w-1/2 p-2 h-screen">
@@ -127,7 +118,7 @@ const CreateVideo = () => {
             <Fab
               aria-label="save"
               sx={buttonSx}
-              onClick={() => handleButton()}
+              onClick={() => handleButtonClick()}
             >
               {success ? <IoMdCheckmark className="w-24 h-24 text-white"/> : <MdOutlineFileUpload className="w-24 h-24"/>}
             </Fab>
@@ -151,7 +142,7 @@ const CreateVideo = () => {
           <div className="">
             <button
                 className="w-40 p-3 rounded-full text-white border border-black bg-black active:bg-transparent active:text-black"
-                onClick={() => handleButton()}
+                onClick={() => handleButtonClick()}
               >
                 Upload
                 <VisuallyHiddenInput
@@ -377,7 +368,7 @@ const CreateVideo = () => {
             </div>
           </div>
           <div className="w-full flex justify-end my-2">
-          <button className="w-40 text-white bg-black px-5 py-2 rounded-full active:text-black active:bg-white border border-black">
+          <button className="w-48 h-12 bg-black rounded-full active:bg-white active:border border-black active:text-black text-white">
             Submit
           </button>
           </div>
