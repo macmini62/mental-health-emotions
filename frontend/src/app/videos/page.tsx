@@ -1,4 +1,6 @@
- 
+"use client"
+
+import * as React from "react";
 import Link from "next/link";
 import { FiEdit } from "react-icons/fi";
 import { GoBell, GoDotFill } from "react-icons/go";
@@ -7,8 +9,23 @@ import { IoAdd, IoSearchOutline } from "react-icons/io5";
 import { SlOptionsVertical } from "react-icons/sl";
 import Menu from "../components/sideMenu/menu";
 import Footer from "../components/footerOptions/footer";
+import LoadingSkeleton from "../components/loadings/loadingSkeleton";
+
+const SKELETONS = 8;
 
 const Videos = () => {
+
+  // Video loading skeletons.
+  const [skeletons, setSkeletons] = React.useState<Array<React.JSX.Element>>([]);
+  React.useEffect(() => {
+    setSkeletons((s: Array<React.JSX.Element>) => {
+      for(let i = 0; i < SKELETONS; i++){
+        s.push(<LoadingSkeleton/>);
+      }
+      return [...s];
+    });
+  }, []);
+
   return (
     <div className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
       {/* HEADER */}
@@ -38,7 +55,7 @@ const Videos = () => {
         {/* CONTENT SECTION */}
         <div className="w-[1114px] max-h-fit py-4">
           {/* section header */}
-          <div className="flex pt-6 px-14 sticky top-16 overflow-visible text-nowrap bg-white border-b border-gray-300 shadow-sm">
+          <div className="flex pt-6 px-14 sticky z-10 top-16 overflow-visible text-nowrap bg-white border-b border-gray-300 shadow-sm">
             <Link href="/"><button className="group absolute left-2"><IoAdd className="w-8 h-8 pb-2 group-hover:text-black"/></button></Link>
             <button className="group absolute left-2 invisible"><IoIosArrowBack className="w-8 h-8 pb-2 group-hover:text-black"/></button>
             <div className="flex overflow-hidden shadow-3xl">
@@ -68,7 +85,14 @@ const Videos = () => {
           </div>
           {/* <hr className="w-full border-gray-300" /> */}
           {/* contents */}
-            <div className="w-full flex flex-wrap col-span-4 gap-y-6 justify-between mt-6">
+            <div className="w-full flex flex-wrap col-span-4 gap-7 mt-6">
+              {
+                skeletons.map((s: React.JSX.Element, i: number) => (
+                  <React.Fragment key={i}>
+                    {s}
+                  </React.Fragment>
+                ))
+              }
               <div className="w-[260px] hover:shadow-md rounded-b-md">
                 <Link href="/videos"><img src="/calm/calm2.webp" alt="" className="h-[150px] w-full rounded-md" /></Link>
                 <div className="w-full flex justify-between my-4 px-1">
@@ -78,7 +102,7 @@ const Videos = () => {
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
-                  <SlOptionsVertical className="w-5 h-5 hover:text-black"/>
+                  <SlOptionsVertical className="w-5 h-5 hover:text-black cursor-pointer"/>
                 </div>
               </div>
               <div className="w-[260px] hover:shadow-md rounded-b-md">
@@ -90,7 +114,7 @@ const Videos = () => {
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
-                  <SlOptionsVertical className="w-5 h-5 hover:text-black"/>
+                  <SlOptionsVertical className="w-5 h-5 hover:text-black cursor-pointer"/>
                 </div>
               </div>
               <div className="w-[260px] hover:shadow-md rounded-b-md">
@@ -102,7 +126,7 @@ const Videos = () => {
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
-                  <SlOptionsVertical className="w-5 h-5 hover:text-black"/>
+                  <SlOptionsVertical className="w-5 h-5 hover:text-black cursor-pointer"/>
                 </div>
               </div>
               <div className="w-[260px] hover:shadow-md rounded-b-md">
@@ -114,7 +138,7 @@ const Videos = () => {
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
-                  <SlOptionsVertical className="w-5 h-5 hover:text-black"/>
+                  <SlOptionsVertical className="w-5 h-5 hover:text-black cursor-pointer"/>
                 </div>
               </div>
               <div className="w-[260px] hover:shadow-md rounded-b-md">
@@ -126,7 +150,7 @@ const Videos = () => {
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
-                  <SlOptionsVertical className="w-5 h-5 hover:text-black"/>
+                  <SlOptionsVertical className="w-5 h-5 hover:text-black cursor-pointer"/>
                 </div>
               </div>
             </div>
