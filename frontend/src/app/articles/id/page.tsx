@@ -1,5 +1,7 @@
- 
+"use client"
+
 import Footer from "@/app/components/footerOptions/footer";
+import LoadingBar from "@/app/components/loadings/loadingBar";
 import Link from "next/link";
 import { BsDot } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
@@ -12,7 +14,7 @@ const Post = () => {
   return (
     <div className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
       {/* HEADER */}
-      <div className="w-full flex justify-between py-3 px-4 border-b-2 fixed z-50 left-0 top-0 bg-white shadow-sm">
+      <div className="w-full flex justify-between py-3 px-4 border-b-2 sticky z-10 left-0 top-0 bg-white shadow-sm">
         <div className="flex gap-6 items-center">
           <Link href=""><img src="/logo/logo-white.png" alt="" className="w-36 h-10"/></Link>
           <div className="max-w-fit h-10 flex px-3 gap-3 items-center bg-gray-100 rounded-full group">
@@ -28,8 +30,11 @@ const Post = () => {
           <button><img src="/faces/face1.jpg" alt="" className="w-10 h-10 rounded-full hover:opacity-80"/></button>
         </div>
       </div>
+      <div className="w-full max-h-fit p-4 flex items-center justify-center">
+        <LoadingBar/>
+      </div>
       {/* ARTICLE */}
-      <article className="flex flex-col items-start w-1/3 mt-20 py-8 text-lg text-nowrap">
+      <article className="flex flex-col items-start w-1/3 py-8 text-lg text-nowrap">
         {/* heading */}
         <div className="w-full p-2">
           <h2 className="text-5xl text-black font-semibold my-3">366/366</h2>
