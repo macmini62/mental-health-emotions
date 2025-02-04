@@ -2,6 +2,8 @@ import Link from "next/link"
 import { FiEdit } from "react-icons/fi"
 import { GoBell, GoDotFill } from "react-icons/go"
 import { IoSearchOutline } from "react-icons/io5"
+import CreateOptions from "./dropDownOptions/createOptions"
+import UserOptions from "./dropDownOptions/userOptions"
 
 const Header = () => {
   return (
@@ -13,13 +15,9 @@ const Header = () => {
           <input type="text" name="" id="" className="px-2 w-52 outline-none bg-transparent group-focus-within:text-black" placeholder="Search"/>
         </div>
       </div>
-      <div className="w-56 flex justify-between items-center mr-2">
-        <Link href="/" className="max-w-fit flex items-center gap-2 hover:text-black">
-          <FiEdit className="w-7 h-7"/>
-          <p className="">Write</p>
-        </Link>
-        <Link href="/" className="relative"><GoBell className="w-7 h-7 hover:text-black"/><GoDotFill className="animate-ping absolute w-3 h-3 bottom-0 -right-1 text-black"/></Link>
-        <button><img src="/faces/face1.jpg" alt="" className="w-10 h-10 rounded-full hover:opacity-80"/></button>
+      <div className="max-w-fit flex gap-6 items-center mr-2">
+        <CreateOptions/>
+        <UserOptions/>
       </div>
     </div>
   )
