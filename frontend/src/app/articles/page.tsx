@@ -1,6 +1,5 @@
  "use client"
 
-
 import Link from "next/link";
 import { CiCircleMinus } from "react-icons/ci";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
@@ -12,8 +11,10 @@ import { SlOptions } from "react-icons/sl";
 import { TbMessageCircle, TbMessageCircleFilled } from "react-icons/tb";
 import Menu from "../components/sideMenu/menu";
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import Footer from "../components/footerOptions/footer";
+import LoadingBar from "../components/loadings/loadingBar";
+import ErrorNotification from "../components/notifications/notificationAlert";
 
 interface topic {
   _id: string,
@@ -21,16 +22,31 @@ interface topic {
 }
 
 const Articles = () => {
-  const [topics, setTopics] = React.useState<topic[]>([]);
+
+  const [loading, setLoading] = React.useState<boolean>(false);
   
+  const [fetchFailed, setFetchFailed] = React.useState<boolean>(false);
+  const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined);
+  useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    }
+  });
+  timer.current = setTimeout(() => {
+    setFetchFailed(false);
+  }, 10000);
+
   // Load topics data
+  const [topics, setTopics] = React.useState<topic[]>([]);
   React.useEffect(() => {
+    setLoading(true);
     axios.get(`http://localhost:3001/topics?size=${10}`)
     .then((res) => {
       setTopics(res.data);
     })
     .catch((err) => {
       console.log(err);
+      setFetchFailed(true);
     });
   }, []);
 
@@ -93,6 +109,21 @@ const Articles = () => {
             <button className="group absolute right-2"><IoIosArrowForward className="w-8 h-8 pb-2 group-hover:text-black"/></button>
           </div>
           {/* <hr className="w-full border-gray-300" /> */}
+          {
+
+            <div className="flex items-center justify-center my-8 relative">
+              <LoadingBar/>
+            </div>
+          }
+          {
+                fetchFailed &&
+                <div className="w-full flex justify-center">
+                  <ErrorNotification
+                    action={"Fetch Articles"}
+                    failed={fetchFailed}
+                  />
+                </div>
+              }
           {/* contents */}
           <ul className="mt-4">
             <li className="py-8 border-b border-gray-300">

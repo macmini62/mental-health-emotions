@@ -268,13 +268,13 @@ const CreateVideo = () => {
                 <p className="font-normal my-2">Do any of the following describe your content?</p>
                 <ol className="list-disc pl-10">
                   <li className="">
-                    Makes a real person appear to say or do something they didn"t say or do
+                    Makes a real person appear to say or do something they didn't say or do
                   </li>
                   <li className="">
                     Alters footage of a real event or place
                   </li>
                   <li className="">
-                    Generates a realistic-looking scene that didn"t actually occur
+                    Generates a realistic-looking scene that didn't actually occur
                   </li>
                 </ol>
                 <div className="flex flex-col my-2">
@@ -337,7 +337,7 @@ const CreateVideo = () => {
                 <h2 className="font-semibold text-xl">License</h2>
                 <div className="">
                   <p className="my-4">
-                    Select your video"s language(s)
+                    Select your video's language(s)
                   </p>
                   <SingleInputSelect/>
                   <div className="flex flex-col my-2">

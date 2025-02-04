@@ -10,10 +10,12 @@ import { SlOptionsVertical } from "react-icons/sl";
 import Menu from "../components/sideMenu/menu";
 import Footer from "../components/footerOptions/footer";
 import LoadingSkeleton from "../components/loadings/loadingSkeleton";
+import ErrorNotification from "../components/notifications/notificationAlert";
 
 const SKELETONS = 8;
 
 const Videos = () => {
+
 
   // Video loading skeletons.
   const [skeletons, setSkeletons] = React.useState<Array<React.JSX.Element>>([]);
@@ -85,14 +87,14 @@ const Videos = () => {
           </div>
           {/* <hr className="w-full border-gray-300" /> */}
           {/* contents */}
-            <div className="w-full flex flex-wrap col-span-4 gap-7 mt-6">
-              {
+            <div className="w-full flex flex-wrap col-span-4 gap-7 mt-6 relative">
+              {/* {
                 skeletons.map((s: React.JSX.Element, i: number) => (
                   <React.Fragment key={i}>
                     {s}
                   </React.Fragment>
                 ))
-              }
+              } */}
               <div className="w-[260px] hover:shadow-md rounded-b-md">
                 <Link href="/videos"><img src="/calm/calm2.webp" alt="" className="h-[150px] w-full rounded-md" /></Link>
                 <div className="w-full flex justify-between my-4 px-1">
