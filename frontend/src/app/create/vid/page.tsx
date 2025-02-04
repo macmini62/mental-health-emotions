@@ -10,6 +10,8 @@ import { FaCheckCircle, FaRegCircle } from "react-icons/fa";
 import { MdCheckBox, MdDeleteOutline, MdOutlineCheckBoxOutlineBlank, MdOutlineFileUpload } from "react-icons/md";
 import { SlOptions } from "react-icons/sl";
 import { IoMdCheckmark } from "react-icons/io";
+import ErrorNotification from "@/app/components/notifications/notificationAlert";
+import { FiAlertTriangle } from "react-icons/fi";
 
 const buttonStyle = {
   backgroundColor: "transparent",
@@ -50,6 +52,10 @@ const CreateVideo = () => {
         setThumbnail(selThumb);
       }else{
         console.log("File uploaded must be an image!!");
+        setFailed(true);
+        timer.current = setTimeout(() => {
+          setFailed(false);
+        }, 5000);
       }
     }
   }
@@ -59,8 +65,8 @@ const CreateVideo = () => {
   }
  
   // video upload buttons.
-  const [loading, setLoading] = React.useState(false);
-  const [success, setSuccess] = React.useState(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [success, setSuccess] = React.useState<boolean>(false);
 
   const buttonSx = {
     width: 200,
@@ -76,9 +82,17 @@ const CreateVideo = () => {
       },
     }),
   };
+
+  // handles the error feedback.
+  const[failed, setFailed] = React.useState<boolean>(false);
+  const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined);
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
   
   // Video upload handler.
-
   const [video, setVideo] = React.useState<object>();
   const handleVideoUpload = (vidData: FileList|null) => {
     setLoading(true);
@@ -86,20 +100,27 @@ const CreateVideo = () => {
     console.log(selVid);
     if(selVid !== null){
       if(selVid?.type.split("/")[0] === "video"){
-        setVideo(selVid);
-        setLoading(false);
-        setSuccess(true);
+        timer.current = setTimeout(() => {
+          setLoading(false);
+          setSuccess(true);
+        }, 6000);
+        timer.current = setTimeout(() => {
+          setVideo(selVid);
+        }, 10000);
       }else{
         console.log("File uploaded must be a video!!");
         setLoading(false);
         setSuccess(false);
+        setFailed(true);
+        timer.current = setTimeout(() => {
+          setFailed(false);
+        }, 5000);
       }
     }
   }
 
-
   return (
-    <div className="w-1/2 p-2 h-screen">
+    <div className="w-1/2 p-2">
       {/* HEADER */}
       <header className="flex justify-between border-b-2 border-black px-2 sticky top-0 z-10 w-full bg-white">
         <div className="">
@@ -113,7 +134,7 @@ const CreateVideo = () => {
       {/* upload section */}
       {
         !video &&
-        <div className="px-4 pb-6 flex flex-col gap-6 justify-center items-center h-[calc(100%-60px)] w-full">
+        <div className="flex flex-col gap-6 justify-center items-center h-[calc(100%-60px)] relative">
           <Box sx={{ m: 1, position: "relative", display: "flex", alignItems: "center", justifyContent: "center"}}>
             <Fab
               aria-label="save"
@@ -130,8 +151,8 @@ const CreateVideo = () => {
                   position: "absolute",
                   zIndex: 1,
                 }}
-              />
-            )}
+                />
+              )}
           </Box>
           <VisuallyHiddenInput
             type="file"
@@ -152,6 +173,10 @@ const CreateVideo = () => {
                 />
             </button>
           </div>
+          <ErrorNotification
+            action={"Upload Video"}
+            failed={failed}
+          />
         </div>
       }
       {/* editing section*/}
@@ -223,6 +248,13 @@ const CreateVideo = () => {
                     }
                   </div>
                 </div>
+                {
+                  failed &&
+                  <div className="flex gap-2 items-center">
+                    <FiAlertTriangle className="text-red-500"/>
+                    <p className="text-sm text-red-500">Failed to upload thumbnail</p>
+                  </div>
+                }
               </div>
               <div className="w-full">
                 <h2 className="font-semibold text-xl">Playlist</h2>
@@ -368,9 +400,9 @@ const CreateVideo = () => {
             </div>
           </div>
           <div className="w-full flex justify-end my-2">
-          <button className="w-48 h-12 bg-black rounded-full active:bg-white active:border border-black active:text-black text-white">
-            Submit
-          </button>
+            <button className="w-48 h-12 bg-black rounded-full active:bg-white active:border border-black active:text-black text-white">
+              Submit
+            </button>
           </div>
         </div>
       }
