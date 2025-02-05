@@ -1,11 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { CreateVideoDto } from './dto/create-video.dto';
-import { UpdateVideoDto } from './dto/update-video.dto';
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class VideosService {
-  create(createVideoDto: CreateVideoDto) {
-    return 'This action adds a new video';
+  create(createVideoDto) {
+    return "This action adds a new video";
   }
 
   findAll() {
@@ -16,7 +14,7 @@ export class VideosService {
     return `This action returns a #${id} video`;
   }
 
-  update(id: number, updateVideoDto: UpdateVideoDto) {
+  update(id: number, updateVideoDto) {
     return `This action updates a #${id} video`;
   }
 

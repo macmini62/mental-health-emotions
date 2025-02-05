@@ -4,7 +4,6 @@ import Link from "next/link";
 import { CiCircleMinus } from "react-icons/ci";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
-import { SlOptions } from "react-icons/sl";
 import { TbMessageCircle, TbMessageCircleFilled } from "react-icons/tb";
 import Menu from "../components/sideMenu/menu";
 import axios from "axios";
@@ -14,7 +13,7 @@ import LoadingBar from "../components/loadings/loadingBar";
 import ErrorNotification from "../components/notifications/notificationAlert";
 import Header from "../components/header";
 import ContentHeader from "../components/contentHeader";
-import MoreOptions from "../components/moreOptions";
+import ContentOptions from "../components/dropDownOptions/contentOptions";
 
 interface topic {
   _id: string,
@@ -134,7 +133,7 @@ const Articles = () => {
                         <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
                         <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button>
                         {/* <button><IoBookmark className="w-7 h-7 text-black"/></button> */}
-                        <MoreOptions
+                        <ContentOptions
                           type="article"
                         />
                       </div>
@@ -187,7 +186,7 @@ const Articles = () => {
                         <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
                         {/* <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button> */}
                         <button><IoBookmark className="w-7 h-7 text-black"/></button>
-                        <MoreOptions
+                        <ContentOptions
                           type="article"
                         />
                       </div>
@@ -240,7 +239,7 @@ const Articles = () => {
                         <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
                         {/* <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button> */}
                         <button><IoBookmark className="w-7 h-7 text-black"/></button>
-                        <MoreOptions
+                        <ContentOptions
                           type="article"
                         />
                       </div>
@@ -293,7 +292,7 @@ const Articles = () => {
                         <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
                         {/* <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button> */}
                         <button><IoBookmark className="w-7 h-7 text-black"/></button>
-                        <MoreOptions
+                        <ContentOptions
                           type="article"
                         />
                       </div>
@@ -346,7 +345,7 @@ const Articles = () => {
                         <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
                         {/* <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button> */}
                         <button><IoBookmark className="w-7 h-7 text-black"/></button>
-                        <MoreOptions
+                        <ContentOptions
                           type="article"
                         />
                       </div>
@@ -399,7 +398,7 @@ const Articles = () => {
                         <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
                         {/* <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button> */}
                         <button><IoBookmark className="w-7 h-7 text-black"/></button>
-                        <MoreOptions
+                        <ContentOptions
                           type="article"
                         />
                       </div>
@@ -452,7 +451,7 @@ const Articles = () => {
                         <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
                         {/* <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button> */}
                         <button><IoBookmark className="w-7 h-7 text-black"/></button>
-                        <MoreOptions
+                        <ContentOptions
                           type="article"
                         />
                       </div>

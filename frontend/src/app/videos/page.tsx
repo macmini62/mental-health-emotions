@@ -7,7 +7,7 @@ import Footer from "../components/footerOptions/footer";
 import LoadingSkeleton from "../components/loadings/loadingSkeleton";
 import Header from "../components/header";
 import ContentHeader from "../components/contentHeader";
-import MoreOptions from "../components/moreOptions";
+import ContentOptions from "../components/dropDownOptions/contentOptions";
 
 const SKELETONS = 8;
 
@@ -39,7 +39,7 @@ const Videos = () => {
           {/* content header */}
           <ContentHeader/>
           {/* contents */}
-            <div className="w-full flex flex-wrap col-span-4 justify-around mt-6 relative">
+            <div className="w-full flex flex-wrap col-span-4 gap-y-8 justify-around mt-6 relative">
               {/* {
                 skeletons.map((s: React.JSX.Element, i: number) => (
                   <React.Fragment key={i}>
@@ -49,84 +49,84 @@ const Videos = () => {
               } */}
               <div className="w-[350px] hover:shadow-md rounded-b-md">
                 <Link href="/videos"><img src="/calm/calm2.webp" alt="" className="h-[240px] w-full rounded-md" /></Link>
-                <div className="w-full flex justify-between gap-2 my-4 px-1">
+                <div className="w-full flex justify-between gap-2 my-4 px-2">
                   <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
                     <Link href="/videos"><h3 className="text-black font-bold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
-                  <MoreOptions
+                  <ContentOptions
                     type="video"
                   />
                 </div>
               </div>
               <div className="w-[350px] hover:shadow-md rounded-b-md">
                 <Link href="/videos"><img src="/calm/calm2.webp" alt="" className="h-[240px] w-full rounded-md" /></Link>
-                <div className="w-full flex justify-between gap-2 my-4 px-1">
+                <div className="w-full flex justify-between gap-2 my-4 px-2">
                   <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
                     <Link href="/videos"><h3 className="text-black font-bold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
-                  <MoreOptions
+                  <ContentOptions
                     type="video"
                   />
                 </div>
               </div>
               <div className="w-[350px] hover:shadow-md rounded-b-md">
                 <Link href="/videos"><img src="/calm/calm2.webp" alt="" className="h-[240px] w-full rounded-md" /></Link>
-                <div className="w-full flex justify-between gap-2 my-4 px-1">
+                <div className="w-full flex justify-between gap-2 my-4 px-2">
                   <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
                     <Link href="/videos"><h3 className="text-black font-bold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
-                  <MoreOptions
+                  <ContentOptions
                     type="video"
                   />
                 </div>
               </div>
               <div className="w-[350px] hover:shadow-md rounded-b-md">
                 <Link href="/videos"><img src="/calm/calm2.webp" alt="" className="h-[240px] w-full rounded-md" /></Link>
-                <div className="w-full flex justify-between gap-2 my-4 px-1">
+                <div className="w-full flex justify-between gap-2 my-4 px-2">
                   <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
                     <Link href="/videos"><h3 className="text-black font-bold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
-                  <MoreOptions
+                  <ContentOptions
                     type="video"
                   />
                 </div>
               </div>
               <div className="w-[350px] hover:shadow-md rounded-b-md">
                 <Link href="/videos"><img src="/calm/calm2.webp" alt="" className="h-[240px] w-full rounded-md" /></Link>
-                <div className="w-full flex justify-between gap-2 my-4 px-1">
+                <div className="w-full flex justify-between gap-2 my-4 px-2">
                   <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
                     <Link href="/videos"><h3 className="text-black font-bold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
-                  <MoreOptions
+                  <ContentOptions
                     type="video"
                   />
                 </div>
               </div>
               <div className="w-[350px] hover:shadow-md rounded-b-md">
                 <Link href="/videos"><img src="/calm/calm2.webp" alt="" className="h-[240px] w-full rounded-md" /></Link>
-                <div className="w-full flex justify-between gap-2 my-4 px-1">
+                <div className="w-full flex justify-between gap-2 my-4 px-2">
                   <Link href="/"><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full" /></Link>
                   <div className="text-sm w-2/3">
                     <Link href="/videos"><h3 className="text-black font-bold line-clamp-2 mb-1">Here is to the new year. Everything you might expect in this wonderful year.</h3></Link>
                     <Link href="/"><p className="my-1">eMotions</p></Link>
                     <p className="capitalize my-1">21 dec</p>
                   </div>
-                  <MoreOptions
+                  <ContentOptions
                     type="video"
                   />
                 </div>

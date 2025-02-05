@@ -10,7 +10,7 @@ exports.VideosService = void 0;
 const common_1 = require("@nestjs/common");
 let VideosService = class VideosService {
     create(createVideoDto) {
-        return 'This action adds a new video';
+        return "This action adds a new video";
     }
     findAll() {
         return `This action returns all videos`;
