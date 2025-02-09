@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
 import { TopicsService } from './topics.service';
-import { topic } from './interface/topic';
 import { Response } from 'express';
 
 @Controller('topics')
