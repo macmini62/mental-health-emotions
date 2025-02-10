@@ -9,9 +9,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const users_module_1 = require("./users/users.module");
-const topics_module_1 = require("./topics/topics.module");
-const registered_users_module_1 = require("./registered-users/registered-users.module");
+const topics_module_1 = require("./Resources/topics/topics.module");
+const professionals_module_1 = require("./Users/professionals/professionals.module");
+const seekers_module_1 = require("./Users/seekers/seekers.module");
 require("dotenv/config");
 let AppModule = class AppModule {
 };
@@ -20,9 +20,9 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URL),
-            users_module_1.UsersModule,
             topics_module_1.TopicsModule,
-            registered_users_module_1.RegisteredUsersModule
+            professionals_module_1.ProfessionalsModule,
+            seekers_module_1.SeekersModule
         ],
         controllers: [],
         providers: [],

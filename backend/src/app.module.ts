@@ -1,16 +1,16 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { UsersModule } from './users/users.module';
-import { TopicsModule } from './topics/topics.module';
-import { RegisteredUsersModule } from './registered-users/registered-users.module';
+import { TopicsModule } from './Resources/topics/topics.module';
+import { ProfessionalsModule } from './Users/professionals/professionals.module';
+import { SeekersModule } from './Users/seekers/seekers.module';
 import "dotenv/config";
 
 @Module({
   imports: [
     MongooseModule.forRoot(process.env.MONGODB_URL),
-    UsersModule,
     TopicsModule,
-    RegisteredUsersModule
+    ProfessionalsModule,
+    SeekersModule
   ],
   controllers: [],
   providers: [],
