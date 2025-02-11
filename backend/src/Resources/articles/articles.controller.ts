@@ -1,32 +1,44 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from "@nestjs/common";
+import { Controller, Get, Post, Param, Delete, Put, Body } from "@nestjs/common";
 import { ArticlesService } from "./articles.service";
+import { article } from "./interface/article.interface";
+import { response } from "express";
 
 @Controller("articles")
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   @Post()
-  create() {
-    return this.articlesService.create();
+  create(@Body() article: article) {
+    return this.articlesService.create(article);
   }
 
   @Get()
   findAll() {
-    return this.articlesService.findAll();
+    const res = this.articlesService.findAll();
+    console.log(res);
+
+    if(typeof(res) === "string"){
+      return response.status(200).json(res);
+    }
   }
 
   @Get(":id")
   findOne(@Param("id") id: string) {
-    return this.articlesService.findOne(+id);
+    const result = this.articlesService.findOne(id);
+    if(!result){
+      return response.status(500).send({ message: "Error in the server!" });
+    }
+    
+    return response.status(200).json(result);
   }
 
-  @Patch(":id")
-  update(@Param("id") id: string) {
-    return this.articlesService.update(+id, );
+  @Put(":id")
+  update(@Param("id") id: string, @Body() article: article) {
+    return this.articlesService.update(id, article);
   }
 
   @Delete(":id")
   remove(@Param("id") id: string) {
-    return this.articlesService.remove(+id);
+    return this.articlesService.deleteOne(id);
   }
 }

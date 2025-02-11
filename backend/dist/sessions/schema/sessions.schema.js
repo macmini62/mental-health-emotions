@@ -15,23 +15,23 @@ let Session = class Session {
 };
 exports.Session = Session;
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Session.prototype, "id", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Session.prototype, "userId", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: Date }),
+    (0, mongoose_1.Prop)({ type: Date, required: true }),
     __metadata("design:type", Object)
 ], Session.prototype, "date", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Session.prototype, "startTime", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Session.prototype, "endTime", void 0);
 exports.Session = Session = __decorate([

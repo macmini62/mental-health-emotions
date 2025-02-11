@@ -15,60 +15,68 @@ class Video {
 }
 exports.Video = Video;
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)
-], Video.prototype, "_id", void 0);
+], Video.prototype, "id", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Video.prototype, "title", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Video.prototype, "creatorName", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", Number)
-], Video.prototype, "duration", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], Video.prototype, "fileFormat", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", Array)
 ], Video.prototype, "tags", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", Number)
+], Video.prototype, "duration", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], Video.prototype, "fileFormat", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Video.prototype, "resolution", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Video.prototype, "bitrate", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Video.prototype, "uploadDate", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], Video.prototype, "copyrightInfo", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Video.prototype, "thumbnail", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", Number)
-], Video.prototype, "likes", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: Object }),
+    (0, mongoose_1.Prop)({
+        type: {}
+    }),
     __metadata("design:type", Object)
 ], Video.prototype, "technicalMetadata", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: Object }),
+    (0, mongoose_1.Prop)({
+        type: {}
+    }),
     __metadata("design:type", Object)
 ], Video.prototype, "administrativeMetadata", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: {
+            feedback: {
+                likes: Number,
+                comments: Number
+            }
+        },
+        required: true
+    }),
+    __metadata("design:type", Object)
+], Video.prototype, "feedback", void 0);
 exports.VideoSchema = mongoose_1.SchemaFactory.createForClass(Video);
 //# sourceMappingURL=video.schema.js.map

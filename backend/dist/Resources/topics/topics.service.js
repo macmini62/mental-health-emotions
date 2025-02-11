@@ -29,7 +29,7 @@ let TopicsService = class TopicsService {
                 const topicId = (0, uuid_1.v4)();
                 const exTopic = await this.TopicModel.exists({ name: data[i] });
                 if (exTopic === null) {
-                    await new this.TopicModel({ _id: topicId, name: data[i] }).save();
+                    await new this.TopicModel({ id: topicId, name: data[i] }).save();
                     createdTopics.push(data[i]);
                 }
                 else {

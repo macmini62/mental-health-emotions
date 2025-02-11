@@ -5,9 +5,10 @@ export type topicDocument = HydratedDocument<Topic>;
 
 @Schema()
 export class Topic{
-  @Prop({required:true})
-  _id: string
-  @Prop({required:true})
+  @Prop({ required: true })
+  id: string
+  
+  @Prop({ required: true })
   name: string
 }
 

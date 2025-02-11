@@ -3,15 +3,18 @@ export type ArticleDocument = HydratedDocument<Article>;
 export declare class Article {
     id: string;
     title: string;
+    content: string;
     creatorName: string;
-    Tags: string[];
+    tags: string[];
     uploadDate: string;
     thumbnail: {
         link: string;
         caption: string;
     };
-    copyrightInfo: string;
-    likes: number;
+    feedback: {
+        likes: number;
+        comments: number;
+    };
 }
 export declare const ArticleSchema: import("mongoose").Schema<Article, import("mongoose").Model<Article, any, any, any, import("mongoose").Document<unknown, any, Article> & Article & {
     _id: import("mongoose").Types.ObjectId;

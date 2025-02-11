@@ -7,23 +7,48 @@ export type ArticleDocument = HydratedDocument<Article>;
 export class Article{
   @Prop({ required: true, unique: true })
   id: string;
-  @Prop()
-  title: string
-  @Prop()
+  
+  @Prop({ required: true, unique: true })
+  title: string;
+
+  @Prop({ required: true })
+  content: string;
+  
+  @Prop({ required: true })
   creatorName: string
-  @Prop()
-  Tags: string[]
-  @Prop()
-  uploadDate: string
-  @Prop({ type: Object })
+  
+  @Prop({ required: true })
+  tags: string[];
+  
+  @Prop({ required: true })
+  uploadDate: string;
+  
+  @Prop({
+    type: {
+      thumbnail: {
+        link: String,
+        caption: String
+      }
+    }
+  })
   thumbnail: {
-    link: string
-    caption: string
+    link: string;
+    caption: string;
   }
-  @Prop()
-  copyrightInfo: string
-  @Prop()
-  likes: number
+
+  @Prop({
+    type: {
+      feedback: {
+        likes: Number,
+        comments: Number
+      }
+    },
+    required: true
+  })
+  feedback: {
+    likes: number,
+    comments: number
+  }
 }
 
 export const ArticleSchema = SchemaFactory.createForClass(Article);

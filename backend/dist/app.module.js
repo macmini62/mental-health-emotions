@@ -20,7 +20,7 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URL_LOCAL),
+            mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URL),
             topics_module_1.TopicsModule,
             professionals_module_1.ProfessionalsModule,
             seekers_module_1.SeekersModule,

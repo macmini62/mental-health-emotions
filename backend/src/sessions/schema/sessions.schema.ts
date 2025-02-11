@@ -5,19 +5,19 @@ export type SessionDocument = HydratedDocument<Session>;
 
 @Schema()
 export class Session{
-  @Prop()
+  @Prop({ required: true })
   id: string;
 
-  @Prop()
+  @Prop({ required: true })
   userId: string;
   
-  @Prop({ type: Date })
+  @Prop({ type: Date, required: true })
   date: Date;
 
-  @Prop()
+  @Prop({ required: true })
   startTime: string;
 
-  @Prop()
+  @Prop({ required: true })
   endTime: string;
 }
 

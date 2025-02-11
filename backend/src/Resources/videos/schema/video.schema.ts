@@ -4,34 +4,67 @@ import { HydratedDocument } from "mongoose";
 export type VideoDocument = HydratedDocument<Video>;
 
 export class Video{
-@Prop()
-_id: string
-@Prop()
-title: string
-@Prop()
-creatorName: string
-@Prop()
-duration: number
-@Prop()
-fileFormat: string
-@Prop()
-tags: string[]
-@Prop()
-resolution: string
-@Prop()
-bitrate: string
-@Prop()
-uploadDate: string
-@Prop()
-copyrightInfo: string
-@Prop()
-thumbnail: string
-@Prop()
-likes: number
-@Prop({ type: Object })
-technicalMetadata: {}
-@Prop({ type: Object })
-administrativeMetadata: {}
+  @Prop({ required: true, unique: true })
+  id: string
+
+  @Prop({ required: true })
+  title: string
+
+  @Prop({ required: true })
+  creatorName: string
+
+  @Prop({ required: true })
+  tags: string[]
+
+  @Prop({ required: true })
+  duration: number
+
+  @Prop({ required: true })
+  fileFormat: string
+
+  @Prop({ required: true })
+  resolution: string
+
+  @Prop({ required: true })
+  bitrate: string
+
+  @Prop({ required: true })
+  uploadDate: string
+
+  @Prop({ required: true })
+  thumbnail: string
+  
+  @Prop({
+    type: {
+      
+    }
+  })
+  technicalMetadata: {
+
+  }
+  
+  @Prop({
+    type: {
+      
+    }
+  })
+  administrativeMetadata: {
+    
+  }
+
+  @Prop({
+    type: {
+      feedback: {
+        likes: Number,
+        comments: Number
+      }
+    },
+    required: true
+  })
+  feedback: {
+    likes: number,
+    comments: number
+  }
 }
 
 export const VideoSchema = SchemaFactory.createForClass(Video);

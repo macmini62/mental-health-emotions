@@ -19,33 +19,48 @@ __decorate([
     __metadata("design:type", String)
 ], Article.prototype, "id", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)
 ], Article.prototype, "title", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], Article.prototype, "content", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Article.prototype, "creatorName", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", Array)
-], Article.prototype, "Tags", void 0);
+], Article.prototype, "tags", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Article.prototype, "uploadDate", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: Object }),
+    (0, mongoose_1.Prop)({
+        type: {
+            thumbnail: {
+                link: String,
+                caption: String
+            }
+        }
+    }),
     __metadata("design:type", Object)
 ], Article.prototype, "thumbnail", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], Article.prototype, "copyrightInfo", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", Number)
-], Article.prototype, "likes", void 0);
+    (0, mongoose_1.Prop)({
+        type: {
+            feedback: {
+                likes: Number,
+                comments: Number
+            }
+        },
+        required: true
+    }),
+    __metadata("design:type", Object)
+], Article.prototype, "feedback", void 0);
 exports.Article = Article = __decorate([
     (0, mongoose_1.Schema)()
 ], Article);

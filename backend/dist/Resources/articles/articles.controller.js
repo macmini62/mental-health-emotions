@@ -15,31 +15,41 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArticlesController = void 0;
 const common_1 = require("@nestjs/common");
 const articles_service_1 = require("./articles.service");
+const express_1 = require("express");
 let ArticlesController = class ArticlesController {
     constructor(articlesService) {
         this.articlesService = articlesService;
     }
-    create() {
-        return this.articlesService.create();
+    create(article) {
+        return this.articlesService.create(article);
     }
     findAll() {
-        return this.articlesService.findAll();
+        const res = this.articlesService.findAll();
+        console.log(res);
+        if (typeof (res) === "string") {
+            return express_1.response.status(200).json(res);
+        }
     }
     findOne(id) {
-        return this.articlesService.findOne(+id);
+        const result = this.articlesService.findOne(id);
+        if (!result) {
+            return express_1.response.status(500).send({ message: "Error in the server!" });
+        }
+        return express_1.response.status(200).json(result);
     }
-    update(id) {
-        return this.articlesService.update(+id);
+    update(id, article) {
+        return this.articlesService.update(id, article);
     }
     remove(id) {
-        return this.articlesService.remove(+id);
+        return this.articlesService.deleteOne(id);
     }
 };
 exports.ArticlesController = ArticlesController;
 __decorate([
     (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ArticlesController.prototype, "create", null);
 __decorate([
@@ -56,10 +66,11 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ArticlesController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Patch)(":id"),
+    (0, common_1.Put)(":id"),
     __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], ArticlesController.prototype, "update", null);
 __decorate([
