@@ -1,26 +1,31 @@
-import { Injectable } from '@nestjs/common';
-import { CreateSessionDto } from './dto/create-session.dto';
-import { UpdateSessionDto } from './dto/update-session.dto';
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Session } from "./schema/sessions.schema";
+import { Model } from "mongoose";
 
 @Injectable()
 export class SessionsService {
-  create(createSessionDto: CreateSessionDto) {
-    return 'This action adds a new session';
+  constructor(
+    @InjectModel(Session.name) private SessionModel: Model<Session>
+  ){}
+
+  create() {
+
   }
 
   findAll() {
-    return `This action returns all sessions`;
+
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} session`;
+
   }
 
-  update(id: number, updateSessionDto: UpdateSessionDto) {
-    return `This action updates a #${id} session`;
+  update(id: number) {
+
   }
 
   remove(id: number) {
-    return `This action removes a #${id} session`;
+
   }
 }

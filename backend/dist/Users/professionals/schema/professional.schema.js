@@ -17,6 +17,10 @@ exports.Professional = Professional;
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
+], Professional.prototype, "userURL", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
 ], Professional.prototype, "id", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
@@ -39,6 +43,10 @@ __decorate([
     __metadata("design:type", String)
 ], Professional.prototype, "profession", void 0);
 __decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Professional.prototype, "institution", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", Boolean)
 ], Professional.prototype, "permissions", void 0);
@@ -53,13 +61,11 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({
         type: {
-            url: { type: String, required: true },
-            height: { type: Number, required: true },
-            width: { type: Number, required: true },
+            image: { type: String, required: true }
         }
     }),
     __metadata("design:type", Object)
-], Professional.prototype, "image", void 0);
+], Professional.prototype, "profile", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
         type: {

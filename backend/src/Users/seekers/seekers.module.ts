@@ -1,9 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
-import { Seeker, SeekerSchema } from './schema/seeker.schema';
-import { MongooseModule } from '@nestjs/mongoose';
-import { SeekerController } from './seekers.controller';
-import { SeekerService } from './seekers.service';
-import { SeekersMiddleware } from './seekers.middleware';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from "@nestjs/common";
+import { Seeker, SeekerSchema } from "./schema/seeker.schema";
+import { MongooseModule } from "@nestjs/mongoose";
+import { SeekerController } from "./seekers.controller";
+import { SeekerService } from "./seekers.service";
+import { SeekersMiddleware } from "./seekers.middleware";
 
 
 @Module({
@@ -11,6 +11,7 @@ import { SeekersMiddleware } from './seekers.middleware';
   providers: [SeekerService],
   imports: [MongooseModule.forFeature([{name: Seeker.name, schema: SeekerSchema}])]
 })
+
 export class SeekersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer

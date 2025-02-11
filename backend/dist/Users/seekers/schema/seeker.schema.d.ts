@@ -1,6 +1,7 @@
 import { HydratedDocument } from "mongoose";
 export type SeekerDocument = HydratedDocument<Seeker>;
 export declare class Seeker {
+    userURL: string;
     id: string;
     name: string;
     phoneNumber: string;
@@ -9,10 +10,9 @@ export declare class Seeker {
     permissions: false;
     joiningDate: string;
     lastActive: string;
-    image: {
-        url: string;
-        width: number;
-        height: number;
+    profile: {
+        nickname: string;
+        image: string;
     };
     contents: {
         topics: string[];

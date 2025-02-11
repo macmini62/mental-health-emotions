@@ -1,9 +1,11 @@
-import { CreateSessionDto } from './dto/create-session.dto';
-import { UpdateSessionDto } from './dto/update-session.dto';
+import { Session } from "./schema/sessions.schema";
+import { Model } from "mongoose";
 export declare class SessionsService {
-    create(createSessionDto: CreateSessionDto): string;
-    findAll(): string;
-    findOne(id: number): string;
-    update(id: number, updateSessionDto: UpdateSessionDto): string;
-    remove(id: number): string;
+    private SessionModel;
+    constructor(SessionModel: Model<Session>);
+    create(): void;
+    findAll(): void;
+    findOne(id: number): void;
+    update(id: number): void;
+    remove(id: number): void;
 }

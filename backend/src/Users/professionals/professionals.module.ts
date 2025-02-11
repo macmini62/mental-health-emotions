@@ -11,6 +11,7 @@ import { ProfessionalsMiddleware } from "./professionals.middleware";
   providers: [ProfessionalService],
   imports: [MongooseModule.forFeature([{name: Professional.name, schema: ProfessionalSchema}])]
 })
+
 export class ProfessionalsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer

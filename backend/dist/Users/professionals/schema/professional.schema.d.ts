@@ -1,19 +1,19 @@
 import { HydratedDocument } from "mongoose";
 export type ProfessionalDocument = HydratedDocument<Professional>;
 export declare class Professional {
+    userURL: string;
     id: string;
     name: string;
     phoneNumber: string;
     email: string;
     password: string;
     profession: string;
+    institution: string;
     permissions: true;
     joiningDate: string;
     lastActive: string;
-    image: {
-        url: string;
-        height: number;
-        width: number;
+    profile: {
+        image: string;
     };
     contents: {
         topics: string[];

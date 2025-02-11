@@ -17,6 +17,10 @@ exports.Seeker = Seeker;
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
+], Seeker.prototype, "userURL", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
 ], Seeker.prototype, "id", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
@@ -49,13 +53,12 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({
         type: {
-            url: { type: String, required: true },
-            width: { type: Number, required: true },
-            height: { type: Number, required: true },
+            nickname: { type: String, required: true },
+            image: { type: Number, required: true }
         }
     }),
     __metadata("design:type", Object)
-], Seeker.prototype, "image", void 0);
+], Seeker.prototype, "profile", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
         type: {

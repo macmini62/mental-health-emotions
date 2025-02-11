@@ -11,31 +11,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SessionsController = void 0;
 const common_1 = require("@nestjs/common");
 const sessions_service_1 = require("./sessions.service");
-const create_session_dto_1 = require("./dto/create-session.dto");
-const update_session_dto_1 = require("./dto/update-session.dto");
 let SessionsController = class SessionsController {
     constructor(sessionsService) {
         this.sessionsService = sessionsService;
     }
     create(createSessionDto) {
-        return this.sessionsService.create(createSessionDto);
     }
     findAll() {
         return this.sessionsService.findAll();
     }
     findOne(id) {
-        return this.sessionsService.findOne(+id);
     }
     update(id, updateSessionDto) {
-        return this.sessionsService.update(+id, updateSessionDto);
     }
     remove(id) {
-        return this.sessionsService.remove(+id);
     }
 };
 exports.SessionsController = SessionsController;
@@ -43,7 +36,7 @@ __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_a = typeof create_session_dto_1.CreateSessionDto !== "undefined" && create_session_dto_1.CreateSessionDto) === "function" ? _a : Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], SessionsController.prototype, "create", null);
 __decorate([
@@ -53,29 +46,29 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], SessionsController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], SessionsController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Patch)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, typeof (_b = typeof update_session_dto_1.UpdateSessionDto !== "undefined" && update_session_dto_1.UpdateSessionDto) === "function" ? _b : Object]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], SessionsController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Delete)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], SessionsController.prototype, "remove", null);
 exports.SessionsController = SessionsController = __decorate([
-    (0, common_1.Controller)('sessions'),
+    (0, common_1.Controller)("sessions"),
     __metadata("design:paramtypes", [sessions_service_1.SessionsService])
 ], SessionsController);
 //# sourceMappingURL=sessions.controller.js.map

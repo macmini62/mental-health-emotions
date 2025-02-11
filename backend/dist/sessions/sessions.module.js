@@ -10,13 +10,22 @@ exports.SessionsModule = void 0;
 const common_1 = require("@nestjs/common");
 const sessions_service_1 = require("./sessions.service");
 const sessions_controller_1 = require("./sessions.controller");
+const mongoose_1 = require("@nestjs/mongoose");
+const sessions_schema_1 = require("./schema/sessions.schema");
+const sessions_middleware_1 = require("./sessions.middleware");
 let SessionsModule = class SessionsModule {
+    configure(consumer) {
+        consumer
+            .apply(sessions_middleware_1.SessionsMiddleware)
+            .forRoutes({ path: "professionals/", method: common_1.RequestMethod.GET }, { path: "seekers/", method: common_1.RequestMethod.GET });
+    }
 };
 exports.SessionsModule = SessionsModule;
 exports.SessionsModule = SessionsModule = __decorate([
     (0, common_1.Module)({
         controllers: [sessions_controller_1.SessionsController],
         providers: [sessions_service_1.SessionsService],
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: sessions_schema_1.Session.name, schema: sessions_schema_1.SessionSchema }])]
     })
 ], SessionsModule);
 //# sourceMappingURL=sessions.module.js.map
