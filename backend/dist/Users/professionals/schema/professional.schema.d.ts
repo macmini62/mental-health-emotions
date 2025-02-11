@@ -7,11 +7,20 @@ export declare class Professional {
     email: string;
     password: string;
     profession: string;
-    permissions: boolean;
+    permissions: true;
+    joiningDate: string;
+    lastActive: string;
     image: {
         url: string;
         height: number;
         width: number;
+    };
+    contents: {
+        topics: string[];
+        bookmarks: {
+            articles: string[];
+            videos: string[];
+        };
     };
 }
 export declare const ProfessionalSchema: import("mongoose").Schema<Professional, import("mongoose").Model<Professional, any, any, any, import("mongoose").Document<unknown, any, Professional> & Professional & {

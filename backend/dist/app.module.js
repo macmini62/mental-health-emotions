@@ -12,6 +12,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const topics_module_1 = require("./Resources/topics/topics.module");
 const professionals_module_1 = require("./Users/professionals/professionals.module");
 const seekers_module_1 = require("./Users/seekers/seekers.module");
+const sessions_module_1 = require("./sessions/sessions.module");
 require("dotenv/config");
 let AppModule = class AppModule {
 };
@@ -19,10 +20,11 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URL),
+            mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URL_LOCAL),
             topics_module_1.TopicsModule,
             professionals_module_1.ProfessionalsModule,
-            seekers_module_1.SeekersModule
+            seekers_module_1.SeekersModule,
+            sessions_module_1.SessionsModule
         ],
         controllers: [],
         providers: [],

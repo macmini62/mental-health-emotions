@@ -43,16 +43,35 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Professional.prototype, "permissions", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], Professional.prototype, "joiningDate", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Professional.prototype, "lastActive", void 0);
+__decorate([
     (0, mongoose_1.Prop)({
         type: {
             url: { type: String, required: true },
             height: { type: Number, required: true },
             width: { type: Number, required: true },
-        },
-        required: true,
+        }
     }),
     __metadata("design:type", Object)
 ], Professional.prototype, "image", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: {
+            topics: { type: String },
+            bookmarks: {
+                articles: { type: String },
+                videos: { type: String }
+            },
+        }
+    }),
+    __metadata("design:type", Object)
+], Professional.prototype, "contents", void 0);
 exports.Professional = Professional = __decorate([
     (0, mongoose_1.Schema)()
 ], Professional);

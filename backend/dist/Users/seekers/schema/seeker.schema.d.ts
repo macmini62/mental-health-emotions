@@ -6,11 +6,20 @@ export declare class Seeker {
     phoneNumber: string;
     email: string;
     password: string;
-    permissions: boolean;
+    permissions: false;
+    joiningDate: string;
+    lastActive: string;
     image: {
         url: string;
         width: number;
         height: number;
+    };
+    contents: {
+        topics: string[];
+        bookmarks: {
+            articles: string[];
+            videos: string[];
+        };
     };
 }
 export declare const SeekerSchema: import("mongoose").Schema<Seeker, import("mongoose").Model<Seeker, any, any, any, import("mongoose").Document<unknown, any, Seeker> & Seeker & {

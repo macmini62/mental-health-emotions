@@ -6,6 +6,9 @@ export type SeekerDocument = HydratedDocument<Seeker>;
 @Schema()
 export class Seeker {
   @Prop({ required: true })
+  userURL: string;
+  
+  @Prop({ required: true })
   id: string;
 
   @Prop({ required: true })
@@ -31,16 +34,14 @@ export class Seeker {
 
   @Prop({
     type: {
-      url: { type: String, required: true },
-      width: { type: Number, required: true },
-      height: { type: Number, required: true },
+      nickname: { type: String, required: true },
+      image: { type: Number, required: true }
     }
   })
-  image: {
-    url: string;
-    width: number;
-    height: number;
-  };
+  profile: {
+    nickname: string;
+    image: string; 
+  }
 
   @Prop({
     type: {

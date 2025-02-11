@@ -39,16 +39,35 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Seeker.prototype, "permissions", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], Seeker.prototype, "joiningDate", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Seeker.prototype, "lastActive", void 0);
+__decorate([
     (0, mongoose_1.Prop)({
         type: {
             url: { type: String, required: true },
             width: { type: Number, required: true },
             height: { type: Number, required: true },
-        },
-        required: true,
+        }
     }),
     __metadata("design:type", Object)
 ], Seeker.prototype, "image", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: {
+            topics: { type: String },
+            bookmarks: {
+                articles: { type: String },
+                videos: { type: String }
+            },
+        }
+    }),
+    __metadata("design:type", Object)
+], Seeker.prototype, "contents", void 0);
 exports.Seeker = Seeker = __decorate([
     (0, mongoose_1.Schema)()
 ], Seeker);

@@ -6,6 +6,9 @@ export type ProfessionalDocument = HydratedDocument<Professional>;
 @Schema()
 export class Professional {
   @Prop({ required: true })
+  userURL: string;
+  
+  @Prop({ required: true })
   id: string;
 
   @Prop({ required: true })
@@ -23,6 +26,9 @@ export class Professional {
   @Prop({ required: true })
   profession: string;
 
+  @Prop()
+  institution: string;
+
   @Prop({ required: true })
   permissions: true;
   
@@ -34,17 +40,13 @@ export class Professional {
 
   @Prop({
     type: {
-      url: { type: String, required: true },
-      height: { type: Number, required: true },
-      width: { type: Number, required: true },
+      image: { type: String, required: true }
     }
   })
-  image: {
-    url: string;
-    height: number;
-    width: number;
-  };
-  
+  profile: {
+    image: string; 
+  }
+
   @Prop({
     type: {
       topics: { type: String },
