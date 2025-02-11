@@ -1,12 +1,11 @@
 import { HydratedDocument } from "mongoose";
 export type ArticleDocument = HydratedDocument<Article>;
 export declare class Article {
-    id: string;
+    _id: string;
     title: string;
     content: string;
     creatorName: string;
     tags: string[];
-    uploadDate: string;
     thumbnail: {
         link: string;
         caption: string;
@@ -16,12 +15,12 @@ export declare class Article {
         comments: number;
     };
 }
-export declare const ArticleSchema: import("mongoose").Schema<Article, import("mongoose").Model<Article, any, any, any, import("mongoose").Document<unknown, any, Article> & Article & {
-    _id: import("mongoose").Types.ObjectId;
-} & {
+export declare const ArticleSchema: import("mongoose").Schema<Article, import("mongoose").Model<Article, any, any, any, import("mongoose").Document<unknown, any, Article> & Article & Required<{
+    _id: string;
+}> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Article, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<Article>> & import("mongoose").FlatRecord<Article> & {
-    _id: import("mongoose").Types.ObjectId;
-} & {
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Article, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<Article>> & import("mongoose").FlatRecord<Article> & Required<{
+    _id: string;
+}> & {
     __v: number;
 }>;

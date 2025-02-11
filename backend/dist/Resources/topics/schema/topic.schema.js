@@ -11,19 +11,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TopicSchema = exports.Topic = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
+const uuid_1 = require("uuid");
 let Topic = class Topic {
 };
 exports.Topic = Topic;
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)({ required: true, type: String, default: (0, uuid_1.v4)(), unique: true }),
     __metadata("design:type", String)
-], Topic.prototype, "id", void 0);
+], Topic.prototype, "_id", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Topic.prototype, "name", void 0);
 exports.Topic = Topic = __decorate([
-    (0, mongoose_1.Schema)()
+    (0, mongoose_1.Schema)({ timestamps: true })
 ], Topic);
 exports.TopicSchema = mongoose_1.SchemaFactory.createForClass(Topic);
 //# sourceMappingURL=topic.schema.js.map

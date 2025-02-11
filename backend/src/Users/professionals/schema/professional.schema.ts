@@ -3,7 +3,7 @@ import { HydratedDocument } from "mongoose";
 
 export type ProfessionalDocument = HydratedDocument<Professional>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Professional {
   @Prop({ required: true })
   userURL: string;

@@ -9,7 +9,6 @@ export declare class Video {
     fileFormat: string;
     resolution: string;
     bitrate: string;
-    uploadDate: string;
     thumbnail: string;
     technicalMetadata: {};
     administrativeMetadata: {};

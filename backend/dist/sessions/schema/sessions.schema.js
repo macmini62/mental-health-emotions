@@ -35,7 +35,7 @@ __decorate([
     __metadata("design:type", String)
 ], Session.prototype, "endTime", void 0);
 exports.Session = Session = __decorate([
-    (0, mongoose_1.Schema)()
+    (0, mongoose_1.Schema)({ timestamps: true })
 ], Session);
 exports.SessionSchema = mongoose_1.SchemaFactory.createForClass(Session);
 //# sourceMappingURL=sessions.schema.js.map

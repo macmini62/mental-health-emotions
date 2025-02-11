@@ -3,7 +3,7 @@ import { Date, HydratedDocument } from "mongoose";
 
 export type SessionDocument = HydratedDocument<Session>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Session{
   @Prop({ required: true })
   id: string;

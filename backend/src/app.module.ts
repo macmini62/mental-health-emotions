@@ -8,7 +8,7 @@ import "dotenv/config";
 
 @Module({
   imports: [
-    // MongooseModule.forRoot(process.env.MONGODB_URL_LOCAL),
+    // MongooseModule.forRoot(process.env.MONGODB_URL_LOCAL, { autoIndex: false }),
     MongooseModule.forRoot(process.env.MONGODB_URL),
     TopicsModule,
     ProfessionalsModule,

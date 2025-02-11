@@ -79,7 +79,7 @@ __decorate([
     __metadata("design:type", Object)
 ], Professional.prototype, "contents", void 0);
 exports.Professional = Professional = __decorate([
-    (0, mongoose_1.Schema)()
+    (0, mongoose_1.Schema)({ timestamps: true })
 ], Professional);
 exports.ProfessionalSchema = mongoose_1.SchemaFactory.createForClass(Professional);
 //# sourceMappingURL=professional.schema.js.map

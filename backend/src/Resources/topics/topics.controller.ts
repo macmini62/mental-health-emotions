@@ -10,7 +10,9 @@ export class TopicsController {
   async add(@Body() data: string[], @Res() res: Response){
     const topic = await this.topicService.createTopic(data);
 
-    if(topic.at(0) !== undefined){
+    console.log(topic);
+
+    if(topic !== undefined){
       res.status(201).send(topic);
     }else{
       res.status(500).send({ message: "Failed to add the topic!!" });

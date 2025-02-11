@@ -11,13 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArticleSchema = exports.Article = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
+const uuid_1 = require("uuid");
 let Article = class Article {
 };
 exports.Article = Article;
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, unique: true }),
+    (0, mongoose_1.Prop)({ required: true, type: String, default: uuid_1.v4, unique: true }),
     __metadata("design:type", String)
-], Article.prototype, "id", void 0);
+], Article.prototype, "_id", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)
@@ -34,10 +35,6 @@ __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", Array)
 ], Article.prototype, "tags", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
-], Article.prototype, "uploadDate", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
         type: {
@@ -62,7 +59,7 @@ __decorate([
     __metadata("design:type", Object)
 ], Article.prototype, "feedback", void 0);
 exports.Article = Article = __decorate([
-    (0, mongoose_1.Schema)()
+    (0, mongoose_1.Schema)({ timestamps: true })
 ], Article);
 exports.ArticleSchema = mongoose_1.SchemaFactory.createForClass(Article);
 //# sourceMappingURL=article.schema.js.map

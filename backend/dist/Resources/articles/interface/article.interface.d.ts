@@ -1,10 +1,9 @@
 export interface article {
-    id: string;
+    _id: string;
     title: string;
     content: string;
     creatorName: string;
     tags: string[];
-    uploadDate: string;
     thumbnail: {
         link: string;
         caption: string;

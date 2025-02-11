@@ -72,7 +72,7 @@ __decorate([
     __metadata("design:type", Object)
 ], Seeker.prototype, "contents", void 0);
 exports.Seeker = Seeker = __decorate([
-    (0, mongoose_1.Schema)()
+    (0, mongoose_1.Schema)({ timestamps: true })
 ], Seeker);
 exports.SeekerSchema = mongoose_1.SchemaFactory.createForClass(Seeker);
 //# sourceMappingURL=seeker.schema.js.map

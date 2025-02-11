@@ -49,10 +49,6 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
-], Video.prototype, "uploadDate", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
 ], Video.prototype, "thumbnail", void 0);
 __decorate([
     (0, mongoose_1.Prop)({

@@ -1,13 +1,15 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
+import { v4 as uuidv4 } from "uuid";
 
 export type ArticleDocument = HydratedDocument<Article>;
 
-@Schema()
+@Schema({ timestamps: true })
+
 export class Article{
-  @Prop({ required: true, unique: true })
-  id: string;
-  
+  @Prop({ required: true, type: String, default: uuidv4, unique: true })
+  _id: string;
+
   @Prop({ required: true, unique: true })
   title: string;
 
@@ -19,9 +21,6 @@ export class Article{
   
   @Prop({ required: true })
   tags: string[];
-  
-  @Prop({ required: true })
-  uploadDate: string;
   
   @Prop({
     type: {

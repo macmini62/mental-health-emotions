@@ -29,9 +29,6 @@ export class Video{
   bitrate: string
 
   @Prop({ required: true })
-  uploadDate: string
-
-  @Prop({ required: true })
   thumbnail: string
   
   @Prop({

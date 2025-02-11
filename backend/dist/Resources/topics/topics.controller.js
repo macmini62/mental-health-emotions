@@ -21,7 +21,8 @@ let TopicsController = class TopicsController {
     }
     async add(data, res) {
         const topic = await this.topicService.createTopic(data);
-        if (topic.at(0) !== undefined) {
+        console.log(topic);
+        if (topic !== undefined) {
             res.status(201).send(topic);
         }
         else {
