@@ -26,16 +26,16 @@ const TitlePage = () => {
 
   React.useEffect(() => {
     if (title !== ""){
-      const userId = localStorage.getItem("userId");
-      console.log("Id", userId);
-      console.log("title:", title);
-      axios.put(`http://localhost:3001/users/id/c699086a-a8b9-4951-a107-69a9c7147a5f`,
-        {title: title}
-      ).then((res) => {
-          console.log(res);
-        }).catch((err) => {
-          console.log(err);
-        });
+      const data: string | null = localStorage.getItem("userData");
+      let userData: object = {};
+      if(data !== null){
+        userData = {
+          ...JSON.parse(data),
+          title: title
+        }
+        localStorage.setItem("userData", JSON.stringify(userData));
+      }
+      console.log(userData);
     }
   }, [title]);
 

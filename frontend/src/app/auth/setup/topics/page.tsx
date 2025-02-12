@@ -14,15 +14,16 @@ const TopicsPage = () => {
   const [topics, setTopics] = React.useState<topic[]>([]);
   const [selectedTopics, setSelectedTopics] = React.useState<string[]>([]);
 
-  const handleTopicSelect = (t: string) => {
-    if(selectedTopics.includes(t)){
+  const handleTopicSelect = (t: number) => {
+    console.log(t);
+    if(selectedTopics[t] !== undefined){
       setSelectedTopics((tp: string[]) => {
-        return tp.filter((top: string) => top !== t);
+        return tp.filter((top: string) => top !== selectedTopics[t]);
       })
     }
     else{
       setSelectedTopics((tp: string[]) => {
-        return [...tp, t];
+        return [...tp, topics[t]];
       });
     }
   };
@@ -32,6 +33,7 @@ const TopicsPage = () => {
     axios.get(`http://localhost:3001/topics?size=${15}`)
     .then((res) => {
       setTopics(res.data);
+      console.log(res);
     })
     .catch((err) => {
       console.log(err);
@@ -78,12 +80,12 @@ const TopicsPage = () => {
         <div className="flex flex-col items-center gap-10 w-full mt-12 mb-6">
           <div className="w-full justify-center flex flex-wrap gap-4">
             {
-              topics.map((tp: topic, index: number) => (
+              topics.map((tp: topic, i: number) => (
                 <div
                   className="text-sm py-4 px-14 rounded-full bg-gray-100 text-black capitalize cursor-pointer border-2 border-gray-100"
                   style={selectedTopics.includes(tp._id) == true ? {background: "transparent", borderColor: "black"} : {}}
-                  key={index}
-                  onClick={() => handleTopicSelect(tp._id)}
+                  key={i}
+                  onClick={() => handleTopicSelect(i)}
                 >
                   {tp.name}
                 </div>

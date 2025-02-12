@@ -20,16 +20,16 @@ const RolePage = () => {
 
   React.useEffect(() => {
     if (role !== ""){
-      const userId = localStorage.getItem("userId");
-      console.log("Id", userId);
-      console.log("role:", role);
-      axios.put(`http://localhost:3001/users/id/${userId}`,
-        {role: role}
-      ).then((res) => {
-          console.log(res);
-        }).catch((err) => {
-          console.log(err);
-        });
+      const data: string | null = localStorage.getItem("userData");
+      let userData: object = {};
+      if(data !== null){
+        userData = {
+          ...JSON.parse(data),
+          role: role
+        }
+        localStorage.setItem("userData", JSON.stringify(userData));
+      }
+      console.log(userData);
     }
   }, [role]);
 

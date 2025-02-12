@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const topics_module_1 = require("./Resources/topics/topics.module");
+const topics_module_1 = require("./resources/topics/topics.module");
 const professionals_module_1 = require("./users/professionals/professionals.module");
 const seekers_module_1 = require("./users/seekers/seekers.module");
 const sessions_module_1 = require("./sessions/sessions.module");

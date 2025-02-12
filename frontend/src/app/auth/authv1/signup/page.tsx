@@ -7,8 +7,8 @@ import { z } from "zod";
 import InputFields from "../../../components/authComponents/InputFields";
 import * as React from "react";
 import Auth0Options from "@/app/components/authComponents/Auth0Options";
-import axios from "axios";
 import ErrorNotification from "@/app/components/notifications/notificationAlert";
+import { useRouter } from "next/navigation";
  
 
 const schema = z.object({
@@ -51,22 +51,14 @@ const SignUpPage = () => {
   }, []);
 
   // Uploads user data
+  const router = useRouter();
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
-    await axios.post("http://localhost:3001/users/create", 
-      data
-    ).then((res) => {
-      console.log(res);
-      if(res.status === 201){
-        localStorage.setItem("userId", JSON.stringify(res.data._id));
-      }
-    }).catch((err) => {
-      console.log(err);
-      setFailed(true);
-      timer.current = setTimeout(() => {
-        setFailed(false);
-      }, 5000);
-    });
+    // Store the user data in the browser's local storage.
+    localStorage.setItem("userData", JSON.stringify(data));
+
+    // Reroute user to the details pages.
+    router.push("/auth/setup/role");
   });
 
   return (
