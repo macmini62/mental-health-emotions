@@ -10,9 +10,10 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const topics_module_1 = require("./Resources/topics/topics.module");
-const professionals_module_1 = require("./Users/professionals/professionals.module");
-const seekers_module_1 = require("./Users/seekers/seekers.module");
+const professionals_module_1 = require("./users/professionals/professionals.module");
+const seekers_module_1 = require("./users/seekers/seekers.module");
 const sessions_module_1 = require("./sessions/sessions.module");
+const users_module_1 = require("./users/users.module");
 require("dotenv/config");
 let AppModule = class AppModule {
 };
@@ -24,7 +25,8 @@ exports.AppModule = AppModule = __decorate([
             topics_module_1.TopicsModule,
             professionals_module_1.ProfessionalsModule,
             seekers_module_1.SeekersModule,
-            sessions_module_1.SessionsModule
+            sessions_module_1.SessionsModule,
+            users_module_1.UsersModule
         ],
         controllers: [],
         providers: [],

@@ -1,9 +1,10 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { TopicsModule } from "./Resources/topics/topics.module";
-import { ProfessionalsModule } from "./Users/professionals/professionals.module";
-import { SeekersModule } from "./Users/seekers/seekers.module";
+import { ProfessionalsModule } from "./users/professionals/professionals.module";
+import { SeekersModule } from "./users/seekers/seekers.module";
 import { SessionsModule } from "./sessions/sessions.module";
+import { UsersModule } from './users/users.module';
 import "dotenv/config";
 
 @Module({
@@ -13,7 +14,8 @@ import "dotenv/config";
     TopicsModule,
     ProfessionalsModule,
     SeekersModule,
-    SessionsModule
+    SessionsModule,
+    UsersModule
   ],
   controllers: [],
   providers: [],
