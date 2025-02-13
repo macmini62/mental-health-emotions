@@ -1,5 +1,5 @@
-import { TopicsService } from './topics.service';
-import { Response } from 'express';
+import { TopicsService } from "./topics.service";
+import { Response } from "express";
 export declare class TopicsController {
     private topicService;
     constructor(topicService?: TopicsService);

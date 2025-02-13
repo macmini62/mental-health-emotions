@@ -51,17 +51,14 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Professional.prototype, "permissions", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
-], Professional.prototype, "joiningDate", void 0);
-__decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Professional.prototype, "lastActive", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
         type: {
-            image: { type: String, required: true }
+            profileURL: { type: String, required: true },
+            imageURL: { type: Number, required: true }
         }
     }),
     __metadata("design:type", Object)

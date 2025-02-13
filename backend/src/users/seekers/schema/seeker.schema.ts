@@ -5,42 +5,39 @@ export type SeekerDocument = HydratedDocument<Seeker>;
 
 @Schema({ timestamps: true })
 export class Seeker {
-  @Prop({ required: true })
-  userURL: string;
   
   @Prop({ required: true, unique: true })
   id: string;
 
   @Prop({ required: true })
   name: string;
-
+  
   @Prop({ required: true, unique: true })
   phoneNumber: string;
-
+  
   @Prop({ required: true, unique: true })
   email: string;
-
+  
   @Prop({ required: true })
   password: string
-
+  
   @Prop({ required: true })
   permissions: false;
   
-  @Prop({ required: true })
-  joiningDate: string;
-
   @Prop()
   lastActive: string;
-
+  
   @Prop({
     type: {
+      profileURL: { type: String, required: true },
       nickname: { type: String, required: true },
-      image: { type: Number, required: true }
+      imageURL: { type: Number, required: true }
     }
   })
   profile: {
+    profileURL: string;
     nickname: string;
-    image: string; 
+    imageURL: string; 
   }
 
   @Prop({

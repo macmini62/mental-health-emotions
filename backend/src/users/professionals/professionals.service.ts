@@ -77,7 +77,6 @@ export class ProfessionalService {
       }else{
         return userId;
       }
-
     }catch(e){
       console.log(e)
     }

@@ -57,7 +57,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TopicsController.prototype, "fetch", null);
 exports.TopicsController = TopicsController = __decorate([
-    (0, common_1.Controller)('topics'),
+    (0, common_1.Controller)("topics"),
     __metadata("design:paramtypes", [topics_service_1.TopicsService])
 ], TopicsController);
 //# sourceMappingURL=topics.controller.js.map

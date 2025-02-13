@@ -31,20 +31,19 @@ export class Professional {
 
   @Prop({ required: true })
   permissions: true;
-  
-  @Prop({ required: true })
-  joiningDate: string;
 
   @Prop()
   lastActive: string;
 
   @Prop({
     type: {
-      image: { type: String, required: true }
+      profileURL: { type: String, required: true },
+      imageURL: { type: Number, required: true }
     }
   })
   profile: {
-    image: string; 
+    profileURL: string;
+    imageURL: string; 
   }
 
   @Prop({

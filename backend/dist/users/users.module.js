@@ -12,11 +12,14 @@ const users_service_1 = require("./users.service");
 const users_controller_1 = require("./users.controller");
 const professionals_module_1 = require("./professionals/professionals.module");
 const seekers_module_1 = require("./seekers/seekers.module");
+const professionals_controller_1 = require("./professionals/professionals.controller");
+const seekers_controller_1 = require("./seekers/seekers.controller");
+const users_middleware_1 = require("./users.middleware");
 let UsersModule = class UsersModule {
     configure(consumer) {
         consumer
-            .apply()
-            .forRoutes();
+            .apply(users_middleware_1.UsersMiddleware)
+            .forRoutes(professionals_controller_1.ProfessionalController, seekers_controller_1.SeekerController);
     }
 };
 exports.UsersModule = UsersModule;
@@ -24,7 +27,7 @@ exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
         controllers: [users_controller_1.UsersController],
         providers: [users_service_1.UsersService],
-        imports: [professionals_module_1.ProfessionalsModule, seekers_module_1.SeekersModule],
+        imports: [professionals_module_1.ProfessionalsModule, seekers_module_1.SeekersModule]
     })
 ], UsersModule);
 //# sourceMappingURL=users.module.js.map

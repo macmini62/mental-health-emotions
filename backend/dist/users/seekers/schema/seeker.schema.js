@@ -15,10 +15,6 @@ let Seeker = class Seeker {
 };
 exports.Seeker = Seeker;
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
-], Seeker.prototype, "userURL", void 0);
-__decorate([
     (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)
 ], Seeker.prototype, "id", void 0);
@@ -43,18 +39,15 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Seeker.prototype, "permissions", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
-], Seeker.prototype, "joiningDate", void 0);
-__decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Seeker.prototype, "lastActive", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
         type: {
+            profileURL: { type: String, required: true },
             nickname: { type: String, required: true },
-            image: { type: Number, required: true }
+            imageURL: { type: Number, required: true }
         }
     }),
     __metadata("design:type", Object)

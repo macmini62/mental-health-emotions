@@ -10,10 +10,10 @@ export declare class Professional {
     profession: string;
     institution: string;
     permissions: true;
-    joiningDate: string;
     lastActive: string;
     profile: {
-        image: string;
+        profileURL: string;
+        imageURL: string;
     };
     contents: {
         topics: string[];
