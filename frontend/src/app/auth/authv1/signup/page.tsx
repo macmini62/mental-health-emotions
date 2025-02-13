@@ -41,15 +41,6 @@ const SignUpPage = () => {
     });
   }
 
-  // handles the error feedback.
-  const[failed, setFailed] = React.useState<boolean>(false);
-  const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined);
-  React.useEffect(() => {
-    return () => {
-      clearTimeout(timer.current);
-    };
-  }, []);
-
   // Uploads user data
   const router = useRouter();
   const onSubmit = handleSubmit(async (data) => {
@@ -112,10 +103,6 @@ const SignUpPage = () => {
           auth={"signup"}
         />
       </div>
-      <ErrorNotification
-        action={"Sign Up"}
-        failed={failed}
-      />
     </div>
   )
 }
