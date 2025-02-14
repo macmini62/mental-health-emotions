@@ -9,9 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersMiddleware = void 0;
 const common_1 = require("@nestjs/common");
 let UsersMiddleware = class UsersMiddleware {
-    use(req, res, next) {
-        console.log(req);
-    }
 };
 exports.UsersMiddleware = UsersMiddleware;
 exports.UsersMiddleware = UsersMiddleware = __decorate([

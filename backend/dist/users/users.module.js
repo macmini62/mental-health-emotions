@@ -10,23 +10,23 @@ exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const users_controller_1 = require("./users.controller");
-const professionals_module_1 = require("./professionals/professionals.module");
-const seekers_module_1 = require("./seekers/seekers.module");
-const professionals_controller_1 = require("./professionals/professionals.controller");
-const seekers_controller_1 = require("./seekers/seekers.controller");
-const users_middleware_1 = require("./users.middleware");
+const professionals_module_1 = require("../professionals/professionals.module");
+const seekers_module_1 = require("../seekers/seekers.module");
+const core_1 = require("@nestjs/core");
+const roles_guards_1 = require("../guards/roles.guards");
 let UsersModule = class UsersModule {
-    configure(consumer) {
-        consumer
-            .apply(users_middleware_1.UsersMiddleware)
-            .forRoutes(professionals_controller_1.ProfessionalController, seekers_controller_1.SeekerController);
-    }
 };
 exports.UsersModule = UsersModule;
 exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
         controllers: [users_controller_1.UsersController],
-        providers: [users_service_1.UsersService],
+        providers: [
+            users_service_1.UsersService,
+            {
+                provide: core_1.APP_GUARD,
+                useClass: roles_guards_1.RolesGuard,
+            },
+        ],
         imports: [professionals_module_1.ProfessionalsModule, seekers_module_1.SeekersModule]
     })
 ], UsersModule);

@@ -9,20 +9,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 let UsersService = class UsersService {
-    create(createUserDto) {
-        return "This action adds a new user";
+    create() {
     }
     findAll() {
-        return `This action returns all users`;
     }
-    findOne(id) {
-        return `This action returns a #${id} user`;
+    findOne() {
     }
-    update(id, updateUserDto) {
-        return `This action updates a #${id} user`;
+    update() {
     }
-    remove(id) {
-        return `This action removes a #${id} user`;
+    remove() {
     }
 };
 exports.UsersService = UsersService;

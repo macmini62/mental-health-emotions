@@ -83,7 +83,8 @@ const TopicsPage = () => {
           };
           console.log(userData);
           axios
-            .post(`http://localhost:3001/users/create/${userData?.role === "professional" ? "professionals" : "seekers"}`)
+            .post(`http://localhost:3001/users/create`, {user: userData?.role === "professional" ? "professionals" : "seekers"})
+            // .post(`http://localhost:3001/users/create`)
             .then((res) => {
               if(res.status === 200){
                 router.replace("/articles");
