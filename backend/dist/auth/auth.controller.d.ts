@@ -6,5 +6,8 @@ export declare class AuthController {
     logIn(userData: User): Promise<{
         accessToken: string;
     }>;
-    getProfile(req: any): any;
+    getProfile(req: any): {
+        user: string;
+        password: string;
+    };
 }

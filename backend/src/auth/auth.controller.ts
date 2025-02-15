@@ -2,6 +2,7 @@ import { Controller, Post, Body, HttpCode, HttpStatus, UseGuards, Get, Req } fro
 import { AuthService } from "./auth.service";
 import { User } from "src/users/users.service";
 import { AuthGuard } from "./auth.guard";
+import { SkipAuth } from "./auth.decorators";
 
 @Controller("auth")
 export class AuthController {
@@ -16,6 +17,6 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get("profile")
   getProfile(@Req() req: any){
-    return req.user;
+    return { user: "name", password: "pass" };
   }
 }

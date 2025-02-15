@@ -24,7 +24,7 @@ let AuthController = class AuthController {
         return this.authService.logIn(userData.email, userData.password);
     }
     getProfile(req) {
-        return req.user;
+        return { user: "name", password: "pass" };
     }
 };
 exports.AuthController = AuthController;

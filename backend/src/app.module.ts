@@ -7,7 +7,6 @@ import { RolesGuard } from "./guards/roles.guards";
 import "dotenv/config";
 import { AppMiddleware } from "./app.middleware";
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
