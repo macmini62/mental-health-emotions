@@ -12,10 +12,12 @@ let UsersService = class UsersService {
     constructor() {
         this.users = [
             {
+                id: 1,
                 email: "johndoe@gmail.com",
                 password: "john1234",
             },
             {
+                id: 2,
                 email: "janedoe@gmail.com",
                 password: "jane1234",
             },
