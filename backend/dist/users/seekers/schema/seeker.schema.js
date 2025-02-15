@@ -19,25 +19,9 @@ __decorate([
     __metadata("design:type", String)
 ], Seeker.prototype, "id", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
-], Seeker.prototype, "name", void 0);
-__decorate([
     (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)
 ], Seeker.prototype, "phoneNumber", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true, unique: true }),
-    __metadata("design:type", String)
-], Seeker.prototype, "email", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
-], Seeker.prototype, "password", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", Boolean)
-], Seeker.prototype, "permissions", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)

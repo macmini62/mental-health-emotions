@@ -2,11 +2,7 @@ import { HydratedDocument } from "mongoose";
 export type SeekerDocument = HydratedDocument<Seeker>;
 export declare class Seeker {
     id: string;
-    name: string;
     phoneNumber: string;
-    email: string;
-    password: string;
-    permissions: false;
     lastActive: string;
     profile: {
         profileURL: string;

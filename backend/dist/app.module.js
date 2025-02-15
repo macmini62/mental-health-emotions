@@ -10,12 +10,13 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const topics_module_1 = require("./resources/topics/topics.module");
-const sessions_module_1 = require("./sessions/sessions.module");
+const sessions_module_1 = require("./resources/sessions/sessions.module");
 const core_1 = require("@nestjs/core");
-const roles_guards_1 = require("./guards/roles.guards");
+const role_guard_1 = require("./guards/role.guard");
 require("dotenv/config");
 const app_middleware_1 = require("./app.middleware");
 const auth_module_1 = require("./auth/auth.module");
+const auth_guard_1 = require("./guards/auth.guard");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -36,7 +37,11 @@ exports.AppModule = AppModule = __decorate([
         providers: [
             {
                 provide: core_1.APP_GUARD,
-                useClass: roles_guards_1.RolesGuard,
+                useClass: auth_guard_1.AuthGuard,
+            },
+            {
+                provide: core_1.APP_GUARD,
+                useClass: role_guard_1.RolesGuard,
             },
         ]
     })

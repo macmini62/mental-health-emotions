@@ -15,9 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfessionalController = void 0;
 const common_1 = require("@nestjs/common");
 const professionals_service_1 = require("./professionals.service");
-const roles_guards_1 = require("../../guards/roles.guards");
+const role_guard_1 = require("../../guards/role.guard");
 const role_enum_1 = require("../../enums/role.enum");
-const roles_decorator_1 = require("../../decorators/roles.decorator");
+const role_decorator_1 = require("../../decorators/role.decorator");
 let ProfessionalController = class ProfessionalController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -64,7 +64,7 @@ __decorate([
 ], ProfessionalController.prototype, "get", null);
 __decorate([
     (0, common_1.Post)("create"),
-    (0, roles_decorator_1.Roles)(role_enum_1.Role.professional),
+    (0, role_decorator_1.Roles)(role_enum_1.Role.professional),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -96,7 +96,7 @@ __decorate([
 ], ProfessionalController.prototype, "delete", null);
 exports.ProfessionalController = ProfessionalController = __decorate([
     (0, common_1.Controller)("professionals"),
-    (0, common_1.UseGuards)(roles_guards_1.RolesGuard),
+    (0, common_1.UseGuards)(role_guard_1.RolesGuard),
     __metadata("design:paramtypes", [professionals_service_1.ProfessionalService])
 ], ProfessionalController);
 //# sourceMappingURL=professionals.controller.js.map

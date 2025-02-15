@@ -5,32 +5,18 @@ export type ProfessionalDocument = HydratedDocument<Professional>;
 
 @Schema({ timestamps: true })
 export class Professional {
-  @Prop({ required: true })
-  userURL: string;
   
   @Prop({ required: true, unique: true })
   id: string;
 
-  @Prop({ required: true })
-  name: string;
-
   @Prop({ required: true, unique: true })
   phoneNumber: string;
-
-  @Prop({ required: true, unique: true })
-  email: string;
-
-  @Prop({ required: true })
-  password: string;
 
   @Prop({ required: true })
   profession: string;
 
   @Prop()
   institution: string;
-
-  @Prop({ required: true })
-  permissions: true;
 
   @Prop()
   lastActive: string;

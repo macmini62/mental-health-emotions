@@ -2,9 +2,9 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Res, UseGuards } from 
 import { ProfessionalService } from "./professionals.service";
 import { professional } from "./interface/professionals.interface";
 import { Response } from "express";
-import { RolesGuard } from "src/guards/roles.guards";
+import { RolesGuard } from "src/guards/role.guard";
 import { Role } from "src/enums/role.enum";
-import { Roles } from "src/decorators/roles.decorator";
+import { Roles } from "src/decorators/role.decorator";
 
 @Controller("professionals")
 @UseGuards(RolesGuard)

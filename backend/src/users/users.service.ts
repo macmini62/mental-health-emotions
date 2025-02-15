@@ -8,6 +8,9 @@ export interface User {
 
 @Injectable()
 export class UsersService {
+  constructor(
+    
+  ){}
 
   private readonly users = [
     {
