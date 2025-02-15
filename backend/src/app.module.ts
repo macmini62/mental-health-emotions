@@ -2,21 +2,21 @@ import { MiddlewareConsumer, Module, NestModule, RequestMethod } from "@nestjs/c
 import { MongooseModule } from "@nestjs/mongoose";
 import { TopicsModule } from "./resources/topics/topics.module";
 import { SessionsModule } from "./sessions/sessions.module";
-import { ProfessionalsModule } from "./professionals/professionals.module";
-import { SeekersModule } from "./seekers/seekers.module";
 import { APP_GUARD } from "@nestjs/core";
 import { RolesGuard } from "./guards/roles.guards";
 import "dotenv/config";
 import { AppMiddleware } from "./app.middleware";
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGODB_URL_LOCAL),
-    // MongooseModule.forRoot(process.env.MONGODB_URL),
+    // MongooseModule.forRoot(process.env.MONGODB_URL_LOCAL),
+    MongooseModule.forRoot(process.env.MONGODB_URL),
     TopicsModule,
     SessionsModule,
-    ProfessionalsModule,
-    SeekersModule
+    AuthModule,
+    // UsersModule
   ],
   controllers: [],
   providers: [
