@@ -7,7 +7,6 @@ import { z } from "zod";
 import InputFields from "../../../components/authComponents/InputFields";
 import * as React from "react";
 import Auth0Options from "@/app/components/authComponents/Auth0Options";
-import ErrorNotification from "@/app/components/notifications/notificationAlert";
 import { useRouter } from "next/navigation";
  
 

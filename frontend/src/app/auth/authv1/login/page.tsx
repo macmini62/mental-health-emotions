@@ -39,10 +39,11 @@ const LogInPage = () => {
   // Verify user.
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
-    const userId = await axios.post("http://localhost:3001/users/verify", 
+    const userId = await axios.post("http://localhost:3001/auth/login", 
       data
     ).then((res) => {
       console.log(res);
+      localStorage.setItem("access token", JSON.stringify(res.data));
       return res.data;
     }).catch((e) => {
       console.log(e);
