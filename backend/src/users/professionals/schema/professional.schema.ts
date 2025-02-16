@@ -8,6 +8,9 @@ export class Professional {
   
   @Prop({ required: true, unique: true })
   _id: string;
+  
+  @Prop({ required: true, unique: true })
+  userId: string;
 
   @Prop({ required: true, unique: true })
   phoneNumber: string;

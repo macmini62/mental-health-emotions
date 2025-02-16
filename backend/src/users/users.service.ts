@@ -19,7 +19,6 @@ export class UsersService {
       if(!results){
         throw new Error("User not added!!");
       }
-
       return results;
     }
     catch(e){

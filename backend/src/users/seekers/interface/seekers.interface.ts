@@ -1,12 +1,17 @@
 export interface seeker {
-  name: string;
   id: string;
-  password: string;
-  email: string;
-  permissions: boolean;
-  image: {
-    url: string;
-    width: number;
-    height: number;
-  };
+  userId: string;
+  phoneNumber: string;
+  profile: {
+    profileURL: string;
+    nickname: string;
+    imageURL: string;
+  }
+  contents: {
+    topics: string[];
+    bookmarks: {
+      articles: string[];
+      videos: string[];
+    }
+  }
 }

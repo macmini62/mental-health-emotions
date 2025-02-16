@@ -10,6 +10,9 @@ export class Seeker {
   _id: string;
   
   @Prop({ required: true, unique: true })
+  userId: string;
+  
+  @Prop({ required: true, unique: true })
   phoneNumber: string;
   
   @Prop()
@@ -19,13 +22,13 @@ export class Seeker {
     type: {
       profileURL: { type: String, required: true },
       nickname: { type: String, required: true },
-      imageURL: { type: Number, required: true }
+      imageURL: { type: String, required: true }
     }
   })
   profile: {
     profileURL: string;
     nickname: string;
-    imageURL: string; 
+    imageURL: string;
   }
 
   @Prop({

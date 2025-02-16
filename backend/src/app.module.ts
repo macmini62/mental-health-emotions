@@ -11,8 +11,8 @@ import "dotenv/config";
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGODB_URL_LOCAL, { autoIndex: true }),
-    // MongooseModule.forRoot(process.env.MONGODB_URL, { autoIndex: true }),
+    // MongooseModule.forRoot(process.env.MONGODB_URL_LOCAL, { autoIndex: true }),
+    MongooseModule.forRoot(process.env.MONGODB_URL, { autoIndex: true }),
     TopicsModule,
     SessionsModule,
     AuthModule,

@@ -21,6 +21,10 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)
+], Professional.prototype, "userId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, unique: true }),
+    __metadata("design:type", String)
 ], Professional.prototype, "phoneNumber", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),

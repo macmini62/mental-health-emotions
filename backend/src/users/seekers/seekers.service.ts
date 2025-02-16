@@ -14,17 +14,20 @@ export class SeekerService {
   async addUser(data: seeker): Promise<string>{
     try{
       const userId: string = uuidv4();
-      const exUserEmail = await this.SeekerModel.exists({ email: data.email });
-      console.log(exUserEmail);
-
-      if(!exUserEmail){
-        const seeker = await new this.SeekerModel({ _id: userId, ...data }).save();
+      const exUserId = await this.SeekerModel.exists({ _id: data.id });
+      // console.log(exUserId);
+      if(!exUserId){
+        const seeker = await new this.SeekerModel({
+          _id: userId,
+          userId: data.id,
+          ...data
+        }).save();
         if(!seeker){
           throw new Error("Error creating seeker!");
         }
         return userId;
       }else{
-        throw new Error("Seeker with the email exists!!")
+        throw new Error("Seeker profile exists!!")
       }
     }
     catch(e){
@@ -34,7 +37,7 @@ export class SeekerService {
 
   async getUser(userId: string): Promise<Seeker>{
     console.log("userId:", userId);
-    const seeker = await this.SeekerModel.findById({ _id: userId });
+    const seeker = await this.SeekerModel.findOne({ userId: userId });
 
     console.log("seeker:", seeker);
     return seeker;

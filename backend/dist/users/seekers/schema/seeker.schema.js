@@ -21,6 +21,10 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)
+], Seeker.prototype, "userId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, unique: true }),
+    __metadata("design:type", String)
 ], Seeker.prototype, "phoneNumber", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
@@ -31,7 +35,7 @@ __decorate([
         type: {
             profileURL: { type: String, required: true },
             nickname: { type: String, required: true },
-            imageURL: { type: Number, required: true }
+            imageURL: { type: String, required: true }
         }
     }),
     __metadata("design:type", Object)

@@ -31,7 +31,7 @@ let SeekerController = class SeekerController {
         if (userId) {
             return res.status(201).send({ _id: userId });
         }
-        return res.status(500).send({ Error: "Email address has already been used!" });
+        return res.status(500).send({ Error: "Can't add seeker becoz profile exists!!" });
     }
     async verify(data, res) {
         const userId = await this.usersService.verifyUser(data);

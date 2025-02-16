@@ -33,7 +33,6 @@ let AuthController = class AuthController {
         if (accessToken) {
             res.status(200).send(accessToken);
         }
-        res.status(500).send("Failed to login!!");
     }
     getProfile(req) {
         console.log(req.user);

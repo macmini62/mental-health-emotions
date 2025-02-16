@@ -2,6 +2,7 @@ import { HydratedDocument } from "mongoose";
 export type SeekerDocument = HydratedDocument<Seeker>;
 export declare class Seeker {
     _id: string;
+    userId: string;
     phoneNumber: string;
     lastActive: string;
     profile: {

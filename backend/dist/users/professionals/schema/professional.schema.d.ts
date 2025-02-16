@@ -2,6 +2,7 @@ import { HydratedDocument } from "mongoose";
 export type ProfessionalDocument = HydratedDocument<Professional>;
 export declare class Professional {
     _id: string;
+    userId: string;
     phoneNumber: string;
     profession: string;
     institution: string;
