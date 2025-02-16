@@ -1,8 +1,9 @@
-import { Controller, Post, Body, HttpCode, HttpStatus, Res } from "@nestjs/common";
+import { Controller, Post, Body, HttpCode, HttpStatus, Res, Get, Req, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { user } from "src/users/interface/user.interface";
 import { SkipAuth } from "src/decorators/auth.decorator";
 import { Response } from "express";
+import { AuthGuard } from "src/guards/auth.guard";
 
 @Controller("auth")
 export class AuthController {
@@ -29,10 +30,10 @@ export class AuthController {
     res.status(500).send("Failed to login!!");
   }
 
-  // @UseGuards(AuthGuard)
-  // @Get("profile")
-  // getProfile(@Req() req: any){
-  //   console.log(req.user);
-  //   return req.user;
-  // }
+  @UseGuards(AuthGuard)
+  @Get("profile")
+  getProfile(@Req() req: any){
+    console.log(req.user);
+    return req.user;
+  }
 }

@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SeekerController = void 0;
 const common_1 = require("@nestjs/common");
 const seekers_service_1 = require("./seekers.service");
+const auth_decorator_1 = require("../../decorators/auth.decorator");
 let SeekerController = class SeekerController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -48,13 +49,14 @@ let SeekerController = class SeekerController {
 };
 exports.SeekerController = SeekerController;
 __decorate([
+    (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Get)("/"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], SeekerController.prototype, "getAll", null);
 __decorate([
-    (0, common_1.Get)("/id/:id"),
+    (0, common_1.Get)("/:id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

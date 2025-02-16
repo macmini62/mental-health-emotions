@@ -44,6 +44,7 @@ let AuthService = class AuthService {
             }
             const payload = { sub: user._id, email: user.email };
             return {
+                user: user,
                 accessToken: await this.jwtService.signAsync(payload),
             };
         }

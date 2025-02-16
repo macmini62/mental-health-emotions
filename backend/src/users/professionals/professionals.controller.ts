@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, Res, UseGuards } from "@nestjs/common";
 import { ProfessionalService } from "./professionals.service";
 import { professional } from "./interface/professionals.interface";
-import { Response } from "express";
+import { Request, Response } from "express";
 import { RolesGuard } from "src/guards/role.guard";
 import { Role } from "src/enums/role.enum";
 import { Roles } from "src/decorators/role.decorator";
+import { SkipAuth } from "src/decorators/auth.decorator";
 
 @Controller("professionals")
 @UseGuards(RolesGuard)
@@ -17,8 +18,10 @@ export class ProfessionalController {
     // return this.usersService.getAllUsers();
   }
 
-  @Get("/id/:id")
-  get(@Param("id") userId: string) {
+  @SkipAuth()
+  @Get("/:id")
+  get(@Req() req: Request, @Param("id") userId: string) {
+    console.log(req);
     return this.usersService.getUser(userId);
   }
   
@@ -53,3 +56,4 @@ export class ProfessionalController {
     return this.usersService.deleteUser(userId);
   }
 }
+

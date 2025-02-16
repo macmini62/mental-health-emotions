@@ -9,6 +9,7 @@ export declare class AuthService {
         accessToken: string;
     }>;
     logIn(email: string, password: string): Promise<{
+        user: user;
         accessToken: string;
     }>;
 }

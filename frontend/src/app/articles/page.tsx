@@ -22,6 +22,32 @@ interface topic {
 
 const Articles = () => {
 
+  const [user, setUser] = React.useState<object>({});
+
+  React.useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    const accessToken = localStorage.getItem("access token");
+    const role: string | null = localStorage.getItem("role");
+
+    if(userId && accessToken && role){
+      axios.get(`http://localhost:3001/${JSON.parse(role) === "professional" ? "professionals" : "seekers"}/${JSON.parse(userId)}`,
+        {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(accessToken)}`
+          }
+        }
+      )
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    }
+  }, []);
+
+  console.log(user);
+
   const [loading, setLoading] = React.useState<boolean>(false);
   
   const [fetchFailed, setFetchFailed] = React.useState<boolean>(false);
@@ -37,28 +63,28 @@ const Articles = () => {
 
   // Load topics data
   const [topics, setTopics] = React.useState<topic[]>([]);
-  React.useEffect(() => {
-    setLoading(true);
-    axios.get(`http://localhost:3001/topics?size=${10}`)
-    .then((res) => {
-      setTopics(res.data);
-    })
-    .catch((err) => {
-      console.log(err);
-      setFetchFailed(true);
-    });
-  }, []);
+  // React.useEffect(() => {
+  //   setLoading(true);
+  //   axios.get(`http://localhost:3001/topics?size=${10}`)
+  //   .then((res) => {
+  //     setTopics(res.data);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     setFetchFailed(true);
+  //   });
+  // }, []);
 
-  // Reload more topics
-  const handleTopicsLoad = () => {
-    axios.get(`http://localhost:3001/topics?size=${topics.length+5}`)
-      .then((res) => {
-        setTopics(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // // Reload more topics
+  // const handleTopicsLoad = () => {
+  //   axios.get(`http://localhost:3001/topics?size=${topics.length+5}`)
+  //     .then((res) => {
+  //       setTopics(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   return (
     <div className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">

@@ -8,6 +8,8 @@ import Auth0Options from "@/app/components/authComponents/Auth0Options";
 import axios from "axios";
 import ErrorNotification from "@/app/components/notifications/notificationAlert";
 import React from "react";
+import { useRouter } from "next/navigation";
+// import { AxiosHeaders } from "axios";
  
 
 const schema = z.object({
@@ -16,6 +18,44 @@ const schema = z.object({
 });
 
 type Inputs = z.infer<typeof schema>;
+
+interface Response {
+  user: {
+    _id: string,
+    name: string,
+    email: string,
+    password: string,
+    role: string
+  },
+  accessToken: Axios.AxiosHttpBasicAuth
+}
+
+interface UserData {
+  _id: string,
+  phoneNumber: string,
+  lastActive: string,
+  profile: {
+    profileURL: string;
+    nickname: string;
+    imageURL: string; 
+  },
+  contents: {
+    topics: string[];
+    bookmarks: {
+      articles: string[];
+      videos: string[];
+    }
+  }
+}
+
+// interface Res {
+//   config: object,
+//   data: object,
+//   header: AxiosHeaders,
+//   request: XMLHttpRequest,
+//   status: number,
+//   statusText: string
+// }
 
 const LogInPage = () => {
 
@@ -36,24 +76,30 @@ const LogInPage = () => {
     };
   }, []);
 
+  const router = useRouter();
+
   // Verify user.
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
-    const userId = await axios.post("http://localhost:3001/auth/login", 
-      data
-    ).then((res) => {
-      console.log(res);
-      localStorage.setItem("access token", JSON.stringify(res.data));
-      return res.data;
-    }).catch((e) => {
-      console.log(e);
-      setFailed(true);
-      timer.current = setTimeout(() => {
-        setFailed(false);
-      }, 5000);
-    });
+    const res: Response = await axios.post("http://localhost:3001/auth/login", 
+                            data
+                          ).then((res) => {
+                            return res.data;
+                          }).catch((e) => {
+                            console.log(e);
+                            setFailed(true);
+                            timer.current = setTimeout(() => {
+                              setFailed(false);
+                            }, 5000);
+                          });
+    
+    if(typeof(res)){
+      localStorage.setItem("access token", JSON.stringify(res?.accessToken));
+      localStorage.setItem("userId", JSON.stringify(res?.user._id));
+      localStorage.setItem("role", JSON.stringify(res?.user.role));
 
-    console.log(userId);
+      router.push("/articles");
+    }
   });
 
   return (

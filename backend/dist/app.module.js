@@ -28,7 +28,7 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URL, { autoIndex: true }),
+            mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URL_LOCAL, { autoIndex: true }),
             topics_module_1.TopicsModule,
             sessions_module_1.SessionsModule,
             auth_module_1.AuthModule,

@@ -18,13 +18,15 @@ const professionals_service_1 = require("./professionals.service");
 const role_guard_1 = require("../../guards/role.guard");
 const role_enum_1 = require("../../enums/role.enum");
 const role_decorator_1 = require("../../decorators/role.decorator");
+const auth_decorator_1 = require("../../decorators/auth.decorator");
 let ProfessionalController = class ProfessionalController {
     constructor(usersService) {
         this.usersService = usersService;
     }
     getAll() {
     }
-    get(userId) {
+    get(req, userId) {
+        console.log(req);
         return this.usersService.getUser(userId);
     }
     async add(data, res) {
@@ -56,10 +58,12 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProfessionalController.prototype, "getAll", null);
 __decorate([
-    (0, common_1.Get)("/id/:id"),
-    __param(0, (0, common_1.Param)("id")),
+    (0, auth_decorator_1.SkipAuth)(),
+    (0, common_1.Get)("/:id"),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", void 0)
 ], ProfessionalController.prototype, "get", null);
 __decorate([

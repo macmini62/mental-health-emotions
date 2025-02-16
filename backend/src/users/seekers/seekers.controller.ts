@@ -1,20 +1,22 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, Res } from "@nestjs/common";
 import { SeekerService } from "./seekers.service";
 import { seeker } from "./interface/seekers.interface";
-import { Response } from "express";
+import { Request, Response } from "express";
+import { SkipAuth } from "src/decorators/auth.decorator";
 
 @Controller("seekers")
 export class SeekerController {
   constructor(private usersService: SeekerService) {}
 
+  @SkipAuth()
   @Get("/")
   getAll(){
     return this.usersService.getAllUsers();
   }
 
-  @Get("/id/:id")
+  @Get("/:id")
   get(@Param("id") userId: string) {
-    return this.usersService.getUser(userId);
+      return this.usersService.getUser(userId);
   }
   
   @Post("create")

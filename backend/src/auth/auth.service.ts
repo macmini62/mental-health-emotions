@@ -30,7 +30,7 @@ export class AuthService {
     }
   }
 
-  async logIn(email: string, password: string): Promise<{ accessToken: string }>{
+  async logIn(email: string, password: string): Promise<{ user: user, accessToken: string }>{
     try{
       const user: user = await this.userService.findOne(email);
       console.log(user);
@@ -40,6 +40,7 @@ export class AuthService {
       
       const payload = { sub: user._id, email: user.email };
       return {
+        user: user,
         accessToken: await this.jwtService.signAsync(payload),
       };
     }catch(e){
