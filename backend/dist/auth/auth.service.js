@@ -18,9 +18,27 @@ let AuthService = class AuthService {
         this.userService = userService;
         this.jwtService = jwtService;
     }
+    async signUp(user) {
+        try {
+            const existingUser = await this.userService.findOne(user.email);
+            if (existingUser) {
+                throw new common_1.ConflictException;
+            }
+            const results = await this.userService.create(user);
+            if (!results) {
+                throw new Error("User not added!!");
+            }
+            const accessToken = await this.logIn(results.email, results.password);
+            return accessToken;
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
     async logIn(email, password) {
         try {
             const user = await this.userService.findOne(email);
+            console.log(user);
             if (user?.password !== password) {
                 throw new common_1.UnauthorizedException();
             }

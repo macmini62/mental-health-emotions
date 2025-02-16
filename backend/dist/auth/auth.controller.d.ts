@@ -1,13 +1,9 @@
 import { AuthService } from "./auth.service";
 import { user } from "src/users/interface/user.interface";
+import { Response } from "express";
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
-    logIn(userData: user): Promise<{
-        accessToken: string;
-    }>;
-    getProfile(req: any): {
-        user: string;
-        password: string;
-    };
+    signUp(res: Response, userData: user): Promise<void>;
+    logIn(res: Response, userData: user): Promise<void>;
 }
