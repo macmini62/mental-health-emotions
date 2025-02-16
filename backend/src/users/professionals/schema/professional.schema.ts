@@ -7,7 +7,7 @@ export type ProfessionalDocument = HydratedDocument<Professional>;
 export class Professional {
   
   @Prop({ required: true, unique: true })
-  id: string;
+  _id: string;
 
   @Prop({ required: true, unique: true })
   phoneNumber: string;

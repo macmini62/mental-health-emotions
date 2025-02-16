@@ -24,7 +24,7 @@ let AuthService = class AuthService {
             if (user?.password !== password) {
                 throw new common_1.UnauthorizedException();
             }
-            const payload = { sub: user.id, email: user.email };
+            const payload = { sub: user._id, email: user.email };
             return {
                 accessToken: await this.jwtService.signAsync(payload),
             };

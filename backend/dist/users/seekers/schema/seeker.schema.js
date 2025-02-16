@@ -17,7 +17,7 @@ exports.Seeker = Seeker;
 __decorate([
     (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)
-], Seeker.prototype, "id", void 0);
+], Seeker.prototype, "_id", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)

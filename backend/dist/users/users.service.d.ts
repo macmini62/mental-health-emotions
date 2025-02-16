@@ -1,10 +1,7 @@
-export interface User {
-    id: number;
-    email: string;
-    password: string;
-}
+import { Model } from "mongoose";
+import { User } from "./schema/users.schema";
 export declare class UsersService {
-    constructor();
-    private readonly users;
+    private UserModel;
+    constructor(UserModel: Model<User>);
     findOne(email: string): Promise<User>;
 }

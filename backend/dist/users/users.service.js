@@ -8,33 +8,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
+const mongoose_1 = require("@nestjs/mongoose");
+const mongoose_2 = require("mongoose");
+const users_schema_1 = require("./schema/users.schema");
 let UsersService = class UsersService {
-    constructor() {
-        this.users = [
-            {
-                id: 1,
-                email: "johndoe@gmail.com",
-                password: "john1234",
-            },
-            {
-                id: 2,
-                email: "janedoe@gmail.com",
-                password: "jane1234",
-            },
-        ];
+    constructor(UserModel) {
+        this.UserModel = UserModel;
     }
     async findOne(email) {
-        const user = this.users.find(user => user.email === email);
-        console.log(user);
+        const user = await this.UserModel.findOne({ email: email });
         return user;
     }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [])
+    __param(0, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
+    __metadata("design:paramtypes", [mongoose_2.Model])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

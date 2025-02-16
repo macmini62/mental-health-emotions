@@ -13,10 +13,10 @@ const topics_module_1 = require("./resources/topics/topics.module");
 const sessions_module_1 = require("./resources/sessions/sessions.module");
 const core_1 = require("@nestjs/core");
 const role_guard_1 = require("./guards/role.guard");
-require("dotenv/config");
 const app_middleware_1 = require("./app.middleware");
 const auth_module_1 = require("./auth/auth.module");
 const auth_guard_1 = require("./guards/auth.guard");
+require("dotenv/config");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -28,7 +28,7 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URL),
+            mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URL, { autoIndex: true }),
             topics_module_1.TopicsModule,
             sessions_module_1.SessionsModule,
             auth_module_1.AuthModule,
