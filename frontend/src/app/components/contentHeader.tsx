@@ -47,4 +47,4 @@ const ContentHeader = ({
   )
 }
 
-export default ContentHeader
+export default ContentHeader;
