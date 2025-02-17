@@ -16,9 +16,9 @@ let Article = class Article {
 };
 exports.Article = Article;
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, type: String, default: (0, uuid_1.v4)(), unique: true }),
+    (0, mongoose_1.Prop)({ required: true, default: (0, uuid_1.v4)(), unique: true }),
     __metadata("design:type", String)
-], Article.prototype, "id", void 0);
+], Article.prototype, "_id", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)

@@ -7,8 +7,8 @@ export type ArticleDocument = HydratedDocument<Article>;
 @Schema({ timestamps: true })
 
 export class Article{
-  @Prop({ required: true, type: String, default: uuidv4(), unique: true })
-  id: string;
+  @Prop({ required: true, default: uuidv4(), unique: true })
+  _id: string;
 
   @Prop({ required: true })
   creatorId: string
@@ -31,7 +31,7 @@ export class Article{
     }
   })
   thumbnail: {
-    link: string;
+    imageURL: string;
     caption: string;
   }
 
@@ -46,7 +46,7 @@ export class Article{
   })
   feedback: {
     likes: number,
-    comments: number
+    comments: number //change to store comments ids from comments schema.
   }
 }
 

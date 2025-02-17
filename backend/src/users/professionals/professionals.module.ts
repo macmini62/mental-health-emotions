@@ -9,7 +9,10 @@ import { ProfessionalsMiddleware } from "./professionals.middleware";
 @Module({
   controllers: [ProfessionalController],
   providers: [ProfessionalService],
-  imports: [MongooseModule.forFeature([{name: Professional.name, schema: ProfessionalSchema}])]
+  imports: [MongooseModule.forFeature([{name: Professional.name, schema: ProfessionalSchema}])],
+  exports: [
+    ProfessionalService
+  ]
 })
 
 export class ProfessionalsModule implements NestModule {

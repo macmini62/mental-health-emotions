@@ -9,14 +9,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const topics_module_1 = require("./resources/topics/topics.module");
-const sessions_module_1 = require("./resources/sessions/sessions.module");
+const topics_module_1 = require("./topics/topics.module");
+const sessions_module_1 = require("./sessions/sessions.module");
 const core_1 = require("@nestjs/core");
 const role_guard_1 = require("./guards/role.guard");
 const app_middleware_1 = require("./app.middleware");
 const auth_module_1 = require("./auth/auth.module");
 const auth_guard_1 = require("./guards/auth.guard");
 require("dotenv/config");
+const resources_module_1 = require("./resources/resources.module");
+const users_module_1 = require("./users/users.module");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -32,6 +34,8 @@ exports.AppModule = AppModule = __decorate([
             topics_module_1.TopicsModule,
             sessions_module_1.SessionsModule,
             auth_module_1.AuthModule,
+            resources_module_1.ResourcesModule,
+            users_module_1.UsersModule,
         ],
         controllers: [],
         providers: [

@@ -2,12 +2,14 @@ import { Controller, Get, Post, Param, Delete, Put, Body, Res } from "@nestjs/co
 import { ArticlesService } from "./articles.service";
 import { article } from "./interface/article.interface";
 import { Response } from "express";
+import { SkipAuth } from "src/decorators/auth.decorator";
 
 @Controller("articles")
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
-  @Post()
+  @SkipAuth()
+  @Post("create")
   create(@Body() article: article) {
     return this.articlesService.create(article);
   }

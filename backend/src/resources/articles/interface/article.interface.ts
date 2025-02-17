@@ -1,11 +1,11 @@
 export interface article{
-  id: string;
+  _id: string;
   creatorId: string;  
   title: string;
   content: string;
   tags: string[];
   thumbnail: {
-    link: string;
+    imageURL: string;
     caption: string;
   };
   feedback: {

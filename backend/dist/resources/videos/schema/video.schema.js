@@ -11,13 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VideoSchema = exports.Video = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
+const uuid_1 = require("uuid");
 class Video {
 }
 exports.Video = Video;
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, unique: true }),
+    (0, mongoose_1.Prop)({ required: true, default: (0, uuid_1.v4)(), unique: true }),
     __metadata("design:type", String)
-], Video.prototype, "id", void 0);
+], Video.prototype, "_id", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)

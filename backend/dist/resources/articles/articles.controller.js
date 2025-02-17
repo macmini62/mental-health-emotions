@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArticlesController = void 0;
 const common_1 = require("@nestjs/common");
 const articles_service_1 = require("./articles.service");
+const auth_decorator_1 = require("../../decorators/auth.decorator");
 let ArticlesController = class ArticlesController {
     constructor(articlesService) {
         this.articlesService = articlesService;
@@ -52,7 +53,8 @@ let ArticlesController = class ArticlesController {
 };
 exports.ArticlesController = ArticlesController;
 __decorate([
-    (0, common_1.Post)(),
+    (0, auth_decorator_1.SkipAuth)(),
+    (0, common_1.Post)("create"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

@@ -25,7 +25,10 @@ exports.ProfessionalsModule = ProfessionalsModule = __decorate([
     (0, common_1.Module)({
         controllers: [professionals_controller_1.ProfessionalController],
         providers: [professionals_service_1.ProfessionalService],
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: professional_schema_1.Professional.name, schema: professional_schema_1.ProfessionalSchema }])]
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: professional_schema_1.Professional.name, schema: professional_schema_1.ProfessionalSchema }])],
+        exports: [
+            professionals_service_1.ProfessionalService
+        ]
     })
 ], ProfessionalsModule);
 //# sourceMappingURL=professionals.module.js.map
