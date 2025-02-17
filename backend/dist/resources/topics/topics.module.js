@@ -12,6 +12,7 @@ const topics_controller_1 = require("./topics.controller");
 const topics_service_1 = require("./topics.service");
 const mongoose_1 = require("@nestjs/mongoose");
 const topic_schema_1 = require("./schema/topic.schema");
+const users_module_1 = require("../../users/users.module");
 let TopicsModule = class TopicsModule {
 };
 exports.TopicsModule = TopicsModule;
@@ -19,7 +20,10 @@ exports.TopicsModule = TopicsModule = __decorate([
     (0, common_1.Module)({
         controllers: [topics_controller_1.TopicsController],
         providers: [topics_service_1.TopicsService],
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: topic_schema_1.Topic.name, schema: topic_schema_1.TopicSchema }])]
+        imports: [
+            mongoose_1.MongooseModule.forFeature([{ name: topic_schema_1.Topic.name, schema: topic_schema_1.TopicSchema }]),
+            users_module_1.UsersModule
+        ]
     })
 ], TopicsModule);
 //# sourceMappingURL=topics.module.js.map

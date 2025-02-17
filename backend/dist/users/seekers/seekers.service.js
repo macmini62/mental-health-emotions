@@ -67,7 +67,7 @@ let SeekerService = class SeekerService {
     async updateUser(userId, data) {
         console.log(userId);
         console.log(data);
-        return await this.SeekerModel.updateOne({ _id: userId }, { ...data });
+        return await this.SeekerModel.updateOne({ userId: userId }, { ...data });
     }
     async verifyUser(data) {
         try {

@@ -15,9 +15,6 @@ export class Seeker {
   @Prop({ required: true, unique: true })
   phoneNumber: string;
   
-  @Prop()
-  lastActive: string;
-  
   @Prop({
     type: {
       profileURL: { type: String, required: true },
@@ -33,10 +30,10 @@ export class Seeker {
 
   @Prop({
     type: {
-      topics: { type: String },
+      topics: { type: Array<String> },
       bookmarks: { 
-        articles: { type: String },
-        videos: { type: String }
+        articles: { type: Array<String> },
+        videos: { type: Array<String> }
       },
     }
   })

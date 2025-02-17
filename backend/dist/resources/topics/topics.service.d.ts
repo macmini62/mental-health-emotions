@@ -1,8 +1,10 @@
 import { Topic } from './schema/topic.schema';
 import { Model } from 'mongoose';
+import { UsersService } from 'src/users/users.service';
 export declare class TopicsService {
     private TopicModel;
-    constructor(TopicModel?: {
+    private userService;
+    constructor(TopicModel: {
         new (doc?: Topic, fields?: any | null, options?: boolean | import("mongoose").AnyObject): any;
         aggregate<R = any>(pipeline?: import("mongoose").PipelineStage[], options?: import("mongoose").AggregateOptions): import("mongoose").Aggregate<R[]>;
         aggregate<R = any>(pipeline: import("mongoose").PipelineStage[]): import("mongoose").Aggregate<R[]>;
@@ -260,7 +262,7 @@ export declare class TopicsService {
             upsert: true;
         } & import("mongoose").ReturnsNewDoc)): import("mongoose").Query<ResultDoc, ResultDoc, {}, any, "findOneAndUpdate", {}>;
         findOneAndUpdate<ResultDoc = any>(filter?: import("mongoose").RootFilterQuery<any>, update?: import("mongoose").UpdateQuery<any>, options?: import("mongoose").QueryOptions<any>): import("mongoose").Query<ResultDoc, ResultDoc, {}, any, "findOneAndUpdate", {}>;
-        replaceOne<ResultDoc = any>(filter?: import("mongoose").RootFilterQuery<any>, replacement?: any, options?: import("mongodb").ReplaceOptions & Pick<import("mongoose").QueryOptions<any>, "timestamps" | import("mongoose").MongooseBaseQueryOptionKeys | "lean"> & {
+        replaceOne<ResultDoc = any>(filter?: import("mongoose").RootFilterQuery<any>, replacement?: any, options?: import("mongodb").ReplaceOptions & Pick<import("mongoose").QueryOptions<any>, import("mongoose").MongooseBaseQueryOptionKeys | "timestamps" | "lean"> & {
             [other: string]: any;
         }): import("mongoose").Query<import("mongoose").UpdateWriteOpResult, ResultDoc, {}, any, "replaceOne", {}>;
         recompileSchema(): void;
@@ -275,10 +277,10 @@ export declare class TopicsService {
         }> & {
             __v: number;
         }>;
-        updateMany<ResultDoc = any>(filter?: import("mongoose").RootFilterQuery<any>, update?: import("mongoose").UpdateWithAggregationPipeline | import("mongoose").UpdateQuery<any>, options?: import("mongodb").UpdateOptions & Pick<import("mongoose").QueryOptions<any>, "timestamps" | import("mongoose").MongooseBaseQueryOptionKeys> & {
+        updateMany<ResultDoc = any>(filter?: import("mongoose").RootFilterQuery<any>, update?: import("mongoose").UpdateQuery<any> | import("mongoose").UpdateWithAggregationPipeline, options?: import("mongodb").UpdateOptions & Pick<import("mongoose").QueryOptions<any>, import("mongoose").MongooseBaseQueryOptionKeys | "timestamps"> & {
             [other: string]: any;
         }): import("mongoose").Query<import("mongoose").UpdateWriteOpResult, ResultDoc, {}, any, "updateMany", {}>;
-        updateOne<ResultDoc = any>(filter?: import("mongoose").RootFilterQuery<any>, update?: import("mongoose").UpdateWithAggregationPipeline | import("mongoose").UpdateQuery<any>, options?: import("mongodb").UpdateOptions & Pick<import("mongoose").QueryOptions<any>, "timestamps" | import("mongoose").MongooseBaseQueryOptionKeys> & {
+        updateOne<ResultDoc = any>(filter?: import("mongoose").RootFilterQuery<any>, update?: import("mongoose").UpdateQuery<any> | import("mongoose").UpdateWithAggregationPipeline, options?: import("mongodb").UpdateOptions & Pick<import("mongoose").QueryOptions<any>, import("mongoose").MongooseBaseQueryOptionKeys | "timestamps"> & {
             [other: string]: any;
         }): import("mongoose").Query<import("mongoose").UpdateWriteOpResult, ResultDoc, {}, any, "updateOne", {}>;
         where<ResultDoc = any>(path: string, val?: any): import("mongoose").Query<ResultDoc[], ResultDoc, {}, any, "find", {}>;
@@ -312,7 +314,10 @@ export declare class TopicsService {
         listIndexes(): Promise<Array<any>>;
         syncIndexes(options?: import("mongoose").SyncIndexesOptions): Promise<Array<string>>;
         startSession(options?: import("mongoose").ClientSessionOptions): Promise<import("mongoose").ClientSession>;
-    });
+    }, userService: UsersService);
     createTopic(data: string[]): Promise<string[]>;
     fetchTopics(size: number): Promise<Topic[]>;
+    fetchUserTopics(data: string[], userId: {
+        id: string;
+    }): Promise<Array<string>>;
 }

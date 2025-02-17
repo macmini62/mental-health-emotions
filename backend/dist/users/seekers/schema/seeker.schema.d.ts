@@ -4,7 +4,6 @@ export declare class Seeker {
     _id: string;
     userId: string;
     phoneNumber: string;
-    lastActive: string;
     profile: {
         profileURL: string;
         nickname: string;

@@ -27,10 +27,6 @@ __decorate([
     __metadata("design:type", String)
 ], Seeker.prototype, "phoneNumber", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], Seeker.prototype, "lastActive", void 0);
-__decorate([
     (0, mongoose_1.Prop)({
         type: {
             profileURL: { type: String, required: true },
@@ -43,10 +39,10 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({
         type: {
-            topics: { type: String },
+            topics: { type: (Array) },
             bookmarks: {
-                articles: { type: String },
-                videos: { type: String }
+                articles: { type: (Array) },
+                videos: { type: (Array) }
             },
         }
     }),

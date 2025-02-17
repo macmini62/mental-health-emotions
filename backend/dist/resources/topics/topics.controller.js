@@ -15,8 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TopicsController = void 0;
 const common_1 = require("@nestjs/common");
 const topics_service_1 = require("./topics.service");
+const auth_decorator_1 = require("../../decorators/auth.decorator");
 let TopicsController = class TopicsController {
-    constructor(topicService = new topics_service_1.TopicsService) {
+    constructor(topicService) {
         this.topicService = topicService;
     }
     async add(data, res) {
@@ -38,9 +39,19 @@ let TopicsController = class TopicsController {
             res.status(500).send({ message: "Failed to fetch topics!!" });
         }
     }
+    async fetchTopics(data, userId, res) {
+        const topics = await this.topicService.fetchUserTopics(data, userId);
+        if (topics) {
+            res.send(topics);
+        }
+        else {
+            res.status(500).send({ message: "Failed to fetch topics!!" });
+        }
+    }
 };
 exports.TopicsController = TopicsController;
 __decorate([
+    (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Post)(""),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
@@ -49,6 +60,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TopicsController.prototype, "add", null);
 __decorate([
+    (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Get)(""),
     __param(0, (0, common_1.Query)("size")),
     __param(1, (0, common_1.Res)()),
@@ -56,6 +68,16 @@ __decorate([
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], TopicsController.prototype, "fetch", null);
+__decorate([
+    (0, auth_decorator_1.SkipAuth)(),
+    (0, common_1.Post)("/:id"),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)()),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Array, Object, Object]),
+    __metadata("design:returntype", Promise)
+], TopicsController.prototype, "fetchTopics", null);
 exports.TopicsController = TopicsController = __decorate([
     (0, common_1.Controller)("topics"),
     __metadata("design:paramtypes", [topics_service_1.TopicsService])

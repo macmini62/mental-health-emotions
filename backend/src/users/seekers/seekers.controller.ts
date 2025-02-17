@@ -39,12 +39,12 @@ export class SeekerController {
     return res.status(500).send({ Error: "User does not exists!" });
   }
   
-  @Put("/id/:id")
+  @Put("/:id")
   update(@Body() data: object, @Param("id") userId: string){
     return this.usersService.updateUser(userId, data);
   }
 
-  @Delete("/id/:id")
+  @Delete("/:id")
   delete(@Param("id") userId: string){
     return this.usersService.deleteUser(userId);
   }

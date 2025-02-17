@@ -18,9 +18,11 @@ const mongoose_1 = require("@nestjs/mongoose");
 const topic_schema_1 = require("./schema/topic.schema");
 const mongoose_2 = require("mongoose");
 const uuid_1 = require("uuid");
+const users_service_1 = require("../../users/users.service");
 let TopicsService = class TopicsService {
-    constructor(TopicModel = (mongoose_2.Model)) {
+    constructor(TopicModel = (mongoose_2.Model), userService) {
         this.TopicModel = TopicModel;
+        this.userService = userService;
     }
     async createTopic(data) {
         try {
@@ -29,7 +31,7 @@ let TopicsService = class TopicsService {
                 const topicId = (0, uuid_1.v4)();
                 const exTopic = await this.TopicModel.exists({ name: data[i] });
                 if (exTopic === null) {
-                    await new this.TopicModel({ id: topicId, name: data[i] }).save();
+                    await new this.TopicModel({ _id: topicId, name: data[i] }).save();
                     createdTopics.push(data[i]);
                 }
                 else {
@@ -38,8 +40,8 @@ let TopicsService = class TopicsService {
             }
             return createdTopics;
         }
-        catch (err) {
-            console.log(err);
+        catch (e) {
+            console.log(e);
         }
     }
     async fetchTopics(size) {
@@ -59,8 +61,24 @@ let TopicsService = class TopicsService {
                 return topics;
             }
         }
-        catch (err) {
-            console.log(err);
+        catch (e) {
+            console.log(e);
+        }
+    }
+    async fetchUserTopics(data, userId) {
+        try {
+            if (await this.userService.userExists(userId.id)) {
+                const topics = [];
+                for (let i = 0; i < data.length; i++) {
+                    console.log(data[i]);
+                    const topic = await this.TopicModel.findById({ _id: data[i] });
+                    topics.push(topic.name);
+                }
+                return topics;
+            }
+        }
+        catch (e) {
+            console.log(e);
         }
     }
 };
@@ -68,6 +86,6 @@ exports.TopicsService = TopicsService;
 exports.TopicsService = TopicsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(topic_schema_1.Topic.name)),
-    __metadata("design:paramtypes", [Object])
+    __metadata("design:paramtypes", [Object, users_service_1.UsersService])
 ], TopicsService);
 //# sourceMappingURL=topics.service.js.map

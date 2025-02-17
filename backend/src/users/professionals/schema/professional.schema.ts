@@ -37,10 +37,10 @@ export class Professional {
 
   @Prop({
     type: {
-      topics: { type: String },
+      topics: { type: Array<String> },
       bookmarks: { 
-        articles: { type: String },
-        videos: { type: String }
+        articles: { type: Array<String> },
+        videos: { type: Array<String> }
       },
     }
   })

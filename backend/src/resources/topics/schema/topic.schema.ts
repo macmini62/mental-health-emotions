@@ -7,7 +7,7 @@ export type topicDocument = HydratedDocument<Topic>;
 @Schema({ timestamps: true })
 export class Topic{
   @Prop({ required: true, type: String, default: uuidv4(), unique: true })
-  id: string;
+  _id: string;
   
   @Prop({ required: true })
   name: string

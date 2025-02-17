@@ -45,6 +45,19 @@ let UsersService = class UsersService {
             console.log(e);
         }
     }
+    async userExists(userId) {
+        try {
+            const exists = await this.UserModel.exists({ _id: userId });
+            console.log(exists);
+            if (exists) {
+                return true;
+            }
+            throw new common_1.NotFoundException;
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([

@@ -64,7 +64,7 @@ export class SeekerService {
     console.log(userId);
     console.log(data);
     return await this.SeekerModel.updateOne(
-      { _id: userId },
+      { userId: userId },
       { ...data }
     );
   }

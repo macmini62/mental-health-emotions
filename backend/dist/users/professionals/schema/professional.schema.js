@@ -50,10 +50,10 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({
         type: {
-            topics: { type: String },
+            topics: { type: (Array) },
             bookmarks: {
-                articles: { type: String },
-                videos: { type: String }
+                articles: { type: (Array) },
+                videos: { type: (Array) }
             },
         }
     }),

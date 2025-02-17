@@ -6,4 +6,5 @@ export declare class UsersService {
     constructor(UserModel: Model<User>);
     create(user: user): Promise<user>;
     findOne(email: string): Promise<User>;
+    userExists(userId: string): Promise<boolean>;
 }
