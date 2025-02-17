@@ -1,11 +1,15 @@
 import { Menu } from "@base-ui-components/react/menu";
 import { MdOutlineAccountCircle, MdOutlineColorLens, MdOutlineExitToApp, MdOutlineNotifications, MdOutlineSettings } from "react-icons/md";
 
-const UserOptions = () => {
+const UserOptions = ({
+  imageURL
+}:{
+  imageURL: string
+}) => {
   return (
     <Menu.Root>
       <Menu.Trigger className="flex h-10 items-center justify-center gap-1.5 px-3.5 text-base font-medium hover:text-black select-none">
-      <img src="/faces/face1.jpg" alt="" className="w-10 h-10 rounded-full hover:opacity-80"/>
+      <img src={imageURL} alt="" className="w-10 h-10 rounded-full hover:opacity-80"/>
       </Menu.Trigger>
       <Menu.Portal>
         <Menu.Positioner className="outline-none" sideOffset={20} align="end">

@@ -15,6 +15,24 @@ import Header from "../components/header";
 import ContentHeader from "../components/contentHeader";
 import ContentOptions from "../components/dropDownOptions/contentOptions";
 
+interface User {
+  _id: string;
+  userId: string;
+  phoneNumber: string;
+  profile: {
+    profileURL: string;
+    nickname: string;
+    imageURL: string;
+  };
+  contents: {
+    topics: Array<string>;
+    bookmarks: {
+      articles: Array<string>;
+      videos: Array<string>;
+    }
+  }
+}
+
 interface topic {
   _id: string,
   name: string
@@ -22,7 +40,23 @@ interface topic {
 
 const Articles = () => {
 
-  const [user, setUser] = React.useState<object>({});
+  const [user, setUser] = React.useState<User>({
+    _id: "",
+    userId: "",
+    phoneNumber: "",
+    profile: {
+      profileURL: "",
+      nickname: "",
+      imageURL: ""
+    },
+    contents: {
+      topics: [],
+      bookmarks: {
+        articles: [],
+        videos: []
+      }
+    }
+  });
 
   React.useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -45,8 +79,8 @@ const Articles = () => {
       });
     }
   }, []);
+  // console.log(user);
 
-  console.log(user);
 
   const [loading, setLoading] = React.useState<boolean>(false);
   
@@ -63,33 +97,35 @@ const Articles = () => {
 
   // Load topics data
   const [topics, setTopics] = React.useState<topic[]>([]);
-  // React.useEffect(() => {
-  //   setLoading(true);
-  //   axios.get(`http://localhost:3001/topics?size=${10}`)
-  //   .then((res) => {
-  //     setTopics(res.data);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //     setFetchFailed(true);
-  //   });
-  // }, []);
+  React.useEffect(() => {
+    setLoading(true);
+    axios.get(`http://localhost:3001/topics?size=${10}`)
+    .then((res) => {
+      setTopics(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+      setFetchFailed(true);
+    });
+  }, []);
 
-  // // Reload more topics
-  // const handleTopicsLoad = () => {
-  //   axios.get(`http://localhost:3001/topics?size=${topics.length+5}`)
-  //     .then((res) => {
-  //       setTopics(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  // Reload more topics
+  const handleTopicsLoad = () => {
+    axios.get(`http://localhost:3001/topics?size=${topics.length+5}`)
+      .then((res) => {
+        setTopics(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
       {/* HEADER */}
-      <Header/>
+      <Header
+        imageURL={user.profile?.imageURL}
+      /> 
       {/* BODY */}
       <div className="w-[1338px] flex justify-between p-4">
         {/* MENU SECTION */}
@@ -99,7 +135,9 @@ const Articles = () => {
         {/* CONTENT SECTION */}
         <div className="w-[728px] max-h-fit py-4">
           {/* content-header */}
-          <ContentHeader/>
+          <ContentHeader
+            topics={user.contents.topics}
+          />
           {
 
             <div className="flex items-center justify-center my-8 relative">
