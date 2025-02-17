@@ -1,7 +1,6 @@
 export interface seeker {
-  id: string;
+  _id: string;
   userId: string;
-  phoneNumber: string;
   profile: {
     profileURL: string;
     nickname: string;

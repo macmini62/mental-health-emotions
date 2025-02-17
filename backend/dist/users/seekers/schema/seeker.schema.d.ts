@@ -3,7 +3,6 @@ export type SeekerDocument = HydratedDocument<Seeker>;
 export declare class Seeker {
     _id: string;
     userId: string;
-    phoneNumber: string;
     profile: {
         profileURL: string;
         nickname: string;

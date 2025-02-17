@@ -11,18 +11,17 @@ export class ProfessionalService {
     @InjectModel(Professional.name) private ProfessionalModel: Model<Professional>
   ) {}
   
-  async addUser(data: professional): Promise<string>{
+  async addUser(userId: string, data: professional): Promise<professional>{
     try{
-      const userId: string = uuidv4();
-      const exUserEmail = await this.ProfessionalModel.exists({ email: data.email });
-      console.log(exUserEmail);
+      const existingProfessional = await this.ProfessionalModel.exists({ userId: data.userId });
+      // console.log(existingProfessional);
 
-      if(!exUserEmail){
-        const professional = await new this.ProfessionalModel({ _id: userId, ...data }).save();
-        if(!professional){
+      if(!existingProfessional){
+        const results = await new this.ProfessionalModel({ userId: userId, ...data }).save();
+        if(!results){
           throw new Error("Error creating professional!");
         }
-        return userId;
+        return results;
       }else{
         throw new Error("Professional with the email exists!!")
       }
@@ -32,7 +31,7 @@ export class ProfessionalService {
     }    
   }
 
-  async getUser(email: string): Promise<Professional>{
+  async getUser(email: string): Promise<professional>{
     console.log("email:", email);
     const professional = await this.ProfessionalModel.findById({ email: email });
 
@@ -40,7 +39,7 @@ export class ProfessionalService {
     return professional;
   }
 
-  async getAllUsers(): Promise<Array<Professional>>{
+  async getAllUsers(): Promise<Array<professional>>{
     const users: Professional[] = [];
     for await (const p of this.ProfessionalModel.find()){
       users.push(p);
@@ -66,16 +65,15 @@ export class ProfessionalService {
     );
   }
 
-  async verifyUser(data: professional): Promise<object>{    
+  async userExists(id: string): Promise<boolean>{    
     try{
-      console.log(data);
-      const userId = await this.ProfessionalModel.exists({...data});
-      console.log(userId);
-      
-      if(!userId){
-        throw new Error();
+      const results = await this.ProfessionalModel.exists({ _id: id });
+      console.log(results);
+
+      if(results){
+        return false;
       }else{
-        return userId;
+        return true;
       }
     }catch(e){
       console.log(e)

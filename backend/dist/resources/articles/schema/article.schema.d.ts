@@ -2,9 +2,9 @@ import { HydratedDocument } from "mongoose";
 export type ArticleDocument = HydratedDocument<Article>;
 export declare class Article {
     id: string;
+    creatorId: string;
     title: string;
     content: string;
-    creatorName: string;
     tags: string[];
     thumbnail: {
         link: string;

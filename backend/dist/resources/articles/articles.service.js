@@ -17,9 +17,11 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const article_schema_1 = require("./schema/article.schema");
 const mongoose_2 = require("mongoose");
+const professionals_service_1 = require("../../users/professionals/professionals.service");
 let ArticlesService = class ArticlesService {
-    constructor(ArticleModel) {
+    constructor(ArticleModel, professionalService) {
         this.ArticleModel = ArticleModel;
+        this.professionalService = professionalService;
     }
     async create(article) {
         return await new this.ArticleModel(article).save();
@@ -46,6 +48,20 @@ let ArticlesService = class ArticlesService {
             }
             else {
                 throw new Error("No article found with the id!!");
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+    async findCreators(creatorId) {
+        try {
+            if (await this.professionalService.userExists(creatorId)) {
+                const articles = Array();
+                for await (const a of this.ArticleModel.find({ creatorId: creatorId })) {
+                    articles.push(a);
+                }
+                return articles;
             }
         }
         catch (e) {
@@ -88,6 +104,7 @@ exports.ArticlesService = ArticlesService;
 exports.ArticlesService = ArticlesService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(article_schema_1.Article.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        professionals_service_1.ProfessionalService])
 ], ArticlesService);
 //# sourceMappingURL=articles.service.js.map

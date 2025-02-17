@@ -1,13 +1,18 @@
 export interface professional {
-  name: string;
-  id: string;
-  password: string;
-  email: string;
+  _id: string;
+  userId: string;
   profession: string;
-  permissions: boolean;
-  image: {
-    url: string;
-    width: number;
-    height: number;
+  institution: string;
+  profile: {
+    profileURL: string;
+    imageURL: string;
   };
+  contents: {
+    topics: Array<string>,
+    authored: {
+      articles: Array<string>,
+      videos: Array<string>,
+      liveSessions: Array<string>
+    }
+  }
 }

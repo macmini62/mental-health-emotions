@@ -16,9 +16,13 @@ let Article = class Article {
 };
 exports.Article = Article;
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, type: String, default: uuid_1.v4, unique: true }),
+    (0, mongoose_1.Prop)({ required: true, type: String, default: (0, uuid_1.v4)(), unique: true }),
     __metadata("design:type", String)
 ], Article.prototype, "id", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], Article.prototype, "creatorId", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)
@@ -27,10 +31,6 @@ __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Article.prototype, "content", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
-], Article.prototype, "creatorName", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", Array)

@@ -17,22 +17,19 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const professional_schema_1 = require("./schema/professional.schema");
 const mongoose_2 = require("mongoose");
-const uuid_1 = require("uuid");
 let ProfessionalService = class ProfessionalService {
     constructor(ProfessionalModel) {
         this.ProfessionalModel = ProfessionalModel;
     }
-    async addUser(data) {
+    async addUser(userId, data) {
         try {
-            const userId = (0, uuid_1.v4)();
-            const exUserEmail = await this.ProfessionalModel.exists({ email: data.email });
-            console.log(exUserEmail);
-            if (!exUserEmail) {
-                const professional = await new this.ProfessionalModel({ _id: userId, ...data }).save();
-                if (!professional) {
+            const existingProfessional = await this.ProfessionalModel.exists({ userId: data.userId });
+            if (!existingProfessional) {
+                const results = await new this.ProfessionalModel({ userId: userId, ...data }).save();
+                if (!results) {
                     throw new Error("Error creating professional!");
                 }
-                return userId;
+                return results;
             }
             else {
                 throw new Error("Professional with the email exists!!");
@@ -66,16 +63,15 @@ let ProfessionalService = class ProfessionalService {
         console.log(data);
         return await this.ProfessionalModel.updateOne({ _id: userId }, { ...data });
     }
-    async verifyUser(data) {
+    async userExists(id) {
         try {
-            console.log(data);
-            const userId = await this.ProfessionalModel.exists({ ...data });
-            console.log(userId);
-            if (!userId) {
-                throw new Error();
+            const results = await this.ProfessionalModel.exists({ _id: id });
+            console.log(results);
+            if (results) {
+                return false;
             }
             else {
-                return userId;
+                return true;
             }
         }
         catch (e) {

@@ -1,13 +1,15 @@
 import { Article } from "./schema/article.schema";
 import { Model } from "mongoose";
 import { article } from "./interface/article.interface";
-import { ArticlesModule } from "./articles.module";
+import { ProfessionalService } from "src/users/professionals/professionals.service";
 export declare class ArticlesService {
     private ArticleModel;
-    constructor(ArticleModel: Model<Article>);
-    create(article: article): Promise<ArticlesModule>;
+    private professionalService;
+    constructor(ArticleModel: Model<Article>, professionalService: ProfessionalService);
+    create(article: article): Promise<article>;
     findAll(): Promise<article[]>;
     findOne(id: string): Promise<article>;
+    findCreators(creatorId: string): Promise<Array<article>>;
     update(id: string, article: article): Promise<article>;
     deleteOne(id: string): Promise<boolean>;
 }

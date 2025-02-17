@@ -3,15 +3,16 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Article } from "./schema/article.schema";
 import { Model } from "mongoose";
 import { article } from "./interface/article.interface";
-import { ArticlesModule } from "./articles.module";
+import { ProfessionalService } from "src/users/professionals/professionals.service";
 
 @Injectable()
 export class ArticlesService {
   constructor(
-    @InjectModel(Article.name) private ArticleModel: Model<Article>
+    @InjectModel(Article.name) private ArticleModel: Model<Article>,
+    private professionalService: ProfessionalService
   ){}
 
-  async create(article: article): Promise<ArticlesModule>{
+  async create(article: article): Promise<article>{
     return await new this.ArticleModel(article).save();
   }
 
@@ -38,6 +39,22 @@ export class ArticlesService {
         throw new Error("No article found with the id!!");
       }
     }catch(e){
+      console.log(e);
+    }
+  }
+
+  async findCreators(creatorId: string): Promise<Array<article>> {
+    try{
+      if (await this.professionalService.userExists(creatorId)){
+        const articles: Array<article> = Array();
+        for await (const a of this.ArticleModel.find({ creatorId: creatorId })){
+          articles.push(a);
+        }
+
+        return articles;
+      }
+    }
+    catch(e){
       console.log(e);
     }
   }

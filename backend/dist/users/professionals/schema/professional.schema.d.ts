@@ -3,19 +3,18 @@ export type ProfessionalDocument = HydratedDocument<Professional>;
 export declare class Professional {
     _id: string;
     userId: string;
-    phoneNumber: string;
     profession: string;
     institution: string;
-    lastActive: string;
     profile: {
         profileURL: string;
         imageURL: string;
     };
     contents: {
         topics: string[];
-        bookmarks: {
+        authored: {
             articles: string[];
             videos: string[];
+            liveSessions: string[];
         };
     };
 }

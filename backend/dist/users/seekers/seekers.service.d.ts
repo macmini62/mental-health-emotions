@@ -4,7 +4,7 @@ import { seeker } from "./interface/seekers.interface";
 export declare class SeekerService {
     private SeekerModel;
     constructor(SeekerModel: Model<Seeker>);
-    addUser(data: seeker): Promise<string>;
+    addUser(userId: string, data: seeker): Promise<seeker>;
     getUser(userId: string): Promise<Seeker>;
     getAllUsers(): Promise<Array<Seeker>>;
     deleteUser(userId: string): Promise<import("mongodb").DeleteResult>;

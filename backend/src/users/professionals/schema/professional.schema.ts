@@ -1,19 +1,17 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
+import { v4 as uuidv4 } from "uuid";
 
 export type ProfessionalDocument = HydratedDocument<Professional>;
 
 @Schema({ timestamps: true })
 export class Professional {
   
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, default: uuidv4() })
   _id: string;
   
   @Prop({ required: true, unique: true })
   userId: string;
-
-  @Prop({ required: true, unique: true })
-  phoneNumber: string;
 
   @Prop({ required: true })
   profession: string;
@@ -21,13 +19,10 @@ export class Professional {
   @Prop()
   institution: string;
 
-  @Prop()
-  lastActive: string;
-
   @Prop({
     type: {
       profileURL: { type: String, required: true },
-      imageURL: { type: Number, required: true }
+      imageURL: { type: String, required: true }
     }
   })
   profile: {
@@ -38,17 +33,19 @@ export class Professional {
   @Prop({
     type: {
       topics: { type: Array<String> },
-      bookmarks: { 
+      authored: { 
         articles: { type: Array<String> },
-        videos: { type: Array<String> }
+        videos: { type: Array<String> },
+        liveSessions:{ type: Array<String> }
       },
     }
   })
   contents: {
     topics: string[];
-    bookmarks: {
+    authored: {
       articles: string[];
       videos: string[];
+      liveSessions: string[];
     }
   }
 }

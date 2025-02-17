@@ -25,33 +25,24 @@ export class ProfessionalController {
     return this.usersService.getUser(userId);
   }
   
+  @SkipAuth()
   @Post("create")
-  @Roles(Role.professional)
-  async add(@Body() data: professional, @Res() res: Response){
-    const userId: string = await this.usersService.addUser(data);
+  // @Roles(Role.professional)
+  async add(@Param() id: string, @Body() data: professional, @Res() res: Response){
+    const results: professional = await this.usersService.addUser(id, data);
   
-    if(userId){
-      return res.status(201).send({_id: userId});
+    if(results){
+      return res.status(201).send(results);
     }
-    return res.status(500).send({ Error: "Email address has already been used!" });
-  }
-
-  @Post("verify")
-  async verify(@Body() data: professional, @Res() res: Response){
-    const userId: object = await this.usersService.verifyUser(data);
-  
-    if(userId){
-      return res.status(200).send({...userId});
-    }
-    return res.status(500).send({ Error: "User does not exists!" });
+    return res.status(500).send({ Error: "Professional already exists!!" });
   }
   
-  @Put("/id/:id")
+  @Put("/:id")
   update(@Body() data: object, @Param("id") userId: string){
     return this.usersService.updateUser(userId, data);
   }
 
-  @Delete("/id/:id")
+  @Delete("/:id")
   delete(@Param("id") userId: string){
     return this.usersService.deleteUser(userId);
   }

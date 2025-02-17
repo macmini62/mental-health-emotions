@@ -11,21 +11,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfessionalSchema = exports.Professional = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
+const uuid_1 = require("uuid");
 let Professional = class Professional {
 };
 exports.Professional = Professional;
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, unique: true }),
+    (0, mongoose_1.Prop)({ required: true, unique: true, default: (0, uuid_1.v4)() }),
     __metadata("design:type", String)
 ], Professional.prototype, "_id", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)
 ], Professional.prototype, "userId", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true, unique: true }),
-    __metadata("design:type", String)
-], Professional.prototype, "phoneNumber", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
@@ -35,14 +32,10 @@ __decorate([
     __metadata("design:type", String)
 ], Professional.prototype, "institution", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], Professional.prototype, "lastActive", void 0);
-__decorate([
     (0, mongoose_1.Prop)({
         type: {
             profileURL: { type: String, required: true },
-            imageURL: { type: Number, required: true }
+            imageURL: { type: String, required: true }
         }
     }),
     __metadata("design:type", Object)
@@ -51,9 +44,10 @@ __decorate([
     (0, mongoose_1.Prop)({
         type: {
             topics: { type: (Array) },
-            bookmarks: {
+            authored: {
                 articles: { type: (Array) },
-                videos: { type: (Array) }
+                videos: { type: (Array) },
+                liveSessions: { type: (Array) }
             },
         }
     }),

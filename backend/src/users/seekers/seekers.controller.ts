@@ -20,11 +20,11 @@ export class SeekerController {
   }
   
   @Post("create")
-  async add(@Body() data: seeker, @Res() res: Response){
-    const userId: string = await this.usersService.addUser(data);
+  async add(@Param() id: string, @Body() data: seeker, @Res() res: Response){
+    const results: seeker = await this.usersService.addUser(id, data);
   
-    if(userId){
-      return res.status(201).send({_id: userId});
+    if(results){
+      return res.status(201).send(results);
     }
     return res.status(500).send({ Error: "Can't add seeker becoz profile exists!!" });
   }

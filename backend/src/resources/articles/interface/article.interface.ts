@@ -1,8 +1,8 @@
 export interface article{
   id: string;
+  creatorId: string;  
   title: string;
   content: string;
-  creatorName: string;  
   tags: string[];
   thumbnail: {
     link: string;

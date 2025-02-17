@@ -17,25 +17,19 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const seeker_schema_1 = require("./schema/seeker.schema");
 const mongoose_2 = require("mongoose");
-const uuid_1 = require("uuid");
 let SeekerService = class SeekerService {
     constructor(SeekerModel) {
         this.SeekerModel = SeekerModel;
     }
-    async addUser(data) {
+    async addUser(userId, data) {
         try {
-            const userId = (0, uuid_1.v4)();
-            const exUserId = await this.SeekerModel.exists({ _id: data.id });
-            if (!exUserId) {
-                const seeker = await new this.SeekerModel({
-                    _id: userId,
-                    userId: data.id,
-                    ...data
-                }).save();
-                if (!seeker) {
+            const existingSeeker = await this.SeekerModel.exists({ userId: userId });
+            if (!existingSeeker) {
+                const results = await new this.SeekerModel({ userId: userId, ...data }).save();
+                if (!results) {
                     throw new Error("Error creating seeker!");
                 }
-                return userId;
+                return results;
             }
             else {
                 throw new Error("Seeker profile exists!!");

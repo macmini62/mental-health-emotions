@@ -7,17 +7,17 @@ export type ArticleDocument = HydratedDocument<Article>;
 @Schema({ timestamps: true })
 
 export class Article{
-  @Prop({ required: true, type: String, default: uuidv4, unique: true })
+  @Prop({ required: true, type: String, default: uuidv4(), unique: true })
   id: string;
+
+  @Prop({ required: true })
+  creatorId: string
 
   @Prop({ required: true, unique: true })
   title: string;
 
   @Prop({ required: true })
   content: string;
-  
-  @Prop({ required: true })
-  creatorName: string
   
   @Prop({ required: true })
   tags: string[];

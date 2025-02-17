@@ -11,21 +11,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SeekerSchema = exports.Seeker = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
+const uuid_1 = require("uuid");
 let Seeker = class Seeker {
 };
 exports.Seeker = Seeker;
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, unique: true }),
+    (0, mongoose_1.Prop)({ required: true, unique: true, default: (0, uuid_1.v4)() }),
     __metadata("design:type", String)
 ], Seeker.prototype, "_id", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)
 ], Seeker.prototype, "userId", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true, unique: true }),
-    __metadata("design:type", String)
-], Seeker.prototype, "phoneNumber", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
         type: {

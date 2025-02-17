@@ -3,7 +3,6 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Seeker } from "./schema/seeker.schema";
 import { Model } from "mongoose";
 import { seeker } from "./interface/seekers.interface";
-import { v4 as uuidv4 } from "uuid";
 
 @Injectable()
 export class SeekerService {
@@ -11,21 +10,16 @@ export class SeekerService {
     @InjectModel(Seeker.name) private SeekerModel: Model<Seeker>
   ) {}
   
-  async addUser(data: seeker): Promise<string>{
+  async addUser(userId: string, data: seeker): Promise<seeker>{
     try{
-      const userId: string = uuidv4();
-      const exUserId = await this.SeekerModel.exists({ _id: data.id });
-      // console.log(exUserId);
-      if(!exUserId){
-        const seeker = await new this.SeekerModel({
-          _id: userId,
-          userId: data.id,
-          ...data
-        }).save();
-        if(!seeker){
+      const existingSeeker = await this.SeekerModel.exists({ userId: userId });
+      // console.log(existingSeeker);
+      if(!existingSeeker){
+        const results = await new this.SeekerModel({ userId: userId, ...data }).save();
+        if(!results){
           throw new Error("Error creating seeker!");
         }
-        return userId;
+        return results;
       }else{
         throw new Error("Seeker profile exists!!")
       }

@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArticlesController = void 0;
 const common_1 = require("@nestjs/common");
 const articles_service_1 = require("./articles.service");
-const express_1 = require("express");
 let ArticlesController = class ArticlesController {
     constructor(articlesService) {
         this.articlesService = articlesService;
@@ -23,19 +22,26 @@ let ArticlesController = class ArticlesController {
     create(article) {
         return this.articlesService.create(article);
     }
-    findAll() {
-        const res = this.articlesService.findAll();
-        console.log(res);
-        if (typeof (res) === "string") {
-            return express_1.response.status(200).json(res);
+    findCreators(id, res) {
+        const response = this.articlesService.findCreators(id);
+        if (response) {
+            return res.status(400).send(response);
+        }
+        return res.status(404).send({ message: "Creator has not created an article!!" });
+    }
+    findAll(res) {
+        const response = this.articlesService.findAll();
+        console.log(response);
+        if (typeof (response) === "string") {
+            return res.status(200).json(response);
         }
     }
-    findOne(id) {
+    findOne(id, res) {
         const result = this.articlesService.findOne(id);
         if (!result) {
-            return express_1.response.status(500).send({ message: "Error in the server!" });
+            return res.status(500).send({ message: "Error in the server!" });
         }
-        return express_1.response.status(200).json(result);
+        return res.status(200).json(result);
     }
     update(id, article) {
         return this.articlesService.update(id, article);
@@ -53,20 +59,30 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ArticlesController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Post)("/:id"),
+    __param(0, (0, common_1.Param)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], ArticlesController.prototype, "findCreators", null);
+__decorate([
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ArticlesController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(":id"),
+    (0, common_1.Get)("/:id"),
     __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], ArticlesController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Put)(":id"),
+    (0, common_1.Put)("/:id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -74,7 +90,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ArticlesController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(":id"),
+    (0, common_1.Delete)("/:id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
