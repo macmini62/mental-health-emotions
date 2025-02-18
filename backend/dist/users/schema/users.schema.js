@@ -16,7 +16,7 @@ let User = class User {
 };
 exports.User = User;
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, unique: true, default: (0, uuid_1.v4)() }),
+    (0, mongoose_1.Prop)({ required: true, unique: true, default: uuid_1.v4 }),
     __metadata("design:type", String)
 ], User.prototype, "_id", void 0);
 __decorate([

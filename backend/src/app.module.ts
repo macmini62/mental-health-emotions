@@ -31,7 +31,8 @@ import { UsersModule } from "./users/users.module";
       provide: APP_GUARD,
       useClass: RolesGuard,
     },
-  ]
+  ],
+  exports: [UsersModule, ResourcesModule]
 })
 
 export class AppModule implements NestModule {

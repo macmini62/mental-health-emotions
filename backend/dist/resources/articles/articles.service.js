@@ -19,16 +19,18 @@ const article_schema_1 = require("./schema/article.schema");
 const mongoose_2 = require("mongoose");
 const professionals_service_1 = require("../../users/professionals/professionals.service");
 let ArticlesService = class ArticlesService {
-    constructor(ArticleModel, professionalService) {
-        this.ArticleModel = ArticleModel;
+    constructor(articleModel, professionalService) {
+        this.articleModel = articleModel;
         this.professionalService = professionalService;
     }
-    async create(article) {
-        return await new this.ArticleModel(article).save();
+    async create(data) {
+        const results = await new this.articleModel(data).save();
+        console.log(results);
+        return results;
     }
     async findAll() {
         try {
-            const a = this.ArticleModel.find();
+            const a = this.articleModel.find();
             if (a !== null) {
                 return a;
             }
@@ -42,7 +44,7 @@ let ArticlesService = class ArticlesService {
     }
     async findOne(id) {
         try {
-            const a = this.ArticleModel.findOne({ id: id });
+            const a = this.articleModel.findOne({ id: id });
             if (a !== null) {
                 return a;
             }
@@ -58,7 +60,7 @@ let ArticlesService = class ArticlesService {
         try {
             if (await this.professionalService.userExists(creatorId)) {
                 const articles = Array();
-                for await (const a of this.ArticleModel.find({ creatorId: creatorId })) {
+                for await (const a of this.articleModel.find({ creatorId: creatorId })) {
                     articles.push(a);
                 }
                 return articles;
@@ -70,9 +72,9 @@ let ArticlesService = class ArticlesService {
     }
     async update(id, article) {
         try {
-            const a = this.ArticleModel.findById({ id: id });
+            const a = this.articleModel.findById({ id: id });
             if (a) {
-                const results = this.ArticleModel.findByIdAndUpdate({ id: id }, article);
+                const results = this.articleModel.findByIdAndUpdate({ id: id }, article);
                 if (results !== null) {
                     return results;
                 }
@@ -90,7 +92,7 @@ let ArticlesService = class ArticlesService {
     }
     async deleteOne(id) {
         try {
-            const results = this.ArticleModel.deleteOne({ id: id });
+            const results = this.articleModel.deleteOne({ id: id });
             if (results !== null) {
                 return true;
             }

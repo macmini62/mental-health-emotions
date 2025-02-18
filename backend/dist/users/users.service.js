@@ -17,15 +17,13 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const users_schema_1 = require("./schema/users.schema");
-const uuid_1 = require("uuid");
 let UsersService = class UsersService {
     constructor(UserModel) {
         this.UserModel = UserModel;
     }
     async create(user) {
         try {
-            const id = (0, uuid_1.v4)();
-            const results = await new this.UserModel({ _id: id, ...user }).save();
+            const results = await new this.UserModel(user).save();
             console.log(results);
             if (!results) {
                 throw new Error("User not added!!");

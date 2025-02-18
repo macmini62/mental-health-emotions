@@ -9,20 +9,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ResourcesService = void 0;
 const common_1 = require("@nestjs/common");
 let ResourcesService = class ResourcesService {
-    create(createResourceDto) {
-        return 'This action adds a new resource';
+    createArticle() {
     }
-    findAll() {
-        return `This action returns all resources`;
+    findAllArticle() {
     }
-    findOne(id) {
-        return `This action returns a #${id} resource`;
+    findOneArticle() {
     }
-    update(id, updateResourceDto) {
-        return `This action updates a #${id} resource`;
+    updateArticle() {
     }
-    remove(id) {
-        return `This action removes a #${id} resource`;
+    removeArticle() {
     }
 };
 exports.ResourcesService = ResourcesService;

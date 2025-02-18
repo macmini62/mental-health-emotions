@@ -16,7 +16,7 @@ let Article = class Article {
 };
 exports.Article = Article;
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, default: (0, uuid_1.v4)(), unique: true }),
+    (0, mongoose_1.Prop)({ required: true, default: uuid_1.v4, unique: true }),
     __metadata("design:type", String)
 ], Article.prototype, "_id", void 0);
 __decorate([
@@ -38,10 +38,9 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({
         type: {
-            thumbnail: {
-                link: String,
-                caption: String
-            }
+            _id: { type: String, default: uuid_1.v4 },
+            imageURL: { type: String },
+            caption: { type: String }
         }
     }),
     __metadata("design:type", Object)
@@ -49,15 +48,13 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({
         type: {
-            feedback: {
-                likes: Number,
-                comments: Number
-            }
-        },
-        required: true
+            _id: { type: String, default: uuid_1.v4 },
+            likes: { type: Number },
+            comments: { type: Number }
+        }
     }),
     __metadata("design:type", Object)
-], Article.prototype, "feedback", void 0);
+], Article.prototype, "stats", void 0);
 exports.Article = Article = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], Article);

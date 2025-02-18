@@ -16,7 +16,7 @@ let Seeker = class Seeker {
 };
 exports.Seeker = Seeker;
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, unique: true, default: (0, uuid_1.v4)() }),
+    (0, mongoose_1.Prop)({ required: true, unique: true, default: uuid_1.v4 }),
     __metadata("design:type", String)
 ], Seeker.prototype, "_id", void 0);
 __decorate([
@@ -26,6 +26,7 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({
         type: {
+            _id: { type: String, default: uuid_1.v4 },
             profileURL: { type: String, required: true },
             nickname: { type: String, required: true },
             imageURL: { type: String, required: true }
@@ -36,6 +37,7 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({
         type: {
+            _id: { type: String, default: uuid_1.v4 },
             topics: { type: (Array) },
             bookmarks: {
                 articles: { type: (Array) },

@@ -25,7 +25,8 @@ exports.SeekersModule = SeekersModule = __decorate([
     (0, common_1.Module)({
         controllers: [seekers_controller_1.SeekerController],
         providers: [seekers_service_1.SeekerService],
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: seeker_schema_1.Seeker.name, schema: seeker_schema_1.SeekerSchema }])]
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: seeker_schema_1.Seeker.name, schema: seeker_schema_1.SeekerSchema }])],
+        exports: [seekers_service_1.SeekerService]
     })
 ], SeekersModule);
 //# sourceMappingURL=seekers.module.js.map

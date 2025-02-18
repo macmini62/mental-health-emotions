@@ -16,7 +16,7 @@ class Video {
 }
 exports.Video = Video;
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, default: (0, uuid_1.v4)(), unique: true }),
+    (0, mongoose_1.Prop)({ required: true, default: uuid_1.v4, unique: true }),
     __metadata("design:type", String)
 ], Video.prototype, "_id", void 0);
 __decorate([

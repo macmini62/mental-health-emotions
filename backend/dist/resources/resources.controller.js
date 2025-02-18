@@ -14,67 +14,95 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ResourcesController = void 0;
 const common_1 = require("@nestjs/common");
-const resources_service_1 = require("./resources.service");
-const create_resource_dto_1 = require("./dto/create-resource.dto");
-const update_resource_dto_1 = require("./dto/update-resource.dto");
+const articles_service_1 = require("./articles/articles.service");
+const videos_service_1 = require("./videos/videos.service");
+const auth_decorator_1 = require("../decorators/auth.decorator");
 let ResourcesController = class ResourcesController {
-    constructor(resourcesService) {
-        this.resourcesService = resourcesService;
+    constructor(articlesService, videosService) {
+        this.articlesService = articlesService;
+        this.videosService = videosService;
     }
-    create(createResourceDto) {
-        return this.resourcesService.create(createResourceDto);
+    createArticle(article) {
+        return this.articlesService.create(article);
     }
-    findAll() {
-        return this.resourcesService.findAll();
+    findCreatorsArticles(id, res) {
+        const response = this.articlesService.findCreators(id);
+        if (response) {
+            return res.status(400).send(response);
+        }
+        return res.status(404).send({ message: "Creator has not created an article!!" });
     }
-    findOne(id) {
-        return this.resourcesService.findOne(+id);
+    findAllArticles(res) {
+        const response = this.articlesService.findAll();
+        console.log(response);
+        if (typeof (response) === "string") {
+            return res.status(200).json(response);
+        }
     }
-    update(id, updateResourceDto) {
-        return this.resourcesService.update(+id, updateResourceDto);
+    findOneArticle(id, res) {
+        const result = this.articlesService.findOne(id);
+        if (!result) {
+            return res.status(500).send({ message: "Error in the server!" });
+        }
+        return res.status(200).json(result);
     }
-    remove(id) {
-        return this.resourcesService.remove(+id);
+    updateArticle(id, article) {
+        return this.articlesService.update(id, article);
+    }
+    removeArticle(id) {
+        return this.articlesService.deleteOne(id);
     }
 };
 exports.ResourcesController = ResourcesController;
 __decorate([
-    (0, common_1.Post)(),
+    (0, auth_decorator_1.SkipAuth)(),
+    (0, common_1.Post)("articles/create"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_resource_dto_1.CreateResourceDto]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], ResourcesController.prototype, "create", null);
+], ResourcesController.prototype, "createArticle", null);
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Post)("articles/:id"),
+    __param(0, (0, common_1.Param)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
-], ResourcesController.prototype, "findAll", null);
+], ResourcesController.prototype, "findCreatorsArticles", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)("articles"),
+    __param(0, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], ResourcesController.prototype, "findOne", null);
+], ResourcesController.prototype, "findAllArticles", null);
 __decorate([
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)("/articles/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], ResourcesController.prototype, "findOneArticle", null);
+__decorate([
+    (0, common_1.Put)("/articles/:id"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_resource_dto_1.UpdateResourceDto]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
-], ResourcesController.prototype, "update", null);
+], ResourcesController.prototype, "updateArticle", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Delete)("/articles/:id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], ResourcesController.prototype, "remove", null);
+], ResourcesController.prototype, "removeArticle", null);
 exports.ResourcesController = ResourcesController = __decorate([
-    (0, common_1.Controller)('resources'),
-    __metadata("design:paramtypes", [resources_service_1.ResourcesService])
+    (0, common_1.Controller)("resources"),
+    __metadata("design:paramtypes", [articles_service_1.ArticlesService,
+        videos_service_1.VideosService])
 ], ResourcesController);
 //# sourceMappingURL=resources.controller.js.map

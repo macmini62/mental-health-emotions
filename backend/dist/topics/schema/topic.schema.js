@@ -16,7 +16,7 @@ let Topic = class Topic {
 };
 exports.Topic = Topic;
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, type: String, default: (0, uuid_1.v4)(), unique: true }),
+    (0, mongoose_1.Prop)({ required: true, type: String, default: uuid_1.v4, unique: true }),
     __metadata("design:type", String)
 ], Topic.prototype, "_id", void 0);
 __decorate([

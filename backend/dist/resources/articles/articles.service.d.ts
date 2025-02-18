@@ -3,10 +3,10 @@ import { Model } from "mongoose";
 import { article } from "./interface/article.interface";
 import { ProfessionalService } from "src/users/professionals/professionals.service";
 export declare class ArticlesService {
-    private ArticleModel;
+    private articleModel;
     private professionalService;
-    constructor(ArticleModel: Model<Article>, professionalService: ProfessionalService);
-    create(article: article): Promise<article>;
+    constructor(articleModel: Model<Article>, professionalService: ProfessionalService);
+    create(data: article): Promise<article>;
     findAll(): Promise<article[]>;
     findOne(id: string): Promise<article>;
     findCreators(creatorId: string): Promise<Array<article>>;

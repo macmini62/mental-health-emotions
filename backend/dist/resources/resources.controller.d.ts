@@ -1,12 +1,15 @@
-import { ResourcesService } from './resources.service';
-import { CreateResourceDto } from './dto/create-resource.dto';
-import { UpdateResourceDto } from './dto/update-resource.dto';
+import { Response } from "express";
+import { article } from "./articles/interface/article.interface";
+import { ArticlesService } from "./articles/articles.service";
+import { VideosService } from "./videos/videos.service";
 export declare class ResourcesController {
-    private readonly resourcesService;
-    constructor(resourcesService: ResourcesService);
-    create(createResourceDto: CreateResourceDto): string;
-    findAll(): string;
-    findOne(id: string): string;
-    update(id: string, updateResourceDto: UpdateResourceDto): string;
-    remove(id: string): string;
+    private articlesService;
+    private videosService;
+    constructor(articlesService: ArticlesService, videosService: VideosService);
+    createArticle(article: article): Promise<article>;
+    findCreatorsArticles(id: string, res: Response): Response<any, Record<string, any>>;
+    findAllArticles(res: Response): Response<any, Record<string, any>>;
+    findOneArticle(id: string, res: Response): Response<any, Record<string, any>>;
+    updateArticle(id: string, article: article): Promise<article>;
+    removeArticle(id: string): Promise<boolean>;
 }

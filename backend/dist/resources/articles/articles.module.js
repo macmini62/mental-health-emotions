@@ -11,18 +11,19 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const article_schema_1 = require("./schema/article.schema");
 const professionals_module_1 = require("../../users/professionals/professionals.module");
+const articles_service_1 = require("./articles.service");
 let ArticlesModule = class ArticlesModule {
 };
 exports.ArticlesModule = ArticlesModule;
 exports.ArticlesModule = ArticlesModule = __decorate([
     (0, common_1.Module)({
         controllers: [],
-        providers: [],
+        providers: [articles_service_1.ArticlesService],
         imports: [
             mongoose_1.MongooseModule.forFeature([{ name: article_schema_1.Article.name, schema: article_schema_1.ArticleSchema }]),
             professionals_module_1.ProfessionalsModule
         ],
-        exports: [ArticlesModule]
+        exports: [articles_service_1.ArticlesService]
     })
 ], ArticlesModule);
 //# sourceMappingURL=articles.module.js.map

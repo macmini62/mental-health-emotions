@@ -47,7 +47,8 @@ exports.AppModule = AppModule = __decorate([
                 provide: core_1.APP_GUARD,
                 useClass: role_guard_1.RolesGuard,
             },
-        ]
+        ],
+        exports: [users_module_1.UsersModule, resources_module_1.ResourcesModule]
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

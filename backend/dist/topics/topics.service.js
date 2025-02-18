@@ -17,7 +17,6 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const topic_schema_1 = require("./schema/topic.schema");
 const mongoose_2 = require("mongoose");
-const uuid_1 = require("uuid");
 const users_service_1 = require("../users/users.service");
 let TopicsService = class TopicsService {
     constructor(TopicModel = (mongoose_2.Model), userService) {
@@ -28,14 +27,13 @@ let TopicsService = class TopicsService {
         try {
             const createdTopics = [];
             for (var i = 0; i < data.length; i++) {
-                const topicId = (0, uuid_1.v4)();
                 const exTopic = await this.TopicModel.exists({ name: data[i] });
-                if (exTopic === null) {
-                    await new this.TopicModel({ _id: topicId, name: data[i] }).save();
+                if (!exTopic) {
+                    await new this.TopicModel(data[i]).save();
                     createdTopics.push(data[i]);
                 }
                 else {
-                    continue;
+                    throw new common_1.ConflictException;
                 }
             }
             return createdTopics;

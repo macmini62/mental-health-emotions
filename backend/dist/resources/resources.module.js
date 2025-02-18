@@ -8,10 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ResourcesModule = void 0;
 const common_1 = require("@nestjs/common");
-const resources_service_1 = require("./resources.service");
 const resources_controller_1 = require("./resources.controller");
 const articles_module_1 = require("./articles/articles.module");
 const videos_module_1 = require("./videos/videos.module");
+const professionals_module_1 = require("../users/professionals/professionals.module");
+const seekers_module_1 = require("../users/seekers/seekers.module");
 let ResourcesModule = class ResourcesModule {
 };
 exports.ResourcesModule = ResourcesModule;
@@ -19,10 +20,12 @@ exports.ResourcesModule = ResourcesModule = __decorate([
     (0, common_1.Module)({
         imports: [
             articles_module_1.ArticlesModule,
-            videos_module_1.VideosModule
+            videos_module_1.VideosModule,
+            professionals_module_1.ProfessionalsModule,
+            seekers_module_1.SeekersModule
         ],
         controllers: [resources_controller_1.ResourcesController],
-        providers: [resources_service_1.ResourcesService],
+        providers: [],
     })
 ], ResourcesModule);
 //# sourceMappingURL=resources.module.js.map
