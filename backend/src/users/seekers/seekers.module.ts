@@ -9,7 +9,8 @@ import { SeekersMiddleware } from "./seekers.middleware";
 @Module({
   controllers: [SeekerController],
   providers: [SeekerService],
-  imports: [MongooseModule.forFeature([{name: Seeker.name, schema: SeekerSchema}])]
+  imports: [MongooseModule.forFeature([{name: Seeker.name, schema: SeekerSchema}])],
+  exports: [SeekerService]
 })
 
 export class SeekersModule implements NestModule {

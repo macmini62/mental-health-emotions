@@ -13,8 +13,7 @@ export class UsersService {
 
   async create(user: user): Promise<user>{
     try{
-      const id = uuidv4();
-      const results = await new this.UserModel({ _id: id, ...user }).save();
+      const results = await new this.UserModel(user).save();
       console.log(results);
       if(!results){
         throw new Error("User not added!!");
