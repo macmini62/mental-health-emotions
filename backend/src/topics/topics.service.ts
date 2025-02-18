@@ -2,7 +2,6 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Topic } from './schema/topic.schema';
 import { Model } from 'mongoose';
-import { v4 as uuidv4 } from "uuid";
 import { UsersService } from 'src/users/users.service';
 import { topic } from './interface/topic.interface';
 
@@ -57,7 +56,7 @@ export class TopicsService {
     }
   }
 
-  async fetchUserTopics(data: string[], userId: {id: string}): Promise<Array<string>>{
+  async fetchUserTopics(data: topic[], userId: {id: string}): Promise<Array<string>>{
     try{
       if(await this.userService.userExists(userId.id)){
         const topics: Array<string> = [];

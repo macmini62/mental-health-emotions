@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, Query, Res } from "@nestjs/common";
 import { TopicsService } from "./topics.service";
 import { Response } from "express";
 import { SkipAuth } from "src/decorators/auth.decorator";
+import { topic } from "./interface/topic.interface";
 
 @Controller("topics")
 export class TopicsController {
@@ -11,7 +12,7 @@ export class TopicsController {
 
   @SkipAuth()
   @Post("")
-  async add(@Body() data: string[], @Res() res: Response){
+  async add(@Body() data: topic[], @Res() res: Response){
     const topic = await this.topicService.createTopic(data);
 
     console.log(topic);
@@ -37,7 +38,7 @@ export class TopicsController {
 
   @SkipAuth()
   @Post("/:id")
-  async fetchTopics(@Body() data: string[], @Param() userId: {id: string}, @Res() res: Response){
+  async fetchTopics(@Body() data: topic[], @Param() userId: {id: string}, @Res() res: Response){
     const topics = await this.topicService.fetchUserTopics(data, userId);
 
     if(topics){
