@@ -28,8 +28,8 @@ export class ProfessionalController {
   @SkipAuth()
   @Post("create")
   // @Roles(Role.professional)
-  async add(@Param() id: string, @Body() data: professional, @Res() res: Response){
-    const results: professional = await this.usersService.addUser(id, data);
+  async add(@Body() data: professional, @Res() res: Response){
+    const results: professional = await this.usersService.addUser(data);
   
     if(results){
       return res.status(201).send(results);
@@ -37,6 +37,7 @@ export class ProfessionalController {
     return res.status(500).send({ Error: "Professional already exists!!" });
   }
   
+  @SkipAuth()
   @Put("/:id")
   update(@Body() data: object, @Param("id") userId: string){
     return this.usersService.updateUser(userId, data);

@@ -11,20 +11,13 @@ export class ProfessionalService {
     @InjectModel(Professional.name) private ProfessionalModel: Model<Professional>
   ) {}
   
-  async addUser(userId: string, data: professional): Promise<professional>{
+  async addUser(data: professional): Promise<professional>{
     try{
-      const existingProfessional = await this.ProfessionalModel.exists({ userId: data.userId });
-      // console.log(existingProfessional);
-
-      if(!existingProfessional){
-        const results = await new this.ProfessionalModel({ userId: userId, ...data }).save();
-        if(!results){
-          throw new Error("Error creating professional!");
-        }
-        return results;
-      }else{
-        throw new Error("Professional with the email exists!!")
+      const results = await new this.ProfessionalModel(data).save();
+      if(!results){
+        throw new Error("Error creating professional!");
       }
+      return results;
     }
     catch(e){
       console.log(e);
@@ -57,12 +50,18 @@ export class ProfessionalService {
   }
 
   async updateUser(userId: string, data: object ){
-    console.log(userId);
-    console.log(data);
-    return await this.ProfessionalModel.updateOne(
-      { _id: userId },
-      { ...data }
-    );
+    try{
+      console.log(userId);
+      console.log(data);
+      return await this.ProfessionalModel.findOneAndUpdate(
+        { userId: userId },
+        { $set: {...data} },
+        { runValidators: true, new: false }
+      );
+    }
+    catch(e){
+      console.log(e);
+    }
   }
 
   async userExists(id: string): Promise<boolean>{    

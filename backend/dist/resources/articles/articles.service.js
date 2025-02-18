@@ -24,9 +24,12 @@ let ArticlesService = class ArticlesService {
         this.professionalService = professionalService;
     }
     async create(data) {
-        const results = await new this.articleModel(data).save();
-        console.log(results);
-        return results;
+        try {
+            return await new this.articleModel(data).save();
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
     async findAll() {
         try {

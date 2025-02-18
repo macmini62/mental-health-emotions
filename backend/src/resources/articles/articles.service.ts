@@ -13,9 +13,12 @@ export class ArticlesService {
   ){}
 
   async create(data: article): Promise<article>{
-    const results = await new this.articleModel(data).save();
-    console.log(results);
-    return results;
+    try{
+      return await new this.articleModel(data).save();
+    }
+    catch(e){
+      console.log(e);
+    }
   }
 
   async findAll(): Promise<article[]>{

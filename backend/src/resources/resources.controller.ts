@@ -15,16 +15,21 @@ export class ResourcesController {
   // Articles Services
   @SkipAuth()
   @Post("articles/create")
-  createArticle(@Body() article: article) {
-    return this.articlesService.create(article);
+  createArticle(@Body() article: article, @Res() res: Response) {
+    const results = this.articlesService.create(article);
+    if(results){
+      res.status(400);
+    }
+
+    return res.status(500);
   }
   
   @Post("articles/:id")
   findCreatorsArticles(@Param() id: string, @Res() res: Response){
-    const response = this.articlesService.findCreators(id);
+    const results = this.articlesService.findCreators(id);
 
-    if(response){
-      return res.status(400).send(response);
+    if(results){
+      return res.status(400).send(results);
     }
 
     return res.status(404).send({ message: "Creator has not created an article!!" });
@@ -32,11 +37,11 @@ export class ResourcesController {
 
   @Get("articles")
   findAllArticles(@Res() res: Response) {
-    const response = this.articlesService.findAll();
-    console.log(response);
+    const results = this.articlesService.findAll();
+    console.log(results);
 
-    if(typeof(response) === "string"){
-      return res.status(200).json(response);
+    if(typeof(results) === "string"){
+      return res.status(200).json(results);
     }
   }
 
@@ -50,6 +55,7 @@ export class ResourcesController {
     return res.status(200).json(result);
   }
 
+  @SkipAuth()
   @Put("/articles/:id")
   updateArticle(@Param("id") id: string, @Body() article: article) {
     return this.articlesService.update(id, article);
@@ -70,10 +76,10 @@ export class ResourcesController {
 
   // @Post("/:id")
   // findCreatorsVideos(@Param() id: string, @Res() res: Response){
-  //   const response = this.videosService.findCreators(id);
+  //   const results = this.videosService.findCreators(id);
 
-  //   if(response){
-  //     return res.status(400).send(response);
+  //   if(results){
+  //     return res.status(400).send(results);
   //   }
 
   //   return res.status(404).send({ message: "Creator has not created an article!!" });
@@ -81,11 +87,11 @@ export class ResourcesController {
 
   // @Get()
   // findAllVideos(@Res() res: Response) {
-  //   const response = this.videosService.findAll();
-  //   console.log(response);
+  //   const results = this.videosService.findAll();
+  //   console.log(results);
 
-  //   if(typeof(response) === "string"){
-  //     return res.status(200).json(response);
+  //   if(typeof(results) === "string"){
+  //     return res.status(200).json(results);
   //   }
   // }
 

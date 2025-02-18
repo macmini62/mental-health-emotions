@@ -21,19 +21,13 @@ let ProfessionalService = class ProfessionalService {
     constructor(ProfessionalModel) {
         this.ProfessionalModel = ProfessionalModel;
     }
-    async addUser(userId, data) {
+    async addUser(data) {
         try {
-            const existingProfessional = await this.ProfessionalModel.exists({ userId: data.userId });
-            if (!existingProfessional) {
-                const results = await new this.ProfessionalModel({ userId: userId, ...data }).save();
-                if (!results) {
-                    throw new Error("Error creating professional!");
-                }
-                return results;
+            const results = await new this.ProfessionalModel(data).save();
+            if (!results) {
+                throw new Error("Error creating professional!");
             }
-            else {
-                throw new Error("Professional with the email exists!!");
-            }
+            return results;
         }
         catch (e) {
             console.log(e);
@@ -59,9 +53,14 @@ let ProfessionalService = class ProfessionalService {
         return users;
     }
     async updateUser(userId, data) {
-        console.log(userId);
-        console.log(data);
-        return await this.ProfessionalModel.updateOne({ _id: userId }, { ...data });
+        try {
+            console.log(userId);
+            console.log(data);
+            return await this.ProfessionalModel.findOneAndUpdate({ userId: userId }, { $set: { ...data } }, { runValidators: true, new: false });
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
     async userExists(id) {
         try {

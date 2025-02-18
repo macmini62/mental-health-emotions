@@ -22,21 +22,25 @@ let ResourcesController = class ResourcesController {
         this.articlesService = articlesService;
         this.videosService = videosService;
     }
-    createArticle(article) {
-        return this.articlesService.create(article);
+    createArticle(article, res) {
+        const results = this.articlesService.create(article);
+        if (results) {
+            res.status(400);
+        }
+        return res.status(500);
     }
     findCreatorsArticles(id, res) {
-        const response = this.articlesService.findCreators(id);
-        if (response) {
-            return res.status(400).send(response);
+        const results = this.articlesService.findCreators(id);
+        if (results) {
+            return res.status(400).send(results);
         }
         return res.status(404).send({ message: "Creator has not created an article!!" });
     }
     findAllArticles(res) {
-        const response = this.articlesService.findAll();
-        console.log(response);
-        if (typeof (response) === "string") {
-            return res.status(200).json(response);
+        const results = this.articlesService.findAll();
+        console.log(results);
+        if (typeof (results) === "string") {
+            return res.status(200).json(results);
         }
     }
     findOneArticle(id, res) {
@@ -58,8 +62,9 @@ __decorate([
     (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Post)("articles/create"),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], ResourcesController.prototype, "createArticle", null);
 __decorate([
@@ -86,6 +91,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ResourcesController.prototype, "findOneArticle", null);
 __decorate([
+    (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Put)("/articles/:id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
