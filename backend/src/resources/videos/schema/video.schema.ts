@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 export type VideoDocument = HydratedDocument<Video>;
 
 export class Video{
-  @Prop({ required: true, default: uuidv4(), unique: true })
+  @Prop({ required: true, default: uuidv4, unique: true })
   _id: string
 
   @Prop({ required: true })

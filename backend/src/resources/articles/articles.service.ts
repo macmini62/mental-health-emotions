@@ -8,17 +8,19 @@ import { ProfessionalService } from "src/users/professionals/professionals.servi
 @Injectable()
 export class ArticlesService {
   constructor(
-    @InjectModel(Article.name) private ArticleModel: Model<Article>,
+    @InjectModel(Article.name) private articleModel: Model<Article>,
     private professionalService: ProfessionalService
   ){}
 
-  async create(article: article): Promise<article>{
-    return await new this.ArticleModel(article).save();
+  async create(data: article): Promise<article>{
+    const results = await new this.articleModel(data).save();
+    console.log(results);
+    return results;
   }
 
   async findAll(): Promise<article[]>{
     try{
-      const a = this.ArticleModel.find();
+      const a = this.articleModel.find();
       if(a !== null){
         return a;
       }
@@ -32,7 +34,7 @@ export class ArticlesService {
 
   async findOne(id: string): Promise<article>{
     try{
-      const a = this.ArticleModel.findOne({ id: id });
+      const a = this.articleModel.findOne({ id: id });
       if(a !== null){
         return a;
       }else{
@@ -47,7 +49,7 @@ export class ArticlesService {
     try{
       if (await this.professionalService.userExists(creatorId)){
         const articles: Array<article> = Array();
-        for await (const a of this.ArticleModel.find({ creatorId: creatorId })){
+        for await (const a of this.articleModel.find({ creatorId: creatorId })){
           articles.push(a);
         }
 
@@ -61,9 +63,9 @@ export class ArticlesService {
 
   async update(id: string, article: article): Promise<article>{
     try{
-      const a = this.ArticleModel.findById({ id: id });
+      const a = this.articleModel.findById({ id: id });
       if(a){
-        const results = this.ArticleModel.findByIdAndUpdate({ id: id }, article);
+        const results = this.articleModel.findByIdAndUpdate({ id: id }, article);
         if(results !== null){
           return results;
         }else{
@@ -79,7 +81,7 @@ export class ArticlesService {
 
   async deleteOne(id: string): Promise<boolean>{
     try{
-      const results = this.ArticleModel.deleteOne({ id: id });
+      const results = this.articleModel.deleteOne({ id: id });
       if(results !== null){
         return true;
       }

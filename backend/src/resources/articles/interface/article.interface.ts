@@ -8,7 +8,7 @@ export interface article{
     imageURL: string;
     caption: string;
   };
-  feedback: {
+  stats: {
     likes: number;
     comments: number;
   };

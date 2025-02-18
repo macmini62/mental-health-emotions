@@ -1,26 +1,22 @@
-import { Injectable } from '@nestjs/common';
-import { CreateResourceDto } from './dto/create-resource.dto';
-import { UpdateResourceDto } from './dto/update-resource.dto';
-
+import { Injectable } from "@nestjs/common";
 @Injectable()
 export class ResourcesService {
-  create(createResourceDto: CreateResourceDto) {
-    return 'This action adds a new resource';
+  createArticle() {
+    
   }
 
-  findAll() {
-    return `This action returns all resources`;
+  findAllArticle() {
+
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} resource`;
+  findOneArticle() {
+
   }
 
-  update(id: number, updateResourceDto: UpdateResourceDto) {
-    return `This action updates a #${id} resource`;
+  updateArticle() {
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} resource`;
+  removeArticle() {
+
   }
 }

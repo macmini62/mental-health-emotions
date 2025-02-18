@@ -5,9 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 export type ArticleDocument = HydratedDocument<Article>;
 
 @Schema({ timestamps: true })
-
 export class Article{
-  @Prop({ required: true, default: uuidv4(), unique: true })
+  @Prop({ required: true, default: uuidv4, unique: true })
   _id: string;
 
   @Prop({ required: true })
@@ -24,10 +23,9 @@ export class Article{
   
   @Prop({
     type: {
-      thumbnail: {
-        link: String,
-        caption: String
-      }
+      _id: { type: String, default: uuidv4 },
+      imageURL: { type: String },
+      caption: { type: String }
     }
   })
   thumbnail: {
@@ -37,14 +35,12 @@ export class Article{
 
   @Prop({
     type: {
-      feedback: {
-        likes: Number,
-        comments: Number
-      }
-    },
-    required: true
+      _id: { type: String, default: uuidv4 },
+      likes: { type: Number },
+      comments: { type: Number }
+    }
   })
-  feedback: {
+  stats: {
     likes: number,
     comments: number //change to store comments ids from comments schema.
   }
