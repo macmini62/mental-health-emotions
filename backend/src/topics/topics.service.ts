@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Topic } from './schema/topic.schema';
 import { Model } from 'mongoose';
 import { v4 as uuidv4 } from "uuid";
 import { UsersService } from 'src/users/users.service';
+import { topic } from './interface/topic.interface';
 
 @Injectable()
 export class TopicsService {
@@ -12,18 +13,17 @@ export class TopicsService {
     private userService: UsersService
   ){}
 
-  async createTopic(data: string[]): Promise<string[]>{
+  async createTopic(data: topic[]): Promise<topic[]>{
    try{
-    const createdTopics: string[] = [];
+    const createdTopics: topic[] = [];
     for(var i = 0; i < data.length; i++){
       // console.log(data[i])
-      const topicId = uuidv4();
       const exTopic = await this.TopicModel.exists({ name: data[i] });
-      if(exTopic === null){
-        await new this.TopicModel({ _id: topicId, name: data[i] }).save();
+      if(!exTopic){
+        await new this.TopicModel(data[i]).save();
         createdTopics.push(data[i]);
       }else{
-        continue;
+        throw new ConflictException;
       }
     }
 
@@ -34,15 +34,15 @@ export class TopicsService {
    }
   }
 
-  async fetchTopics(size: number): Promise<Topic[]>{
+  async fetchTopics(size: number): Promise<topic[]>{
     try{
-      const topics: Array<Topic> = [];
+      const topics: Array<topic> = [];
       for await (const p of this.TopicModel.find()){
         topics.push(p);
       }
 
       if(size <= topics.length){
-        const tp: Topic[] = [];
+        const tp: topic[] = [];
         for(var i = 0; i < size; i++){
           tp.push(topics[i]);
         }
@@ -63,7 +63,7 @@ export class TopicsService {
         const topics: Array<string> = [];
         for(let i = 0; i < data.length; i++){
           console.log(data[i])
-          const topic: Topic = await this.TopicModel.findById({ _id: data[i] });
+          const topic: topic = await this.TopicModel.findById({ _id: data[i] });
           topics.push(topic.name);
         }
         return topics;
