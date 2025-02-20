@@ -10,19 +10,49 @@ export class SeekerService {
     @InjectModel(Seeker.name) private SeekerModel: Model<Seeker>
   ) {}
   
-  async addUser(userId: string, data: seeker): Promise<seeker>{
+  // async addUser(userId: string, data: seeker): Promise<seeker>{
+  //   try{
+  //     const existingSeeker = await this.SeekerModel.exists({ userId: userId });
+  //     // console.log(existingSeeker);
+  //     if(!existingSeeker){
+  //       const results = await new this.SeekerModel({ userId: userId, ...data }).save();
+  //       if(!results){
+  //         throw new Error("Error creating seeker!");
+  //       }
+  //       return results;
+  //     }else{
+  //       throw new Error("Seeker profile exists!!")
+  //     }
+  //   }
+  //   catch(e){
+  //     console.log(e);
+  //   }    
+  // }
+
+  async addUser(
+    userId: string,
+    data: {
+      topics: string[]
+    }
+  ): Promise<any>{
     try{
-      const existingSeeker = await this.SeekerModel.exists({ userId: userId });
-      // console.log(existingSeeker);
-      if(!existingSeeker){
-        const results = await new this.SeekerModel({ userId: userId, ...data }).save();
-        if(!results){
-          throw new Error("Error creating seeker!");
-        }
-        return results;
-      }else{
-        throw new Error("Seeker profile exists!!")
+      // create a user before updating it with the uploaded data.
+      const results = await new this.SeekerModel().save();
+      if(results){
+        return await this.SeekerModel.updateOne({ _id: results._id },
+          {$set: {
+            "userId": userId,
+            "profile.profileURL": "",
+            "profile.nickname": "",
+            "profile.imageURL": "",
+            "contents.topics": data?.topics,
+            "contents.bookmarks.articles": [],
+            "contents.bookmarks.videos": []
+          }},
+          { new: true, runValidators: true }
+        )
       }
+      throw new Error("Error creating professional!");
     }
     catch(e){
       console.log(e);

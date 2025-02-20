@@ -10,15 +10,15 @@ export class Seeker {
   @Prop({ required: true, unique: true, default: uuidv4 })
   _id: string;
   
-  @Prop({ required: true, unique: true })
+  @Prop({ unique: true })
   userId: string;
   
   @Prop({
     type: {
       _id: { type: String, default: uuidv4 },
-      profileURL: { type: String, required: true },
-      nickname: { type: String, required: true },
-      imageURL: { type: String, required: true }
+      profileURL: { type: String },
+      nickname: { type: String },
+      imageURL: { type: String }
     }
   })
   profile: {

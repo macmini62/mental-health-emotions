@@ -19,15 +19,15 @@ export class SeekerController {
       return this.usersService.getUser(userId);
   }
   
-  @Post("create")
-  async add(@Param() id: string, @Body() data: seeker, @Res() res: Response){
-    const results: seeker = await this.usersService.addUser(id, data);
+  // @Post("create")
+  // async add(@Param() id: string, @Body() data: seeker, @Res() res: Response){
+  //   const results: seeker = await this.usersService.addUser(id, data);
   
-    if(results){
-      return res.status(201).send(results);
-    }
-    return res.status(500).send({ Error: "Can't add seeker becoz profile exists!!" });
-  }
+  //   if(results){
+  //     return res.status(201).send(results);
+  //   }
+  //   return res.status(500).send({ Error: "Can't add seeker becoz profile exists!!" });
+  // }
 
   @Post("verify")
   async verify(@Body() data: seeker, @Res() res: Response){

@@ -31,6 +31,7 @@ export class ProfessionalService {
     }
   ): Promise<any>{
     try{
+      // create a user before updating it with the uploaded data.
       const results = await new this.ProfessionalModel().save();
       if(results){
         return await this.ProfessionalModel.updateOne({ _id: results._id },
