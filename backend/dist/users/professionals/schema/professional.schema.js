@@ -20,11 +20,11 @@ __decorate([
     __metadata("design:type", String)
 ], Professional.prototype, "_id", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, unique: true }),
+    (0, mongoose_1.Prop)({ unique: true }),
     __metadata("design:type", String)
 ], Professional.prototype, "userId", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Professional.prototype, "profession", void 0);
 __decorate([
@@ -35,8 +35,8 @@ __decorate([
     (0, mongoose_1.Prop)({
         type: {
             _id: { type: String, default: uuid_1.v4 },
-            profileURL: { type: String, required: true },
-            imageURL: { type: String, required: true }
+            profileURL: { type: String },
+            imageURL: { type: String }
         }
     }),
     __metadata("design:type", Object)

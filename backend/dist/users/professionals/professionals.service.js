@@ -21,21 +21,34 @@ let ProfessionalService = class ProfessionalService {
     constructor(ProfessionalModel) {
         this.ProfessionalModel = ProfessionalModel;
     }
-    async addUser(data) {
+    async addUser(userId, data) {
+        let userCreatedId = "";
         try {
-            const results = await new this.ProfessionalModel(data).save();
-            if (!results) {
-                throw new Error("Error creating professional!");
+            const results = await new this.ProfessionalModel().save();
+            userCreatedId = results._id;
+            if (results) {
+                return await this.ProfessionalModel.updateOne({ _id: results._id }, { $set: {
+                        "userId": userId,
+                        "profession": data?.title,
+                        "institution": "",
+                        "profile.profileURL": "",
+                        "profile.imageURL": "",
+                        "contents.topics": data?.topics,
+                        "contents.authored.articles": [],
+                        "contents.authored.videos": [],
+                        "contents.authored.liveSessions": []
+                    } }, { new: true, runValidators: true });
             }
-            return results;
+            throw new Error("Error creating professional!");
         }
         catch (e) {
             console.log(e);
+            await this.ProfessionalModel.findOneAndDelete({ _id: userCreatedId });
         }
     }
-    async getUser(email) {
-        console.log("email:", email);
-        const professional = await this.ProfessionalModel.findById({ email: email });
+    async getUser(userId) {
+        console.log("userId:", userId);
+        const professional = await this.ProfessionalModel.findOne({ userId: userId });
         console.log("professional:", professional);
         return professional;
     }
@@ -48,15 +61,22 @@ let ProfessionalService = class ProfessionalService {
         return users;
     }
     async deleteUser(userId) {
-        const users = await this.ProfessionalModel.deleteOne({ _id: userId });
+        const users = await this.ProfessionalModel.deleteOne({ userId: userId });
         console.log(users);
         return users;
     }
     async updateUser(userId, data) {
         try {
-            console.log(userId);
-            console.log(data);
-            return await this.ProfessionalModel.findOneAndUpdate({ userId: userId }, { $set: { ...data } }, { runValidators: true, new: false });
+            return await this.ProfessionalModel.findOneAndUpdate({ userId: userId }, { $set: {
+                    "institution": data?.institution,
+                    "profession": data?.profession,
+                    "profile.imageURL": data?.profile?.imageURL,
+                    "profile.profileURL": data?.profile?.profileURL,
+                    "contents.topics": data?.contents?.topics,
+                    "contents.authored.articles": data?.contents?.authored?.articles,
+                    "contents.authored.videos": data?.contents?.authored?.videos,
+                    "contents.authored.liveSessions": data?.contents?.authored?.liveSessions,
+                } }, { new: true, runValidators: true });
         }
         catch (e) {
             console.log(e);

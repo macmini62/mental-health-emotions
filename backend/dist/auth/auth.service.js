@@ -38,7 +38,6 @@ let AuthService = class AuthService {
     async logIn(email, password) {
         try {
             const user = await this.userService.findOne(email);
-            console.log(user);
             if (user?.password !== password) {
                 throw new common_1.UnauthorizedException();
             }

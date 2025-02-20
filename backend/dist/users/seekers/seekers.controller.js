@@ -26,13 +26,6 @@ let SeekerController = class SeekerController {
     get(userId) {
         return this.usersService.getUser(userId);
     }
-    async add(id, data, res) {
-        const results = await this.usersService.addUser(id, data);
-        if (results) {
-            return res.status(201).send(results);
-        }
-        return res.status(500).send({ Error: "Can't add seeker becoz profile exists!!" });
-    }
     async verify(data, res) {
         const userId = await this.usersService.verifyUser(data);
         if (userId) {
@@ -62,15 +55,6 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], SeekerController.prototype, "get", null);
-__decorate([
-    (0, common_1.Post)("create"),
-    __param(0, (0, common_1.Param)()),
-    __param(1, (0, common_1.Body)()),
-    __param(2, (0, common_1.Res)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object, Object]),
-    __metadata("design:returntype", Promise)
-], SeekerController.prototype, "add", null);
 __decorate([
     (0, common_1.Post)("verify"),
     __param(0, (0, common_1.Body)()),

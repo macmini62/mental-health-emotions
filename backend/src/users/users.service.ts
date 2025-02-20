@@ -98,8 +98,7 @@ export class UsersService {
 
   async findOne(email: string): Promise<User> {
     try{
-      const user: user = await this.UserModel.findOne({ email: email });
-      return user;
+      return await this.UserModel.findOne({ email: email });
     }
     catch(e){
       console.log(e);

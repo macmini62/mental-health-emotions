@@ -17,18 +17,61 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const users_schema_1 = require("./schema/users.schema");
+const professionals_service_1 = require("./professionals/professionals.service");
+const seekers_service_1 = require("./seekers/seekers.service");
 let UsersService = class UsersService {
-    constructor(UserModel) {
+    constructor(UserModel, professionalService, seekerService) {
         this.UserModel = UserModel;
+        this.professionalService = professionalService;
+        this.seekerService = seekerService;
     }
     async create(user) {
         try {
             const results = await new this.UserModel(user).save();
-            console.log(results);
-            if (!results) {
-                throw new Error("User not added!!");
+            if (results) {
+                return results;
             }
-            return results;
+            throw new Error("User not added!!");
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+    async addUserProfessional(userId, userData) {
+        try {
+            const exists = await this.userExists(userId);
+            if (exists) {
+                const results = await this.UserModel.findOneAndUpdate({ _id: userId }, { $set: {
+                        "role": userData?.role
+                    } }, { new: true, runValidators: true });
+                if (results) {
+                    return await this.professionalService.addUser(userId, userData);
+                }
+                else {
+                    throw new Error("Failed to update the user!!");
+                }
+            }
+            throw new common_1.NotFoundException;
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+    async addUserSeeker(userId, userData) {
+        try {
+            const exists = await this.userExists(userId);
+            if (exists) {
+                const results = await this.UserModel.findOneAndUpdate({ _id: userId }, { $set: {
+                        "role": userData?.role
+                    } }, { new: true, runValidators: true });
+                if (results) {
+                    return await this.seekerService.addUser(userId, userData);
+                }
+                else {
+                    throw new Error("Failed to update the user!!");
+                }
+            }
+            throw new common_1.NotFoundException;
         }
         catch (e) {
             console.log(e);
@@ -36,8 +79,7 @@ let UsersService = class UsersService {
     }
     async findOne(email) {
         try {
-            const user = await this.UserModel.findOne({ email: email });
-            return user;
+            return await this.UserModel.findOne({ email: email });
         }
         catch (e) {
             console.log(e);
@@ -46,7 +88,6 @@ let UsersService = class UsersService {
     async userExists(userId) {
         try {
             const exists = await this.UserModel.exists({ _id: userId });
-            console.log(exists);
             if (exists) {
                 return true;
             }
@@ -61,6 +102,8 @@ exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(users_schema_1.User.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        professionals_service_1.ProfessionalService,
+        seekers_service_1.SeekerService])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

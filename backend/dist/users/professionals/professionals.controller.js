@@ -27,13 +27,6 @@ let ProfessionalController = class ProfessionalController {
         console.log(req);
         return this.usersService.getUser(userId);
     }
-    async add(data, res) {
-        const results = await this.usersService.addUser(data);
-        if (results) {
-            return res.status(201).send(results);
-        }
-        return res.status(500).send({ Error: "Professional already exists!!" });
-    }
     update(data, userId) {
         return this.usersService.updateUser(userId, data);
     }
@@ -59,18 +52,9 @@ __decorate([
 ], ProfessionalController.prototype, "get", null);
 __decorate([
     (0, auth_decorator_1.SkipAuth)(),
-    (0, common_1.Post)("create"),
+    (0, common_1.Put)("/:userId"),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], ProfessionalController.prototype, "add", null);
-__decorate([
-    (0, auth_decorator_1.SkipAuth)(),
-    (0, common_1.Put)("/:id"),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", void 0)

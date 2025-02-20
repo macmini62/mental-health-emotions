@@ -24,8 +24,10 @@ export class AuthController {
   }
 
   @SkipAuth()
+  // @UseGuards(AuthGuard)
   @Post("signup/completeRegistration/:userId")
   async completeSignUp(
+    @Res() res: Response,
     @Param("userId") userId: string,
     @Body() data: {
       role: string,
@@ -33,11 +35,25 @@ export class AuthController {
       topics: string[]
     }
   ){
+    console.log(userId);
+    console.log(data);
     if(data.role === "professional"){
-      return await this.userService.addUserProfessional(userId, data);
+      const results = await this.userService.addUserProfessional(userId, data);
+      if(results){
+        res.status(201).send(results);
+      }
+      else{
+        res.status(500);
+      }
     }
     else if(data.role === "seeker"){
-      return await this.userService.addUserSeeker(userId, data);
+      const results = await this.userService.addUserSeeker(userId, data);
+      if(results){
+        res.status(400).send(results);
+      }
+      else{
+        res.status(500);
+      }
     }
   }
 
@@ -49,7 +65,7 @@ export class AuthController {
     if(accessToken){
       res.status(200).send(accessToken);
     }
-    // res.status(500).send("Failed to login!!");
+    res.status(500).send("Failed to login!!");
   }
 
   @UseGuards(AuthGuard)

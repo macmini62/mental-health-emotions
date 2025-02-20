@@ -30,9 +30,11 @@ export class ProfessionalService {
       topics: string[]
     }
   ): Promise<any>{
+    let userCreatedId: string = ""
     try{
       // create a user before updating it with the uploaded data.
       const results = await new this.ProfessionalModel().save();
+      userCreatedId = results._id;
       if(results){
         return await this.ProfessionalModel.updateOne({ _id: results._id },
           {$set: {
@@ -53,6 +55,7 @@ export class ProfessionalService {
     }
     catch(e){
       console.log(e);
+      await this.ProfessionalModel.findOneAndDelete({ _id: userCreatedId });
     }    
   }
 
@@ -102,6 +105,7 @@ export class ProfessionalService {
     }
   }
 
+  // Checks the existence of a user in the database.
   async userExists(id: string): Promise<boolean>{    
     try{
       const results = await this.ProfessionalModel.exists({ _id: id });

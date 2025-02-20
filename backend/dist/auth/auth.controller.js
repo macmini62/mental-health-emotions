@@ -17,9 +17,11 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const auth_decorator_1 = require("../decorators/auth.decorator");
 const auth_guard_1 = require("../guards/auth.guard");
+const users_service_1 = require("../users/users.service");
 let AuthController = class AuthController {
-    constructor(authService) {
+    constructor(authService, userService) {
         this.authService = authService;
+        this.userService = userService;
     }
     async signUp(res, userData) {
         const accessToken = await this.authService.signUp(userData);
@@ -28,11 +30,34 @@ let AuthController = class AuthController {
         }
         res.status(500).send("User email already in user!!");
     }
+    async completeSignUp(res, userId, data) {
+        console.log(userId);
+        console.log(data);
+        if (data.role === "professional") {
+            const results = await this.userService.addUserProfessional(userId, data);
+            if (results) {
+                res.status(201).send(results);
+            }
+            else {
+                res.status(500);
+            }
+        }
+        else if (data.role === "seeker") {
+            const results = await this.userService.addUserSeeker(userId, data);
+            if (results) {
+                res.status(400).send(results);
+            }
+            else {
+                res.status(500);
+            }
+        }
+    }
     async logIn(res, userData) {
         const accessToken = await this.authService.logIn(userData.email, userData.password);
         if (accessToken) {
             res.status(200).send(accessToken);
         }
+        res.status(500).send("Failed to login!!");
     }
     getProfile(req) {
         console.log(req.user);
@@ -49,6 +74,16 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signUp", null);
+__decorate([
+    (0, auth_decorator_1.SkipAuth)(),
+    (0, common_1.Post)("signup/completeRegistration/:userId"),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Param)("userId")),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "completeSignUp", null);
 __decorate([
     (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
@@ -69,6 +104,7 @@ __decorate([
 ], AuthController.prototype, "getProfile", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)("auth"),
-    __metadata("design:paramtypes", [auth_service_1.AuthService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService,
+        users_service_1.UsersService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

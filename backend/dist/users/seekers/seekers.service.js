@@ -23,17 +23,19 @@ let SeekerService = class SeekerService {
     }
     async addUser(userId, data) {
         try {
-            const existingSeeker = await this.SeekerModel.exists({ userId: userId });
-            if (!existingSeeker) {
-                const results = await new this.SeekerModel({ userId: userId, ...data }).save();
-                if (!results) {
-                    throw new Error("Error creating seeker!");
-                }
-                return results;
+            const results = await new this.SeekerModel().save();
+            if (results) {
+                return await this.SeekerModel.updateOne({ _id: results._id }, { $set: {
+                        "userId": userId,
+                        "profile.profileURL": "",
+                        "profile.nickname": "",
+                        "profile.imageURL": "",
+                        "contents.topics": data?.topics,
+                        "contents.bookmarks.articles": [],
+                        "contents.bookmarks.videos": []
+                    } }, { new: true, runValidators: true });
             }
-            else {
-                throw new Error("Seeker profile exists!!");
-            }
+            throw new Error("Error creating professional!");
         }
         catch (e) {
             console.log(e);
