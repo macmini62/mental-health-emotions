@@ -33,7 +33,12 @@ export class AuthController {
       topics: string[]
     }
   ){
-    return await this.userService.addUserProfessional(userId, data);
+    if(data.role === "professional"){
+      return await this.userService.addUserProfessional(userId, data);
+    }
+    else if(data.role === "seeker"){
+      return await this.userService.addUserSeeker(userId, data);
+    }
   }
 
   @SkipAuth()
