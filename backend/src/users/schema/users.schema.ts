@@ -22,7 +22,7 @@ export class User{
   @Prop({ required: true })
   phoneNumber: string;
 
-  @Prop({ required: true })
+  @Prop()
   role: string;
 }
 

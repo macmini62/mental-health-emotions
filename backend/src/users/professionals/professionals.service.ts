@@ -1,9 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Professional } from "./schema/professional.schema";
 import { Model } from "mongoose";
-import { professional } from "./interface/professionals.interface";
-import { v4 as uuidv4 } from "uuid";
+import { contents, professional, profile } from "./interface/professionals.interface";
 
 @Injectable()
 export class ProfessionalService {
@@ -11,22 +10,54 @@ export class ProfessionalService {
     @InjectModel(Professional.name) private ProfessionalModel: Model<Professional>
   ) {}
   
-  async addUser(data: professional): Promise<professional>{
+  // async addUser(data: professional): Promise<professional>{
+  //   try{
+  //     const results = await new this.ProfessionalModel(data).save();
+  //     if(!results){
+  //       throw new Error("Error creating professional!");
+  //     }
+  //     return results;
+  //   }
+  //   catch(e){
+  //     console.log(e);
+  //   }    
+  // }
+
+  async addUser(
+    userId: string,
+    data: {
+      title: string,
+      topics: string[]
+    }
+  ): Promise<any>{
     try{
-      const results = await new this.ProfessionalModel(data).save();
-      if(!results){
-        throw new Error("Error creating professional!");
+      const results = await new this.ProfessionalModel().save();
+      if(results){
+        return await this.ProfessionalModel.updateOne({ _id: results._id },
+          {$set: {
+            "userId": userId,
+            "profession": data?.title,
+            "institution": "",
+            "profile.profileURL": "",
+            "profile.imageURL": "",
+            "contents.topics": data?.topics,
+            "contents.authored.articles": [],
+            "contents.authored.videos": [],
+            "contents.authored.liveSessions": []
+          }},
+          { new: true, runValidators: true }
+        )
       }
-      return results;
+      throw new Error("Error creating professional!");
     }
     catch(e){
       console.log(e);
     }    
   }
 
-  async getUser(email: string): Promise<professional>{
-    console.log("email:", email);
-    const professional = await this.ProfessionalModel.findById({ email: email });
+  async getUser(userId: string): Promise<professional>{
+    console.log("userId:", userId);
+    const professional = await this.ProfessionalModel.findOne({ userId: userId });
 
     console.log("professional:", professional);
     return professional;
@@ -43,21 +74,27 @@ export class ProfessionalService {
   }
 
   async deleteUser(userId: string){
-    const users = await this.ProfessionalModel.deleteOne({ _id: userId });
+    const users = await this.ProfessionalModel.deleteOne({ userId: userId });
 
     console.log(users);
     return users;
   }
 
-  async updateUser(userId: string, data: object ){
+  async updateUser(userId: string, data: professional ){
     try{
-      console.log(userId);
-      console.log(data);
-      return await this.ProfessionalModel.findOneAndUpdate(
-        { userId: userId },
-        { $set: {...data} },
-        { runValidators: true, new: false }
-      );
+     return await this.ProfessionalModel.findOneAndUpdate({ userId: userId },
+      {$set: {
+        "institution": data?.institution,
+        "profession": data?.profession,
+        "profile.imageURL": data?.profile?.imageURL,
+        "profile.profileURL": data?.profile?.profileURL,
+        "contents.topics": data?.contents?.topics,
+        "contents.authored.articles": data?.contents?.authored?.articles,
+        "contents.authored.videos": data?.contents?.authored?.videos,
+        "contents.authored.liveSessions": data?.contents?.authored?.liveSessions,
+      }},
+      { new: true, runValidators: true }
+     );
     }
     catch(e){
       console.log(e);

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Req, Res, UseGuards } from "@nestjs/common";
 import { ProfessionalService } from "./professionals.service";
-import { professional } from "./interface/professionals.interface";
+import { contents, professional, profile } from "./interface/professionals.interface";
 import { Request, Response } from "express";
 import { RolesGuard } from "src/guards/role.guard";
 import { Role } from "src/enums/role.enum";
@@ -25,21 +25,21 @@ export class ProfessionalController {
     return this.usersService.getUser(userId);
   }
   
-  @SkipAuth()
-  @Post("create")
+  // @SkipAuth()
+  // @Post("create")
   // @Roles(Role.professional)
-  async add(@Body() data: professional, @Res() res: Response){
-    const results: professional = await this.usersService.addUser(data);
+  // async add(@Body() data: professional, @Res() res: Response){
+  //   const results: professional = await this.usersService.addUser(data);
   
-    if(results){
-      return res.status(201).send(results);
-    }
-    return res.status(500).send({ Error: "Professional already exists!!" });
-  }
-  
+  //   if(results){
+  //     return res.status(201).send(results);
+  //   }
+  //   return res.status(500).send({ Error: "Professional already exists!!" });
+  // }
+
   @SkipAuth()
-  @Put("/:id")
-  update(@Body() data: object, @Param("id") userId: string){
+  @Put("/:userId")
+  update(@Body() data: professional, @Param("userId") userId: string){
     return this.usersService.updateUser(userId, data);
   }
 
