@@ -3,27 +3,22 @@
 import ErrorNotification from "@/app/components/notifications/notificationAlert";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface userData {
-  email: String;
-  name: String;
-  password: String;
-  phoneNumber: String;
-  role: String;
-  title: String;
-  contents: {
-    topics: String[];
-  }
+  role: string;
+  title: string;
+  topics: string[];
+}
+
+interface topic {
+  _id: string;
+  name: string;
 }
 
 const TopicsPage = () => {
 
-  const [topics, setTopics] = React.useState<string[]>([
-    "PTSD",
-    "OCD",
-    "ADHD"
-  ]);
+  const [topics, setTopics] = React.useState<topic[]>([]);
   const [selectedTopics, setSelectedTopics] = React.useState<string[]>([]);
 
   const handleTopicSelect = (t: string) => {
@@ -40,31 +35,44 @@ const TopicsPage = () => {
     }
   };
 
-  console.log(topics);
-  console.log(selectedTopics);
+  useEffect(() => {
+    const data: string | null = localStorage.getItem("userData");
+      let userData: object = {};
+      if(data !== null){
+        userData = {
+          ...JSON.parse(data),
+          topics: [...selectedTopics]
+        }
+        localStorage.setItem("userData", JSON.stringify(userData));
+      }
+      console.log(userData);
+  }, [selectedTopics])
 
-  // // Load topics data
-  // React.useEffect(() => {
-  //   axios.get(`http://localhost:3001/topics?size=${15}`)
-  //   .then((res) => {
-  //     setTopics(res.data);
-  //     console.log(res);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
-  // }, []);
+  // console.log(topics);
+  // console.log(selectedTopics);
+
+  // Load topics data
+  React.useEffect(() => {
+    axios.get(`http://localhost:3001/topics?size=${15}`)
+    .then((res) => {
+      setTopics(res.data);
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, []);
   
-  // // Reload more topics
-  // const handleTopicsLoad = () => {
-  //   axios.get(`http://localhost:3001/topics?size=${topics.length+15}`)
-  //     .then((res) => {
-  //       setTopics(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  // Reload more topics
+  const handleTopicsLoad = () => {
+    axios.get(`http://localhost:3001/topics?size=${topics.length+15}`)
+      .then((res) => {
+        setTopics(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   // Uploads the users '(professional / seeker)' signup data to the server.
   const router = useRouter();
@@ -72,24 +80,25 @@ const TopicsPage = () => {
     const btn = e.target as HTMLButtonElement;
     if(btn.name === "continue"){
       if(selectedTopics.length >= 2){
+        const userId: string | null = localStorage.getItem("userId");
+        const accessToken: string | null = localStorage.getItem("accessToken");
         const data: string | null = localStorage.getItem("userData");
-        if(data !== null){
+        if(userId && accessToken && data){
           let userData: userData = JSON.parse(data);
-          userData = {
-            ...userData,
-            contents:{
-              topics: [...selectedTopics]
-            }
-          };
           console.log(userData);
           axios
-            .post(`http://localhost:3001/users/create`, {user: userData?.role === "professional" ? "professionals" : "seekers"})
-            // .post(`http://localhost:3001/users/create`)
+            .post(`http://localhost:3001/auth/signup/completeRegistration/${JSON.parse(userId)}`,
+              userData,
+              { headers: { authorization: `Bearer ${JSON.parse(accessToken)}` } }
+            )
             .then((res) => {
-              if(res.status === 200){
-                router.replace("/articles");
-                localStorage.clear();
+              if(res.status === 201){
                 console.log(res);
+                localStorage.clear();
+                router.replace("/articles");
+              }
+              else{
+                throw new Error();
               }
             }).catch((err) => {
               console.log(err);
@@ -124,14 +133,14 @@ const TopicsPage = () => {
         <div className="flex flex-col items-center gap-10 w-full mt-12 mb-6">
           <div className="w-full justify-center flex flex-wrap gap-4">
             {
-              topics.map((t: string, i: number) => (
+              topics.map((t: topic, i: number) => (
                 <div
                   className="text-sm py-4 px-14 rounded-full bg-gray-100 text-black capitalize cursor-pointer border-2 border-gray-100"
-                  style={selectedTopics.includes(t) == true ? {background: "transparent", borderColor: "black"} : {}}
+                  style={selectedTopics.includes(t._id) == true ? {background: "transparent", borderColor: "black"} : {}}
                   key={i}
-                  onClick={() => handleTopicSelect(t)}
+                  onClick={() => handleTopicSelect(t._id)}
                 >
-                  {t}
+                  {t.name}
                 </div>
               ))
             }

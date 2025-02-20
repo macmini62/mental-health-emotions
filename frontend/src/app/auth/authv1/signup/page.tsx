@@ -8,7 +8,7 @@ import InputFields from "../../../components/authComponents/InputFields";
 import * as React from "react";
 import Auth0Options from "@/app/components/authComponents/Auth0Options";
 import { useRouter } from "next/navigation";
- 
+import axios from "axios"; 
 
 const schema = z.object({
   name: z.string().min(3, {message: "Full Name must be more than 3 characters long!"}).toLowerCase(),
@@ -21,6 +21,9 @@ const schema = z.object({
 type Inputs = z.infer<typeof schema>;
 
 const SignUpPage = () => {
+
+  // Clear the browsers storage.
+  localStorage.clear();
 
   // Handle data input in the form.
   const{
@@ -45,10 +48,20 @@ const SignUpPage = () => {
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
     // Store the user data in the browser's local storage.
-    localStorage.setItem("userData", JSON.stringify(data));
+    // localStorage.setItem("userData", JSON.stringify(data));
 
-    // Reroute user to the details pages.
-    router.push("/auth/setup/role");
+    axios.post("http://localhost:3001/auth/signup", data)
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("userId", JSON.stringify(res.data.user._id));
+        localStorage.setItem("accessToken", JSON.stringify(res.data.accessToken));
+
+        // Reroute user to the details pages.
+        router.push("/auth/setup/role");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   });
 
   return (

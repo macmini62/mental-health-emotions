@@ -10,7 +10,7 @@ const TitlePage = () => {
     "psychologist",
     "psychiatrist",
     "counselor",
-    "therapists"
+    "therapist"
   ]
 
   const [title, setTitle] = React.useState<string>("");

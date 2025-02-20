@@ -20,15 +20,11 @@ const RolePage = () => {
 
   React.useEffect(() => {
     if (role !== ""){
-      const data: string | null = localStorage.getItem("userData");
       let userData: object = {};
-      if(data !== null){
-        userData = {
-          ...JSON.parse(data),
-          role: role
-        }
-        localStorage.setItem("userData", JSON.stringify(userData));
+      userData = {
+        role: role
       }
+      localStorage.setItem("userData", JSON.stringify(userData));
       console.log(userData);
     }
   }, [role]);
