@@ -7,40 +7,18 @@ import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import { TbMessageCircle, TbMessageCircleFilled } from "react-icons/tb";
 import Menu from "../components/sideMenu/menu";
 import axios from "axios";
-import React, { useEffect } from "react";
+import React  from "react";
 import Footer from "../components/footerOptions/footer";
 import LoadingBar from "../components/loadings/loadingBar";
 import ErrorNotification from "../components/notifications/notificationAlert";
 import Header from "../components/header";
 import ContentHeader from "../components/contentHeader";
 import ContentOptions from "../components/dropDownOptions/contentOptions";
-
-interface User {
-  _id: string;
-  userId: string;
-  phoneNumber: string;
-  profile: {
-    profileURL: string;
-    nickname: string;
-    imageURL: string;
-  };
-  contents: {
-    topics: Array<string>;
-    bookmarks: {
-      articles: Array<string>;
-      videos: Array<string>;
-    }
-  }
-}
-
-interface topic {
-  _id: string,
-  name: string
-}
+import { user, article, topic } from "../interface/interface";
 
 const Articles = () => {
 
-  const [user, setUser] = React.useState<User>({
+  const [user, setUser] = React.useState<user>({
     _id: "",
     userId: "",
     phoneNumber: "",
@@ -58,16 +36,41 @@ const Articles = () => {
     }
   });
 
-  React.useEffect(() => {
-    const userId = localStorage.getItem("userId");
-    const accessToken = localStorage.getItem("access token");
-    const role: string | null = localStorage.getItem("role");
+  const [storedData, setStoredData] = React.useState<{
+    userId: string;
+    accessToken: string;
+    role: string;
+  }>({
+    userId: "",
+    accessToken: "",
+    role: ""
+  })
 
-    if(userId && accessToken && role){
-      axios.get(`http://localhost:3001/${JSON.parse(role) === "professional" ? "professionals" : "seekers"}/${JSON.parse(userId)}`,
+  React.useEffect(() => {
+    const userId: string | null = localStorage.getItem("userId");
+    const accessToken: string | null = localStorage.getItem("access token");
+    const role: string | null = localStorage.getItem("role");
+    // console.log(userId, accessToken, role)
+
+    setStoredData((d) => {
+      if(userId && accessToken && role){
+        return {
+          userId: JSON.parse(userId),
+          accessToken: JSON.parse(accessToken),
+          role: JSON.parse(role)
+        };
+      }
+      return d;
+    });
+  }, []);
+  console.log(storedData);
+
+  // Fetch user data for after login.
+  React.useEffect(() => {
+    axios.get<user>(`http://localhost:3001/${JSON.parse(storedData.role) === "professional" ? "professionals" : "seekers"}/${JSON.parse(storedData.userId)}`,
         {
           headers: {
-            Authorization: `Bearer ${JSON.parse(accessToken)}`
+            Authorization: `Bearer ${JSON.parse(storedData.accessToken)}`
           }
         }
       )
@@ -77,16 +80,29 @@ const Articles = () => {
       .catch((e) => {
         console.log(e);
       });
-    }
   }, []);
-  // console.log(user);
+  console.log(user);
 
+  // Fetches the article data.
+  const [articles, setArticles] = React.useState<article>();
+  React.useEffect(() => {
+    axios.get<article>(`http:localhost:3001/resources/articles/${storedData.userId}}`)
+      .then((res) => {
+        setLoading(false);
+        setArticles(res.data);
+      })
+      .catch((e) => {
+        setFetchFailed(true);
+      })
+  }, []);
+  console.log(articles);
 
+  // Notifications and feedback
   const [loading, setLoading] = React.useState<boolean>(false);
   
   const [fetchFailed, setFetchFailed] = React.useState<boolean>(false);
   const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined);
-  useEffect(() => {
+  React.useEffect(() => {
     return () => {
       clearTimeout(timer.current);
     }
@@ -99,7 +115,7 @@ const Articles = () => {
   const [topics, setTopics] = React.useState<topic[]>([]);
   React.useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:3001/topics?size=${10}`)
+    axios.get<topic[]>(`http://localhost:3001/topics?size=${10}`)
     .then((res) => {
       setTopics(res.data);
     })
@@ -111,7 +127,7 @@ const Articles = () => {
 
   // Reload more topics
   const handleTopicsLoad = () => {
-    axios.get(`http://localhost:3001/topics?size=${topics.length+5}`)
+    axios.get<topic[]>(`http://localhost:3001/topics?size=${topics.length+5}`)
       .then((res) => {
         setTopics(res.data);
       })
