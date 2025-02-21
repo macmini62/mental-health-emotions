@@ -22,39 +22,39 @@ let ResourcesController = class ResourcesController {
         this.articlesService = articlesService;
         this.videosService = videosService;
     }
-    createArticle(article, res) {
-        const results = this.articlesService.create(article);
+    async createArticle(article, res) {
+        const results = await this.articlesService.create(article);
         if (results) {
             res.status(400);
         }
         return res.status(500);
     }
-    findCreatorsArticles(id, res) {
-        const results = this.articlesService.findCreators(id);
+    async findCreatorsArticles(id, res) {
+        const results = await this.articlesService.findCreators(id);
         if (results) {
             return res.status(400).send(results);
         }
-        return res.status(404).send({ message: "Creator has not created an article!!" });
+        return res.status(404);
     }
-    findAllArticles(res) {
-        const results = this.articlesService.findAll();
+    async findAllArticles(res) {
+        const results = await this.articlesService.findAll();
         console.log(results);
         if (typeof (results) === "string") {
             return res.status(200).json(results);
         }
     }
-    findOneArticle(id, res) {
-        const result = this.articlesService.findOne(id);
+    async findOneArticle(id, res) {
+        const result = await this.articlesService.findOne(id);
         if (!result) {
-            return res.status(500).send({ message: "Error in the server!" });
+            return res.status(500).send();
         }
         return res.status(200).json(result);
     }
-    updateArticle(id, article) {
-        return this.articlesService.update(id, article);
+    async updateArticle(id, article) {
+        return await this.articlesService.update(id, article);
     }
-    removeArticle(id) {
-        return this.articlesService.deleteOne(id);
+    async removeArticle(id) {
+        return await this.articlesService.deleteOne(id);
     }
 };
 exports.ResourcesController = ResourcesController;
@@ -65,22 +65,22 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "createArticle", null);
 __decorate([
-    (0, common_1.Post)("articles/:id"),
+    (0, common_1.Get)("articles/:id"),
     __param(0, (0, common_1.Param)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "findCreatorsArticles", null);
 __decorate([
     (0, common_1.Get)("articles"),
     __param(0, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "findAllArticles", null);
 __decorate([
     (0, common_1.Get)("/articles/:id"),
@@ -88,7 +88,7 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "findOneArticle", null);
 __decorate([
     (0, auth_decorator_1.SkipAuth)(),
@@ -97,14 +97,14 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "updateArticle", null);
 __decorate([
     (0, common_1.Delete)("/articles/:id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "removeArticle", null);
 exports.ResourcesController = ResourcesController = __decorate([
     (0, common_1.Controller)("resources"),

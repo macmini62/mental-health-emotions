@@ -15,8 +15,8 @@ export class ResourcesController {
   // Articles Services
   @SkipAuth()
   @Post("articles/create")
-  createArticle(@Body() article: article, @Res() res: Response) {
-    const results = this.articlesService.create(article);
+  async createArticle(@Body() article: article, @Res() res: Response<article>) {
+    const results = await this.articlesService.create(article);
     if(results){
       res.status(400);
     }
@@ -24,20 +24,20 @@ export class ResourcesController {
     return res.status(500);
   }
   
-  @Post("articles/:id")
-  findCreatorsArticles(@Param() id: string, @Res() res: Response){
-    const results = this.articlesService.findCreators(id);
+  @Get("articles/:id")
+  async findCreatorsArticles(@Param() id: string, @Res() res: Response<article[]>){
+    const results = await this.articlesService.findCreators(id);
 
     if(results){
       return res.status(400).send(results);
     }
 
-    return res.status(404).send({ message: "Creator has not created an article!!" });
+    return res.status(404);
   }
 
   @Get("articles")
-  findAllArticles(@Res() res: Response) {
-    const results = this.articlesService.findAll();
+  async findAllArticles(@Res() res: Response) {
+    const results =  await this.articlesService.findAll();
     console.log(results);
 
     if(typeof(results) === "string"){
@@ -46,10 +46,10 @@ export class ResourcesController {
   }
 
   @Get("/articles/:id")
-  findOneArticle(@Param("id") id: string,  @Res() res: Response) {
-    const result = this.articlesService.findOne(id);
+  async findOneArticle(@Param("id") id: string,  @Res() res: Response<article) {
+    const result = await this.articlesService.findOne(id);
     if(!result){
-      return res.status(500).send({ message: "Error in the server!" });
+      return res.status(500).send();
     }
     
     return res.status(200).json(result);
@@ -57,13 +57,13 @@ export class ResourcesController {
 
   @SkipAuth()
   @Put("/articles/:id")
-  updateArticle(@Param("id") id: string, @Body() article: article) {
-    return this.articlesService.update(id, article);
+  async updateArticle(@Param("id") id: string, @Body() article: article) {
+    return await this.articlesService.update(id, article);
   }
 
   @Delete("/articles/:id")
-  removeArticle(@Param("id") id: string) {
-    return this.articlesService.deleteOne(id);
+  async removeArticle(@Param("id") id: string) {
+    return await this.articlesService.deleteOne(id);
   }
 
 
