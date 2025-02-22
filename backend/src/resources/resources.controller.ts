@@ -23,16 +23,19 @@ export class ResourcesController {
 
     return res.status(500);
   }
-  
-  @Get("articles/:id")
-  async findCreatorsArticles(@Param() id: string, @Res() res: Response<article[]>){
-    const results = await this.articlesService.findCreators(id);
 
-    if(results){
-      return res.status(400).send(results);
+  @SkipAuth()
+  @Get("articles/:id")
+  async findCreatorsArticles(@Param("id") id: string, @Res() res: Response<Array<article>>){
+    console.log(id);
+    const results: Array<article> = await this.articlesService.findCreators(id);
+
+    console.log("results:", results);
+    if(!results){
+      return res.status(404);
     }
 
-    return res.status(404);
+    return res.status(200).send(results);
   }
 
   @Get("articles")
@@ -46,7 +49,7 @@ export class ResourcesController {
   }
 
   @Get("/articles/:id")
-  async findOneArticle(@Param("id") id: string,  @Res() res: Response<article) {
+  async findOneArticle(@Param("id") id: string,  @Res() res: Response<article>) {
     const result = await this.articlesService.findOne(id);
     if(!result){
       return res.status(500).send();

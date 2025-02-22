@@ -47,9 +47,7 @@ let ProfessionalService = class ProfessionalService {
         }
     }
     async getUser(userId) {
-        console.log("userId:", userId);
         const professional = await this.ProfessionalModel.findOne({ userId: userId });
-        console.log("professional:", professional);
         return professional;
     }
     async getAllUsers() {
@@ -57,7 +55,6 @@ let ProfessionalService = class ProfessionalService {
         for await (const p of this.ProfessionalModel.find()) {
             users.push(p);
         }
-        console.log(users);
         return users;
     }
     async deleteUser(userId) {
@@ -84,9 +81,9 @@ let ProfessionalService = class ProfessionalService {
     }
     async userExists(id) {
         try {
-            const results = await this.ProfessionalModel.exists({ _id: id });
-            console.log(results);
-            if (results) {
+            console.log(id);
+            const results = await this.ProfessionalModel.exists({ userId: id });
+            if (!results) {
                 return false;
             }
             else {

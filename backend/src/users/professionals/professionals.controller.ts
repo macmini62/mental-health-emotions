@@ -21,7 +21,7 @@ export class ProfessionalController {
   @SkipAuth()
   @Get("/:id")
   get(@Req() req: Request, @Param("id") userId: string) {
-    console.log(req);
+    // console.log(req);
     return this.usersService.getUser(userId);
   }
   

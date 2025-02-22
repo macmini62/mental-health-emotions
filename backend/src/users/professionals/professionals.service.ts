@@ -60,10 +60,10 @@ export class ProfessionalService {
   }
 
   async getUser(userId: string): Promise<professional>{
-    console.log("userId:", userId);
+    // console.log("userId:", userId);
     const professional = await this.ProfessionalModel.findOne({ userId: userId });
 
-    console.log("professional:", professional);
+    // console.log("professional:", professional);
     return professional;
   }
 
@@ -73,7 +73,7 @@ export class ProfessionalService {
       users.push(p);
     }
 
-    console.log(users);
+    // console.log(users);
     return users;
   }
 
@@ -108,15 +108,16 @@ export class ProfessionalService {
   // Checks the existence of a user in the database.
   async userExists(id: string): Promise<boolean>{    
     try{
-      const results = await this.ProfessionalModel.exists({ _id: id });
-      console.log(results);
+      console.log(id)
+      const results = await this.ProfessionalModel.exists({ userId: id });
 
-      if(results){
+      if(!results){
         return false;
       }else{
         return true;
       }
-    }catch(e){
+    }
+    catch(e){
       console.log(e)
     }
   }

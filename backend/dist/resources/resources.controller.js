@@ -30,11 +30,13 @@ let ResourcesController = class ResourcesController {
         return res.status(500);
     }
     async findCreatorsArticles(id, res) {
+        console.log(id);
         const results = await this.articlesService.findCreators(id);
-        if (results) {
-            return res.status(400).send(results);
+        console.log("results:", results);
+        if (!results) {
+            return res.status(404);
         }
-        return res.status(404);
+        return res.status(200).send(results);
     }
     async findAllArticles(res) {
         const results = await this.articlesService.findAll();
@@ -68,8 +70,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "createArticle", null);
 __decorate([
+    (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Get)("articles/:id"),
-    __param(0, (0, common_1.Param)()),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),

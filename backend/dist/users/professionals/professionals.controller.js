@@ -24,7 +24,6 @@ let ProfessionalController = class ProfessionalController {
     getAll() {
     }
     get(req, userId) {
-        console.log(req);
         return this.usersService.getUser(userId);
     }
     update(data, userId) {

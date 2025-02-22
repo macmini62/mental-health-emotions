@@ -61,7 +61,7 @@ export class TopicsService {
       if(await this.userService.userExists(userId.id)){
         const topics: Array<string> = [];
         for(let i = 0; i < data.length; i++){
-          console.log(data[i])
+          // console.log(data[i])
           const topic: topic = await this.TopicModel.findById({ _id: data[i] });
           topics.push(topic.name);
         }
