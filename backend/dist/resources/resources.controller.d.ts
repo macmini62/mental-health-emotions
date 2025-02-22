@@ -6,10 +6,10 @@ export declare class ResourcesController {
     private articlesService;
     private videosService;
     constructor(articlesService: ArticlesService, videosService: VideosService);
-    createArticle(article: article, res: Response<article>): Promise<Response<article, Record<string, any>>>;
-    findCreatorsArticles(id: string, res: Response<Array<article>>): Promise<Response<article[], Record<string, any>>>;
-    findAllArticles(res: Response, p: number): Promise<Response<any, Record<string, any>>>;
-    findOneArticle(id: string, p: number, res: Response<article>): Promise<Response<article, Record<string, any>>>;
+    createArticle(article: article, res: Response<article>): Promise<void>;
+    findCreatorsArticles(id: string, p: number, res: Response<Array<article>>): Promise<void>;
+    findAllArticles(res: Response<Array<article>>, p: number): Promise<void>;
+    findOneArticle(id: string, res: Response<article>): Promise<Response<article, Record<string, any>>>;
     updateArticle(id: string, p: number, article: article): Promise<article>;
     removeArticle(id: string): Promise<boolean>;
 }

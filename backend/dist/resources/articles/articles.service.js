@@ -31,15 +31,14 @@ let ArticlesService = class ArticlesService {
             console.log(e);
         }
     }
-    async findAll() {
+    async findAll(p) {
         try {
-            const a = this.articleModel.find();
-            if (a !== null) {
-                return a;
+            const total = p * 6;
+            const articles = Array();
+            for await (const a of this.articleModel.find()) {
+                articles.push(a);
             }
-            else {
-                throw new Error("No articles found!!");
-            }
+            return articles.slice(0, total);
         }
         catch (e) {
             console.log(e);
@@ -59,14 +58,15 @@ let ArticlesService = class ArticlesService {
             console.log(e);
         }
     }
-    async findCreators(creatorId) {
+    async findCreators(creatorId, p) {
         try {
+            const total = p * 6;
             if (await this.professionalService.userExists(creatorId)) {
-                const articles = Array();
+                const articles = Array(total);
                 for await (const a of this.articleModel.find({ creatorId: creatorId })) {
                     articles.push(a);
                 }
-                return articles;
+                return articles.slice(0, total);
             }
         }
         catch (e) {

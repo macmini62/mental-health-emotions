@@ -21,38 +21,37 @@ export class ResourcesController {
       res.status(400);
     }
 
-    return res.status(500);
+    res.status(500);
   }
 
   @SkipAuth()
   @Get("articles/:id")
-  async findCreatorsArticles(@Param("id") id: string, @Res() res: Response<Array<article>>){
+  async findCreatorsArticles(@Param("id") id: string,@Query("p") p: number, @Res() res: Response<Array<article>>){
     // console.log(id);
-    const results: Array<article> = await this.articlesService.findCreators(id);
+    const results: Array<article> = await this.articlesService.findCreators(id, p);
 
     // console.log("results:", results);
     if(!results){
-      return res.status(404);
+      res.status(404);
     }
 
-    return res.status(200).send(results);
+    res.status(200).send(results);
   }
 
+  @SkipAuth()
   @Get("articles")
-  async findAllArticles(@Res() res: Response, @Query("p") p: number) {
-    const results =  await this.articlesService.findAll();
+  async findAllArticles(@Res() res: Response<Array<article>>, @Query("p") p: number) {
+    const results: Array<article> =  await this.articlesService.findAll(p);
     console.log(results);
 
-    if(typeof(results) === "string"){
-      return res.status(200).json(results);
-    }
+    res.status(200).send(results);
   }
 
   @Get("/articles/:id")
-  async findOneArticle(@Param("id") id: string, @Query("p") p: number,  @Res() res: Response<article>) {
+  async findOneArticle(@Param("id") id: string, @Res() res: Response<article>) {
     const result = await this.articlesService.findOne(id);
     if(!result){
-      return res.status(500).send();
+      res.status(500).send();
     }
     
     return res.status(200).json(result);

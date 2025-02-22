@@ -27,26 +27,24 @@ let ResourcesController = class ResourcesController {
         if (results) {
             res.status(400);
         }
-        return res.status(500);
+        res.status(500);
     }
-    async findCreatorsArticles(id, res) {
-        const results = await this.articlesService.findCreators(id);
+    async findCreatorsArticles(id, p, res) {
+        const results = await this.articlesService.findCreators(id, p);
         if (!results) {
-            return res.status(404);
+            res.status(404);
         }
-        return res.status(200).send(results);
+        res.status(200).send(results);
     }
     async findAllArticles(res, p) {
-        const results = await this.articlesService.findAll();
+        const results = await this.articlesService.findAll(p);
         console.log(results);
-        if (typeof (results) === "string") {
-            return res.status(200).json(results);
-        }
+        res.status(200).send(results);
     }
-    async findOneArticle(id, p, res) {
+    async findOneArticle(id, res) {
         const result = await this.articlesService.findOne(id);
         if (!result) {
-            return res.status(500).send();
+            res.status(500).send();
         }
         return res.status(200).json(result);
     }
@@ -71,12 +69,14 @@ __decorate([
     (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Get)("articles/:id"),
     __param(0, (0, common_1.Param)("id")),
-    __param(1, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)("p")),
+    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String, Number, Object]),
     __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "findCreatorsArticles", null);
 __decorate([
+    (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Get)("articles"),
     __param(0, (0, common_1.Res)()),
     __param(1, (0, common_1.Query)("p")),
@@ -87,10 +87,9 @@ __decorate([
 __decorate([
     (0, common_1.Get)("/articles/:id"),
     __param(0, (0, common_1.Param)("id")),
-    __param(1, (0, common_1.Query)("p")),
-    __param(2, (0, common_1.Res)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, Object]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "findOneArticle", null);
 __decorate([

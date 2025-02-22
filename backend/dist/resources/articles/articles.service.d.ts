@@ -7,9 +7,9 @@ export declare class ArticlesService {
     private professionalService;
     constructor(articleModel: Model<Article>, professionalService: ProfessionalService);
     create(data: article): Promise<article>;
-    findAll(): Promise<article[]>;
+    findAll(p: number): Promise<Array<article>>;
     findOne(id: string): Promise<article>;
-    findCreators(creatorId: string): Promise<Array<article>>;
+    findCreators(creatorId: string, p: number): Promise<Array<article>>;
     update(id: string, article: article): Promise<article>;
     deleteOne(id: string): Promise<boolean>;
 }

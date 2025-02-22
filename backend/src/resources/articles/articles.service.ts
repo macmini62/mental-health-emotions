@@ -21,15 +21,16 @@ export class ArticlesService {
     }
   }
 
-  async findAll(): Promise<article[]>{
+  async findAll(p: number): Promise<Array<article>>{
     try{
-      const a = this.articleModel.find();
-      if(a !== null){
-        return a;
+      const total = p * 6;
+      const articles: Array<article> = Array();
+      for await (const a of this.articleModel.find()){
+        articles.push(a);
       }
-      else{
-        throw new Error("No articles found!!");
-      }
+
+      return articles.slice(0, total);
+      
     }catch(e){
       console.log(e);
     }
@@ -48,15 +49,16 @@ export class ArticlesService {
     }
   }
 
-  async findCreators(creatorId: string): Promise<Array<article>> {
+  async findCreators(creatorId: string, p: number): Promise<Array<article>> {
     try{
+      const total = p * 6;
       if (await this.professionalService.userExists(creatorId)){
-        const articles: Array<article> = Array();
+        const articles: Array<article> = Array(total);
         for await (const a of this.articleModel.find({ creatorId: creatorId })){
           articles.push(a);
         }
 
-        return articles;
+        return articles.slice(0, total);
       }
     }
     catch(e){
