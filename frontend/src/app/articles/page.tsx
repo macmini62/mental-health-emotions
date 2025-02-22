@@ -111,7 +111,39 @@ const Articles = () => {
         });
 
         // Fetches all the article data.
-        axios.get<Array<article>>(`http://localhost:3001/resources/articles/${JSON.parse(userId)}/p?=${page}`,
+        // axios.get<Array<article>>(`http://localhost:3001/resources/articles?${JSON.parse(userId)}p=${page}`,
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${JSON.parse(accessToken)}`
+        //     }
+        //   }
+        // )
+        // .then((res) => {
+        //   setTimeout(() => {
+        //     setArticles(res.data);
+        //     setLoading(false);
+        //   }, 6000)
+        // })
+        // .catch((e) => {
+        //   console.log(e);
+        //   setFetchFailed(true);
+        // });
+    }
+
+  }, []);
+  console.log(user);
+  console.log(articles);
+
+  // Fetch data that with the specific tags.
+  const fetchArticles = () => {
+    setLoading(true);
+    const userId: string | null = localStorage.getItem("userId");
+    const accessToken: string | null = localStorage.getItem("access token");
+
+    if(userId && accessToken){
+      if(fetchTag === ""){
+        // Fetches all the article data.
+        axios.get<Array<article>>(`http://localhost:3001/resources/articles?p=${page}`,
           {
             headers: {
               Authorization: `Bearer ${JSON.parse(accessToken)}`
@@ -122,79 +154,52 @@ const Articles = () => {
           setTimeout(() => {
             setArticles(res.data);
             setLoading(false);
-          }, 6000)
+          }, 6000);
         })
         .catch((e) => {
           console.log(e);
           setFetchFailed(true);
         });
-    }
-
-  }, []);
-  console.log(user);
-  console.log(articles);
-
-  // Fetch data that with the specific tags.
-  const fetchArticles = () => {
-    setLoading(true);
-    if(fetchTag === ""){
-      // Fetches all the article data.
-      axios.get<Array<article>>(`http://localhost:3001/resources/articles/p?=${page}`,
-        {
-          headers: {
-            Authorization: `Bearer ${storageData?.accessToken}`
+      }
+      else if(fetchTag == "following"){
+        // Fetches all the users" subscribed article data.
+        axios.get<Array<article>>(`http://localhost:3001/resources/articles?${JSON.parse(userId)}p=${page}`,
+          {
+            headers: {
+              Authorization: `Bearer ${JSON.parse(accessToken)}`
+            }
           }
-        }
-      )
-      .then((res) => {
-        setTimeout(() => {
-          setArticles(res.data);
-          setLoading(false);
-        }, 6000);
-      })
-      .catch((e) => {
-        console.log(e);
-        setFetchFailed(true);
-      });
-    }
-    else if(fetchTag == "following"){
-      // Fetches all the users" subscribed article data.
-      axios.get<Array<article>>(`http://localhost:3001/resources/articles/${storageData?.userId}/p?=${page}`,
-        {
-          headers: {
-            Authorization: `Bearer ${storageData?.accessToken}`
+        )
+        .then((res) => {
+          setTimeout(() => {
+            setArticles(res.data);
+            setLoading(false);
+          }, 6000);
+        })
+        .catch((e) => {
+          console.log(e);
+          setFetchFailed(true);
+        });
+      }
+      else{
+        // Fetches the articles with the specified tag.
+        axios.get<Array<article>>(`http://localhost:3001/resources/articles/?t=${fetchTag}?p=${page}`,
+          {
+            headers: {
+              Authorization: `Bearer ${JSON.parse(accessToken)}`
+            }
           }
-        }
-      )
-      .then((res) => {
-        setTimeout(() => {
-          setArticles(res.data);
-          setLoading(false);
-        }, 6000);
-      })
-      .catch((e) => {
-        console.log(e);
-        setFetchFailed(true);
-      });
-    }
-    else{
-      // Fetches the articles with the specified tag.
-      axios.get<Array<article>>(`http://localhost:3001/resources/articles/t?=${fetchTag}/p?=${page}`,
-        {
-          headers: {
-            Authorization: `Bearer ${storageData?.accessToken}`
-          }
-        }
-      )
-      .then((res) => {
-        setTimeout(() => {
-          setArticles(res.data);
-          setLoading(false);
-        }, 8000);
-      })
-      .catch((e) => {
-        console.log(e);
-      })
+        )
+        .then((res) => {
+          setTimeout(() => {
+            setArticles(res.data);
+            setLoading(false);
+          }, 8000);
+        })
+        .catch((e) => {
+          console.log(e);
+        })
+      }
     }
   };
 
@@ -242,12 +247,6 @@ const Articles = () => {
             topics={user.contents.topics}
             setFetchTag={(t: string) => setFetchTag(t)}
           />
-          {
-            loading &&
-            <div className="flex items-center justify-center my-8 relative">
-              <LoadingBar/>
-            </div>
-          }
           {
                 fetchFailed &&
                 <div className="w-full flex justify-center">
@@ -311,11 +310,17 @@ const Articles = () => {
                         </div>
                       </div>
                       {/* image */}
-                      <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
+                      <Link href="/"><img src={a.thumbnail.imageURL} alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
                     </div>
                   </div>
                 </li>
               ))
+            }
+            {
+              loading &&
+              <div className="flex items-center justify-center my-8 relative">
+                <LoadingBar/>
+              </div>
             }
           </ul>
         </div>
