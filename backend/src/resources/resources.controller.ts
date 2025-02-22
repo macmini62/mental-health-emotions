@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Put } from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Put, Query } from "@nestjs/common";
 import { Response } from "express";
 import { article } from "./articles/interface/article.interface";
 import { ArticlesService } from "./articles/articles.service";
@@ -27,10 +27,10 @@ export class ResourcesController {
   @SkipAuth()
   @Get("articles/:id")
   async findCreatorsArticles(@Param("id") id: string, @Res() res: Response<Array<article>>){
-    console.log(id);
+    // console.log(id);
     const results: Array<article> = await this.articlesService.findCreators(id);
 
-    console.log("results:", results);
+    // console.log("results:", results);
     if(!results){
       return res.status(404);
     }
@@ -39,7 +39,7 @@ export class ResourcesController {
   }
 
   @Get("articles")
-  async findAllArticles(@Res() res: Response) {
+  async findAllArticles(@Res() res: Response, @Query("p") p: number) {
     const results =  await this.articlesService.findAll();
     console.log(results);
 
@@ -49,7 +49,7 @@ export class ResourcesController {
   }
 
   @Get("/articles/:id")
-  async findOneArticle(@Param("id") id: string,  @Res() res: Response<article>) {
+  async findOneArticle(@Param("id") id: string, @Query("p") p: number,  @Res() res: Response<article>) {
     const result = await this.articlesService.findOne(id);
     if(!result){
       return res.status(500).send();
@@ -60,7 +60,7 @@ export class ResourcesController {
 
   @SkipAuth()
   @Put("/articles/:id")
-  async updateArticle(@Param("id") id: string, @Body() article: article) {
+  async updateArticle(@Param("id") id: string, @Query("p") p: number, @Body() article: article) {
     return await this.articlesService.update(id, article);
   }
 

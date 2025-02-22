@@ -12,10 +12,8 @@ export class TopicsController {
 
   @SkipAuth()
   @Post("")
-  async add(@Body() data: topic[], @Res() res: Response){
+  async add(@Body() data: Array<topic>, @Res() res: Response){
     const topic = await this.topicService.createTopic(data);
-
-    console.log(topic);
 
     if(topic !== undefined){
       res.status(201).send(topic);
@@ -26,25 +24,26 @@ export class TopicsController {
 
   @SkipAuth()
   @Get("")
-  async fetch(@Query("size") size: number, @Res() res: Response){
-    const topics = await this.topicService.fetchTopics(size);
+  async fetch(@Query("s") s: number, @Res() res: Response<Array<topic>>){
+    const topics: Array<topic> = await this.topicService.fetchTopics(s);
 
     if(topics){
       res.send(topics);
     }else{
-      res.status(500).send({ message: "Failed to fetch topics!!" });
+      res.status(500);
     }
   }
 
   @SkipAuth()
   @Post("/:id")
-  async fetchTopics(@Body() data: topic[], @Param() userId: {id: string}, @Res() res: Response){
-    const topics = await this.topicService.fetchUserTopics(data, userId);
+  async fetchTopics(@Body() data: Array<string>, @Param("id") userId: string, @Res() res: Response<Array<string>>){
+    const topics: Array<string> = await this.topicService.fetchUserTopics(data, userId);
+    // console.log(data, userId)
 
     if(topics){
       res.send(topics);
     }else{
-      res.status(500).send({ message: "Failed to fetch topics!!" });
+      res.status(500);
     }
   }
 }

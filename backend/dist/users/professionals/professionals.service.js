@@ -81,7 +81,6 @@ let ProfessionalService = class ProfessionalService {
     }
     async userExists(id) {
         try {
-            console.log(id);
             const results = await this.ProfessionalModel.exists({ userId: id });
             if (!results) {
                 return false;

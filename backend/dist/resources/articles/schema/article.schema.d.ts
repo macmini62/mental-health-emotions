@@ -4,6 +4,7 @@ export declare class Article {
     _id: string;
     creatorId: string;
     title: string;
+    overview: string;
     content: string;
     tags: string[];
     thumbnail: {
@@ -11,7 +12,7 @@ export declare class Article {
         caption: string;
     };
     stats: {
-        likes: number;
+        likes: Array<string>;
         comments: number;
     };
 }

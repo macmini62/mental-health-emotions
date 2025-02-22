@@ -30,6 +30,10 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
+], Article.prototype, "overview", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
 ], Article.prototype, "content", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
@@ -49,7 +53,7 @@ __decorate([
     (0, mongoose_1.Prop)({
         type: {
             _id: { type: String, default: uuid_1.v4 },
-            likes: { type: Number },
+            likes: { type: (Array) },
             comments: { type: Number }
         }
     }),

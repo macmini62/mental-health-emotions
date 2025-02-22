@@ -316,9 +316,7 @@ export declare class TopicsService {
         syncIndexes(options?: import("mongoose").SyncIndexesOptions): Promise<Array<string>>;
         startSession(options?: import("mongoose").ClientSessionOptions): Promise<import("mongoose").ClientSession>;
     }, userService: UsersService);
-    createTopic(data: topic[]): Promise<topic[]>;
-    fetchTopics(size: number): Promise<topic[]>;
-    fetchUserTopics(data: topic[], userId: {
-        id: string;
-    }): Promise<Array<string>>;
+    createTopic(data: Array<topic>): Promise<Array<topic>>;
+    fetchTopics(size: number): Promise<Array<topic>>;
+    fetchUserTopics(data: Array<string>, userId: string): Promise<Array<string>>;
 }

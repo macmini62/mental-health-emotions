@@ -2,6 +2,7 @@ export interface article{
   _id: string;
   creatorId: string;  
   title: string;
+  overview: string;
   content: string;
   tags: string[];
   thumbnail: {
@@ -9,7 +10,7 @@ export interface article{
     caption: string;
   };
   stats: {
-    likes: number;
+    likes: Array<string>;
     comments: number;
   };
 }

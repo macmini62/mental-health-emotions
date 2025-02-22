@@ -25,7 +25,7 @@ let TopicsService = class TopicsService {
     }
     async createTopic(data) {
         try {
-            const createdTopics = [];
+            const createdTopics = Array();
             for (var i = 0; i < data.length; i++) {
                 const exTopic = await this.TopicModel.exists({ name: data[i] });
                 if (!exTopic) {
@@ -44,12 +44,12 @@ let TopicsService = class TopicsService {
     }
     async fetchTopics(size) {
         try {
-            const topics = [];
+            const topics = Array();
             for await (const p of this.TopicModel.find()) {
                 topics.push(p);
             }
             if (size <= topics.length) {
-                const tp = [];
+                const tp = Array();
                 for (var i = 0; i < size; i++) {
                     tp.push(topics[i]);
                 }
@@ -65,8 +65,8 @@ let TopicsService = class TopicsService {
     }
     async fetchUserTopics(data, userId) {
         try {
-            if (await this.userService.userExists(userId.id)) {
-                const topics = [];
+            if (await this.userService.userExists(userId)) {
+                const topics = Array();
                 for (let i = 0; i < data.length; i++) {
                     const topic = await this.TopicModel.findById({ _id: data[i] });
                     topics.push(topic.name);

@@ -14,6 +14,9 @@ export class Article{
 
   @Prop({ required: true, unique: true })
   title: string;
+  
+  @Prop({ required: true })
+  overview: string;
 
   @Prop({ required: true })
   content: string;
@@ -36,12 +39,12 @@ export class Article{
   @Prop({
     type: {
       _id: { type: String, default: uuidv4 },
-      likes: { type: Number },
+      likes: { type: Array<String> },
       comments: { type: Number }
     }
   })
   stats: {
-    likes: number,
+    likes: Array<string>,
     comments: number //change to store comments ids from comments schema.
   }
 }

@@ -108,7 +108,7 @@ export class ProfessionalService {
   // Checks the existence of a user in the database.
   async userExists(id: string): Promise<boolean>{    
     try{
-      console.log(id)
+      // console.log(id);
       const results = await this.ProfessionalModel.exists({ userId: id });
 
       if(!results){

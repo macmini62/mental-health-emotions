@@ -22,7 +22,6 @@ let TopicsController = class TopicsController {
     }
     async add(data, res) {
         const topic = await this.topicService.createTopic(data);
-        console.log(topic);
         if (topic !== undefined) {
             res.status(201).send(topic);
         }
@@ -30,13 +29,13 @@ let TopicsController = class TopicsController {
             res.status(500).send({ message: "Failed to add the topic!!" });
         }
     }
-    async fetch(size, res) {
-        const topics = await this.topicService.fetchTopics(size);
+    async fetch(s, res) {
+        const topics = await this.topicService.fetchTopics(s);
         if (topics) {
             res.send(topics);
         }
         else {
-            res.status(500).send({ message: "Failed to fetch topics!!" });
+            res.status(500);
         }
     }
     async fetchTopics(data, userId, res) {
@@ -45,7 +44,7 @@ let TopicsController = class TopicsController {
             res.send(topics);
         }
         else {
-            res.status(500).send({ message: "Failed to fetch topics!!" });
+            res.status(500);
         }
     }
 };
@@ -62,7 +61,7 @@ __decorate([
 __decorate([
     (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Get)(""),
-    __param(0, (0, common_1.Query)("size")),
+    __param(0, (0, common_1.Query)("s")),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Object]),
@@ -72,10 +71,10 @@ __decorate([
     (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Post)("/:id"),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)()),
+    __param(1, (0, common_1.Param)("id")),
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array, Object, Object]),
+    __metadata("design:paramtypes", [Array, String, Object]),
     __metadata("design:returntype", Promise)
 ], TopicsController.prototype, "fetchTopics", null);
 exports.TopicsController = TopicsController = __decorate([

@@ -12,9 +12,9 @@ export class TopicsService {
     private userService: UsersService
   ){}
 
-  async createTopic(data: topic[]): Promise<topic[]>{
+  async createTopic(data: Array<topic>): Promise<Array<topic>>{
    try{
-    const createdTopics: topic[] = [];
+    const createdTopics: Array<topic> = Array();
     for(var i = 0; i < data.length; i++){
       // console.log(data[i])
       const exTopic = await this.TopicModel.exists({ name: data[i] });
@@ -33,15 +33,15 @@ export class TopicsService {
    }
   }
 
-  async fetchTopics(size: number): Promise<topic[]>{
+  async fetchTopics(size: number): Promise<Array<topic>>{
     try{
-      const topics: Array<topic> = [];
+      const topics: Array<topic> = Array();
       for await (const p of this.TopicModel.find()){
         topics.push(p);
       }
 
       if(size <= topics.length){
-        const tp: topic[] = [];
+        const tp: Array<topic> = Array();
         for(var i = 0; i < size; i++){
           tp.push(topics[i]);
         }
@@ -56,10 +56,10 @@ export class TopicsService {
     }
   }
 
-  async fetchUserTopics(data: topic[], userId: {id: string}): Promise<Array<string>>{
+  async fetchUserTopics(data: Array<string>, userId: string): Promise<Array<string>>{
     try{
-      if(await this.userService.userExists(userId.id)){
-        const topics: Array<string> = [];
+      if(await this.userService.userExists(userId)){
+        const topics: Array<string> = Array();
         for(let i = 0; i < data.length; i++){
           // console.log(data[i])
           const topic: topic = await this.TopicModel.findById({ _id: data[i] });
