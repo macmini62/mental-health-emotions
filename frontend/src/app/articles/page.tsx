@@ -36,65 +36,68 @@ const Articles = () => {
     }
   });
 
-  const [storedData, setStoredData] = React.useState<{
-    userId: string;
-    accessToken: string;
-    role: string;
-  }>({
-    userId: "",
-    accessToken: "",
-    role: ""
-  })
+  const [articles, setArticles] = React.useState<article>({
+    _id: "",
+    creatorId: "",
+    title: "",
+    content: "",
+    tags: [],
+    thumbnail: {
+      _id: "",
+      imageURL: "",
+      caption: "",
+    },
+    stats: {
+      _id: "",
+      likes: 0,
+      comments: 0,
+    }
+  });
 
   React.useEffect(() => {
     const userId: string | null = localStorage.getItem("userId");
     const accessToken: string | null = localStorage.getItem("access token");
     const role: string | null = localStorage.getItem("role");
-    // console.log(userId, accessToken, role)
 
-    setStoredData((d) => {
-      if(userId && accessToken && role){
-        return {
-          userId: JSON.parse(userId),
-          accessToken: JSON.parse(accessToken),
-          role: JSON.parse(role)
-        };
-      }
-      return d;
-    });
-  }, []);
-  console.log(storedData);
+    if(userId && accessToken && role){
 
-  // Fetch user data for after login.
-  React.useEffect(() => {
-    axios.get<user>(`http://localhost:3001/${JSON.parse(storedData.role) === "professional" ? "professionals" : "seekers"}/${JSON.parse(storedData.userId)}`,
-        {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(storedData.accessToken)}`
+      // Fetch user data for after login.
+      const res = axios.get<user>(`http://localhost:3001/${JSON.parse(role) === "professional" ? "professionals" : "seekers"}/${JSON.parse(userId)}`,
+          {
+            headers: {
+              Authorization: `Bearer ${JSON.parse(accessToken)}`
+            }
           }
-        }
-      )
-      .then((res) => {
-        setUser(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
-  console.log(user);
+        )
+        .then((res) => {
+          setUser(res.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
 
-  // Fetches the article data.
-  const [articles, setArticles] = React.useState<article>();
-  React.useEffect(() => {
-    axios.get<article>(`http:localhost:3001/resources/articles/${storedData.userId}}`)
-      .then((res) => {
-        setLoading(false);
-        setArticles(res.data);
-      })
-      .catch((e) => {
-        setFetchFailed(true);
-      })
+      // Fetches the article data.
+      axios.get<article>(`http://localhost:3001/resources/articles/${JSON.parse(userId)}`,
+          {
+            headers: {
+              Authorization: `Bearer ${JSON.parse(accessToken)}`
+            }
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          setArticles(res.data);
+          setLoading(false);
+        })
+        .catch((e) => {
+          console.log(e);
+          setFetchFailed(true);
+        });
+    }
+
   }, []);
+
+  console.log(user);
   console.log(articles);
 
   // Notifications and feedback

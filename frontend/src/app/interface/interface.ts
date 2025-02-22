@@ -26,11 +26,14 @@ export interface article {
   creatorId: string;
   title: string;
   content: string;
+  tags: Array<string>;
   thumbnail: {
+    _id: string;
     imageURL: string;
     caption: string;
   }
   stats: {
+    _id: string;
     likes: number;
     comments: number;
   }
