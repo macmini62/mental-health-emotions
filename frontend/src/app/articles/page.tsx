@@ -17,7 +17,12 @@ import ContentOptions from "../components/dropDownOptions/contentOptions";
 import { user, article, topic } from "../interface/interface";
 
 const Articles = () => {
-
+  
+  const [storageData, setStorageData] = React.useState<{
+    userId: string,
+    accessToken: string,
+    role: string
+  }>()
   const [user, setUser] = React.useState<user>({
     _id: "",
     userId: "",
@@ -35,32 +40,61 @@ const Articles = () => {
       }
     }
   });
+  const [articles, setArticles] = React.useState<Array<article>>([]);
+  const [fetchTag, setFetchTag] = React.useState<string>("");
 
-  const [articles, setArticles] = React.useState<article>({
-    _id: "",
-    creatorId: "",
-    title: "",
-    content: "",
-    tags: [],
-    thumbnail: {
-      _id: "",
-      imageURL: "",
-      caption: "",
-    },
-    stats: {
-      _id: "",
-      likes: 0,
-      comments: 0,
+
+  // Notifications and feedback
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [fetchFailed, setFetchFailed] = React.useState<boolean>(false);
+  const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined);
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
     }
   });
+  timer.current = setTimeout(() => {
+    setFetchFailed(false);
+  }, 10000);
 
+
+  // Dynamic data loading on scroll
+  const [page, setPage] = React.useState<number>(1); // track pagination
+  // Check if the user has scrolled to the bottom
+  const handleScroll = () => {
+    // Use document.documentElement to support various browsers
+    if (
+      window.innerHeight + document.documentElement.scrollTop
+      >= document.documentElement.offsetHeight - 50 && !loading
+    ) {
+      fetchArticles();
+    }
+  };
+
+  React.useEffect(() => {
+    // Fetch initial articles
+    fetchArticles();
+
+    // Attach the scroll event listener
+    window.addEventListener("scroll", handleScroll);
+    
+    // Cleanup the event listener on component unmount
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loading, fetchTag]);
+
+  
+  // Fetch Data.
   React.useEffect(() => {
     const userId: string | null = localStorage.getItem("userId");
     const accessToken: string | null = localStorage.getItem("access token");
     const role: string | null = localStorage.getItem("role");
 
     if(userId && accessToken && role){
-
+      setStorageData({
+        userId: JSON.parse(userId),
+        accessToken: JSON.parse(accessToken),
+        role: JSON.parse(role)
+      });
       // Fetch user data for after login.
       const res = axios.get<user>(`http://localhost:3001/${JSON.parse(role) === "professional" ? "professionals" : "seekers"}/${JSON.parse(userId)}`,
           {
@@ -76,8 +110,8 @@ const Articles = () => {
           console.log(e);
         });
 
-      // Fetches the article data.
-      axios.get<article>(`http://localhost:3001/resources/articles/${JSON.parse(userId)}`,
+        // Fetches all the article data.
+        axios.get<Array<article>>(`http://localhost:3001/resources/articles/${JSON.parse(userId)}/p?=${page}`,
           {
             headers: {
               Authorization: `Bearer ${JSON.parse(accessToken)}`
@@ -85,9 +119,10 @@ const Articles = () => {
           }
         )
         .then((res) => {
-          console.log(res.data);
-          setArticles(res.data);
-          setLoading(false);
+          setTimeout(() => {
+            setArticles(res.data);
+            setLoading(false);
+          }, 6000)
         })
         .catch((e) => {
           console.log(e);
@@ -96,29 +131,78 @@ const Articles = () => {
     }
 
   }, []);
-
   console.log(user);
   console.log(articles);
 
-  // Notifications and feedback
-  const [loading, setLoading] = React.useState<boolean>(false);
-  
-  const [fetchFailed, setFetchFailed] = React.useState<boolean>(false);
-  const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined);
-  React.useEffect(() => {
-    return () => {
-      clearTimeout(timer.current);
+  // Fetch data that with the specific tags.
+  const fetchArticles = () => {
+    setLoading(true);
+    if(fetchTag === ""){
+      // Fetches all the article data.
+      axios.get<Array<article>>(`http://localhost:3001/resources/articles/p?=${page}`,
+        {
+          headers: {
+            Authorization: `Bearer ${storageData?.accessToken}`
+          }
+        }
+      )
+      .then((res) => {
+        setTimeout(() => {
+          setArticles(res.data);
+          setLoading(false);
+        }, 6000);
+      })
+      .catch((e) => {
+        console.log(e);
+        setFetchFailed(true);
+      });
     }
-  });
-  timer.current = setTimeout(() => {
-    setFetchFailed(false);
-  }, 10000);
+    else if(fetchTag == "following"){
+      // Fetches all the users" subscribed article data.
+      axios.get<Array<article>>(`http://localhost:3001/resources/articles/${storageData?.userId}/p?=${page}`,
+        {
+          headers: {
+            Authorization: `Bearer ${storageData?.accessToken}`
+          }
+        }
+      )
+      .then((res) => {
+        setTimeout(() => {
+          setArticles(res.data);
+          setLoading(false);
+        }, 6000);
+      })
+      .catch((e) => {
+        console.log(e);
+        setFetchFailed(true);
+      });
+    }
+    else{
+      // Fetches the articles with the specified tag.
+      axios.get<Array<article>>(`http://localhost:3001/resources/articles/t?=${fetchTag}/p?=${page}`,
+        {
+          headers: {
+            Authorization: `Bearer ${storageData?.accessToken}`
+          }
+        }
+      )
+      .then((res) => {
+        setTimeout(() => {
+          setArticles(res.data);
+          setLoading(false);
+        }, 8000);
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+    }
+  };
 
   // Load topics data
   const [topics, setTopics] = React.useState<topic[]>([]);
   React.useEffect(() => {
     setLoading(true);
-    axios.get<topic[]>(`http://localhost:3001/topics?size=${10}`)
+    axios.get<topic[]>(`http://localhost:3001/topics?s=${10}`)
     .then((res) => {
       setTopics(res.data);
     })
@@ -130,7 +214,7 @@ const Articles = () => {
 
   // Reload more topics
   const handleTopicsLoad = () => {
-    axios.get<topic[]>(`http://localhost:3001/topics?size=${topics.length+5}`)
+    axios.get<topic[]>(`http://localhost:3001/topics?s=${topics.length+5}`)
       .then((res) => {
         setTopics(res.data);
       })
@@ -156,9 +240,10 @@ const Articles = () => {
           {/* content-header */}
           <ContentHeader
             topics={user.contents.topics}
+            setFetchTag={(t: string) => setFetchTag(t)}
           />
           {
-
+            loading &&
             <div className="flex items-center justify-center my-8 relative">
               <LoadingBar/>
             </div>
@@ -174,377 +259,64 @@ const Articles = () => {
               }
           {/* contents */}
           <ul className="mt-4">
-            <li className="py-8 border-b border-gray-300">
-              <div className="flex flex-col gap-4">
-                {/* section-header */}
-                <div className="flex gap-2 items-center text-black">
-                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
-                  <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
-                  <img src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
-                </div>
-                
-                <div className="flex gap-10">
-                  {/* contents */}
-                  <div className="flex flex-col gap-6 w-[calc(100%-200px)]">
-                    <Link href="/" className="flex gap-10 justify-between">
-                      <div className="flex flex-col gap-2">
-                        <h3 className="text-black font-semibold text-3xl">
-                          Prince of Persia's Accessibility is Inaccessible to Some
-                        </h3>
-                        <p className="line-clamp-2">
-                          Were you aware of the prison that is located on the famous island of San Francisco?
-                        </p>
-                      </div>
-                    </Link>
-                    {/* section-footer */}
-                    <div className="flex items-center justify-between">
-                      <Link href="/" className="flex gap-6 text-md">
-                        {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
-                        <p className="h-5">Dec 21</p>
-                        <div className="flex gap-1.5 items-center">
-                          <FcLikePlaceholder className="w-5 h-5"/>
-                          {/* <FcLike className="w-5 h-5"/> */}
-                          <p className="h-5">90</p>
+            {
+              articles.map((a: article, i: number) => (
+                <li key={i} className="py-8 border-b border-gray-300">
+                  <div className="flex flex-col gap-4">
+                    {/* section-header --NB:fetch the creators content and use it here!-- */}
+                    <div className="flex gap-2 items-center text-black">
+                      <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
+                      <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
+                    </div>
+                    
+                    <div className="flex gap-10">
+                      {/* contents */}
+                      <div className="flex flex-col gap-6 w-[calc(100%-200px)]">
+                        <Link href="/" className="flex gap-10 justify-between">
+                          <div className="flex flex-col gap-2">
+                            {/* title */}
+                            <h3 className="text-black font-semibold text-3xl capitalize">
+                              {a.title}
+                            </h3>
+                            {/* overview */}
+                            <p className="line-clamp-2">
+                              {a.overview}
+                            </p>
+                          </div>
+                        </Link>
+                        {/* section-footer */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex gap-6 text-md">
+                            {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
+                            <p className="h-5">Dec 21</p>
+                            <div className="flex gap-1.5 items-center">
+                              <FcLikePlaceholder className="w-5 h-5"/>
+                              {/* <FcLike className="w-5 h-5"/> */}
+                              <p className="h-5">90</p>
+                            </div>
+                            <div className="flex gap-1.5 items-center">
+                              <TbMessageCircle className="w-5 h-5"/>
+                              {/* <TbMessageCircleFilled className="w-5 h-5"/> */}
+                              <p className="h-5">33</p>
+                            </div>
+                          </div>
+                          <div className="flex gap-10">
+                            <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
+                            <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button>
+                            {/* <button><IoBookmark className="w-7 h-7 text-black"/></button> */}
+                            <ContentOptions
+                              type="article"
+                            />
+                          </div>
                         </div>
-                        <div className="flex gap-1.5 items-center">
-                          <TbMessageCircle className="w-5 h-5"/>
-                          {/* <TbMessageCircleFilled className="w-5 h-5"/> */}
-                          <p className="h-5">33</p>
-                        </div>
-                      </Link>
-                      <div className="flex gap-10">
-                        <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
-                        <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button>
-                        {/* <button><IoBookmark className="w-7 h-7 text-black"/></button> */}
-                        <ContentOptions
-                          type="article"
-                        />
                       </div>
+                      {/* image */}
+                      <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
                     </div>
                   </div>
-                  {/* image */}
-                  <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
-                </div>
-              </div>
-            </li>
-            <li className="py-8 border-b border-gray-300">
-              <div className="flex flex-col gap-4">
-                {/* section-header */}
-                <div className="flex gap-2 items-center text-black">
-                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
-                  <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
-                  <img src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
-                </div>
-                
-                <div className="flex gap-10">
-                  {/* contents */}
-                  <div className="flex flex-col gap-6 w-[calc(100%-200px)]">
-                    <Link href="/" className="flex gap-10 justify-between">
-                      <div className="flex flex-col gap-2">
-                        <h3 className="text-black font-semibold text-3xl">
-                          Prince of Persia's Accessibility is Inaccessible to Some
-                        </h3>
-                        <p className="line-clamp-2">
-                          Were you aware of the prison that is located on the famous island of San Francisco?
-                        </p>
-                      </div>
-                    </Link>
-                    {/* section-footer */}
-                    <div className="flex items-center justify-between">
-                      <Link href="/" className="flex gap-6 text-md">
-                        {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
-                        <p className="h-5">Dec 21</p>
-                        <div className="flex gap-1.5 items-center">
-                          {/* <FcLikePlaceholder className="w-5 h-5"/> */}
-                          <FcLike className="w-5 h-5"/>
-                          <p className="h-5">90</p>
-                        </div>
-                        <div className="flex gap-1.5 items-center">
-                          {/* <TbMessageCircle className="w-5 h-5"/> */}
-                          <TbMessageCircleFilled className="w-5 h-5"/>
-                          <p className="h-5">33</p>
-                        </div>
-                      </Link>
-                      <div className="flex gap-10">
-                        <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
-                        {/* <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button> */}
-                        <button><IoBookmark className="w-7 h-7 text-black"/></button>
-                        <ContentOptions
-                          type="article"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  {/* image */}
-                  <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
-                </div>
-              </div>
-            </li>
-            <li className="py-8 border-b border-gray-300">
-              <div className="flex flex-col gap-4">
-                {/* section-header */}
-                <div className="flex gap-2 items-center text-black">
-                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
-                  <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
-                  <img src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
-                </div>
-                
-                <div className="flex gap-10">
-                  {/* contents */}
-                  <div className="flex flex-col gap-6 w-[calc(100%-200px)]">
-                    <Link href="/" className="flex gap-10 justify-between">
-                      <div className="flex flex-col gap-2">
-                        <h3 className="text-black font-semibold text-3xl">
-                          Prince of Persia's Accessibility is Inaccessible to Some
-                        </h3>
-                        <p className="line-clamp-2">
-                          Were you aware of the prison that is located on the famous island of San Francisco?
-                        </p>
-                      </div>
-                    </Link>
-                    {/* section-footer */}
-                    <div className="flex items-center justify-between">
-                      <Link href="/" className="flex gap-6 text-md">
-                        {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
-                        <p className="h-5">Dec 21</p>
-                        <div className="flex gap-1.5 items-center">
-                          {/* <FcLikePlaceholder className="w-5 h-5"/> */}
-                          <FcLike className="w-5 h-5"/>
-                          <p className="h-5">90</p>
-                        </div>
-                        <div className="flex gap-1.5 items-center">
-                          {/* <TbMessageCircle className="w-5 h-5"/> */}
-                          <TbMessageCircleFilled className="w-5 h-5"/>
-                          <p className="h-5">33</p>
-                        </div>
-                      </Link>
-                      <div className="flex gap-10">
-                        <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
-                        {/* <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button> */}
-                        <button><IoBookmark className="w-7 h-7 text-black"/></button>
-                        <ContentOptions
-                          type="article"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  {/* image */}
-                  <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
-                </div>
-              </div>
-            </li>
-            <li className="py-8 border-b border-gray-300">
-              <div className="flex flex-col gap-4">
-                {/* section-header */}
-                <div className="flex gap-2 items-center text-black">
-                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
-                  <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
-                  <img src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
-                </div>
-                
-                <div className="flex gap-10">
-                  {/* contents */}
-                  <div className="flex flex-col gap-6 w-[calc(100%-200px)]">
-                    <Link href="/" className="flex gap-10 justify-between">
-                      <div className="flex flex-col gap-2">
-                        <h3 className="text-black font-semibold text-3xl">
-                          Prince of Persia's Accessibility is Inaccessible to Some
-                        </h3>
-                        <p className="line-clamp-2">
-                          Were you aware of the prison that is located on the famous island of San Francisco?
-                        </p>
-                      </div>
-                    </Link>
-                    {/* section-footer */}
-                    <div className="flex items-center justify-between">
-                      <Link href="/" className="flex gap-6 text-md">
-                        {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
-                        <p className="h-5">Dec 21</p>
-                        <div className="flex gap-1.5 items-center">
-                          {/* <FcLikePlaceholder className="w-5 h-5"/> */}
-                          <FcLike className="w-5 h-5"/>
-                          <p className="h-5">90</p>
-                        </div>
-                        <div className="flex gap-1.5 items-center">
-                          {/* <TbMessageCircle className="w-5 h-5"/> */}
-                          <TbMessageCircleFilled className="w-5 h-5"/>
-                          <p className="h-5">33</p>
-                        </div>
-                      </Link>
-                      <div className="flex gap-10">
-                        <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
-                        {/* <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button> */}
-                        <button><IoBookmark className="w-7 h-7 text-black"/></button>
-                        <ContentOptions
-                          type="article"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  {/* image */}
-                  <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
-                </div>
-              </div>
-            </li>
-            <li className="py-8 border-b border-gray-300">
-              <div className="flex flex-col gap-4">
-                {/* section-header */}
-                <div className="flex gap-2 items-center text-black">
-                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
-                  <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
-                  <img src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
-                </div>
-                
-                <div className="flex gap-10">
-                  {/* contents */}
-                  <div className="flex flex-col gap-6 w-[calc(100%-200px)]">
-                    <Link href="/" className="flex gap-10 justify-between">
-                      <div className="flex flex-col gap-2">
-                        <h3 className="text-black font-semibold text-3xl">
-                          Prince of Persia's Accessibility is Inaccessible to Some
-                        </h3>
-                        <p className="line-clamp-2">
-                          Were you aware of the prison that is located on the famous island of San Francisco?
-                        </p>
-                      </div>
-                    </Link>
-                    {/* section-footer */}
-                    <div className="flex items-center justify-between">
-                      <Link href="/" className="flex gap-6 text-md">
-                        {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
-                        <p className="h-5">Dec 21</p>
-                        <div className="flex gap-1.5 items-center">
-                          {/* <FcLikePlaceholder className="w-5 h-5"/> */}
-                          <FcLike className="w-5 h-5"/>
-                          <p className="h-5">90</p>
-                        </div>
-                        <div className="flex gap-1.5 items-center">
-                          {/* <TbMessageCircle className="w-5 h-5"/> */}
-                          <TbMessageCircleFilled className="w-5 h-5"/>
-                          <p className="h-5">33</p>
-                        </div>
-                      </Link>
-                      <div className="flex gap-10">
-                        <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
-                        {/* <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button> */}
-                        <button><IoBookmark className="w-7 h-7 text-black"/></button>
-                        <ContentOptions
-                          type="article"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  {/* image */}
-                  <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
-                </div>
-              </div>
-            </li>
-            <li className="py-8 border-b border-gray-300">
-              <div className="flex flex-col gap-4">
-                {/* section-header */}
-                <div className="flex gap-2 items-center text-black">
-                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
-                  <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
-                  <img src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
-                </div>
-                
-                <div className="flex gap-10">
-                  {/* contents */}
-                  <div className="flex flex-col gap-6 w-[calc(100%-200px)]">
-                    <Link href="/" className="flex gap-10 justify-between">
-                      <div className="flex flex-col gap-2">
-                        <h3 className="text-black font-semibold text-3xl">
-                          Prince of Persia's Accessibility is Inaccessible to Some
-                        </h3>
-                        <p className="line-clamp-2">
-                          Were you aware of the prison that is located on the famous island of San Francisco?
-                        </p>
-                      </div>
-                    </Link>
-                    {/* section-footer */}
-                    <div className="flex items-center justify-between">
-                      <Link href="/" className="flex gap-6 text-md">
-                        {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
-                        <p className="h-5">Dec 21</p>
-                        <div className="flex gap-1.5 items-center">
-                          {/* <FcLikePlaceholder className="w-5 h-5"/> */}
-                          <FcLike className="w-5 h-5"/>
-                          <p className="h-5">90</p>
-                        </div>
-                        <div className="flex gap-1.5 items-center">
-                          {/* <TbMessageCircle className="w-5 h-5"/> */}
-                          <TbMessageCircleFilled className="w-5 h-5"/>
-                          <p className="h-5">33</p>
-                        </div>
-                      </Link>
-                      <div className="flex gap-10">
-                        <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
-                        {/* <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button> */}
-                        <button><IoBookmark className="w-7 h-7 text-black"/></button>
-                        <ContentOptions
-                          type="article"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  {/* image */}
-                  <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
-                </div>
-              </div>
-            </li>
-            <li className="py-8 border-b border-gray-300">
-              <div className="flex flex-col gap-4">
-                {/* section-header */}
-                <div className="flex gap-2 items-center text-black">
-                  <Link href="/"><img src="/faces/face5.jpg" alt="" className="w-6 h-6 rounded-full hover:opacity-80" /></Link>
-                  <Link href="/"><p className="text-sm hover:underline">Josh Boyer</p></Link>
-                  <img src="/faces/face5.jpg" alt="" className="w-4 h-4 rounded-full" />
-                </div>
-                
-                <div className="flex gap-10">
-                  {/* contents */}
-                  <div className="flex flex-col gap-6 w-[calc(100%-200px)]">
-                    <Link href="/" className="flex gap-10 justify-between">
-                      <div className="flex flex-col gap-2">
-                        <h3 className="text-black font-semibold text-3xl">
-                          Prince of Persia's Accessibility is Inaccessible to Some
-                        </h3>
-                        <p className="line-clamp-2">
-                          Were you aware of the prison that is located on the famous island of San Francisco?
-                        </p>
-                      </div>
-                    </Link>
-                    {/* section-footer */}
-                    <div className="flex items-center justify-between">
-                      <Link href="/" className="flex gap-6 text-md">
-                        {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
-                        <p className="h-5">Dec 21</p>
-                        <div className="flex gap-1.5 items-center">
-                          {/* <FcLikePlaceholder className="w-5 h-5"/> */}
-                          <FcLike className="w-5 h-5"/>
-                          <p className="h-5">90</p>
-                        </div>
-                        <div className="flex gap-1.5 items-center">
-                          {/* <TbMessageCircle className="w-5 h-5"/> */}
-                          <TbMessageCircleFilled className="w-5 h-5"/>
-                          <p className="h-5">33</p>
-                        </div>
-                      </Link>
-                      <div className="flex gap-10">
-                        <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
-                        {/* <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button> */}
-                        <button><IoBookmark className="w-7 h-7 text-black"/></button>
-                        <ContentOptions
-                          type="article"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  {/* image */}
-                  <Link href="/"><img src="/calm/calm2.webp" alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
-                </div>
-              </div>
-            </li>
+                </li>
+              ))
+            }
           </ul>
         </div>
         {/* RIGHT SECTION */}

@@ -25,6 +25,7 @@ export interface article {
   _id: string;
   creatorId: string;
   title: string;
+  overview: string;
   content: string;
   tags: Array<string>;
   thumbnail: {
@@ -34,7 +35,7 @@ export interface article {
   }
   stats: {
     _id: string;
-    likes: number;
+    likes: Array<string>;
     comments: number;
   }
 }
