@@ -121,10 +121,15 @@ const Articles = () => {
           }
         )
         .then((res) => {
-          setTimeout(() => {
-            setArticles(res.data);
+          if(res.status == 200){
+            setTimeout(() => {
+              setArticles(res.data);
+              setLoading(false);
+            }, 6000);
+          }
+          else{
             setLoading(false);
-          }, 6000);
+          }
         })
         .catch((e) => {
           console.log(e);
@@ -141,10 +146,15 @@ const Articles = () => {
           }
         )
         .then((res) => {
-          setTimeout(() => {
-            setArticles(res.data);
+          if(res.status == 200){
+            setTimeout(() => {
+              setArticles(res.data);
+              setLoading(false);
+            }, 6000);
+          }
+          else{
             setLoading(false);
-          }, 6000);
+          }
         })
         .catch((e) => {
           console.log(e);
