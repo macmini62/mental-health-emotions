@@ -41,9 +41,25 @@ const Articles = () => {
     }
   });
   const [articles, setArticles] = React.useState<Array<article>>([]);
+  
+  // Fetch data according to the topic selected and page scroll.
+  const [page, setPage] = React.useState<number>(1); // track pagination
   const [fetchTag, setFetchTag] = React.useState<string>("");
+  React.useEffect(() => {
+    fetchArticles();
+  }, [fetchTag, page]);
 
-
+  
+  // Check if the user has scrolled to the bottom
+  const handleScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+    // Use document.documentElement to support various browsers
+    const target = e.target as HTMLDivElement;
+    const bottom = target.scrollHeight - target.scrollTop - target.clientHeight < 5;
+		if(bottom && !loading){
+      setLoading(!loading)
+      setPage((p: number) => { p = p + 1; return p });
+		}
+  };
   // Notifications and feedback
   const [loading, setLoading] = React.useState<boolean>(true);
   const [fetchFailed, setFetchFailed] = React.useState<boolean>(false);
@@ -56,32 +72,6 @@ const Articles = () => {
   timer.current = setTimeout(() => {
     setFetchFailed(false);
   }, 10000);
-
-
-  // Dynamic data loading on scroll
-  const [page, setPage] = React.useState<number>(1); // track pagination
-  // Check if the user has scrolled to the bottom
-  const handleScroll = () => {
-    // Use document.documentElement to support various browsers
-    if (
-      window.innerHeight + document.documentElement.scrollTop
-      >= document.documentElement.offsetHeight - 50 && !loading
-    ) {
-      fetchArticles();
-    }
-  };
-
-  React.useEffect(() => {
-    // Fetch initial articles
-    fetchArticles();
-
-    // Attach the scroll event listener
-    window.addEventListener("scroll", handleScroll);
-    
-    // Cleanup the event listener on component unmount
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [loading, fetchTag]);
-
   
   // Fetch Data.
   React.useEffect(() => {
@@ -109,34 +99,14 @@ const Articles = () => {
         .catch((e) => {
           console.log(e);
         });
-
-        // Fetches all the article data.
-        // axios.get<Array<article>>(`http://localhost:3001/resources/articles?${JSON.parse(userId)}p=${page}`,
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${JSON.parse(accessToken)}`
-        //     }
-        //   }
-        // )
-        // .then((res) => {
-        //   setTimeout(() => {
-        //     setArticles(res.data);
-        //     setLoading(false);
-        //   }, 6000)
-        // })
-        // .catch((e) => {
-        //   console.log(e);
-        //   setFetchFailed(true);
-        // });
     }
-
   }, []);
-  console.log(user);
-  console.log(articles);
+  // console.log(user);
+  // console.log(articles);
 
   // Fetch data that with the specific tags.
   const fetchArticles = () => {
-    setLoading(true);
+    !loading && setLoading(!loading);
     const userId: string | null = localStorage.getItem("userId");
     const accessToken: string | null = localStorage.getItem("access token");
 
@@ -229,7 +199,7 @@ const Articles = () => {
   };
 
   return (
-    <div className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
+    <div onScroll={(e) => handleScroll(e)} className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
       {/* HEADER */}
       <Header
         imageURL={user.profile?.imageURL}
