@@ -7,9 +7,9 @@ export declare class ResourcesController {
     private videosService;
     constructor(articlesService: ArticlesService, videosService: VideosService);
     createArticle(article: article, res: Response<article>): Promise<void>;
-    findCreatorsArticles(id: string, p: number, res: Response<Array<article>>): Promise<void>;
-    findAllArticles(res: Response<Array<article>>, p: number): Promise<void>;
+    findCreatorsArticles(id: string, p: number, res: Response<Array<article>>): Promise<Response<article[], Record<string, any>>>;
+    findAllArticles(res: Response<Array<article>>, p: number): Promise<Response<article[], Record<string, any>>>;
     findOneArticle(id: string, res: Response<article>): Promise<Response<article, Record<string, any>>>;
-    updateArticle(id: string, p: number, article: article): Promise<article>;
+    updateArticle(id: string, article: article): Promise<article>;
     removeArticle(id: string): Promise<boolean>;
 }

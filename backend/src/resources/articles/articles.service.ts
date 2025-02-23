@@ -23,12 +23,12 @@ export class ArticlesService {
 
   async findAll(p: number): Promise<Array<article>>{
     try{
-      const total = p * 6;
+      const total = p * 5;
       const articles: Array<article> = Array();
       for await (const a of this.articleModel.find()){
         articles.push(a);
       }
-
+      
       return articles.slice(0, total);
       
     }catch(e){
@@ -51,7 +51,7 @@ export class ArticlesService {
 
   async findCreators(creatorId: string, p: number): Promise<Array<article>> {
     try{
-      const total = p * 6;
+      const total = p * 5;
       if (await this.professionalService.userExists(creatorId)){
         const articles: Array<article> = Array(total);
         for await (const a of this.articleModel.find({ creatorId: creatorId })){

@@ -33,7 +33,7 @@ let ArticlesService = class ArticlesService {
     }
     async findAll(p) {
         try {
-            const total = p * 6;
+            const total = p * 5;
             const articles = Array();
             for await (const a of this.articleModel.find()) {
                 articles.push(a);
@@ -60,7 +60,7 @@ let ArticlesService = class ArticlesService {
     }
     async findCreators(creatorId, p) {
         try {
-            const total = p * 6;
+            const total = p * 5;
             if (await this.professionalService.userExists(creatorId)) {
                 const articles = Array(total);
                 for await (const a of this.articleModel.find({ creatorId: creatorId })) {

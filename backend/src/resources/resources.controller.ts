@@ -16,9 +16,9 @@ export class ResourcesController {
   @SkipAuth()
   @Post("articles/create")
   async createArticle(@Body() article: article, @Res() res: Response<article>) {
-    const results = await this.articlesService.create(article);
+    const results: article = await this.articlesService.create(article);
     if(results){
-      res.status(400);
+      res.status(201).send(results);
     }
 
     res.status(500);
@@ -27,14 +27,14 @@ export class ResourcesController {
   @SkipAuth()
   @Get("articles/:id")
   async findCreatorsArticles(@Param("id") id: string,@Query("p") p: number, @Res() res: Response<Array<article>>){
-    // console.log(id);
     const results: Array<article> = await this.articlesService.findCreators(id, p);
 
-    // console.log("results:", results);
     if(!results){
       res.status(404);
     }
-
+    else if (results.length < p){
+      return res.status(204);
+    }
     res.status(200).send(results);
   }
 
@@ -42,8 +42,13 @@ export class ResourcesController {
   @Get("articles")
   async findAllArticles(@Res() res: Response<Array<article>>, @Query("p") p: number) {
     const results: Array<article> =  await this.articlesService.findAll(p);
-    console.log(results);
 
+    if(!results){
+      res.status(404);
+    }
+    else if (results.length < p){
+      return res.status(204);
+    }
     res.status(200).send(results);
   }
 
@@ -59,7 +64,7 @@ export class ResourcesController {
 
   @SkipAuth()
   @Put("/articles/:id")
-  async updateArticle(@Param("id") id: string, @Query("p") p: number, @Body() article: article) {
+  async updateArticle(@Param("id") id: string, @Body() article: article) {
     return await this.articlesService.update(id, article);
   }
 

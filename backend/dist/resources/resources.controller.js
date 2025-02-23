@@ -25,7 +25,7 @@ let ResourcesController = class ResourcesController {
     async createArticle(article, res) {
         const results = await this.articlesService.create(article);
         if (results) {
-            res.status(400);
+            res.status(201).send(results);
         }
         res.status(500);
     }
@@ -34,11 +34,19 @@ let ResourcesController = class ResourcesController {
         if (!results) {
             res.status(404);
         }
+        else if (results.length < p) {
+            return res.status(204);
+        }
         res.status(200).send(results);
     }
     async findAllArticles(res, p) {
         const results = await this.articlesService.findAll(p);
-        console.log(results);
+        if (!results) {
+            res.status(404);
+        }
+        else if (results.length < p) {
+            return res.status(204);
+        }
         res.status(200).send(results);
     }
     async findOneArticle(id, res) {
@@ -48,7 +56,7 @@ let ResourcesController = class ResourcesController {
         }
         return res.status(200).json(result);
     }
-    async updateArticle(id, p, article) {
+    async updateArticle(id, article) {
         return await this.articlesService.update(id, article);
     }
     async removeArticle(id) {
@@ -96,10 +104,9 @@ __decorate([
     (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Put)("/articles/:id"),
     __param(0, (0, common_1.Param)("id")),
-    __param(1, (0, common_1.Query)("p")),
-    __param(2, (0, common_1.Body)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, Object]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "updateArticle", null);
 __decorate([
