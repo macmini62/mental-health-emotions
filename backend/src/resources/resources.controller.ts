@@ -32,7 +32,7 @@ export class ResourcesController {
     if(!results){
       res.status(404);
     }
-    else if (results.length < p){
+    else if (results.length < p * 5){
       return res.status(204);
     }
     res.status(200).send(results);
@@ -46,7 +46,7 @@ export class ResourcesController {
     if(!results){
       res.status(404);
     }
-    else if (results.length < p){
+    else if (results.length < p * 5){
       return res.status(204);
     }
     res.status(200).send(results);
