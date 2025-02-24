@@ -43,23 +43,37 @@ const Articles = () => {
   const [articles, setArticles] = React.useState<Array<article>>([]);
   
   // Fetch data according to the topic selected and page scroll.
-  const [page, setPage] = React.useState<number>(1); // track pagination
-  const [fetchTag, setFetchTag] = React.useState<string>("");
+  const [fetch, setFetch] = React.useState<{
+    f: boolean;
+    page: number;
+  }>({
+    f: true,
+    page: 1
+  });
+  const [fetchTag, setFetchTag] = React.useState<string>("all");
   React.useEffect(() => {
     fetchArticles();
-  }, [fetchTag, page]);
+  }, [fetchTag, fetch.page]);
 
-  
   // Check if the user has scrolled to the bottom
   const handleScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
-    // Use document.documentElement to support various browsers
-    const target = e.target as HTMLDivElement;
-    const bottom = target.scrollHeight - target.scrollTop - target.clientHeight < 5;
-		if(bottom && !loading){
-      setLoading(!loading)
-      setPage((p: number) => { p = p + 1; return p });
-		}
+    console.log(fetch.f);
+    if(fetch.f){
+      // Use document.documentElement to support various browsers
+      const target = e.target as HTMLDivElement;
+      const bottom = target.scrollHeight - target.scrollTop - target.clientHeight < 2;
+      if(bottom && !loading){
+        setLoading(!loading);
+        setFetch((d) => {
+          return {
+            ...d,
+            page: d.page + 1
+          };
+        });
+      }
+    }
   };
+
   // Notifications and feedback
   const [loading, setLoading] = React.useState<boolean>(true);
   const [fetchFailed, setFetchFailed] = React.useState<boolean>(false);
@@ -109,11 +123,12 @@ const Articles = () => {
     !loading && setLoading(!loading);
     const userId: string | null = localStorage.getItem("userId");
     const accessToken: string | null = localStorage.getItem("access token");
-
-    if(userId && accessToken){
-      if(fetchTag === ""){
+    
+    if(userId && accessToken && fetch.f){
+      if(fetchTag === "all"){
+        // console.log(fetchTag);
         // Fetches all the article data.
-        axios.get<Array<article>>(`http://localhost:3001/resources/articles?p=${page}`,
+        axios.get<Array<article>>(`http://localhost:3001/resources/articles?p=${fetch.page}`,
           {
             headers: {
               Authorization: `Bearer ${JSON.parse(accessToken)}`
@@ -121,13 +136,20 @@ const Articles = () => {
           }
         )
         .then((res) => {
+          // console.log(res.status);
           if(res.status == 200){
             setTimeout(() => {
               setArticles(res.data);
               setLoading(false);
-            }, 6000);
+            }, 4000);
           }
-          else{
+          else if(res.status == 204){
+            setFetch((d) => {
+              return {
+                ...d,
+                f: false
+              };
+            });
             setLoading(false);
           }
         })
@@ -138,7 +160,7 @@ const Articles = () => {
       }
       else if(fetchTag == "following"){
         // Fetches all the users" subscribed article data.
-        axios.get<Array<article>>(`http://localhost:3001/resources/articles?${JSON.parse(userId)}p=${page}`,
+        axios.get<Array<article>>(`http://localhost:3001/resources/articles?${JSON.parse(userId)}p=${fetch.page}`,
           {
             headers: {
               Authorization: `Bearer ${JSON.parse(accessToken)}`
@@ -146,13 +168,20 @@ const Articles = () => {
           }
         )
         .then((res) => {
+          // console.log(res.status);
           if(res.status == 200){
             setTimeout(() => {
               setArticles(res.data);
               setLoading(false);
-            }, 6000);
+            }, 4000);
           }
-          else{
+          else if(res.status == 204){
+            setFetch((d) => {
+              return {
+                ...d,
+                f: false
+              };
+            });
             setLoading(false);
           }
         })
@@ -163,7 +192,7 @@ const Articles = () => {
       }
       else{
         // Fetches the articles with the specified tag.
-        axios.get<Array<article>>(`http://localhost:3001/resources/articles/?t=${fetchTag}?p=${page}`,
+        axios.get<Array<article>>(`http://localhost:3001/resources/articles/?t=${fetchTag}?p=${fetch.page}`,
           {
             headers: {
               Authorization: `Bearer ${JSON.parse(accessToken)}`
@@ -171,14 +200,27 @@ const Articles = () => {
           }
         )
         .then((res) => {
-          setTimeout(() => {
-            setArticles(res.data);
+          // console.log(res.status);
+          if(res.status == 200){
+            setTimeout(() => {
+              setArticles(res.data);
+              setLoading(false);
+            }, 4000);
+          }
+          else if(res.status == 204){
+            setFetch((d) => {
+              return {
+                ...d,
+                f: false
+              };
+            });
             setLoading(false);
-          }, 8000);
+          }
         })
         .catch((e) => {
           console.log(e);
-        })
+          setFetchFailed(true);
+        });
       }
     }
   };
@@ -191,8 +233,8 @@ const Articles = () => {
     .then((res) => {
       setTopics(res.data);
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((e) => {
+      console.log(e);
       setFetchFailed(true);
     });
   }, []);
@@ -203,8 +245,8 @@ const Articles = () => {
       .then((res) => {
         setTopics(res.data);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((e) => {
+        console.log(e);
       });
   };
 

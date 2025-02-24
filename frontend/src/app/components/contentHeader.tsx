@@ -19,7 +19,7 @@ const ContentHeader = ({
     const accessToken: string | null = localStorage.getItem("access token");
     const userId: string | null = localStorage.getItem("userId");
     if(accessToken && userId){
-      axios.post<Array<string>>(`http://localhost:3001/topics/${JSON.parse(userId)}/`, 
+      axios.post<Array<string>>(`http://localhost:3001/topics/${JSON.parse(userId)}`, 
       topics,
       {
         headers:{
@@ -38,7 +38,7 @@ const ContentHeader = ({
      <div><button className="group absolute left-2"><IoAdd className="w-8 h-8 pb-2 group-hover:text-black"/></button></div>
       <button className="group absolute left-2 invisible"><IoIosArrowBack className="w-8 h-8 pb-2 group-hover:text-black"/></button>
       <div className="flex overflow-hidden shadow-3xl">
-       <div onClick={() => setFetchTag("")}><button className="mr-6 group focus:border-b-2 focus:border-black"><p className="text-sm pb-6 group-hover:text-black group-focus:text-black">For you</p></button></div>
+       <div onClick={() => setFetchTag("all")}><button className="mr-6 group focus:border-b-2 focus:border-black"><p className="text-sm pb-6 group-hover:text-black group-focus:text-black">For you</p></button></div>
        <div onClick={() => setFetchTag("following")}><button className="mr-6 group focus:border-b-2 focus:border-black"><p className="text-sm pb-6 group-hover:text-black group-focus:text-black">Following</p></button></div>
         {
           tp.map((t: string, i:number) => (
