@@ -21,7 +21,7 @@ export class ResourcesController {
       res.status(201).send(results);
     }
 
-    res.status(500);
+    res.status(500).send();
   }
 
   @SkipAuth()
@@ -30,10 +30,10 @@ export class ResourcesController {
     const results: Array<article> = await this.articlesService.findCreators(id, p);
 
     if(!results){
-      res.status(404);
+      res.status(404).send();
     }
-    else if (results.length < p * 5){
-      return res.status(204);
+    else if (results.length < p * 5 && p > 2){
+      res.status(204).send();
     }
     res.status(200).send(results);
   }
@@ -42,12 +42,13 @@ export class ResourcesController {
   @Get("articles")
   async findAllArticles(@Res() res: Response<Array<article>>, @Query("p") p: number) {
     const results: Array<article> =  await this.articlesService.findAll(p);
+    console.log(results.length)
 
     if(!results){
-      res.status(404);
+      res.status(404).send();
     }
-    else if (results.length < p * 5){
-      return res.status(204);
+    else if (results.length < p * 5 && p > 2){
+      res.status(204).send();
     }
     res.status(200).send(results);
   }

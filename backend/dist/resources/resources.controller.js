@@ -27,25 +27,26 @@ let ResourcesController = class ResourcesController {
         if (results) {
             res.status(201).send(results);
         }
-        res.status(500);
+        res.status(500).send();
     }
     async findCreatorsArticles(id, p, res) {
         const results = await this.articlesService.findCreators(id, p);
         if (!results) {
-            res.status(404);
+            res.status(404).send();
         }
-        else if (results.length < p * 5) {
-            return res.status(204);
+        else if (results.length < p * 5 && p > 2) {
+            res.status(204).send();
         }
         res.status(200).send(results);
     }
     async findAllArticles(res, p) {
         const results = await this.articlesService.findAll(p);
+        console.log(results.length);
         if (!results) {
-            res.status(404);
+            res.status(404).send();
         }
-        else if (results.length < p * 5) {
-            return res.status(204);
+        else if (results.length < p * 5 && p > 2) {
+            res.status(204).send();
         }
         res.status(200).send(results);
     }
