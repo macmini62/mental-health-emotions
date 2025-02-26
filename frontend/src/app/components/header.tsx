@@ -8,7 +8,6 @@ const Header = ({
 }:{
   imageURL: string
 }) => {
-  console.log(imageURL)
   return (
     <div className="w-full flex justify-between py-3 px-4 border-b-2 sticky z-50 left-0 top-0 bg-white shadow-sm">
       <div className="flex gap-6 items-center">

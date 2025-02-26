@@ -18,15 +18,9 @@ import { user, article, topic } from "../interface/interface";
 
 const Articles = () => {
   
-  const [storageData, setStorageData] = React.useState<{
-    userId: string,
-    accessToken: string,
-    role: string
-  }>()
   const [user, setUser] = React.useState<user>({
     _id: "",
     userId: "",
-    phoneNumber: "",
     profile: {
       profileURL: "",
       nickname: "",
@@ -57,7 +51,7 @@ const Articles = () => {
 
   // Check if the user has scrolled to the bottom
   const handleScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
-    console.log(fetch.f);
+    // console.log(fetch.f);
     if(fetch.f){
       // Use document.documentElement to support various browsers
       const target = e.target as HTMLDivElement;
@@ -94,11 +88,6 @@ const Articles = () => {
     const role: string | null = localStorage.getItem("role");
 
     if(userId && accessToken && role){
-      setStorageData({
-        userId: JSON.parse(userId),
-        accessToken: JSON.parse(accessToken),
-        role: JSON.parse(role)
-      });
       // Fetch user data for after login.
       const res = axios.get<user>(`http://localhost:3001/${JSON.parse(role) === "professional" ? "professionals" : "seekers"}/${JSON.parse(userId)}`,
           {
@@ -115,7 +104,7 @@ const Articles = () => {
         });
     }
   }, []);
-  // console.log(user);
+  console.log(user);
   // console.log(articles);
 
   // Fetch data that with the specific tags.
@@ -158,9 +147,10 @@ const Articles = () => {
           setFetchFailed(true);
         });
       }
-      else if(fetchTag == "following"){
+      else if(fetchTag === "following"){
+        setArticles([]);
         // Fetches all the users" subscribed article data.
-        axios.get<Array<article>>(`http://localhost:3001/resources/articles?${JSON.parse(userId)}p=${fetch.page}`,
+        axios.get<Array<article>>(`http://localhost:3001/resources/articles/${JSON.parse(userId)}?p=${fetch.page}`,
           {
             headers: {
               Authorization: `Bearer ${JSON.parse(accessToken)}`
