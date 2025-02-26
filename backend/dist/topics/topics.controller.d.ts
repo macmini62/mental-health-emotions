@@ -6,5 +6,5 @@ export declare class TopicsController {
     constructor(topicService: TopicsService);
     add(data: Array<topic>, res: Response): Promise<void>;
     fetch(s: number, res: Response<Array<topic>>): Promise<void>;
-    fetchTopics(data: Array<string>, userId: string, res: Response<Array<string>>): Promise<void>;
+    fetchTopics(data: Array<string>, userId: string, res: Response<Array<topic>>): Promise<void>;
 }

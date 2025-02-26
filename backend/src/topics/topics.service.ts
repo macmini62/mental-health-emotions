@@ -56,15 +56,16 @@ export class TopicsService {
     }
   }
 
-  async fetchUserTopics(data: Array<string>, userId: string): Promise<Array<string>>{
+  async fetchUserTopics(data: Array<string>, userId: string): Promise<Array<topic>>{
     try{
       if(await this.userService.userExists(userId)){
-        const topics: Array<string> = Array();
+        const topics: Array<topic> = Array();
         for(let i = 0; i < data.length; i++){
           // console.log(data[i])
           const topic: topic = await this.TopicModel.findById({ _id: data[i] });
-          topics.push(topic.name);
+          topics.push(topic);
         }
+
         return topics;
       }
     }

@@ -40,7 +40,7 @@ export class ArticlesService {
 
   async findOne(id: string): Promise<article>{
     try{
-      const a = this.articleModel.findOne({ id: id });
+      const a = this.articleModel.findOne({ _id: id });
       if(a !== null){
         return a;
       }else{
@@ -67,6 +67,23 @@ export class ArticlesService {
 
       console.log(articles)
       return articles.slice(0, total);
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
+
+  async findArticleTags(tagId: string, p: number){
+    try{
+      const articles: Array<Article> = Array();
+      for(let i = 0; i < p; i++){
+        for await(const a of this.articleModel.find({ tags: tagId })){
+          articles.push(a);
+        }
+      }
+      console.log(articles);
+
+      return articles;
     }
     catch(e){
       console.log(e);

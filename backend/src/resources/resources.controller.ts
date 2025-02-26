@@ -67,6 +67,17 @@ export class ResourcesController {
     return res.status(200).json(result);
   }
 
+  @Get("articles/tag")
+  async fetchArticlesTag(@Res() res: Response<Array<article>>, @Query("t") t: string, @Query("p") p: number){
+    const results = await this.articlesService.findArticleTags(t, p);
+    
+    if(!results){
+      res.status(404).send()
+    }
+   
+    res.status(200).send(results);
+  }
+
   @SkipAuth()
   @Put("/articles/:id")
   async updateArticle(@Param("id") id: string, @Body() article: article) {

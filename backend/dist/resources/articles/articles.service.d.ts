@@ -12,6 +12,7 @@ export declare class ArticlesService {
     findAll(p: number): Promise<Array<article>>;
     findOne(id: string): Promise<article>;
     findCreators(id: string, p: number): Promise<Array<article>>;
+    findArticleTags(tagId: string, p: number): Promise<Article[]>;
     update(id: string, article: article): Promise<article>;
     deleteOne(id: string): Promise<boolean>;
 }

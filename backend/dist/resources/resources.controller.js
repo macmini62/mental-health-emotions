@@ -60,6 +60,13 @@ let ResourcesController = class ResourcesController {
         }
         return res.status(200).json(result);
     }
+    async fetchArticlesTag(res, t, p) {
+        const results = await this.articlesService.findArticleTags(t, p);
+        if (!results) {
+            res.status(404).send();
+        }
+        res.status(200).send(results);
+    }
     async updateArticle(id, article) {
         return await this.articlesService.update(id, article);
     }
@@ -104,6 +111,15 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "findOneArticle", null);
+__decorate([
+    (0, common_1.Get)("articles/tag"),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)("t")),
+    __param(2, (0, common_1.Query)("p")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, Number]),
+    __metadata("design:returntype", Promise)
+], ResourcesController.prototype, "fetchArticlesTag", null);
 __decorate([
     (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Put)("/articles/:id"),

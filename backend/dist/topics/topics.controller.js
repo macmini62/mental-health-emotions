@@ -41,7 +41,7 @@ let TopicsController = class TopicsController {
     async fetchTopics(data, userId, res) {
         const topics = await this.topicService.fetchUserTopics(data, userId);
         if (topics) {
-            res.send(topics);
+            res.status(200).send(topics);
         }
         else {
             res.status(500);

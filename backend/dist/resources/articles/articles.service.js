@@ -48,7 +48,7 @@ let ArticlesService = class ArticlesService {
     }
     async findOne(id) {
         try {
-            const a = this.articleModel.findOne({ id: id });
+            const a = this.articleModel.findOne({ _id: id });
             if (a !== null) {
                 return a;
             }
@@ -74,6 +74,21 @@ let ArticlesService = class ArticlesService {
             }
             console.log(articles);
             return articles.slice(0, total);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+    async findArticleTags(tagId, p) {
+        try {
+            const articles = Array();
+            for (let i = 0; i < p; i++) {
+                for await (const a of this.articleModel.find({ tags: tagId })) {
+                    articles.push(a);
+                }
+            }
+            console.log(articles);
+            return articles;
         }
         catch (e) {
             console.log(e);

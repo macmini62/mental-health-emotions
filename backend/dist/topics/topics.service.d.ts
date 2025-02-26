@@ -318,5 +318,5 @@ export declare class TopicsService {
     }, userService: UsersService);
     createTopic(data: Array<topic>): Promise<Array<topic>>;
     fetchTopics(size: number): Promise<Array<topic>>;
-    fetchUserTopics(data: Array<string>, userId: string): Promise<Array<string>>;
+    fetchUserTopics(data: Array<string>, userId: string): Promise<Array<topic>>;
 }

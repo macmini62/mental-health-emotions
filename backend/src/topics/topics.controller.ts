@@ -36,12 +36,12 @@ export class TopicsController {
 
   @SkipAuth()
   @Post("/:id")
-  async fetchTopics(@Body() data: Array<string>, @Param("id") userId: string, @Res() res: Response<Array<string>>){
-    const topics: Array<string> = await this.topicService.fetchUserTopics(data, userId);
+  async fetchTopics(@Body() data: Array<string>, @Param("id") userId: string, @Res() res: Response<Array<topic>>){
+    const topics: Array<topic> = await this.topicService.fetchUserTopics(data, userId);
     // console.log(data, userId)
 
     if(topics){
-      res.send(topics);
+      res.status(200).send(topics);
     }else{
       res.status(500);
     }
