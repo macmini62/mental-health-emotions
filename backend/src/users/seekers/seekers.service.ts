@@ -60,10 +60,10 @@ export class SeekerService {
   }
 
   async getUser(userId: string): Promise<Seeker>{
-    console.log("userId:", userId);
+    // console.log("userId:", userId);
     const seeker = await this.SeekerModel.findOne({ userId: userId });
 
-    console.log("seeker:", seeker);
+    // console.log("seeker:", seeker);
     return seeker;
   }
 
@@ -73,20 +73,20 @@ export class SeekerService {
       users.push(p);
     }
 
-    console.log(users);
+    // console.log(users);
     return users;
   }
 
   async deleteUser(userId: string){
     const users = await this.SeekerModel.deleteOne({ _id: userId });
 
-    console.log(users);
+    // console.log(users);
     return users;
   }
 
   async updateUser(userId: string, data: object ){
-    console.log(userId);
-    console.log(data);
+    // console.log(userId);
+    // console.log(data);
     return await this.SeekerModel.updateOne(
       { userId: userId },
       { ...data }
@@ -95,9 +95,9 @@ export class SeekerService {
 
   async verifyUser(data: seeker): Promise<object>{    
     try{
-      console.log(data);
+      // console.log(data);
       const userId = await this.SeekerModel.exists({...data});
-      console.log(userId);
+      // console.log(userId);
       
       if(!userId){
         throw new Error();
@@ -107,6 +107,15 @@ export class SeekerService {
 
     }catch(e){
       console.log(e)
+    }
+  }
+
+  async findFollowing(userId: string): Promise<Array<string>> {
+    try{
+      return (await this.SeekerModel.findOne({ userId: userId })).following
+    }
+    catch(e){
+      console.log(e);
     }
   }
 }

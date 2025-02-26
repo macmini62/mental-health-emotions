@@ -17,27 +17,27 @@ const common_1 = require("@nestjs/common");
 const seekers_service_1 = require("./seekers.service");
 const auth_decorator_1 = require("../../decorators/auth.decorator");
 let SeekerController = class SeekerController {
-    constructor(usersService) {
-        this.usersService = usersService;
+    constructor(seekerService) {
+        this.seekerService = seekerService;
     }
     getAll() {
-        return this.usersService.getAllUsers();
+        return this.seekerService.getAllUsers();
     }
     get(userId) {
-        return this.usersService.getUser(userId);
+        return this.seekerService.getUser(userId);
     }
     async verify(data, res) {
-        const userId = await this.usersService.verifyUser(data);
+        const userId = await this.seekerService.verifyUser(data);
         if (userId) {
             return res.status(200).send({ ...userId });
         }
         return res.status(500).send({ Error: "User does not exists!" });
     }
     update(data, userId) {
-        return this.usersService.updateUser(userId, data);
+        return this.seekerService.updateUser(userId, data);
     }
     delete(userId) {
-        return this.usersService.deleteUser(userId);
+        return this.seekerService.deleteUser(userId);
     }
 };
 exports.SeekerController = SeekerController;
@@ -49,6 +49,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], SeekerController.prototype, "getAll", null);
 __decorate([
+    (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Get)("/:id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),

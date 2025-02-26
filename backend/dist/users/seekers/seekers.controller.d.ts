@@ -2,8 +2,8 @@ import { SeekerService } from "./seekers.service";
 import { seeker } from "./interface/seekers.interface";
 import { Response } from "express";
 export declare class SeekerController {
-    private usersService;
-    constructor(usersService: SeekerService);
+    private seekerService;
+    constructor(seekerService: SeekerService);
     getAll(): Promise<import("./schema/seeker.schema").Seeker[]>;
     get(userId: string): Promise<import("./schema/seeker.schema").Seeker>;
     verify(data: seeker, res: Response): Promise<Response<any, Record<string, any>>>;

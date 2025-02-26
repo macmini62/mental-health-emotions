@@ -38,12 +38,15 @@ export class Seeker {
     }
   })
   contents: {
-    topics: string[];
+    topics: Array<string>;
     bookmarks: {
-      articles: string[];
-      videos: string[];
+      articles: Array<string>;
+      videos: Array<string>;
     }
   }
+
+  @Prop()
+  following: Array<string>;
 }
 
 export const SeekerSchema = SchemaFactory.createForClass(Seeker);

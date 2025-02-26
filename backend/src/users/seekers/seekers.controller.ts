@@ -6,22 +6,23 @@ import { SkipAuth } from "src/decorators/auth.decorator";
 
 @Controller("seekers")
 export class SeekerController {
-  constructor(private usersService: SeekerService) {}
+  constructor(private seekerService: SeekerService) {}
 
   @SkipAuth()
   @Get("/")
   getAll(){
-    return this.usersService.getAllUsers();
+    return this.seekerService.getAllUsers();
   }
 
+  @SkipAuth()
   @Get("/:id")
   get(@Param("id") userId: string) {
-      return this.usersService.getUser(userId);
+      return this.seekerService.getUser(userId);
   }
   
   // @Post("create")
   // async add(@Param() id: string, @Body() data: seeker, @Res() res: Response){
-  //   const results: seeker = await this.usersService.addUser(id, data);
+  //   const results: seeker = await this.seekerService.addUser(id, data);
   
   //   if(results){
   //     return res.status(201).send(results);
@@ -31,7 +32,7 @@ export class SeekerController {
 
   @Post("verify")
   async verify(@Body() data: seeker, @Res() res: Response){
-    const userId: object = await this.usersService.verifyUser(data);
+    const userId: object = await this.seekerService.verifyUser(data);
   
     if(userId){
       return res.status(200).send({...userId});
@@ -41,11 +42,11 @@ export class SeekerController {
   
   @Put("/:id")
   update(@Body() data: object, @Param("id") userId: string){
-    return this.usersService.updateUser(userId, data);
+    return this.seekerService.updateUser(userId, data);
   }
 
   @Delete("/:id")
   delete(@Param("id") userId: string){
-    return this.usersService.deleteUser(userId);
+    return this.seekerService.deleteUser(userId);
   }
 }

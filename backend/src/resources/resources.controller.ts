@@ -35,14 +35,16 @@ export class ResourcesController {
     else if (results.length < p * 5 && p > 2){
       res.status(204).send();
     }
-    res.status(200).send(results);
+    else{
+      res.status(200).send(results);
+    }
   }
 
   @SkipAuth()
   @Get("articles")
   async findAllArticles(@Res() res: Response<Array<article>>, @Query("p") p: number) {
     const results: Array<article> =  await this.articlesService.findAll(p);
-    console.log(results.length)
+    // console.log(results.length)
 
     if(!results){
       res.status(404).send();
@@ -50,7 +52,9 @@ export class ResourcesController {
     else if (results.length < p * 5 && p > 2){
       res.status(204).send();
     }
-    res.status(200).send(results);
+    else{
+      res.status(200).send(results);
+    }
   }
 
   @Get("/articles/:id")

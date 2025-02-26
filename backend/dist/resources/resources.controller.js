@@ -37,18 +37,21 @@ let ResourcesController = class ResourcesController {
         else if (results.length < p * 5 && p > 2) {
             res.status(204).send();
         }
-        res.status(200).send(results);
+        else {
+            res.status(200).send(results);
+        }
     }
     async findAllArticles(res, p) {
         const results = await this.articlesService.findAll(p);
-        console.log(results.length);
         if (!results) {
             res.status(404).send();
         }
         else if (results.length < p * 5 && p > 2) {
             res.status(204).send();
         }
-        res.status(200).send(results);
+        else {
+            res.status(200).send(results);
+        }
     }
     async findOneArticle(id, res) {
         const result = await this.articlesService.findOne(id);

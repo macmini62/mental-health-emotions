@@ -9,12 +9,13 @@ export declare class Seeker {
         imageURL: string;
     };
     contents: {
-        topics: string[];
+        topics: Array<string>;
         bookmarks: {
-            articles: string[];
-            videos: string[];
+            articles: Array<string>;
+            videos: Array<string>;
         };
     };
+    following: Array<string>;
 }
 export declare const SeekerSchema: import("mongoose").Schema<Seeker, import("mongoose").Model<Seeker, any, any, any, import("mongoose").Document<unknown, any, Seeker> & Seeker & Required<{
     _id: string;

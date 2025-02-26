@@ -12,4 +12,5 @@ export declare class SeekerService {
     deleteUser(userId: string): Promise<import("mongodb").DeleteResult>;
     updateUser(userId: string, data: object): Promise<import("mongoose").UpdateWriteOpResult>;
     verifyUser(data: seeker): Promise<object>;
+    findFollowing(userId: string): Promise<Array<string>>;
 }

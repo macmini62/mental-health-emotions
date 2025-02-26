@@ -18,10 +18,12 @@ const mongoose_1 = require("@nestjs/mongoose");
 const article_schema_1 = require("./schema/article.schema");
 const mongoose_2 = require("mongoose");
 const professionals_service_1 = require("../../users/professionals/professionals.service");
+const seekers_service_1 = require("../../users/seekers/seekers.service");
 let ArticlesService = class ArticlesService {
-    constructor(articleModel, professionalService) {
+    constructor(articleModel, professionalService, seekerService) {
         this.articleModel = articleModel;
         this.professionalService = professionalService;
+        this.seekerService = seekerService;
     }
     async create(data) {
         try {
@@ -58,16 +60,20 @@ let ArticlesService = class ArticlesService {
             console.log(e);
         }
     }
-    async findCreators(creatorId, p) {
+    async findCreators(id, p) {
         try {
+            const creators = await this.seekerService.findFollowing(id);
             const total = p * 5;
-            if (await this.professionalService.userExists(creatorId)) {
-                const articles = Array(total);
-                for await (const a of this.articleModel.find({ creatorId: creatorId })) {
-                    articles.push(a);
+            const articles = Array(total);
+            for (let i = 0; i < creators.length; i++) {
+                if (await this.professionalService.userExists(creators[i])) {
+                    for await (const a of this.articleModel.find({ creatorId: id })) {
+                        articles.push(a);
+                    }
                 }
-                return articles.slice(0, total);
             }
+            console.log(articles);
+            return articles.slice(0, total);
         }
         catch (e) {
             console.log(e);
@@ -110,6 +116,7 @@ exports.ArticlesService = ArticlesService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(article_schema_1.Article.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
-        professionals_service_1.ProfessionalService])
+        professionals_service_1.ProfessionalService,
+        seekers_service_1.SeekerService])
 ], ArticlesService);
 //# sourceMappingURL=articles.service.js.map

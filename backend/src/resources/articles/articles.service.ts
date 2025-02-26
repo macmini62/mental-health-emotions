@@ -4,12 +4,14 @@ import { Article } from "./schema/article.schema";
 import { Model } from "mongoose";
 import { article } from "./interface/article.interface";
 import { ProfessionalService } from "src/users/professionals/professionals.service";
+import { SeekerService } from "src/users/seekers/seekers.service";
 
 @Injectable()
 export class ArticlesService {
   constructor(
     @InjectModel(Article.name) private articleModel: Model<Article>,
-    private professionalService: ProfessionalService
+    private professionalService: ProfessionalService,
+    private seekerService: SeekerService
   ){}
 
   async create(data: article): Promise<article>{
@@ -49,17 +51,22 @@ export class ArticlesService {
     }
   }
 
-  async findCreators(creatorId: string, p: number): Promise<Array<article>> {
+  async findCreators(id: string, p: number): Promise<Array<article>> {
     try{
+      const creators: Array<string> = await this.seekerService.findFollowing(id)
       const total = p * 5;
-      if (await this.professionalService.userExists(creatorId)){
-        const articles: Array<article> = Array(total);
-        for await (const a of this.articleModel.find({ creatorId: creatorId })){
-          articles.push(a);
-        }
+      const articles: Array<article> = Array(total);
 
-        return articles.slice(0, total);
+      for (let i = 0; i < creators.length; i++){
+        if (await this.professionalService.userExists(creators[i])){
+          for await (const a of this.articleModel.find({ creatorId: id })){
+            articles.push(a);
+          }
+        }
       }
+
+      console.log(articles)
+      return articles.slice(0, total);
     }
     catch(e){
       console.log(e);

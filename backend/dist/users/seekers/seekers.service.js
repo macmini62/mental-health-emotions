@@ -42,9 +42,7 @@ let SeekerService = class SeekerService {
         }
     }
     async getUser(userId) {
-        console.log("userId:", userId);
         const seeker = await this.SeekerModel.findOne({ userId: userId });
-        console.log("seeker:", seeker);
         return seeker;
     }
     async getAllUsers() {
@@ -52,30 +50,32 @@ let SeekerService = class SeekerService {
         for await (const p of this.SeekerModel.find()) {
             users.push(p);
         }
-        console.log(users);
         return users;
     }
     async deleteUser(userId) {
         const users = await this.SeekerModel.deleteOne({ _id: userId });
-        console.log(users);
         return users;
     }
     async updateUser(userId, data) {
-        console.log(userId);
-        console.log(data);
         return await this.SeekerModel.updateOne({ userId: userId }, { ...data });
     }
     async verifyUser(data) {
         try {
-            console.log(data);
             const userId = await this.SeekerModel.exists({ ...data });
-            console.log(userId);
             if (!userId) {
                 throw new Error();
             }
             else {
                 return userId;
             }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+    async findFollowing(userId) {
+        try {
+            return (await this.SeekerModel.findOne({ userId: userId })).following;
         }
         catch (e) {
             console.log(e);

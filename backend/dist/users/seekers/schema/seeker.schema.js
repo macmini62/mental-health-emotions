@@ -47,6 +47,10 @@ __decorate([
     }),
     __metadata("design:type", Object)
 ], Seeker.prototype, "contents", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Array)
+], Seeker.prototype, "following", void 0);
 exports.Seeker = Seeker = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], Seeker);

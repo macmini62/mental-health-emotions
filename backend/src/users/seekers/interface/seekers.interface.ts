@@ -3,6 +3,7 @@ export interface seeker {
   userId: string;
   profile: profile;
   contents: contents;
+  following: Array<string>;
 };
 
 export interface profile {
