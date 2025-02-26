@@ -14,12 +14,12 @@ const ContentHeader = ({
 }) => {
 
   // fetch seeker subscribed topics
-  const[tp, setTp] = React.useState<Array<string>>([]);
+  const[tp, setTp] = React.useState<Array<topic>>([]);
   React.useEffect(() => {
     const accessToken: string | null = localStorage.getItem("access token");
     const userId: string | null = localStorage.getItem("userId");
     if(accessToken && userId){
-      axios.post<Array<string>>(`http://localhost:3001/topics/${JSON.parse(userId)}`, 
+      axios.post<Array<topic>>(`http://localhost:3001/topics/${JSON.parse(userId)}`, 
       topics,
       {
         headers:{
@@ -41,13 +41,13 @@ const ContentHeader = ({
        <div onClick={() => setFetchTag("all")}><button className="mr-6 group focus:border-b-2 focus:border-black"><p className="text-sm pb-6 group-hover:text-black group-focus:text-black">For you</p></button></div>
        <div onClick={() => setFetchTag("following")}><button className="mr-6 group focus:border-b-2 focus:border-black"><p className="text-sm pb-6 group-hover:text-black group-focus:text-black">Following</p></button></div>
         {
-          tp.map((t: string, i:number) => (
+          tp.map((t: topic, i:number) => (
             <div
               key={i}
-              onClick={() => setFetchTag(t)}
+              onClick={() => setFetchTag(t._id)}
               >
               <button className="mr-6 group focus:border-b-2 focus:border-black capitalize">
-              <p className="text-sm pb-6 group-hover:text-black group-focus:text-black">{t}</p></button>
+              <p className="text-sm pb-6 group-hover:text-black group-focus:text-black">{t.name}</p></button>
             </div>
           ))
         }

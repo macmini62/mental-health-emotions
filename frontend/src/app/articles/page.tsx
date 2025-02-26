@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { CiCircleMinus } from "react-icons/ci";
-import { FcLike, FcLikePlaceholder } from "react-icons/fc";
-import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
-import { TbMessageCircle, TbMessageCircleFilled } from "react-icons/tb";
+import { FcLikePlaceholder } from "react-icons/fc";
+import { IoBookmarkOutline } from "react-icons/io5";
+import { TbMessageCircle } from "react-icons/tb";
 import Menu from "../components/sideMenu/menu";
 import axios from "axios";
 import React  from "react";
@@ -182,7 +182,7 @@ const Articles = () => {
       }
       else{
         // Fetches the articles with the specified tag.
-        axios.get<Array<article>>(`http://localhost:3001/resources/articles/?t=${fetchTag}?p=${fetch.page}`,
+        axios.get<Array<article>>(`http://localhost:3001/resources/articles?t=${fetchTag}?p=${fetch.page}`,
           {
             headers: {
               Authorization: `Bearer ${JSON.parse(accessToken)}`
