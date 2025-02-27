@@ -55,17 +55,17 @@ export class ArticlesService {
     try{
       const creators: Array<string> = await this.seekerService.findFollowing(id)
       const total = p * 5;
-      const articles: Array<article> = Array(total);
-
+      let articles: Array<article> = Array();
+      // console.log(creators)
+      
       for (let i = 0; i < creators.length; i++){
         if (await this.professionalService.userExists(creators[i])){
-          for await (const a of this.articleModel.find({ creatorId: id })){
-            articles.push(a);
-          }
+          const article: Array<article> = await this.articleModel.find({ creatorId: creators[i] });
+          articles = [...article]
         }
       }
 
-      console.log(articles)
+      // console.log(articles);
       return articles.slice(0, total);
     }
     catch(e){

@@ -64,15 +64,13 @@ let ArticlesService = class ArticlesService {
         try {
             const creators = await this.seekerService.findFollowing(id);
             const total = p * 5;
-            const articles = Array(total);
+            let articles = Array();
             for (let i = 0; i < creators.length; i++) {
                 if (await this.professionalService.userExists(creators[i])) {
-                    for await (const a of this.articleModel.find({ creatorId: id })) {
-                        articles.push(a);
-                    }
+                    const article = await this.articleModel.find({ creatorId: creators[i] });
+                    articles = [...article];
                 }
             }
-            console.log(articles);
             return articles.slice(0, total);
         }
         catch (e) {
