@@ -13,6 +13,8 @@ export interface user {
       videos: Array<string>;
     }
   }
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface topic {
@@ -37,4 +39,6 @@ export interface article {
     likes: Array<string>;
     comments: number;
   }
+  createdAt: string;
+  updatedAt: string;
 }

@@ -7,10 +7,12 @@ import { topic } from "../interface/interface";
 
 const ContentHeader = ({
   topics,
-  setFetchTag
+  setFetchTag,
+  tag
 }:{
   topics: Array<string>,
   setFetchTag: (t: string) => void,
+  tag: string
 }) => {
 
   // fetch seeker subscribed topics
@@ -38,16 +40,24 @@ const ContentHeader = ({
      <div><button className="group absolute left-2"><IoAdd className="w-8 h-8 pb-2 group-hover:text-black"/></button></div>
       <button className="group absolute left-2 invisible"><IoIosArrowBack className="w-8 h-8 pb-2 group-hover:text-black"/></button>
       <div className="flex overflow-hidden shadow-3xl">
-       <div onClick={() => setFetchTag("all")}><button className="mr-6 group focus:border-b-2 focus:border-black"><p className="text-sm pb-6 group-hover:text-black group-focus:text-black">For you</p></button></div>
-       <div onClick={() => setFetchTag("following")}><button className="mr-6 group focus:border-b-2 focus:border-black"><p className="text-sm pb-6 group-hover:text-black group-focus:text-black">Following</p></button></div>
+        <div onClick={() => setFetchTag("all")}>
+          <button className={`mr-6 group  ${tag === "all" && "border-b-2 border-black text-black"}`}>
+            <p className="text-sm pb-6 group-hover:text-black">For you</p>
+          </button>
+        </div>
+        <div onClick={() => setFetchTag("following")}>
+          <button className={`mr-6 group  ${tag === "following" && "border-b-2 border-black text-black"}`}>
+            <p className="text-sm pb-6 group-hover:text-black">Following</p>
+          </button>
+        </div>
         {
           tp.map((t: topic, i:number) => (
             <div
               key={i}
               onClick={() => setFetchTag(t._id)}
               >
-              <button className="mr-6 group focus:border-b-2 focus:border-black capitalize">
-              <p className="text-sm pb-6 group-hover:text-black group-focus:text-black">{t.name}</p></button>
+              <button className={`mr-6 group  ${tag === t._id && "border-b-2 border-black text-black"}`}>
+              <p className="text-sm pb-6 group-hover:text-black">{t.name}</p></button>
             </div>
           ))
         }

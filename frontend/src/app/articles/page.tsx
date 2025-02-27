@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { CiCircleMinus } from "react-icons/ci";
-import { FcLikePlaceholder } from "react-icons/fc";
+import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 import { IoBookmarkOutline } from "react-icons/io5";
 import { TbMessageCircle } from "react-icons/tb";
 import Menu from "../components/sideMenu/menu";
@@ -15,6 +15,9 @@ import Header from "../components/header";
 import ContentHeader from "../components/contentHeader";
 import ContentOptions from "../components/dropDownOptions/contentOptions";
 import { user, article, topic } from "../interface/interface";
+
+
+const MONTHS = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
 const Articles = () => {
   
@@ -32,7 +35,9 @@ const Articles = () => {
         articles: [],
         videos: []
       }
-    }
+    },
+    createdAt: "",
+    updatedAt: ""
   });
   const [articles, setArticles] = React.useState<Array<article>>([]);
   
@@ -45,9 +50,15 @@ const Articles = () => {
     page: 1
   });
   const [fetchTag, setFetchTag] = React.useState<string>("all");
+  
   React.useEffect(() => {
     fetchArticles();
-  }, [fetchTag, fetch.page]);
+  }, [fetch.page]);
+  
+  React.useEffect(() => {
+    fetchArticles();
+    setArticles([]);
+  },[fetchTag])
 
   // Check if the user has scrolled to the bottom
   const handleScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
@@ -105,7 +116,7 @@ const Articles = () => {
     }
   }, []);
   console.log(user);
-  // console.log(articles);
+  console.log(articles);
 
   // Fetch data that with the specific tags.
   const fetchArticles = () => {
@@ -148,7 +159,6 @@ const Articles = () => {
         });
       }
       else if(fetchTag === "following"){
-        setArticles([]);
         // Fetches all the users" subscribed article data.
         axios.get<Array<article>>(`http://localhost:3001/resources/articles/${JSON.parse(userId)}?p=${fetch.page}`,
           {
@@ -258,6 +268,7 @@ const Articles = () => {
           <ContentHeader
             topics={user.contents.topics}
             setFetchTag={(t: string) => setFetchTag(t)}
+            tag={fetchTag}
           />
           {
                 fetchFailed &&
@@ -299,16 +310,22 @@ const Articles = () => {
                         <div className="flex items-center justify-between">
                           <div className="flex gap-6 text-md">
                             {/* <img src="/faces/face5.jpg" alt="" className="" /> */}
-                            <p className="h-5">Dec 21</p>
+                            <p className="h-5">
+                              { `${MONTHS[new Date(a.createdAt).getMonth()]} ${new Date(a.createdAt).getFullYear()-2000}` }
+                            </p>
                             <div className="flex gap-1.5 items-center">
-                              <FcLikePlaceholder className="w-5 h-5"/>
-                              {/* <FcLike className="w-5 h-5"/> */}
-                              <p className="h-5">90</p>
+                              {
+                                a.stats.likes.includes(user._id) ?
+                                <FcLikePlaceholder className="w-5 h-5"/>
+                                :
+                                <FcLike className="w-5 h-5"/>
+                              }
+                              <p className="h-5">{a.stats.likes.length}</p>
                             </div>
                             <div className="flex gap-1.5 items-center">
                               <TbMessageCircle className="w-5 h-5"/>
                               {/* <TbMessageCircleFilled className="w-5 h-5"/> */}
-                              <p className="h-5">33</p>
+                              <p className="h-5">{a.stats.comments}</p>
                             </div>
                           </div>
                           <div className="flex gap-10">
