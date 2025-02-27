@@ -294,7 +294,7 @@ const Articles = () => {
                     <div className="flex gap-10">
                       {/* contents */}
                       <div className="flex flex-col gap-6 w-[calc(100%-200px)]">
-                        <Link href="/" className="flex gap-10 justify-between">
+                        <Link href={`articles/${a._id}`} className="flex gap-10 justify-between">
                           <div className="flex flex-col gap-2">
                             {/* title */}
                             <h3 className="text-black font-semibold text-3xl capitalize">

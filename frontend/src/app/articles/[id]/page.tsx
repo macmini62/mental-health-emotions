@@ -1,12 +1,12 @@
 "use client"
 
 import Footer from "@/app/components/footerOptions/footer";
+import Header from "@/app/components/header";
 import LoadingBar from "@/app/components/loadings/loadingBar";
 import Link from "next/link";
 import { BsDot } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
-import { GoBell, GoDotFill } from "react-icons/go";
-import { IoBookmarkOutline, IoSearchOutline, IoShareOutline } from "react-icons/io5";
+import { IoBookmarkOutline, IoShareOutline } from "react-icons/io5";
 import { SlOptions } from "react-icons/sl";
 import { TbMessageCircleFilled } from "react-icons/tb";
 
@@ -14,22 +14,9 @@ const Post = () => {
   return (
     <div className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
       {/* HEADER */}
-      <div className="w-full flex justify-between py-3 px-4 border-b-2 sticky z-10 left-0 top-0 bg-white shadow-sm">
-        <div className="flex gap-6 items-center">
-          <Link href=""><img src="/logo/logo-white.png" alt="" className="w-36 h-10"/></Link>
-          <div className="max-w-fit h-10 flex px-3 gap-3 items-center bg-gray-100 rounded-full group">
-            <IoSearchOutline className="w-7 h-7 group-focus-within:text-black"/>
-            <input type="text" name="" id="" className="px-2 w-52 outline-none bg-transparent focus:text-black" placeholder="Search"/>
-          </div>
-        </div>
-        <div className="w-56 flex justify-between items-center mr-2">
-          <Link href="" className="max-w-fit flex items-center gap-1 text-white bg-black active:text-black active:bg-white active:border-black border py-1 px-4 rounded-full">
-            <p className="">Create</p>
-          </Link>
-          <Link href="" className="relative"><GoBell className="w-7 h-7 hover:text-black"/><GoDotFill className="animate-ping absolute w-3 h-3 bottom-0 -right-1 text-black"/></Link>
-          <button><img src="/faces/face1.jpg" alt="" className="w-10 h-10 rounded-full hover:opacity-80"/></button>
-        </div>
-      </div>
+      <Header
+        imageURL="/faces/face4.jpg"
+      />
       <div className="w-full max-h-fit p-4 flex items-center justify-center">
         <LoadingBar/>
       </div>

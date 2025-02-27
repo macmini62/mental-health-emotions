@@ -5,8 +5,8 @@ import { MdOutlineArticle, MdOutlineLiveTv, MdOutlinePeople, MdOutlineVideocam }
 const CreateOptions = () => {
   return (
       <Menu.Root>
-        <Menu.Trigger className="flex h-10 items-center justify-center gap-1.5 px-3.5 text-base font-medium hover:text-black select-none">
-        <FiEdit className="w-7 h-7"/> Create
+        <Menu.Trigger className="w-28 flex items-center text-white bg-black active:text-black active:bg-white active:border-black border py-1 rounded-full h-10 justify-center gap-1.5 px-3.5 text-base font-medium select-none">
+          Create
         </Menu.Trigger>
         <Menu.Portal>
           <Menu.Positioner className="outline-none" sideOffset={20} align="end">
