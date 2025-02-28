@@ -13,6 +13,9 @@ import { TbMessageCircleFilled } from "react-icons/tb";
 import { article } from "@/app/interface/interface";
 import axios from "axios";
 import ErrorNotification from "@/app/components/notifications/notificationAlert";
+import ContentOptions from "@/app/components/dropDownOptions/contentOptions";
+import DOMPurify from "dompurify";
+import parse from "html-react-parser";
 
 const MONTHS = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
@@ -80,12 +83,12 @@ const Post = ({
         <article className="flex flex-col items-start w-1/3 py-8 text-lg text-nowrap">
           {/* heading */}
           <div className="w-full p-2">
-            <h2 className="text-5xl text-black font-semibold my-3">{article.title}</h2>
+            <h2 className="text-5xl text-black font-semibold my-3 capitalize">{article.title}</h2>
             <h3 className="text-xl my-3">{article.overview}</h3>
             <div className="flex gap-4 items-center my-6">
               <Link href="/"><img src="/faces/face4.jpg" alt="" className="w-14 h-14 rounded-full hover:opacity-80"/></Link>
               <div className="max-w-fit">
-                <Link href="/"><p className="text-black hover:underline">eMotions</p></Link>
+                <Link href="/"><p className="text-black hover:underline">{article.creatorId}</p></Link>
                 <div className="flex items-center gap-1 text-sm">
                   <p className="">2 min read</p>
                   <BsDot/>
@@ -98,13 +101,15 @@ const Post = ({
             <div className="w-full p-3 flex justify-between items-center border-y border-gray-200">
               <div className="flex gap-6 text-md">
                 <div className="flex gap-1.5 items-center h-6">
-                  {
-                    article.stats.likes.includes(user._id) ?
-                    <FcLikePlaceholder className="w-5 h-5"/>
-                    :
-                    <FcLike className="w-5 h-5"/>
-                  }
-                  <p className="h-5">{article.stats.likes.length}</p>
+                  <div className="flex gap-1.5 items-center">
+                    {
+                      article.stats.likes.length > 0 ?
+                      <FcLikePlaceholder className="w-5 h-5"/>
+                      :
+                      <FcLike className="w-5 h-5"/>
+                    }
+                    <p className="h-5 mb-1.5">{article.stats.likes.length}</p>
+                  </div>
                 </div>
                 <div className="flex gap-1.5 items-center">
                   {/* <TbMessageCircle className="w-5 h-5"/> */}
@@ -116,7 +121,9 @@ const Post = ({
                 <button><IoShareOutline className="w-7 h-7 hover:text-black"/></button>
                 <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button>
                 {/* <button><IoBookmark className="w-7 h-7 text-black"/></button> */}
-                <button><SlOptions className="w-7 h-7 hover:text-black"/></button>
+                <ContentOptions
+                  type="article"
+                />
               </div>
             </div>
           </div>
@@ -124,46 +131,36 @@ const Post = ({
           <div className="w-full border-b border-gray-200 mt-8">
             {/* thumbnail */}
             <div className="flex flex-col w-full items-center justify-center gap-4 py-4">
-              <img src="/calm/calm2.webp" alt="" className="w-2/3 h-[400px]"/>
-              <p className="text-sm">Image by eMotions staff.</p>
+              <img src={article.thumbnail.imageURL} alt="" className="w-2/3 h-[400px]"/>
+              <p className="text-sm">{article.thumbnail.caption}</p>
             </div>
             {/* paragraphs */}
             <div className="text-wrap text-black flex flex-col items-center gap-4 py-8 mb-8">
               {
-                article.content
+                parse(DOMPurify.sanitize(article.content))
               }
-              <p className="">
-                2024 has finally come to an end. You've made it to the last day of the year and as you look back at everything you've been through,
-                I hope you see how far you've come. There were good times and tough times, but you kept moving forward. Every challenge you faced 
-                and every step you took brought you to where you are today.
-              </p>
-              <p className="">
-                It was a hard year, but you made it. You survived, and that's a big deal. I'm proud of you and always will be.
-              </p>
-              <p className="">
-                Keep moving forward, keep believing in yourself, and know that you've already accomplished much. The future is full of possiblities
-                -so go after it, because you've earned every step of it. You've got this. Keep shining my brave little fighter.
-              </p>
             </div>
             {/* tags */}
             <div className="">
               <div className="w-full max-h-fit flex flex-wrap col-span-2 gap-4 my-4">
                 {
-                  article.tags.map(() => (
-                    <Link href="" className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">mathematics</Link>
+                  article.tags.map((a: string, i: number) => (
+                    <Link key={i} href="" className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">{a}</Link>
                   ))
                 }
               </div>
               <div className="w-full p-3 flex justify-between items-center mt-8">
                 <div className="flex gap-6 text-md">
                   <div className="flex gap-1.5 items-center h-6">
-                  {
-                    article.stats.likes.includes(user._id) ?
-                    <FcLikePlaceholder className="w-5 h-5"/>
-                    :
-                    <FcLike className="w-5 h-5"/>
-                  }
-                  <p className="h-5">{article.stats.likes.length}</p>
+                    <div className="flex gap-1.5 items-center">
+                      {
+                        article.stats.likes.length > 0 ?
+                        <FcLikePlaceholder className="w-5 h-5"/>
+                        :
+                        <FcLike className="w-5 h-5"/>
+                      }
+                      <p className="h-5 mb-1.5">{article.stats.likes.length}</p>
+                    </div>
                   </div>
                   <div className="flex gap-1.5 items-center">
                     {/* <TbMessageCircle className="w-5 h-5"/> */}
@@ -175,7 +172,9 @@ const Post = ({
                   <button><IoShareOutline className="w-7 h-7 hover:text-black"/></button>
                   <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button>
                   {/* <button><IoBookmark className="w-7 h-7 text-black"/></button> */}
-                  <button><SlOptions className="w-7 h-7 hover:text-black"/></button>
+                  <ContentOptions
+                    type="article"
+                  />
                 </div>
               </div>
             </div>
