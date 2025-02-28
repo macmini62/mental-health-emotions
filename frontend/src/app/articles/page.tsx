@@ -14,14 +14,14 @@ import ErrorNotification from "../components/notifications/notificationAlert";
 import Header from "../components/header";
 import ContentHeader from "../components/contentHeader";
 import ContentOptions from "../components/dropDownOptions/contentOptions";
-import { user, article, topic } from "../interface/interface";
+import { seeker, article, topic } from "../interface/interface";
 
 
 const MONTHS = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
 const Articles = () => {
   
-  const [user, setUser] = React.useState<user>({
+  const [seeker, setUser] = React.useState<seeker>({
     _id: "",
     userId: "",
     profile: {
@@ -57,10 +57,11 @@ const Articles = () => {
   
   React.useEffect(() => {
     fetchArticles();
+    setFetch({...fetch, page: 1});
     setArticles([]);
   },[fetchTag])
 
-  // Check if the user has scrolled to the bottom
+  // Check if the seeker has scrolled to the bottom
   const handleScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
     // console.log(fetch.f);
     if(fetch.f){
@@ -99,8 +100,8 @@ const Articles = () => {
     const role: string | null = localStorage.getItem("role");
 
     if(userId && accessToken && role){
-      // Fetch user data for after login.
-      const res = axios.get<user>(`http://localhost:3001/${JSON.parse(role) === "professional" ? "professionals" : "seekers"}/${JSON.parse(userId)}`,
+      // Fetch seeker data for after login.
+      const res = axios.get<seeker>(`http://localhost:3001/${JSON.parse(role) === "professional" ? "professionals" : "seekers"}/${JSON.parse(userId)}`,
           {
             headers: {
               Authorization: `Bearer ${JSON.parse(accessToken)}`
@@ -115,8 +116,11 @@ const Articles = () => {
         });
     }
   }, []);
-  console.log(user);
-  console.log(articles);
+
+  // console.log(seeker);
+  // console.log(articles);
+  // console.log(fetchTag);
+
 
   // Fetch data that with the specific tags.
   const fetchArticles = () => {
@@ -160,7 +164,7 @@ const Articles = () => {
       }
       else if(fetchTag === "following"){
         // Fetches all the users" subscribed article data.
-        axios.get<Array<article>>(`http://localhost:3001/resources/articles/${JSON.parse(userId)}?p=${fetch.page}`,
+        axios.get<Array<article>>(`http://localhost:3001/resources/articles/seeker?id=${JSON.parse(userId)}&p=${fetch.page}`,
           {
             headers: {
               Authorization: `Bearer ${JSON.parse(accessToken)}`
@@ -192,7 +196,7 @@ const Articles = () => {
       }
       else{
         // Fetches the articles with the specified tag.
-        axios.get<Array<article>>(`http://localhost:3001/resources/articles?t=${fetchTag}?p=${fetch.page}`,
+        axios.get<Array<article>>(`http://localhost:3001/resources/articles/tag?t=${fetchTag}&p=${fetch.page}`,
           {
             headers: {
               Authorization: `Bearer ${JSON.parse(accessToken)}`
@@ -200,7 +204,7 @@ const Articles = () => {
           }
         )
         .then((res) => {
-          // console.log(res.status);
+          console.log(res.status);
           if(res.status == 200){
             setTimeout(() => {
               setArticles(res.data);
@@ -254,7 +258,7 @@ const Articles = () => {
     <div onScroll={(e) => handleScroll(e)} className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
       {/* HEADER */}
       <Header
-        imageURL={user.profile?.imageURL}
+        imageURL={seeker.profile?.imageURL}
       /> 
       {/* BODY */}
       <div className="w-[1338px] flex justify-between p-4">
@@ -266,7 +270,7 @@ const Articles = () => {
         <div className="w-[728px] max-h-fit py-4">
           {/* content-header */}
           <ContentHeader
-            topics={user.contents.topics}
+            topics={seeker.contents.topics}
             setFetchTag={(t: string) => setFetchTag(t)}
             tag={fetchTag}
           />
@@ -313,7 +317,7 @@ const Articles = () => {
                             </p>
                             <div className="flex gap-1.5 items-center">
                               {
-                                a.stats.likes.includes(user._id) ?
+                                a.stats.likes.includes(seeker._id) ?
                                 <FcLikePlaceholder className="w-5 h-5"/>
                                 :
                                 <FcLike className="w-5 h-5"/>

@@ -10,7 +10,7 @@ import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 import { IoBookmarkOutline, IoShareOutline } from "react-icons/io5";
 import { SlOptions } from "react-icons/sl";
 import { TbMessageCircleFilled } from "react-icons/tb";
-import { article } from "@/app/interface/interface";
+import { article, tag } from "@/app/interface/interface";
 import axios from "axios";
 import ErrorNotification from "@/app/components/notifications/notificationAlert";
 import ContentOptions from "@/app/components/dropDownOptions/contentOptions";
@@ -46,7 +46,7 @@ const Post = ({
       const accessToken: string | null = localStorage.getItem("access token");
       if (accessToken) {
         const { id } = await params;
-        axios.get<article>(`http://localhost:3001/resources/articles/${id}`, {
+        axios.get<article>(`http://localhost:3001/resources/articles/read/${id}`, {
           headers: {
             Authorization: `Bearer ${JSON.parse(accessToken)}`
           }
@@ -144,8 +144,8 @@ const Post = ({
             <div className="">
               <div className="w-full max-h-fit flex flex-wrap col-span-2 gap-4 my-4">
                 {
-                  article.tags.map((a: string, i: number) => (
-                    <Link key={i} href="" className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">{a}</Link>
+                  article.tags.map((t: tag, i: number) => (
+                    <Link key={i} href={`locahost:3000/topic/${t._id}`} className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">{t.name}</Link>
                   ))
                 }
               </div>

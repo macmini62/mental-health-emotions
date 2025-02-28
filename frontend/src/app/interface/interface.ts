@@ -1,4 +1,13 @@
 export interface user {
+  _id: any,
+  name: string,
+  email: string,
+  password: string,
+  phoneNumber: string;
+  role: string
+}
+
+export interface seeker {
   _id: string;
   userId: string;
   profile: {
@@ -28,7 +37,7 @@ export interface article {
   title: string;
   overview: string;
   content: string;
-  tags: Array<string>;
+  tags: Array<tag>;
   thumbnail: {
     _id: string;
     imageURL: string;
@@ -39,6 +48,13 @@ export interface article {
     likes: Array<string>;
     comments: number;
   }
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface tag {
+  _id: string;
+  name: string;
   createdAt: string;
   updatedAt: string;
 }
