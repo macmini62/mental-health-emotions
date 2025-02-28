@@ -19,11 +19,15 @@ const article_schema_1 = require("./schema/article.schema");
 const mongoose_2 = require("mongoose");
 const professionals_service_1 = require("../../users/professionals/professionals.service");
 const seekers_service_1 = require("../../users/seekers/seekers.service");
+const users_service_1 = require("../../users/users.service");
+const topics_service_1 = require("../../topics/topics.service");
 let ArticlesService = class ArticlesService {
-    constructor(articleModel, professionalService, seekerService) {
+    constructor(articleModel, professionalService, seekerService, userService, topicService) {
         this.articleModel = articleModel;
         this.professionalService = professionalService;
         this.seekerService = seekerService;
+        this.userService = userService;
+        this.topicService = topicService;
     }
     async create(data) {
         try {
@@ -48,9 +52,16 @@ let ArticlesService = class ArticlesService {
     }
     async findOne(id) {
         try {
-            const a = this.articleModel.findOne({ _id: id });
+            let a = await this.articleModel.findOne({ _id: id });
             if (a !== null) {
-                return a;
+                const creator = await this.userService.findName(a.creatorId);
+                const tags = await this.topicService.fetchArticleTopics(a.tags);
+                if (creator !== null && tags.length > 0) {
+                    a.creatorId = creator;
+                    a.tags = tags;
+                    return a;
+                }
+                throw new common_1.InternalServerErrorException;
             }
             else {
                 throw new Error("No article found with the id!!");
@@ -130,6 +141,8 @@ exports.ArticlesService = ArticlesService = __decorate([
     __param(0, (0, mongoose_1.InjectModel)(article_schema_1.Article.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
         professionals_service_1.ProfessionalService,
-        seekers_service_1.SeekerService])
+        seekers_service_1.SeekerService,
+        users_service_1.UsersService,
+        topics_service_1.TopicsService])
 ], ArticlesService);
 //# sourceMappingURL=articles.service.js.map

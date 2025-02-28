@@ -11,7 +11,8 @@ import { UsersModule } from 'src/users/users.module';
   imports: [
     MongooseModule.forFeature([{name: Topic.name, schema:TopicSchema}]),
     UsersModule
-]
+  ],
+  exports: [TopicsService]
 })
 
 export class TopicsModule {}

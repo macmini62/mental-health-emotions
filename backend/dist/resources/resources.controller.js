@@ -58,7 +58,7 @@ let ResourcesController = class ResourcesController {
         if (!result) {
             res.status(500).send();
         }
-        return res.status(200).json(result);
+        res.status(200).json(result);
     }
     async fetchArticlesTag(res, t, p) {
         const results = await this.articlesService.findArticleTags(t, p);
@@ -86,7 +86,7 @@ __decorate([
 ], ResourcesController.prototype, "createArticle", null);
 __decorate([
     (0, auth_decorator_1.SkipAuth)(),
-    (0, common_1.Get)("articles/:id"),
+    (0, common_1.Get)("articles/c/:id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Query)("p")),
     __param(2, (0, common_1.Res)()),
@@ -104,6 +104,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "findAllArticles", null);
 __decorate([
+    (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Get)("/articles/:id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Res)()),

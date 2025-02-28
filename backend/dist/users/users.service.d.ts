@@ -21,5 +21,6 @@ export declare class UsersService {
         topics: string[];
     }): Promise<seeker>;
     findOne(email: string): Promise<User>;
+    findName(userId: string): Promise<string>;
     userExists(userId: string): Promise<boolean>;
 }

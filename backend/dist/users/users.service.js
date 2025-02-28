@@ -85,6 +85,18 @@ let UsersService = class UsersService {
             console.log(e);
         }
     }
+    async findName(userId) {
+        try {
+            const user = await this.UserModel.findOne({ _id: userId });
+            if (user) {
+                return user.name;
+            }
+            throw new common_1.NotFoundException;
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
     async userExists(userId) {
         try {
             const exists = await this.UserModel.exists({ _id: userId });

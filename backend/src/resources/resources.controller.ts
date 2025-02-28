@@ -25,7 +25,7 @@ export class ResourcesController {
   }
 
   @SkipAuth()
-  @Get("articles/:id")
+  @Get("articles/c/:id")
   async findCreatorsArticles(@Param("id") id: string,@Query("p") p: number, @Res() res: Response<Array<article>>){
     const results: Array<article> = await this.articlesService.findCreators(id, p);
 
@@ -57,14 +57,16 @@ export class ResourcesController {
     }
   }
 
+  @SkipAuth()
   @Get("/articles/:id")
   async findOneArticle(@Param("id") id: string, @Res() res: Response<article>) {
-    const result = await this.articlesService.findOne(id);
+    const result: article = await this.articlesService.findOne(id);
+    // console.log(result);
     if(!result){
       res.status(500).send();
     }
     
-    return res.status(200).json(result);
+    res.status(200).json(result);
   }
 
   @Get("articles/tag")

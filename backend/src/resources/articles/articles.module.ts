@@ -4,6 +4,8 @@ import { Article, ArticleSchema } from "./schema/article.schema";
 import { ProfessionalsModule } from "src/users/professionals/professionals.module";
 import { ArticlesService } from "./articles.service";
 import { SeekersModule } from "src/users/seekers/seekers.module";
+import { UsersModule } from "src/users/users.module";
+import { TopicsModule } from "src/topics/topics.module";
 
 @Module({
   controllers: [],
@@ -11,7 +13,9 @@ import { SeekersModule } from "src/users/seekers/seekers.module";
   imports: [
     MongooseModule.forFeature([{name: Article.name, schema: ArticleSchema}]),
     ProfessionalsModule,
-    SeekersModule
+    SeekersModule,
+    UsersModule,
+    TopicsModule
   ],
   exports: [ArticlesService]
 })

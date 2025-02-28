@@ -9,7 +9,7 @@ export declare class ResourcesController {
     createArticle(article: article, res: Response<article>): Promise<void>;
     findCreatorsArticles(id: string, p: number, res: Response<Array<article>>): Promise<void>;
     findAllArticles(res: Response<Array<article>>, p: number): Promise<void>;
-    findOneArticle(id: string, res: Response<article>): Promise<Response<article, Record<string, any>>>;
+    findOneArticle(id: string, res: Response<article>): Promise<void>;
     fetchArticlesTag(res: Response<Array<article>>, t: string, p: number): Promise<void>;
     updateArticle(id: string, article: article): Promise<article>;
     removeArticle(id: string): Promise<boolean>;

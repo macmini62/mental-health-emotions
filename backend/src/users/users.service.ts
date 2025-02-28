@@ -105,6 +105,20 @@ export class UsersService {
     }
   }
 
+  async findName(userId: string): Promise<string>{
+    try{
+      const user = await this.UserModel.findOne({ _id: userId });
+      if(user){
+        return user.name;
+      }
+
+      throw new NotFoundException;
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
+
   async userExists(userId: string): Promise<boolean> {
     try{
       const exists = await this.UserModel.exists({ _id: userId });

@@ -26,9 +26,7 @@ exports.UsersModule = UsersModule = __decorate([
             seekers_module_1.SeekersModule,
             mongoose_1.MongooseModule.forFeature([{ name: users_schema_1.User.name, schema: users_schema_1.UserSchema }])
         ],
-        exports: [
-            users_service_1.UsersService,
-        ]
+        exports: [users_service_1.UsersService]
     })
 ], UsersModule);
 //# sourceMappingURL=users.module.js.map

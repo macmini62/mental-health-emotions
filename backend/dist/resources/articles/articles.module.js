@@ -13,6 +13,8 @@ const article_schema_1 = require("./schema/article.schema");
 const professionals_module_1 = require("../../users/professionals/professionals.module");
 const articles_service_1 = require("./articles.service");
 const seekers_module_1 = require("../../users/seekers/seekers.module");
+const users_module_1 = require("../../users/users.module");
+const topics_module_1 = require("../../topics/topics.module");
 let ArticlesModule = class ArticlesModule {
 };
 exports.ArticlesModule = ArticlesModule;
@@ -23,7 +25,9 @@ exports.ArticlesModule = ArticlesModule = __decorate([
         imports: [
             mongoose_1.MongooseModule.forFeature([{ name: article_schema_1.Article.name, schema: article_schema_1.ArticleSchema }]),
             professionals_module_1.ProfessionalsModule,
-            seekers_module_1.SeekersModule
+            seekers_module_1.SeekersModule,
+            users_module_1.UsersModule,
+            topics_module_1.TopicsModule
         ],
         exports: [articles_service_1.ArticlesService]
     })

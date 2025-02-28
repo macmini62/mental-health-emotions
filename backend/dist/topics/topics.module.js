@@ -23,7 +23,8 @@ exports.TopicsModule = TopicsModule = __decorate([
         imports: [
             mongoose_1.MongooseModule.forFeature([{ name: topic_schema_1.Topic.name, schema: topic_schema_1.TopicSchema }]),
             users_module_1.UsersModule
-        ]
+        ],
+        exports: [topics_service_1.TopicsService]
     })
 ], TopicsModule);
 //# sourceMappingURL=topics.module.js.map

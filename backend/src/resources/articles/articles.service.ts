@@ -1,17 +1,23 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Article } from "./schema/article.schema";
 import { Model } from "mongoose";
 import { article } from "./interface/article.interface";
 import { ProfessionalService } from "src/users/professionals/professionals.service";
 import { SeekerService } from "src/users/seekers/seekers.service";
+import { UsersService } from "src/users/users.service";
+import { user } from "src/users/interface/user.interface";
+import { topic } from "src/topics/interface/topic.interface";
+import { TopicsService } from "src/topics/topics.service";
 
 @Injectable()
 export class ArticlesService {
   constructor(
     @InjectModel(Article.name) private articleModel: Model<Article>,
     private professionalService: ProfessionalService,
-    private seekerService: SeekerService
+    private seekerService: SeekerService,
+    private userService: UsersService,
+    private topicService: TopicsService
   ){}
 
   async create(data: article): Promise<article>{
@@ -40,9 +46,20 @@ export class ArticlesService {
 
   async findOne(id: string): Promise<article>{
     try{
-      const a = this.articleModel.findOne({ _id: id });
+      let a: article = await this.articleModel.findOne({ _id: id });
+      // console.log(a)
       if(a !== null){
-        return a;
+        const creator: user["name"] = await this.userService.findName(a.creatorId);
+        const tags: Array<topic["name"]> = await this.topicService.fetchArticleTopics(a.tags);
+        
+        if(creator !== null && tags.length > 0){
+          a.creatorId = creator;
+          a.tags = tags
+          // console.log(a);
+          return a;
+        }
+
+        throw new InternalServerErrorException;
       }else{
         throw new Error("No article found with the id!!");
       }

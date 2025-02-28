@@ -78,6 +78,19 @@ let TopicsService = class TopicsService {
             console.log(e);
         }
     }
+    async fetchArticleTopics(data) {
+        try {
+            const topics = Array();
+            for (let i = 0; i < data.length; i++) {
+                const topic = await this.TopicModel.findById({ _id: data[i] });
+                topics.push(topic.name);
+            }
+            return topics;
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
 };
 exports.TopicsService = TopicsService;
 exports.TopicsService = TopicsService = __decorate([
