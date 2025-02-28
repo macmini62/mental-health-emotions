@@ -270,15 +270,13 @@ const Articles = () => {
             setFetchTag={(t: string) => setFetchTag(t)}
             tag={fetchTag}
           />
-          {
-                fetchFailed &&
-                <div className="w-full flex justify-center">
-                  <ErrorNotification
-                    action={"Fetch Articles"}
-                    failed={fetchFailed}
-                  />
-                </div>
-              }
+          {/* Notification */}
+          <div className={`w-full flex justify-center ${ !fetchFailed ? "hidden" : "visible" }`}>
+            <ErrorNotification
+              action={"Fetch Articles"}
+              failed={fetchFailed}
+            />
+          </div>
           {/* contents */}
           <ul className="mt-4">
             {

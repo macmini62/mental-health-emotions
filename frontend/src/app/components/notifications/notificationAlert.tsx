@@ -12,8 +12,7 @@ const ErrorNotification = ({
     <div
       style={{
         position: "absolute",
-        bottom: !failed ? -100 : 50,
-        transition: "all 0.5s ease-in-out",
+        bottom: 50,
         backgroundColor: "white"
       }}
     >
