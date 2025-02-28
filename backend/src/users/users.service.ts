@@ -105,7 +105,7 @@ export class UsersService {
     }
   }
 
-  async findName(userId: string): Promise<string>{
+  async findName(userId: string): Promise<user["name"]>{
     try{
       const user = await this.UserModel.findOne({ _id: userId });
       if(user){

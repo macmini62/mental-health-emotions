@@ -29,8 +29,8 @@ let ResourcesController = class ResourcesController {
         }
         res.status(500).send();
     }
-    async findCreatorsArticles(id, p, res) {
-        const results = await this.articlesService.findCreators(id, p);
+    async findAllArticles(res, p) {
+        const results = await this.articlesService.findAll(p);
         if (!results) {
             res.status(404).send();
         }
@@ -41,8 +41,8 @@ let ResourcesController = class ResourcesController {
             res.status(200).send(results);
         }
     }
-    async findAllArticles(res, p) {
-        const results = await this.articlesService.findAll(p);
+    async findCreatorsArticles(id, p, res) {
+        const results = await this.articlesService.findCreators(id, p);
         if (!results) {
             res.status(404).send();
         }
@@ -86,16 +86,6 @@ __decorate([
 ], ResourcesController.prototype, "createArticle", null);
 __decorate([
     (0, auth_decorator_1.SkipAuth)(),
-    (0, common_1.Get)("articles/c/:id"),
-    __param(0, (0, common_1.Param)("id")),
-    __param(1, (0, common_1.Query)("p")),
-    __param(2, (0, common_1.Res)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, Object]),
-    __metadata("design:returntype", Promise)
-], ResourcesController.prototype, "findCreatorsArticles", null);
-__decorate([
-    (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Get)("articles"),
     __param(0, (0, common_1.Res)()),
     __param(1, (0, common_1.Query)("p")),
@@ -105,7 +95,17 @@ __decorate([
 ], ResourcesController.prototype, "findAllArticles", null);
 __decorate([
     (0, auth_decorator_1.SkipAuth)(),
-    (0, common_1.Get)("/articles/:id"),
+    (0, common_1.Get)("articles/seeker"),
+    __param(0, (0, common_1.Query)("id")),
+    __param(1, (0, common_1.Query)("p")),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Number, Object]),
+    __metadata("design:returntype", Promise)
+], ResourcesController.prototype, "findCreatorsArticles", null);
+__decorate([
+    (0, auth_decorator_1.SkipAuth)(),
+    (0, common_1.Get)("/articles/read/:id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -113,6 +113,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "findOneArticle", null);
 __decorate([
+    (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Get)("articles/tag"),
     __param(0, (0, common_1.Res)()),
     __param(1, (0, common_1.Query)("t")),

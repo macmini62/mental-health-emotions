@@ -51,7 +51,6 @@ export class ArticlesService {
       if(a !== null){
         const creator: user["name"] = await this.userService.findName(a.creatorId);
         const tags: Array<topic["name"]> = await this.topicService.fetchArticleTopics(a.tags);
-        
         if(creator !== null && tags.length > 0){
           a.creatorId = creator;
           a.tags = tags
@@ -98,7 +97,7 @@ export class ArticlesService {
           articles.push(a);
         }
       }
-      console.log(articles);
+      // console.log(articles);
 
       return articles;
     }

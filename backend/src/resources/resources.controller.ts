@@ -12,7 +12,8 @@ export class ResourcesController {
     private videosService: VideosService
   ) {}
 
-  // Articles Services
+  // <--- ARTICLES SERVICES --->
+
   @SkipAuth()
   @Post("articles/create")
   async createArticle(@Body() article: article, @Res() res: Response<article>) {
@@ -23,23 +24,7 @@ export class ResourcesController {
 
     res.status(500).send();
   }
-
-  @SkipAuth()
-  @Get("articles/c/:id")
-  async findCreatorsArticles(@Param("id") id: string,@Query("p") p: number, @Res() res: Response<Array<article>>){
-    const results: Array<article> = await this.articlesService.findCreators(id, p);
-
-    if(!results){
-      res.status(404).send();
-    }
-    else if (results.length < p * 5 && p > 2){
-      res.status(204).send();
-    }
-    else{
-      res.status(200).send(results);
-    }
-  }
-
+  
   @SkipAuth()
   @Get("articles")
   async findAllArticles(@Res() res: Response<Array<article>>, @Query("p") p: number) {
@@ -58,7 +43,23 @@ export class ResourcesController {
   }
 
   @SkipAuth()
-  @Get("/articles/:id")
+  @Get("articles/seeker")
+  async findCreatorsArticles(@Query("id") id: string,@Query("p") p: number, @Res() res: Response<Array<article>>){
+    const results: Array<article> = await this.articlesService.findCreators(id, p);
+
+    if(!results){
+      res.status(404).send();
+    }
+    else if (results.length < p * 5 && p > 2){
+      res.status(204).send();
+    }
+    else{
+      res.status(200).send(results);
+    }
+  }
+
+  @SkipAuth()
+  @Get("/articles/read/:id")
   async findOneArticle(@Param("id") id: string, @Res() res: Response<article>) {
     const result: article = await this.articlesService.findOne(id);
     // console.log(result);
@@ -69,6 +70,7 @@ export class ResourcesController {
     res.status(200).json(result);
   }
 
+  @SkipAuth()
   @Get("articles/tag")
   async fetchArticlesTag(@Res() res: Response<Array<article>>, @Query("t") t: string, @Query("p") p: number){
     const results = await this.articlesService.findArticleTags(t, p);
@@ -92,7 +94,8 @@ export class ResourcesController {
   }
 
 
-  // Videos Services
+  // <--- VIDEOS SERVICES --->
+
   // @SkipAuth()
   // @Post("create")
   // createVideo(@Body() article: article) {

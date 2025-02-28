@@ -96,7 +96,6 @@ let ArticlesService = class ArticlesService {
                     articles.push(a);
                 }
             }
-            console.log(articles);
             return articles;
         }
         catch (e) {

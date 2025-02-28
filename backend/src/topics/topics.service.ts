@@ -78,8 +78,8 @@ export class TopicsService {
     try{
       const topics: Array<topic["name"]> = Array();
       for(let i = 0; i < data.length; i++){
-        const topic: topic = await this.TopicModel.findById({ _id: data[i]});
-        topics.push(topic.name);
+        const topic: topic["name"] = await this.TopicModel.findById({ _id: data[i]});
+        topics.push(topic);
       }
 
       return topics;

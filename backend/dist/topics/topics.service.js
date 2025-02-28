@@ -83,7 +83,7 @@ let TopicsService = class TopicsService {
             const topics = Array();
             for (let i = 0; i < data.length; i++) {
                 const topic = await this.TopicModel.findById({ _id: data[i] });
-                topics.push(topic.name);
+                topics.push(topic);
             }
             return topics;
         }
