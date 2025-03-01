@@ -112,7 +112,8 @@ export class SeekerService {
 
   async findFollowing(userId: string): Promise<Array<string>> {
     try{
-      return (await this.SeekerModel.findOne({ userId: userId })).following
+      // console.log(userId)
+      return (await this.SeekerModel.findOne({ userId: userId })).following;
     }
     catch(e){
       console.log(e);

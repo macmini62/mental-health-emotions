@@ -12,9 +12,9 @@ import { TopicsModule } from "src/topics/topics.module";
   providers: [ArticlesService],
   imports: [
     MongooseModule.forFeature([{name: Article.name, schema: ArticleSchema}]),
+    UsersModule,
     ProfessionalsModule,
     SeekersModule,
-    UsersModule,
     TopicsModule
   ],
   exports: [ArticlesService]

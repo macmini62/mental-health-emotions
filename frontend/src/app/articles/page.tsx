@@ -204,7 +204,7 @@ const Articles = () => {
           }
         )
         .then((res) => {
-          console.log(res.status);
+          // console.log(res.status);
           if(res.status == 200){
             setTimeout(() => {
               setArticles(res.data);
@@ -259,6 +259,8 @@ const Articles = () => {
       {/* HEADER */}
       <Header
         imageURL={seeker.profile?.imageURL}
+        userId={seeker.userId}
+        role="seeker"
       /> 
       {/* BODY */}
       <div className="w-[1338px] flex justify-between p-4">
@@ -317,10 +319,10 @@ const Articles = () => {
                             </p>
                             <div className="flex gap-1.5 items-center">
                               {
-                                a.stats.likes.includes(seeker._id) ?
-                                <FcLikePlaceholder className="w-5 h-5"/>
+                                a.stats.likes.includes(seeker.userId) ?
+                                <FcLike className="w-5 h-5 cursor-pointer"/>
                                 :
-                                <FcLike className="w-5 h-5"/>
+                                <FcLikePlaceholder className="w-5 h-5 cursor-pointer"/>
                               }
                               <p className="h-5">{a.stats.likes.length}</p>
                             </div>

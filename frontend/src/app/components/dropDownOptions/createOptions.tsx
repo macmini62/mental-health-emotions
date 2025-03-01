@@ -2,7 +2,11 @@ import { Menu } from "@base-ui-components/react/menu";
 import { FiEdit } from "react-icons/fi";
 import { MdOutlineArticle, MdOutlineLiveTv, MdOutlinePeople, MdOutlineVideocam } from "react-icons/md";
 
-const CreateOptions = () => {
+const CreateOptions = ({
+  creatorId
+}:{
+  creatorId: string
+}) => {
   return (
       <Menu.Root>
         <Menu.Trigger className="w-28 flex items-center text-white bg-black active:text-black active:bg-white active:border-black border py-1 rounded-full h-10 justify-center gap-1.5 px-3.5 text-base font-medium select-none">

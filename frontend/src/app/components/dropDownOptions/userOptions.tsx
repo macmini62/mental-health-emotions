@@ -2,9 +2,11 @@ import { Menu } from "@base-ui-components/react/menu";
 import { MdOutlineAccountCircle, MdOutlineColorLens, MdOutlineExitToApp, MdOutlineNotifications, MdOutlineSettings } from "react-icons/md";
 
 const UserOptions = ({
-  imageURL
+  imageURL,
+  userId
 }:{
-  imageURL: string
+  imageURL: string,
+  userId: string
 }) => {
   return (
     <Menu.Root>

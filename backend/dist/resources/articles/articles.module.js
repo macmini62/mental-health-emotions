@@ -24,9 +24,9 @@ exports.ArticlesModule = ArticlesModule = __decorate([
         providers: [articles_service_1.ArticlesService],
         imports: [
             mongoose_1.MongooseModule.forFeature([{ name: article_schema_1.Article.name, schema: article_schema_1.ArticleSchema }]),
+            users_module_1.UsersModule,
             professionals_module_1.ProfessionalsModule,
             seekers_module_1.SeekersModule,
-            users_module_1.UsersModule,
             topics_module_1.TopicsModule
         ],
         exports: [articles_service_1.ArticlesService]

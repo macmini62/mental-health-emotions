@@ -4,9 +4,13 @@ import CreateOptions from "./dropDownOptions/createOptions";
 import UserOptions from "./dropDownOptions/userOptions";
 
 const Header = ({
-  imageURL
+  imageURL,
+  userId,
+  role
 }:{
-  imageURL: string
+  imageURL: string,
+  userId: string,
+  role: string
 }) => {
   return (
     <div className="w-full flex justify-between py-3 px-4 border-b-2 sticky z-50 left-0 top-0 bg-white shadow-sm">
@@ -18,9 +22,10 @@ const Header = ({
         </div>
       </div>
       <div className="max-w-fit flex gap-6 items-center mr-2">
-        <CreateOptions/>
+        { role === "professional" && <CreateOptions creatorId={userId}/> }
         <UserOptions
           imageURL={imageURL}
+          userId={userId}
         />
       </div>
     </div>
