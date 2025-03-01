@@ -1,6 +1,8 @@
 "use client"
 
 import * as React from "react"
+import { useQuill } from "react-quilljs";
+import "quill/dist/quill.snow.css";
 
 const ParagraphSection = ({
   contentKey,
@@ -9,23 +11,25 @@ const ParagraphSection = ({
   deleteParagraph
 }:{
   contentKey?: number,
-  handleParagraphChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void,
+  handleParagraphChange: (contentKey: number | undefined, content: string) => void,
   paragraphContent: string,
   deleteParagraph: (key?: number) => void
 }) => {
 
-  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+  const { quill, quillRef } = useQuill();
   React.useEffect(() => {
-    const textarea = textareaRef.current;
-    if (textarea) {
-      textarea.style.height = "56px"; // Reset height to original to shrink on backspacing
-      textarea.style.height = `${textarea.scrollHeight}px`; // Set height based on scroll height
+    if (quill) {
+      quill.on("text-change", () => {
+        const content = quill.root.innerHTML;
+        handleParagraphChange(contentKey, content);
+        console.log(content); 
+      });
     }
-  }, [paragraphContent]);
+  }, [quill, contentKey, handleParagraphChange, paragraphContent]);
 
   // deletes the textarea when empty
-  const handleDelete = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if((e.key === "Backspace" || e.key === "Delete") && paragraphContent === ""){
+  const handleDelete = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if((e.key === "Backspace" || e.key === "Delete") && quill?.root.innerHTML === ""){
       deleteParagraph(contentKey);
     }
   }
@@ -33,19 +37,9 @@ const ParagraphSection = ({
   return(
     <div
       key={contentKey}
-      className="flex flex-col items-center gap-2 py-2 px-8 my-4"
+      className="py-2 px-8 my-4"
     >
-      <textarea
-        id={contentKey?.toString()}
-        ref={textareaRef}
-        value={paragraphContent}
-        onChange={(e) => handleParagraphChange(e)}
-        onKeyDown={(e) => handleDelete(e)}
-        placeholder="Type something here..."
-        className="w-full h-14 bg-transparent outline-none border border-gray-300 overflow-hidden resize-none rounded-xl p-4"
-      >
-
-      </textarea>
+      <div onKeyDown={(e) => handleDelete(e)} ref={quillRef} className="w-full border rounded-md my-4"/>
     </div>
   )
 };

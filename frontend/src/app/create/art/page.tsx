@@ -7,7 +7,6 @@ import ImageSection from "@/app/components/createComponents/imageSection";
 import ContentSection from "@/app/components/createComponents/contentSection";
 import ParagraphSection from "@/app/components/createComponents/paragraphSection";
 
-
 const CreateArticle = (
   props: {}
 ) => {
@@ -40,7 +39,7 @@ const CreateArticle = (
 
   // Contents...Paragraph and the Image sections
   const [contents, setContents] = React.useState<Array<React.JSX.Element>>([]);
-  const handleImageUpload = (imgData: FileList|null) => {
+  const handleImageUpload = (imgData: FileList | null) => {
     const selImg = imgData?.item(0);
     if(selImg !== null){
       if(selImg?.type.split("/")[0] === "image"){
@@ -60,7 +59,6 @@ const CreateArticle = (
       }
     }
   }
-
   const handleInsertParagraph = () => {
     setContents((c: Array<React.JSX.Element>) => {
       return[
@@ -77,15 +75,21 @@ const CreateArticle = (
 
   // handles content changes on the paragraph section.
   const [paragraphContent, setParagraphContent] = React.useState<string>("");
-  const handleParagraphChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const target = e.target as HTMLTextAreaElement;
-    setParagraphContent(target.value);
+  const handleParagraphChange = (contentKey: number | undefined, content: string) => {
+    setParagraphContent(content);
     setContents((c: Array<React.JSX.Element>) => {
-      c[target.id as unknown as number] = <ParagraphSection
-        deleteParagraph={(key?: number) => handleDeleteContent(key)}
-        handleParagraphChange={handleParagraphChange}
-        paragraphContent={target.value}
-      />
+      c = c.filter((element: React.JSX.Element, i: number) => { 
+        if(contentKey === i){
+          element = <ParagraphSection
+            contentKey={contentKey}
+            handleParagraphChange={handleParagraphChange}
+            paragraphContent={content}
+            deleteParagraph={(key?: number) => handleDeleteContent(key)}
+          />
+        }
+        return element;
+      });
+
       return c;
     });
   };
@@ -100,10 +104,14 @@ const CreateArticle = (
   }
   // console.log(contents);
   
+  const handlePublish = () => {
+
+  }
+
   return (
     <div className="w-1/2 p-2 relative">
       {/* HEADER */}
-      <header className="flex justify-between border-b-2 border-black px-2 fixed top-0 z-10 w-1/2 bg-white">
+      <header className="flex justify-between border-b-2 border-black px-2 sticky top-0 z-10 w-full bg-white">
         <div className="">
           <Link href=""><img src="/logo/logo-white.png" alt="" className="w-54 h-16"/></Link>
         </div>
