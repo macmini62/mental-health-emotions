@@ -73,6 +73,8 @@ const Post = ({
       {/* HEADER */}
       <Header
         imageURL="/faces/face4.jpg"
+        userId="John Doe"
+        role="seeker"
       />
       <div className="w-full max-h-fit p-4 flex items-center justify-center">
         { loading && <LoadingBar/> }

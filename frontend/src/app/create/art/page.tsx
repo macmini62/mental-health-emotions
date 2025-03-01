@@ -8,7 +8,20 @@ import ContentSection from "@/app/components/createComponents/contentSection";
 import ParagraphSection from "@/app/components/createComponents/paragraphSection";
 
 
-const CreateArticle = () => {
+const CreateArticle = (
+  props: {}
+) => {
+
+  // handles the titles changes.
+  const [titles, setTitles] = React.useState<{title: string, subTitle: string}>({title: "", subTitle: ""});
+  const handleTitlesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    setTitles((t: {title: string, subTitle: string}) => {
+      t[target.id as "title" | "subTitle"] = target.value;
+      return {...t};
+    });
+  }
+  // console.log(titles);
 
   // files upload window
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -27,7 +40,6 @@ const CreateArticle = () => {
 
   // Contents...Paragraph and the Image sections
   const [contents, setContents] = React.useState<Array<React.JSX.Element>>([]);
-
   const handleImageUpload = (imgData: FileList|null) => {
     const selImg = imgData?.item(0);
     if(selImg !== null){
@@ -55,18 +67,38 @@ const CreateArticle = () => {
         ...c,
         <ParagraphSection
           deleteParagraph={(key?: number) => handleDeleteContent(key)}
+          handleParagraphChange={handleParagraphChange}
+          paragraphContent={""}
         />
       ];
     });
     setOptVis(false);
   }
+
+  // handles content changes on the paragraph section.
+  const [paragraphContent, setParagraphContent] = React.useState<string>("");
+  const handleParagraphChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const target = e.target as HTMLTextAreaElement;
+    setParagraphContent(target.value);
+    setContents((c: Array<React.JSX.Element>) => {
+      c[target.id as unknown as number] = <ParagraphSection
+        deleteParagraph={(key?: number) => handleDeleteContent(key)}
+        handleParagraphChange={handleParagraphChange}
+        paragraphContent={target.value}
+      />
+      return c;
+    });
+  };
+  // console.log(paragraphContent);
   
   const handleDeleteContent = (key?: number) => {
+    console.log(key);
     setContents((c: Array<React.JSX.Element>) => {
-      c = c.filter((e: React.JSX.Element, i: number) => { if(key !== i){ return e } });
+      c = c.filter((element: React.JSX.Element, i: number) => { if(key !== i){ return element } });
       return c;
     })
   }
+  // console.log(contents);
   
   return (
     <div className="w-1/2 p-2 relative">
@@ -85,8 +117,22 @@ const CreateArticle = () => {
       <div className="flex flex-col gap-4 py-4 mt-16 overflow-y-auto">
         {/* titles */}
         <div className="my-4 flex flex-col gap-4 text-black">
-          <input type="text" className="text-7xl outline-nimone px-2 font-semibold placeholder:font-normal" placeholder="TITLE"/>
-          <input type="text" className="text-4xl outline-none px-6" placeholder="SUB-TITLE"/>
+          <input
+            id="title"
+            value={titles.title}
+            type="text"
+            className="text-7xl outline-none px-2 font-semibold placeholder:font-normal"
+            placeholder="TITLE"
+            onChange={(e) => handleTitlesChange(e)}
+          />
+          <input
+            id="subTitle"
+            value={titles.subTitle}
+            type="text"
+            className="text-4xl outline-none px-6"
+            placeholder="SUB-TITLE"
+            onChange={(e) => handleTitlesChange(e)}
+          />
         </div>
         {/* contents */}
         <div className="">
