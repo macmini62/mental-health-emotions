@@ -77,7 +77,7 @@ const CreateArticle = (
   
   // Upload the article publication to the server.
   const handlePublish = () => {
-
+    
   }
 
   return (
