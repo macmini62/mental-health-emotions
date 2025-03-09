@@ -4,8 +4,12 @@ import Link from "next/link";
 import { SlOptions } from "react-icons/sl";
 import * as React from "react";
 import ImageSection from "@/app/components/createComponents/imageSection";
-import ContentSection from "@/app/components/createComponents/contentSection";
 import ParagraphSection from "@/app/components/createComponents/paragraphSection";
+import InsertOptions from "@/app/components/createComponents/insertOptions";
+
+type ContentItem =
+| { type: "paragraph"; content: string }
+| { type: "image"; image: string };
 
 const CreateArticle = (
   props: {}
@@ -37,73 +41,41 @@ const CreateArticle = (
     });
   }
 
-  // Contents...Paragraph and the Image sections
-  const [contents, setContents] = React.useState<Array<React.JSX.Element>>([]);
+  // Handles contents upload. Paragraphs and media uploads.
+  const [contents, setContents] = React.useState<Array<ContentItem>>([]);
+
+  const handleInsertParagraph = () => {
+    setContents((prev) => [...prev, { type: "paragraph", content: "" }]);
+    setOptVis(false);
+  };
+
+  const handleParagraphChange = (index: number, content: string) => {
+    setContents((prev) => {
+      const updated = [...prev];
+      updated[index] = { type: "paragraph", content };
+      return updated;
+    });
+  };  
+
   const handleImageUpload = (imgData: FileList | null) => {
     const selImg = imgData?.item(0);
-    if(selImg !== null){
-      if(selImg?.type.split("/")[0] === "image"){
+    if (selImg) {
+      if (selImg.type.split("/")[0] === "image") {
         const img = URL.createObjectURL(selImg);
-        setContents((c: Array<React.JSX.Element>) => {
-          return[
-            ...c,
-            <ImageSection
-              image={img}
-              deleteImage={(key?: number) => handleDeleteContent(key)}
-            />
-          ];
-        });
+        setContents((prev) => [...prev, { type: "image", image: img }]);
         setOptVis(false);
-      }else{
+      } else {
         console.log("File uploaded must be an image!!");
       }
     }
-  }
-  const handleInsertParagraph = () => {
-    setContents((c: Array<React.JSX.Element>) => {
-      return[
-        ...c,
-        <ParagraphSection
-          deleteParagraph={(key?: number) => handleDeleteContent(key)}
-          handleParagraphChange={handleParagraphChange}
-          paragraphContent={""}
-        />
-      ];
-    });
-    setOptVis(false);
-  }
-
-  // handles content changes on the paragraph section.
-  const [paragraphContent, setParagraphContent] = React.useState<string>("");
-  const handleParagraphChange = (contentKey: number | undefined, content: string) => {
-    setParagraphContent(content);
-    setContents((c: Array<React.JSX.Element>) => {
-      c = c.filter((element: React.JSX.Element, i: number) => { 
-        if(contentKey === i){
-          element = <ParagraphSection
-            contentKey={contentKey}
-            handleParagraphChange={handleParagraphChange}
-            paragraphContent={content}
-            deleteParagraph={(key?: number) => handleDeleteContent(key)}
-          />
-        }
-        return element;
-      });
-
-      return c;
-    });
   };
-  // console.log(paragraphContent);
+
+  const handleDeleteContent = (index: number) => {
+    setContents((prev) => prev.filter((_, i) => i !== index));
+  };
+  console.log(contents);
   
-  const handleDeleteContent = (key?: number) => {
-    console.log(key);
-    setContents((c: Array<React.JSX.Element>) => {
-      c = c.filter((element: React.JSX.Element, i: number) => { if(key !== i){ return element } });
-      return c;
-    })
-  }
-  // console.log(contents);
-  
+  // Upload the article publication to the server.
   const handlePublish = () => {
 
   }
@@ -122,7 +94,7 @@ const CreateArticle = (
         </div>
       </header>
       {/* EDITING SECTION */}
-      <div className="flex flex-col gap-4 py-4 mt-16 overflow-y-auto">
+      <div className="flex flex-col gap-4 py-4 overflow-y-auto">
         {/* titles */}
         <div className="my-4 flex flex-col gap-4 text-black">
           <input
@@ -144,14 +116,35 @@ const CreateArticle = (
         </div>
         {/* contents */}
         <div className="">
-          <ContentSection
-            handleButtonClick={() => handleButtonClick()}
+          {contents.map((item, index) => {
+            if (item.type === "paragraph") {
+              return (
+                <ParagraphSection
+                  key={index}
+                  contentKey={index}
+                  content={item.content}
+                  handleParagraphChange={(_, content) => handleParagraphChange(index, content)}
+                  deleteParagraph={() => handleDeleteContent(index)}
+                />
+              );
+            } else if (item.type === "image") {
+              return (
+                <ImageSection
+                  key={index}
+                  image={item.image}
+                  deleteImage={() => handleDeleteContent(index)}
+                />
+              );
+            }
+            return null;
+          })}
+          <InsertOptions
+            handleButtonClick={handleButtonClick}
             fileInputRef={fileInputRef}
-            handleOptionsVisibility={() => handleOptionsVisibility()}
+            handleOptionsVisibility={handleOptionsVisibility}
             optVis={optVis}
+            handleUploadImage={(imgData: FileList|null) => handleImageUpload(imgData)}
             handleInsertParagraph={handleInsertParagraph}
-            handleUploadImage={handleImageUpload}
-            contents={contents}
           />
         </div>
       </div>
