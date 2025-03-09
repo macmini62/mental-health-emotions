@@ -1,3 +1,5 @@
+import { ContentItem } from "../types/types";
+
 export interface user {
   _id: any,
   name: string,
@@ -57,4 +59,16 @@ export interface tag {
   name: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface createArticle {
+  creatorId: string;
+  title: string;
+  overview: string;
+  content: Array<ContentItem>;
+  tags: Array<string>;
+  thumbnail: {
+    image: string | null;
+    caption: string;
+  }
 }

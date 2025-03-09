@@ -3,42 +3,24 @@
 import React, { useState } from "react";
 
 const PublishPage = ({
-  type
+  type,
+  handleThumbnailUpload,
+  handleAddTopic,
+  thumbnail,
+  topics,
+  topicInput,
+  handlePublish,
+  setTopicInput
 }:{
-  type: string
+  type: string,
+  handleThumbnailUpload: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  handleAddTopic: () => void,
+  thumbnail: string | null,
+  topics: Array<string>,
+  topicInput: string,
+  handlePublish: () => void,
+  setTopicInput: React.Dispatch<React.SetStateAction<string>>
 }) => {
-  // State for topics
-  const [topics, setTopics] = useState<string[]>([]);
-  const [topicInput, setTopicInput] = useState("");
-
-  // State for thumbnail upload
-  const [thumbnail, setThumbnail] = useState<string | null>(null);
-
-  // Add a new topic (up to 5)
-  const handleAddTopic = () => {
-    if (topicInput.trim() && topics.length < 5) {
-      setTopics((prev) => [...prev, topicInput.trim()]);
-      setTopicInput("");
-    }
-  };
-
-  // Handle thumbnail file upload
-  const handleThumbnailUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files?.[0]) return;
-    const file = e.target.files[0];
-    if (file.type.startsWith("image/")) {
-      // Convert file to object URL for preview
-      setThumbnail(URL.createObjectURL(file));
-    } else {
-      alert("Please upload an image file.");
-    }
-  };
-
-  // "Publish now" logic
-  const handlePublishNow = () => {
-    alert("Publishing now!");
-    // Replace with your real publish logic
-  };
 
   return (
     <div className="w-screen h-screen flex items-center justify-center">
@@ -125,7 +107,7 @@ const PublishPage = ({
 
           <div className="flex gap-4 mb-4 self-end">
             <button
-              onClick={handlePublishNow}
+              onClick={handlePublish}
               className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
             >
               Publish now

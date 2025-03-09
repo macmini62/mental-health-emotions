@@ -7,10 +7,9 @@ import ImageSection from "@/app/components/createComponents/imageSection";
 import ParagraphSection from "@/app/components/createComponents/paragraphSection";
 import InsertOptions from "@/app/components/createComponents/insertOptions";
 import PublishPage from "@/app/components/publishComponent/publish";
-
-type ContentItem =
-| { type: "paragraph"; content: string }
-| { type: "image"; image: string };
+import { article, createArticle } from "@/app/interface/interface";
+import { ContentItem } from "@/app/types/types";
+import axios from "axios";
 
 const CreateArticle = (
   props: {}
@@ -74,13 +73,65 @@ const CreateArticle = (
   const handleDeleteContent = (index: number) => {
     setContents((prev) => prev.filter((_, i) => i !== index));
   };
-  console.log(contents);
+  // console.log(contents);
+
+  // Handles the state of the publish section
+  // State for topics
+  const [topics, setTopics] = React.useState<Array<string>>([]);
+  const [topicInput, setTopicInput] = React.useState("");
+
+  // State for thumbnail upload
+  const [thumbnail, setThumbnail] = React.useState<string | null>(null);
+
+  // Add a new topic (up to 5)
+  const handleAddTopic = () => {
+    if (topicInput.trim() && topics.length < 5) {
+      setTopics((prev) => [...prev, topicInput.trim()]);
+      setTopicInput("");
+    }
+  };
+
+  // Handle thumbnail file upload
+  const handleThumbnailUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.[0]) return;
+    const file = e.target.files[0];
+    if (file.type.startsWith("image/")) {
+      // Convert file to object URL for preview
+      setThumbnail(URL.createObjectURL(file));
+    } else {
+      alert("Please upload an image file.");
+    }
+  };
   
   // Upload the article publication to the server.
   const[publish, setPublish] = React.useState<boolean>(false);
   const handlePublish = () => {
     if(titles?.title.length > 0 && titles?.subTitle.length > 0){
       setPublish(true);
+      const creatorId = localStorage.getItem("userId");
+      if(creatorId){
+        const data: createArticle = {
+          creatorId: creatorId,
+          title: titles.title,
+          overview: titles.subTitle,
+          content: contents,
+          tags: topics,
+          thumbnail: {
+            image: thumbnail,
+            caption: "image has no caption",
+          }
+        }
+
+        console.log(data);
+  
+        axios.post<article>("http://localhost:3001:resources/articles/create", data)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          })
+      }
     }
   }
 
@@ -162,6 +213,13 @@ const CreateArticle = (
         :
         <PublishPage
           type="article"
+          handleAddTopic={() => handleAddTopic()}
+          handlePublish={() => handlePublish()}
+          handleThumbnailUpload={(e) => handleThumbnailUpload(e)}
+          thumbnail={thumbnail}
+          topicInput={topicInput}
+          setTopicInput={setTopicInput}
+          topics={topics}
         />
       }
     </div>
