@@ -278,10 +278,10 @@ export declare class TopicsService {
         }> & {
             __v: number;
         }>;
-        updateMany<ResultDoc = any>(filter?: import("mongoose").RootFilterQuery<any>, update?: import("mongoose").UpdateWithAggregationPipeline | import("mongoose").UpdateQuery<any>, options?: import("mongodb").UpdateOptions & Pick<import("mongoose").QueryOptions<any>, "timestamps" | import("mongoose").MongooseBaseQueryOptionKeys> & {
+        updateMany<ResultDoc = any>(filter?: import("mongoose").RootFilterQuery<any>, update?: import("mongoose").UpdateQuery<any> | import("mongoose").UpdateWithAggregationPipeline, options?: import("mongodb").UpdateOptions & Pick<import("mongoose").QueryOptions<any>, "timestamps" | import("mongoose").MongooseBaseQueryOptionKeys> & {
             [other: string]: any;
         }): import("mongoose").Query<import("mongoose").UpdateWriteOpResult, ResultDoc, {}, any, "updateMany", {}>;
-        updateOne<ResultDoc = any>(filter?: import("mongoose").RootFilterQuery<any>, update?: import("mongoose").UpdateWithAggregationPipeline | import("mongoose").UpdateQuery<any>, options?: import("mongodb").UpdateOptions & Pick<import("mongoose").QueryOptions<any>, "timestamps" | import("mongoose").MongooseBaseQueryOptionKeys> & {
+        updateOne<ResultDoc = any>(filter?: import("mongoose").RootFilterQuery<any>, update?: import("mongoose").UpdateQuery<any> | import("mongoose").UpdateWithAggregationPipeline, options?: import("mongodb").UpdateOptions & Pick<import("mongoose").QueryOptions<any>, "timestamps" | import("mongoose").MongooseBaseQueryOptionKeys> & {
             [other: string]: any;
         }): import("mongoose").Query<import("mongoose").UpdateWriteOpResult, ResultDoc, {}, any, "updateOne", {}>;
         where<ResultDoc = any>(path: string, val?: any): import("mongoose").Query<ResultDoc[], ResultDoc, {}, any, "find", {}>;
