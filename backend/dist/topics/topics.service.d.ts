@@ -26,6 +26,7 @@ export declare class TopicsService {
         }): Promise<import("mongodb").BulkWriteResult & {
             mongoose?: {
                 validationErrors: import("mongoose").Error[];
+                results: Array<import("mongoose").Error | import("mongodb").WriteError | null>;
             };
         }>;
         bulkWrite<DocContents = any>(writes: import("mongoose").AnyBulkWriteOperation<DocContents extends import("mongoose").Document<unknown, any, any> ? any : DocContents extends {} ? DocContents : any>[], options?: import("mongoose").MongooseBulkWriteOptions): Promise<import("mongodb").BulkWriteResult>;
@@ -131,6 +132,7 @@ export declare class TopicsService {
         insertMany<DocContents = any>(doc: DocContents, options: import("mongoose").InsertManyOptions): Promise<import("mongoose").MergeType<any, Omit<DocContents, "_id">>[]>;
         insertMany<DocContents = any>(docs: any[], options: import("mongoose").InsertManyOptions): Promise<import("mongoose").MergeType<any, Omit<DocContents, "_id">>[]>;
         insertMany<DocContents = any>(doc: DocContents): Promise<import("mongoose").MergeType<any, Omit<DocContents, "_id">>[]>;
+        insertOne<DocContents = import("mongoose").AnyKeys<any>>(doc: any, options?: import("mongoose").SaveOptions): Promise<any>;
         listSearchIndexes(options?: import("mongodb").ListSearchIndexesOptions): Promise<{
             name: string;
         }[]>;
@@ -140,6 +142,7 @@ export declare class TopicsService {
         populate<Paths>(docs: Array<any>, options: import("mongoose").PopulateOptions | Array<import("mongoose").PopulateOptions> | string): Promise<import("mongoose").MergeType<any, Paths>[]>;
         populate<Paths>(doc: any, options: import("mongoose").PopulateOptions | Array<import("mongoose").PopulateOptions> | string): Promise<import("mongoose").MergeType<any, Paths>>;
         updateSearchIndex(name: string, definition: import("mongoose").AnyObject): Promise<void>;
+        useConnection(connection: import("mongoose").Connection): Model<any, {}, {}, {}, any, any>;
         validate(): Promise<void>;
         validate(obj: any): Promise<void>;
         validate(obj: any, pathsOrOptions: import("mongoose").PathsToValidate): Promise<void>;
@@ -278,12 +281,13 @@ export declare class TopicsService {
         }> & {
             __v: number;
         }>;
-        updateMany<ResultDoc = any>(filter?: import("mongoose").RootFilterQuery<any>, update?: import("mongoose").UpdateWithAggregationPipeline | import("mongoose").UpdateQuery<any>, options?: import("mongodb").UpdateOptions & Pick<import("mongoose").QueryOptions<any>, "timestamps" | import("mongoose").MongooseBaseQueryOptionKeys> & {
+        updateMany<ResultDoc = any>(filter: import("mongoose").RootFilterQuery<any>, update: import("mongoose").UpdateWithAggregationPipeline | import("mongoose").UpdateQuery<any>, options?: import("mongodb").UpdateOptions & Pick<import("mongoose").QueryOptions<any>, "timestamps" | import("mongoose").MongooseBaseQueryOptionKeys> & {
             [other: string]: any;
         }): import("mongoose").Query<import("mongoose").UpdateWriteOpResult, ResultDoc, {}, any, "updateMany", {}>;
-        updateOne<ResultDoc = any>(filter?: import("mongoose").RootFilterQuery<any>, update?: import("mongoose").UpdateWithAggregationPipeline | import("mongoose").UpdateQuery<any>, options?: import("mongodb").UpdateOptions & Pick<import("mongoose").QueryOptions<any>, "timestamps" | import("mongoose").MongooseBaseQueryOptionKeys> & {
+        updateOne<ResultDoc = any>(filter: import("mongoose").RootFilterQuery<any>, update: import("mongoose").UpdateWithAggregationPipeline | import("mongoose").UpdateQuery<any>, options?: import("mongodb").UpdateOptions & Pick<import("mongoose").QueryOptions<any>, "timestamps" | import("mongoose").MongooseBaseQueryOptionKeys> & {
             [other: string]: any;
         }): import("mongoose").Query<import("mongoose").UpdateWriteOpResult, ResultDoc, {}, any, "updateOne", {}>;
+        updateOne<ResultDoc = any>(update: import("mongoose").UpdateWithAggregationPipeline | import("mongoose").UpdateQuery<any>): import("mongoose").Query<import("mongoose").UpdateWriteOpResult, ResultDoc, {}, any, "updateOne", {}>;
         where<ResultDoc = any>(path: string, val?: any): import("mongoose").Query<ResultDoc[], ResultDoc, {}, any, "find", {}>;
         where<ResultDoc = any>(obj: object): import("mongoose").Query<ResultDoc[], ResultDoc, {}, any, "find", {}>;
         where<ResultDoc = any>(): import("mongoose").Query<ResultDoc[], ResultDoc, {}, any, "find", {}>;
