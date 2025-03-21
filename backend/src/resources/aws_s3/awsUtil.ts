@@ -5,7 +5,7 @@ import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3
 
 export class AWSUtil {
   private static readonly s3Client = new S3Client({
-    region: "us-east-1",
+    region: process.env.REGION,
     credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
@@ -51,11 +51,16 @@ export class AWSUtil {
     key: string,
     bucket: string
   ){
-    return await this.s3Client.send(
-      new GetObjectCommand({
-        Bucket: bucket,
-        Key: key,
-      })
-    );
+    try{
+      return await this.s3Client.send(
+        new GetObjectCommand({
+          Bucket: bucket,
+          Key: key,
+        })
+      );
+    }
+    catch(e){
+      console.log(e)
+    }
   }
 }

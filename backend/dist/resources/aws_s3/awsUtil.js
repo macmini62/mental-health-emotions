@@ -32,15 +32,20 @@ class AWSUtil {
         }
     }
     static async fetchFromS3(key, bucket) {
-        return await this.s3Client.send(new client_s3_1.GetObjectCommand({
-            Bucket: bucket,
-            Key: key,
-        }));
+        try {
+            return await this.s3Client.send(new client_s3_1.GetObjectCommand({
+                Bucket: bucket,
+                Key: key,
+            }));
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
 }
 exports.AWSUtil = AWSUtil;
 AWSUtil.s3Client = new client_s3_1.S3Client({
-    region: "us-east-1",
+    region: process.env.REGION,
     credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY

@@ -1,9 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Put, Query } from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Put, Query, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { Response } from "express";
 import { article } from "./articles/interface/article.interface";
 import { ArticlesService } from "./articles/articles.service";
 import { VideosService } from "./videos/videos.service";
 import { SkipAuth } from "src/decorators/auth.decorator";
+import { ContentItem } from "src/types/types";
+import { createArticle } from "./resources.interface";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 @Controller("resources")
 export class ResourcesController {
@@ -15,14 +18,20 @@ export class ResourcesController {
   // <--- ARTICLES SERVICES --->
 
   @SkipAuth()
+  @UseInterceptors(
+    FileInterceptor("file")
+  )
   @Post("articles/create")
-  async createArticle(@Body() article: article, @Res() res: Response<article>) {
-    const results: article = await this.articlesService.create(article);
-    if(results){
-      res.status(201).send(results);
-    }
+  async createArticle(@UploadedFile() file: Express.Multer.File, @Body() data: any, @Res() res: Response<article>){
+    // const results: article = await this.articlesService.create(data);
+    // if(results){
+    //   res.status(201).send(results);
+    // }
 
-    res.status(500).send();
+    // res.status(500).send();
+    console.log(data)
+    console.log(file)
+    // const results = await this.articlesService.create(file);
   }
   
   @SkipAuth()

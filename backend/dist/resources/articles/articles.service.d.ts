@@ -12,7 +12,7 @@ export declare class ArticlesService {
     private userService;
     private topicService;
     constructor(articleModel: Model<Article>, professionalService: ProfessionalService, seekerService: SeekerService, userService: UsersService, topicService: TopicsService);
-    create(data: article): Promise<article>;
+    create(file: Express.Multer.File): Promise<void>;
     findAll(p: number): Promise<Array<article>>;
     findOne(id: string): Promise<article>;
     findCreators(id: string, p: number): Promise<Array<article>>;

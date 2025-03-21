@@ -9,6 +9,8 @@ import { UsersService } from "src/users/users.service";
 import { user } from "src/users/interface/user.interface";
 import { topic } from "src/topics/interface/topic.interface";
 import { TopicsService } from "src/topics/topics.service";
+import { ContentItem } from "src/types/types";
+import { createArticle } from "../resources.interface";
 
 @Injectable()
 export class ArticlesService {
@@ -20,9 +22,11 @@ export class ArticlesService {
     private topicService: TopicsService
   ){}
 
-  async create(data: article): Promise<article>{
+  async create(file: Express.Multer.File){
     try{
-      return await new this.articleModel(data).save();
+      console.log(file);
+      // console.log(data.content);
+      // return await new this.articleModel(data).save();
     }
     catch(e){
       console.log(e);

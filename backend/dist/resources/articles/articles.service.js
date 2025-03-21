@@ -29,9 +29,9 @@ let ArticlesService = class ArticlesService {
         this.userService = userService;
         this.topicService = topicService;
     }
-    async create(data) {
+    async create(file) {
         try {
-            return await new this.articleModel(data).save();
+            console.log(file);
         }
         catch (e) {
             console.log(e);

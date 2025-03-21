@@ -15,7 +15,7 @@ const PublishPage = ({
   type: string,
   handleThumbnailUpload: (e: React.ChangeEvent<HTMLInputElement>) => void,
   handleAddTopic: () => void,
-  thumbnail: string | null,
+  thumbnail: File | null,
   topics: Array<string>,
   topicInput: string,
   handlePublish: () => void,
@@ -56,7 +56,7 @@ const PublishPage = ({
           >
             {thumbnail ? (
               <img
-                src={thumbnail}
+                src=""
                 alt="Thumbnail Preview"
                 className="max-h-full max-w-full object-cover"
               />

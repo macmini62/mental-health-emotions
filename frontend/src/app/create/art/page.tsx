@@ -10,6 +10,7 @@ import PublishPage from "@/app/components/publishComponent/publish";
 import { article, createArticle } from "@/app/interface/interface";
 import { ContentItem } from "@/app/types/types";
 import axios from "axios";
+import { AWSUtil } from "@/app/utils/AWSUtil";
 
 const CreateArticle = (
   props: {}
@@ -61,8 +62,8 @@ const CreateArticle = (
     const selImg = imgData?.item(0);
     if (selImg) {
       if (selImg.type.split("/")[0] === "image") {
-        const img = URL.createObjectURL(selImg);
-        setContents((prev) => [...prev, { type: "image", image: img }]);
+        console.log(selImg)
+        setContents((prev) => [...prev, { type: "image", image: selImg }]);
         setOptVis(false);
       } else {
         console.log("File uploaded must be an image!!");
@@ -81,7 +82,7 @@ const CreateArticle = (
   const [topicInput, setTopicInput] = React.useState("");
 
   // State for thumbnail upload
-  const [thumbnail, setThumbnail] = React.useState<string | null>(null);
+  const [thumbnail, setThumbnail] = React.useState<File | null>(null);
 
   // Add a new topic (up to 5)
   const handleAddTopic = () => {
@@ -97,7 +98,8 @@ const CreateArticle = (
     const file = e.target.files[0];
     if (file.type.startsWith("image/")) {
       // Convert file to object URL for preview
-      setThumbnail(URL.createObjectURL(file));
+      const f = 
+      setThumbnail(file);
     } else {
       alert("Please upload an image file.");
     }
@@ -105,26 +107,45 @@ const CreateArticle = (
   
   // Upload the article publication to the server.
   const[publish, setPublish] = React.useState<boolean>(false);
-  const handlePublish = () => {
+  const handlePublish = async () => {
     if(titles?.title.length > 0 && titles?.subTitle.length > 0){
       setPublish(true);
       const creatorId = localStorage.getItem("userId");
       if(creatorId){
-        const data: createArticle = {
-          creatorId: creatorId,
-          title: titles.title,
-          overview: titles.subTitle,
-          content: contents,
-          tags: topics,
-          thumbnail: {
-            image: thumbnail,
-            caption: "image has no caption",
-          }
-        }
 
-        console.log(data);
+        // const data: createArticle = {
+        //   creatorId: creatorId,
+        //   title: titles.title,
+        //   overview: titles.subTitle,
+        //   content: contents,
+        //   tags: topics,
+        //   thumbnail: {
+        //     image: thumbnail,
+        //     caption: "image has no caption",
+        //   }
+        // }
+
+        const formData = new FormData();
+        formData.append("creatorId", creatorId);
+        formData.append("title", titles.title);
+        formData.append("overview", titles.subTitle);
+        formData.append("content", JSON.stringify(contents)); // if content is an array/object
+        formData.append("tags", JSON.stringify(topics)); // or loop and append each tag
+        // Append the thumbnail file (if exists)
+        if (thumbnail) {
+          formData.append("thumbnail", thumbnail);
+        }
+        // Optionally, add a caption
+        formData.append("thumbnailCaption", "image has no caption");
+
+        // console.log(formData.get("thumbnail"));
+
+        // Store the images in the AWS s3.
+
   
-        axios.post<article>("http://localhost:3001:resources/articles/create", data)
+        axios.post<article>("http://localhost:3001/resources/articles/create", formData, {
+          headers: { "Content-Type": "multipart/form-data" }
+        })
           .then((res) => {
             console.log(res);
           })

@@ -68,7 +68,7 @@ export interface createArticle {
   content: Array<ContentItem>;
   tags: Array<string>;
   thumbnail: {
-    image: string | null;
+    image: string;
     caption: string;
   }
 }

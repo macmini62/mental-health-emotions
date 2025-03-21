@@ -6,7 +6,7 @@ export declare class ResourcesController {
     private articlesService;
     private videosService;
     constructor(articlesService: ArticlesService, videosService: VideosService);
-    createArticle(article: article, res: Response<article>): Promise<void>;
+    createArticle(file: Express.Multer.File, data: any, res: Response<article>): Promise<void>;
     findAllArticles(res: Response<Array<article>>, p: number): Promise<void>;
     findCreatorsArticles(id: string, p: number, res: Response<Array<article>>): Promise<void>;
     findOneArticle(id: string, res: Response<article>): Promise<void>;
