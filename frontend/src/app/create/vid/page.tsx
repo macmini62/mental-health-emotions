@@ -118,9 +118,7 @@ const CreateVideo = () => {
       }
     }
   }
-}
 
-const Page = () => {
   return (
     <div className="w-1/2 p-2">
       {/* HEADER */}
@@ -408,10 +406,8 @@ const Page = () => {
           </div>
         </div>
       }
-    <div className=''>Page</div>
     </div>
   )
 }
 
 export default CreateVideo;
-export default Page;
