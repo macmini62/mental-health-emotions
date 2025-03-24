@@ -11,6 +11,7 @@ import { article, createArticle } from "@/app/interface/interface";
 import { ContentItem } from "@/app/types/types";
 import axios from "axios";
 import { AWSUtil } from "@/app/utils/AWSUtil";
+// import { AWSUtil } from "@/app/utils/AWSUtil";
 
 const CreateArticle = (
   props: {}
@@ -105,6 +106,11 @@ const CreateArticle = (
     }
   };
   
+  const AWSUpload = React.useMemo(() => {
+    console.log("Hello world")
+    return new AWSUtil();
+  }, [])
+
   // Upload the article publication to the server.
   const[publish, setPublish] = React.useState<boolean>(false);
   const handlePublish = async () => {
@@ -134,13 +140,18 @@ const CreateArticle = (
         // Append the thumbnail file (if exists)
         if (thumbnail) {
           formData.append("thumbnail", thumbnail);
+
+          // Store the images in the AWS s3.
+          const res = await AWSUpload.services("image", thumbnail);
+          console.log(res);
         }
         // Optionally, add a caption
         formData.append("thumbnailCaption", "image has no caption");
 
-        // console.log(formData.get("thumbnail"));
+        console.log(formData.get("content"));
+        console.log(formData.get("thumbnail"));
 
-        // Store the images in the AWS s3.
+        // console.log(data)
 
   
         axios.post<article>("http://localhost:3001/resources/articles/create", formData, {

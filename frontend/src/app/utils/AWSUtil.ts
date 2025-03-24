@@ -1,14 +1,13 @@
 import "dotenv/config";
-import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { GetObjectCommand, PutBucketCorsCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
-// AWS configuration and uploading image to s3
-// AWS
+const REGION = "us-east-1"
+
 
 export class AWSUtil {
   private static readonly s3Client = (() => {
-    // const region = process.env.REGION;
-    // const accessKeyId = process.env.AWS_ACCESS_KEY;
-    // const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+
+    // AWS
 
     const region = REGION;
     const accessKeyId = AWS_ACCESS_KEY;
@@ -26,6 +25,29 @@ export class AWSUtil {
       }
     });
   })();
+
+  private static readonly corsConfig = (() => {
+    return { // PutBucketCorsRequest
+      Bucket: "STRING_VALUE", // required
+      CORSConfiguration: {
+        CORSRules: [
+          { // CORSRules
+            AllowedHeaders: ["*"],
+            AllowedMethods: [
+                "PUT",
+                "POST",
+                "DELETE"
+            ],
+            AllowedOrigins: [
+                "http://localhost:3000/create/vid"
+            ],
+            ExposeHeaders: ["x-amz-server-side-encryption"],
+            // MaxAgeSeconds: Number("int"),
+          },
+        ],
+      }
+    };
+  })
 
   public async services(type: string, file: File, key?: string){
     const bucket = type === "image" ? AWS_S3_IMAGE_BUCKET_NAME : AWS_S3_VIDEO_BUCKET_NAME;
@@ -51,13 +73,17 @@ export class AWSUtil {
     //   throw new Error("Key is undefined");
     // }
   }
-
+  
   private static async uploadToS3(
-      file: File,
-      bucket: string
+    file: File,
+    bucket: string
   ){
     try{
       const { name, type } = file;
+      
+      const config = new PutBucketCorsCommand(this.corsConfig());
+      const response = await this.s3Client.send(config);
+      console.log("Response:",response);
 
       return await this.s3Client.send(
         new PutObjectCommand({

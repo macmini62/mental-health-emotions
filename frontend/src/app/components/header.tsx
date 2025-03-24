@@ -22,7 +22,7 @@ const Header = ({
         </div>
       </div>
       <div className="max-w-fit flex gap-6 items-center mr-2">
-        { role === "professional" && <CreateOptions creatorId={userId}/> }
+        { role === "seeker" && <CreateOptions creatorId={userId}/> }
         <UserOptions
           imageURL={imageURL}
           userId={userId}

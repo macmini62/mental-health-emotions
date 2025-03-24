@@ -93,7 +93,7 @@ const CreateVideo = () => {
   }, []);
   
   // Video upload handler.
-  const [video, setVideo] = React.useState<object>();
+  const [video, setVideo] = React.useState<object | null>(null);
   const handleVideoUpload = (vidData: FileList|null) => {
     setLoading(true);
     const selVid = vidData?.item(0);
@@ -118,6 +118,13 @@ const CreateVideo = () => {
       }
     }
   }
+
+  // Uploads the video to AWS Bucket.
+  React.useEffect(() => {
+    if(video){
+      // Add the AWS upload code.
+    }
+  }, [video]);
 
   return (
     <div className="w-1/2 p-2">
@@ -173,10 +180,10 @@ const CreateVideo = () => {
                 />
             </button>
           </div>
-          <ErrorNotification
+          {/* <ErrorNotification
             action={"Upload Video"}
             failed={failed}
-          />
+          /> */}
         </div>
       }
       {/* editing section*/}
