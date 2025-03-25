@@ -1,77 +1,51 @@
 import "dotenv/config";
-import { GetObjectCommand, PutBucketCorsCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
-const REGION = "us-east-1"
-
+// AWS Configurations.
+const AWS_REGION = process.env.AWS_REGION;
+const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
+const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
+const AWS_S3_IMAGE_BUCKET_NAME = process.env.AWS_S3_IMAGE_BUCKET_NAME;
+const AWS_S3_VIDEO_BUCKET_NAME = process.env.AWS_S3_VIDEO_BUCKET_NAME;
 
 export class AWSUtil {
   private static readonly s3Client = (() => {
-
-    // AWS
-
-    const region = REGION;
-    const accessKeyId = AWS_ACCESS_KEY;
-    const secretAccessKey = AWS_SECRET_ACCESS_KEY;
-
-    if (!region || !accessKeyId || !secretAccessKey) {
+    if (!AWS_REGION || !AWS_ACCESS_KEY || !AWS_SECRET_ACCESS_KEY) {
       throw new Error("Missing AWS configuration");
     }
 
     return new S3Client({
-      region,
+      region: AWS_REGION,
       credentials: {
-        accessKeyId,
-        secretAccessKey
+        accessKeyId: AWS_ACCESS_KEY,
+        secretAccessKey: AWS_SECRET_ACCESS_KEY
       }
     });
   })();
 
-  private static readonly corsConfig = (() => {
-    return { // PutBucketCorsRequest
-      Bucket: "STRING_VALUE", // required
-      CORSConfiguration: {
-        CORSRules: [
-          { // CORSRules
-            AllowedHeaders: ["*"],
-            AllowedMethods: [
-                "PUT",
-                "POST",
-                "DELETE"
-            ],
-            AllowedOrigins: [
-                "http://localhost:3000/create/vid"
-            ],
-            ExposeHeaders: ["x-amz-server-side-encryption"],
-            // MaxAgeSeconds: Number("int"),
-          },
-        ],
+  public async services(type: string, file: File | null, key?: string){
+    try{
+      const bucket = type === "image" ? AWS_S3_IMAGE_BUCKET_NAME : AWS_S3_VIDEO_BUCKET_NAME;
+      console.log(bucket)
+      if (!bucket) {
+        throw new Error("Bucket name is undefined");
       }
-    };
-  })
 
-  public async services(type: string, file: File, key?: string){
-    const bucket = type === "image" ? AWS_S3_IMAGE_BUCKET_NAME : AWS_S3_VIDEO_BUCKET_NAME;
-    if (!bucket) {
-      throw new Error("Bucket name is undefined");
+      if(key){
+        console.log("Fetching...");
+        return await AWSUtil.fetchFromS3(key, bucket);
+      }
+      else if(file){
+        console.log("Uploading...");
+        return await AWSUtil.uploadToS3(file, bucket);
+      }
+      else{
+        throw new Error("Cannot upload or fetch your data. Please check your service parameters..");
+      }
     }
-
-    const results = await AWSUtil.uploadToS3(file, bucket);
-    console.log(results);
-    return results;
-
-    // if (key) {
-    //   const results = await AWSUtil.uploadToS3(file, bucket);
-    //   console.log(results);
-    //   return results;
-    // } 
-    // else if (key !== undefined) {
-    //   const results = await AWSUtil.fetchFromS3(key, bucket);
-    //   console.log(results);
-    //   return results;
-    // } 
-    // else {
-    //   throw new Error("Key is undefined");
-    // }
+    catch(e){
+      console.log(e);
+    }
   }
   
   private static async uploadToS3(
@@ -80,10 +54,6 @@ export class AWSUtil {
   ){
     try{
       const { name, type } = file;
-      
-      const config = new PutBucketCorsCommand(this.corsConfig());
-      const response = await this.s3Client.send(config);
-      console.log("Response:",response);
 
       return await this.s3Client.send(
         new PutObjectCommand({
