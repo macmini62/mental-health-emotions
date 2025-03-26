@@ -140,9 +140,7 @@ const Post = ({
                   <div key={i}>
                     {
                       c.type === "paragraph" ?
-                      <div className="text-wrap text-black flex flex-col items-center gap-4 py-8 mb-8">
-                       { parse(DOMPurify.sanitize(c.paragraph))}
-                      </div>
+                      parse(DOMPurify.sanitize(c.paragraph))
                       :
                       <div className="flex flex-col w-full items-center justify-center gap-4 py-4">
                         <Image priority={true} src={`https://d1m6naxu3t6ela.cloudfront.net/meme2.png`} alt="" width={500} height={500}/>
