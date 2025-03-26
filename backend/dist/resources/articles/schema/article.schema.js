@@ -33,7 +33,7 @@ __decorate([
 ], Article.prototype, "overview", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
+    __metadata("design:type", Array)
 ], Article.prototype, "content", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
@@ -43,8 +43,7 @@ __decorate([
     (0, mongoose_1.Prop)({
         type: {
             _id: { type: String, default: uuid_1.v4 },
-            imageURL: { type: String },
-            caption: { type: String }
+            imageURL: { type: String }
         }
     }),
     __metadata("design:type", Object)

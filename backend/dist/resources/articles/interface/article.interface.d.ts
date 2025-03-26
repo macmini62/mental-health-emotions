@@ -1,13 +1,13 @@
+import { ContentItem } from "src/types/types";
 export interface article {
     _id: string;
     creatorId: string;
     title: string;
     overview: string;
-    content: string;
+    content: Array<ContentItem>;
     tags: string[];
     thumbnail: {
         imageURL: string;
-        caption: string;
     };
     stats: {
         likes: Array<string>;

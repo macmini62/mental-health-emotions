@@ -17,15 +17,17 @@ const common_1 = require("@nestjs/common");
 const articles_service_1 = require("./articles/articles.service");
 const videos_service_1 = require("./videos/videos.service");
 const auth_decorator_1 = require("../decorators/auth.decorator");
-const platform_express_1 = require("@nestjs/platform-express");
 let ResourcesController = class ResourcesController {
     constructor(articlesService, videosService) {
         this.articlesService = articlesService;
         this.videosService = videosService;
     }
-    async createArticle(file, data, res) {
-        console.log(data);
-        console.log(file);
+    async createArticle(data, res) {
+        const results = await this.articlesService.create(data);
+        if (results) {
+            res.status(201).send(results);
+        }
+        res.status(500).send();
     }
     async findAllArticles(res, p) {
         const results = await this.articlesService.findAll(p);
@@ -75,13 +77,11 @@ let ResourcesController = class ResourcesController {
 exports.ResourcesController = ResourcesController;
 __decorate([
     (0, auth_decorator_1.SkipAuth)(),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)("file")),
     (0, common_1.Post)("articles/create"),
-    __param(0, (0, common_1.UploadedFile)()),
-    __param(1, (0, common_1.Body)()),
-    __param(2, (0, common_1.Res)()),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "createArticle", null);
 __decorate([

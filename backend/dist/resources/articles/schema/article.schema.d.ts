@@ -1,15 +1,15 @@
 import { HydratedDocument } from "mongoose";
+import { ContentItem } from "src/types/types";
 export type ArticleDocument = HydratedDocument<Article>;
 export declare class Article {
     _id: string;
     creatorId: string;
     title: string;
     overview: string;
-    content: string;
+    content: Array<ContentItem>;
     tags: string[];
     thumbnail: {
         imageURL: string;
-        caption: string;
     };
     stats: {
         likes: Array<string>;

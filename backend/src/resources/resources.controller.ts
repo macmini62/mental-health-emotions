@@ -18,20 +18,23 @@ export class ResourcesController {
   // <--- ARTICLES SERVICES --->
 
   @SkipAuth()
-  @UseInterceptors(
-    FileInterceptor("file")
-  )
   @Post("articles/create")
-  async createArticle(@UploadedFile() file: Express.Multer.File, @Body() data: any, @Res() res: Response<article>){
-    // const results: article = await this.articlesService.create(data);
-    // if(results){
-    //   res.status(201).send(results);
-    // }
+  async createArticle(@Body() data: {
+    creatorId: string;
+    title: string;
+    overview: string;
+    content: Array<ContentItem>;
+    tags: Array<string>;
+    thumbnail: {
+      imageURL: string;
+    }
+  }, @Res() res: Response<article>){
+    const results: article = await this.articlesService.create(data);
+    if(results){
+      res.status(201).send(results);
+    }
 
-    // res.status(500).send();
-    console.log(data)
-    console.log(file)
-    // const results = await this.articlesService.create(file);
+    res.status(500).send();
   }
   
   @SkipAuth()

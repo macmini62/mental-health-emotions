@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
+import { ContentItem } from "src/types/types";
 import { v4 as uuidv4 } from "uuid";
 
 export type ArticleDocument = HydratedDocument<Article>;
@@ -19,7 +20,7 @@ export class Article{
   overview: string;
 
   @Prop({ required: true })
-  content: string;
+  content: Array<ContentItem>;
   
   @Prop({ required: true })
   tags: string[];
@@ -27,13 +28,11 @@ export class Article{
   @Prop({
     type: {
       _id: { type: String, default: uuidv4 },
-      imageURL: { type: String },
-      caption: { type: String }
+      imageURL: { type: String }
     }
   })
   thumbnail: {
     imageURL: string;
-    caption: string;
   }
 
   @Prop({

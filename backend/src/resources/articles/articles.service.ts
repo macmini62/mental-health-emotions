@@ -22,11 +22,19 @@ export class ArticlesService {
     private topicService: TopicsService
   ){}
 
-  async create(file: Express.Multer.File){
+  async create(data: {
+    creatorId: string;
+    title: string;
+    overview: string;
+    content: Array<ContentItem>;
+    tags: Array<string>;
+    thumbnail: {
+      imageURL: string;
+    }
+  }){
     try{
-      console.log(file);
-      // console.log(data.content);
-      // return await new this.articleModel(data).save();
+      console.log(data.content);
+      return await new this.articleModel(data).save();
     }
     catch(e){
       console.log(e);
