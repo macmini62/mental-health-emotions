@@ -14,14 +14,17 @@ import ErrorNotification from "../components/notifications/notificationAlert";
 import Header from "../components/header";
 import ContentHeader from "../components/contentHeader";
 import ContentOptions from "../components/dropDownOptions/contentOptions";
-import { seeker, article, topic } from "../interface/interface";
+import { seeker, article, topic, professional } from "../interface/interface";
+import Image from "next/image";
+import { user } from "../types/types";
 
 
 const MONTHS = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
+
 const Articles = () => {
   
-  const [seeker, setUser] = React.useState<seeker>({
+  const [seeker, setSeeker] = React.useState<seeker>({
     _id: "",
     userId: "",
     profile: {
@@ -30,15 +33,37 @@ const Articles = () => {
       imageURL: ""
     },
     contents: {
-      topics: [],
+      topics: new Array<string>,
       bookmarks: {
-        articles: [],
-        videos: []
+        articles: new Array<string>,
+        videos: new Array<string>
       }
     },
     createdAt: "",
     updatedAt: ""
   });
+
+  const [professional, setProfessional] = React.useState<professional>({
+    _id: "",
+    userId: "",
+    profession: "",
+    institution: "",
+    profile: {
+      profileURL: "",
+      imageURL: "",
+    },
+    contents: {
+      topics: new Array<string>,
+      authored: {
+        articles: new Array<string>,
+        videos: new Array<string>,
+        liveSessions: new Array<string>
+      }
+    }
+  });
+  
+  const [user, setUser] = React.useState<user>()
+
   const [articles, setArticles] = React.useState<Array<article>>([]);
   
   // Fetch data according to the topic selected and page scroll.
@@ -101,7 +126,7 @@ const Articles = () => {
 
     if(userId && accessToken && role){
       // Fetch seeker data for after login.
-      const res = axios.get<seeker>(`http://localhost:3001/${JSON.parse(role) === "professional" ? "professionals" : "seekers"}/${JSON.parse(userId)}`,
+      axios.get<user>(`http://localhost:3001/${JSON.parse(role) === "professional" ? "professionals" : "seekers"}/${JSON.parse(userId)}`,
           {
             headers: {
               Authorization: `Bearer ${JSON.parse(accessToken)}`
@@ -109,7 +134,12 @@ const Articles = () => {
           }
         )
         .then((res) => {
-          setUser(res.data);
+          if(role === "profesional"){
+            setUser(res.data.type === "professional" ? res.data : undefined);
+          }
+          else{
+            setUser(res.data.type === "seeker" ? res.data : undefined);
+          }
         })
         .catch((e) => {
           console.log(e);
@@ -117,9 +147,9 @@ const Articles = () => {
     }
   }, []);
 
-  // console.log(seeker);
-  // console.log(articles);
-  // console.log(fetchTag);
+  console.log(seeker);
+  console.log(articles);
+  console.log(fetchTag);
 
 
   // Fetch data that with the specific tags.
@@ -343,7 +373,7 @@ const Articles = () => {
                         </div>
                       </div>
                       {/* image */}
-                      <Link href="/"><img src={a.thumbnail.imageURL} alt="" className="h-[146px] w-[160px] rounded-md" /></Link>
+                      <Link href={`articles/${a._id}`}><Image width={146} height={160} src={`https://d1m6naxu3t6ela.cloudfront.net/meme2.png`} alt="" className="rounded-md"/></Link>
                     </div>
                   </div>
                 </li>

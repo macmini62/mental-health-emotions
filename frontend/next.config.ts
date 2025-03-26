@@ -13,7 +13,18 @@ const nextConfig: NextConfig = {
     AWS_S3_VIDEO_BUCKET_NAME: process.env.AWS_S3_VIDEO_BUCKET_NAME,
     AWS_IMAGES_URL: process.env.AWS_IMAGES_URL,
     AWS_VIDEOS_URL: process.env.AWS_VIDEOS_URL
-  }
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "d1m6naxu3t6ela.cloudfront.net",
+        port: "",
+        pathname: "/**",
+        search: "",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

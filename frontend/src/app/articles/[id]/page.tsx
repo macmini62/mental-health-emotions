@@ -16,6 +16,8 @@ import ErrorNotification from "@/app/components/notifications/notificationAlert"
 import ContentOptions from "@/app/components/dropDownOptions/contentOptions";
 import DOMPurify from "dompurify";
 import parse from "html-react-parser";
+import { ContentItem } from "@/app/types/types";
+import Image from "next/image";
 
 const MONTHS = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
@@ -66,7 +68,8 @@ const Post = ({
     };
     fetchArticle();
   }, [params]);
-  // console.log(article);
+
+  console.log(article);
 
   return (
     <div className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
@@ -131,14 +134,22 @@ const Post = ({
           </div>
           {/* content */}
           <div className="w-full border-b border-gray-200 mt-8">
-            {/* thumbnail */}
-            <div className="flex flex-col w-full items-center justify-center gap-4 py-4">
-              <img src={article.thumbnail.imageURL} alt="" className="w-2/3 h-[400px]"/>
-            </div>
-            {/* paragraphs */}
             <div className="text-wrap text-black flex flex-col items-center gap-4 py-8 mb-8">
               {
-                parse(DOMPurify.sanitize(article.content))
+                article.content.map((c: ContentItem, i: number) => (
+                  <div key={i}>
+                    {
+                      c.type === "paragraph" ?
+                      <div className="text-wrap text-black flex flex-col items-center gap-4 py-8 mb-8">
+                       { parse(DOMPurify.sanitize(c.paragraph))}
+                      </div>
+                      :
+                      <div className="flex flex-col w-full items-center justify-center gap-4 py-4">
+                        <Image priority={true} src={`https://d1m6naxu3t6ela.cloudfront.net/meme2.png`} alt="" width={500} height={500}/>
+                      </div>
+                    }
+                  </div>
+                ))
               }
             </div>
             {/* tags */}

@@ -127,7 +127,6 @@ const CreateArticle = (
                   const item = c as { type: "image"; image: File; };
                   try{
                     const res: string | any = await AWS.services("image", item.image);
-                    console.log(res);
                     return { type: "image", image: res };
                   }
                   catch(e){

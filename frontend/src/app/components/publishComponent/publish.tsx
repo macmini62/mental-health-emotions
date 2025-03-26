@@ -1,5 +1,6 @@
 "use client";
 
+import { blob } from "node:stream/consumers";
 import React, { useState } from "react";
 
 const PublishPage = ({
@@ -21,7 +22,7 @@ const PublishPage = ({
   handlePublish: () => void,
   setTopicInput: React.Dispatch<React.SetStateAction<string>>
 }) => {
-
+  
   return (
     <div className="w-screen h-screen flex items-center justify-center">
       <div className="w-1/2 h-1/3 flex gap-4">
@@ -56,7 +57,7 @@ const PublishPage = ({
           >
             {thumbnail ? (
               <img
-                src=""
+                src={typeof(thumbnail) === "string" ? thumbnail : URL.createObjectURL(thumbnail)}
                 alt="Thumbnail Preview"
                 className="max-h-full max-w-full object-cover"
               />

@@ -28,6 +28,27 @@ export interface seeker {
   updatedAt: string;
 }
 
+export interface professional {
+  _id: string;
+  userId: string;
+  profession: string;
+  institution: string;
+  profile: profile;
+  contents: contents;
+}
+interface contents{
+  topics: Array<string>,
+  authored: {
+    articles: Array<string>,
+    videos: Array<string>,
+    liveSessions: Array<string>
+  }
+}
+interface profile{
+  profileURL: string;
+  imageURL: string;
+}
+
 export interface topic {
   _id: string;
   name: string;
@@ -38,7 +59,7 @@ export interface article {
   creatorId: string;
   title: string;
   overview: string;
-  content: string;
+  content: Array<ContentItem>;
   tags: Array<tag>;
   thumbnail: {
     _id: string;
