@@ -11,7 +11,7 @@ import { article, createArticle } from "@/app/interface/interface";
 import { ContentItem } from "@/app/types/types";
 import axios from "axios";
 import { AWSUtil } from "@/app/utils/AWSUtil";
-// import { AWSUtil } from "@/app/utils/AWSUtil";
+import "dotenv/config";
 
 const CreateArticle = (
   props: {}
@@ -47,14 +47,14 @@ const CreateArticle = (
   const [contents, setContents] = React.useState<Array<ContentItem>>([]);
 
   const handleInsertParagraph = () => {
-    setContents((prev) => [...prev, { type: "paragraph", content: "" }]);
+    setContents((prev) => [...prev, { type: "paragraph", paragraph: "" }]);
     setOptVis(false);
   };
 
-  const handleParagraphChange = (index: number, content: string) => {
+  const handleParagraphChange = (index: number, paragraph: string) => {
     setContents((prev) => {
       const updated = [...prev];
-      updated[index] = { type: "paragraph", content };
+      updated[index] = { type: "paragraph", paragraph };
       return updated;
     });
   };  
@@ -106,66 +106,70 @@ const CreateArticle = (
     }
   };
   
-  const AWSUpload = React.useMemo(() => {
+  const AWS = React.useMemo(() => {
     console.log("Hello world")
     return new AWSUtil();
-  }, [])
+  }, []);
 
   // Upload the article publication to the server.
   const[publish, setPublish] = React.useState<boolean>(false);
   const handlePublish = async () => {
     if(titles?.title.length > 0 && titles?.subTitle.length > 0){
       setPublish(true);
-      const creatorId = localStorage.getItem("userId");
-      if(creatorId){
+      if(thumbnail){
+        try{
+          // const creatorId = localStorage.getItem("userId");
+          const creatorId = "37ec1a1b-1231-4552-b071-e05a19ca64ca";
+          if(creatorId){
+            if(contents.length > 0){
+              const cnt: ContentItem[] = (await Promise.all(contents.map(async (c: ContentItem) => {
+                if(c.type === "image"){
+                  const item = c as { type: "image"; image: File; };
+                  try{
+                    const res: string | any = await AWS.services("image", item.image);
+                    console.log(res);
+                    return { type: "image", image: res };
+                  }
+                  catch(e){
+                    console.log(e);
+                    return;
+                  }
+                }
+                return c;
+              }))).filter((c): c is ContentItem => c !== undefined);
+          
+              const thumbnailURL: string | any = await AWS.services("image", thumbnail);
 
-        // const data: createArticle = {
-        //   creatorId: creatorId,
-        //   title: titles.title,
-        //   overview: titles.subTitle,
-        //   content: contents,
-        //   tags: topics,
-        //   thumbnail: {
-        //     image: thumbnail,
-        //     caption: "image has no caption",
-        //   }
-        // }
+              const data: createArticle = {
+                creatorId: creatorId,
+                title: titles.title,
+                overview: titles.subTitle,
+                content: cnt,
+                tags: topics,
+                thumbnail: {
+                  imageURL: thumbnailURL
+                }
+              }
+              console.log(data);
 
-        const formData = new FormData();
-        formData.append("creatorId", creatorId);
-        formData.append("title", titles.title);
-        formData.append("overview", titles.subTitle);
-        formData.append("content", JSON.stringify(contents)); // if content is an array/object
-        formData.append("tags", JSON.stringify(topics)); // or loop and append each tag
-        // Append the thumbnail file (if exists)
-        if (thumbnail) {
-          formData.append("thumbnail", thumbnail);
-
-          // Store the images in the AWS s3.
-          const res = await AWSUpload.services("image", thumbnail);
-          console.log(res);
+              axios.post<article>("http://localhost:3001/resources/articles/create", data)
+              .then((res) => {
+                console.log(res);
+              })
+              .catch((e) => {
+                console.log(e);
+              })
+            }
+          }
         }
-        // Optionally, add a caption
-        formData.append("thumbnailCaption", "image has no caption");
-
-        console.log(formData.get("content"));
-        console.log(formData.get("thumbnail"));
-
-        // console.log(data)
-
-  
-        axios.post<article>("http://localhost:3001/resources/articles/create", formData, {
-          headers: { "Content-Type": "multipart/form-data" }
-        })
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          })
+        catch(e){
+          console.log(e);
+        }
       }
     }
   }
+
+  console.log(contents);
 
   return (
     <div className="w-screen h-screen flex justify-center">
@@ -215,7 +219,7 @@ const CreateArticle = (
                     <ParagraphSection
                       key={index}
                       contentKey={index}
-                      content={item.content}
+                      content={item.paragraph}
                       handleParagraphChange={(_, content) => handleParagraphChange(index, content)}
                       deleteParagraph={() => handleDeleteContent(index)}
                     />

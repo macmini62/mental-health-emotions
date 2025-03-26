@@ -18,7 +18,7 @@ const ImageSection = ({
   deleteImage
 }:{
   contentKey?: number
-  image: File,
+  image: File | string,
   deleteImage: (key?: number) => void
 }) => {
 

@@ -15,7 +15,7 @@ const PublishPage = ({
   type: string,
   handleThumbnailUpload: (e: React.ChangeEvent<HTMLInputElement>) => void,
   handleAddTopic: () => void,
-  thumbnail: File | null,
+  thumbnail: File | string | null,
   topics: Array<string>,
   topicInput: string,
   handlePublish: () => void,

@@ -43,7 +43,6 @@ export interface article {
   thumbnail: {
     _id: string;
     imageURL: string;
-    caption: string;
   }
   stats: {
     _id: string;
@@ -68,7 +67,6 @@ export interface createArticle {
   content: Array<ContentItem>;
   tags: Array<string>;
   thumbnail: {
-    image: string;
-    caption: string;
+    imageURL: string;
   }
 }

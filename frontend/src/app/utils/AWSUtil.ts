@@ -23,10 +23,9 @@ export class AWSUtil {
     });
   })();
 
-  public async services(type: string, file: File | null, key?: string){
+  public async services(type: string, file: File | null, key?: string): Promise<string | any>{
     try{
       const bucket = type === "image" ? AWS_S3_IMAGE_BUCKET_NAME : AWS_S3_VIDEO_BUCKET_NAME;
-      console.log(bucket)
       if (!bucket) {
         throw new Error("Bucket name is undefined");
       }
@@ -51,28 +50,30 @@ export class AWSUtil {
   private static async uploadToS3(
     file: File,
     bucket: string
-  ){
+  ): Promise<string | any>{
     try{
       const { name, type } = file;
 
-      return await this.s3Client.send(
+      const res = await this.s3Client.send(
         new PutObjectCommand({
           Bucket: bucket,
-          Key: String(name),
+          Key: name,
           Body: new Uint8Array(await file.arrayBuffer()),
           ContentType: type
-        }),
+        })
       );
+
+      return `${process.env.AWS_IMAGES_URL}/${name}`;
     }
     catch(e){
-      console.log(e);
+      return e;
     }
   }
 
   private static async fetchFromS3(
     key: string,
     bucket: string
-  ){
+  ): Promise<string | any>{
     try{
       return await this.s3Client.send(
         new GetObjectCommand({
@@ -82,7 +83,7 @@ export class AWSUtil {
       );
     }
     catch(e){
-      console.log(e)
+      return e;
     }
   }
 }

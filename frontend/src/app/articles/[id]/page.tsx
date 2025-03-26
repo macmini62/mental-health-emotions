@@ -134,7 +134,6 @@ const Post = ({
             {/* thumbnail */}
             <div className="flex flex-col w-full items-center justify-center gap-4 py-4">
               <img src={article.thumbnail.imageURL} alt="" className="w-2/3 h-[400px]"/>
-              <p className="text-sm">{article.thumbnail.caption}</p>
             </div>
             {/* paragraphs */}
             <div className="text-wrap text-black flex flex-col items-center gap-4 py-8 mb-8">
