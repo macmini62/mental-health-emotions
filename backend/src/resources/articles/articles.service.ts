@@ -33,8 +33,14 @@ export class ArticlesService {
     }
   }){
     try{
-      console.log(data.content);
-      return await new this.articleModel(data).save();
+      const d = {
+        ...data,
+        stats: {
+          likes: new Array<string>,
+          comments: 0
+        }
+      }
+      return await new this.articleModel(d).save();
     }
     catch(e){
       console.log(e);

@@ -65,7 +65,9 @@ export class AuthController {
     if(accessToken){
       res.status(200).send(accessToken);
     }
-    res.status(500).send("Failed to login!!");
+    else{
+      res.status(500).send();
+    }
   }
 
   @UseGuards(AuthGuard)
