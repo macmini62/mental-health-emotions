@@ -4,9 +4,8 @@ import { FiEdit } from "react-icons/fi";
 import { MdOutlineArticle, MdOutlineLiveTv, MdOutlinePeople, MdOutlineVideocam } from "react-icons/md";
 
 const CreateOptions = ({
-  creatorId
+  
 }:{
-  creatorId: string | undefined
 }) => {
   
   const router = useRouter();

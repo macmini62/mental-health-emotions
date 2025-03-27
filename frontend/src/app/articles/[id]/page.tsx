@@ -76,11 +76,14 @@ const Post = ({
   return (
     <div className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
       {/* HEADER */}
-      <Header
-        imageURL="/faces/face4.jpg"
-        userId="John Doe"
-        create={ ROLE === "professional" ? true : false }
-      />
+      {
+        ROLE &&
+        <Header
+          imageURL="/faces/face4.jpg"
+          userId="John Doe"
+          role={ROLE}
+        />
+      }
       <div className="w-full max-h-fit p-4 flex items-center justify-center">
         { loading && <LoadingBar/> }
       </div>

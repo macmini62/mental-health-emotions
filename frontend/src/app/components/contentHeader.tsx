@@ -9,12 +9,12 @@ const ContentHeader = ({
   topics,
   setFetchTag,
   tag,
-  following
+  role
 }:{
   topics: Array<string> | undefined,
   setFetchTag: (t: string) => void,
   tag: string
-  following: boolean
+  role: string
 }) => {
 
   // fetch seeker subscribed topics
@@ -48,7 +48,7 @@ const ContentHeader = ({
           </button>
         </div>
         {
-          following &&
+          role === "seeker" &&
           <div onClick={() => setFetchTag("following")}>
             <button className={`mr-6 group  ${tag === "following" && "border-b-2 border-black text-black"}`}>
               <p className="text-sm pb-6 group-hover:text-black">Following</p>
