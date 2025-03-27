@@ -46,7 +46,7 @@ const Articles = () => {
   
   React.useEffect(() => {
     fetchArticles();
-    setFetch({...fetch, page: 1});
+    setFetch({f: true, page: 1});
     setArticles([]);
   },[fetchTag])
 
@@ -115,6 +115,7 @@ const Articles = () => {
     
     if(USERID && ACCESSTOKEN && fetch.f){
       if(fetchTag === "all"){
+        // setFetch({f: false, page: fetch.page});
         // console.log(fetchTag);
         // Fetches all the article data.
         axios.get<Array<article>>(`http://localhost:3001/resources/articles?p=${fetch.page}`,
@@ -242,11 +243,14 @@ const Articles = () => {
   return (
     <div onScroll={(e) => handleScroll(e)} className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
       {/* HEADER */}
-      <Header
-        imageURL={user?.profile?.imageURL}
-        userId={user?.userId}
-        create={ ROLE === "professional" ? true : false }
-      /> 
+      {
+        ROLE &&
+        <Header
+          imageURL={user?.profile?.imageURL}
+          userId={user?.userId}
+          role={ROLE}
+        /> 
+      }
       {/* BODY */}
       <div className="w-[1338px] flex justify-between p-4">
         {/* MENU SECTION */}
@@ -256,12 +260,14 @@ const Articles = () => {
         {/* CONTENT SECTION */}
         <div className="w-[728px] max-h-fit py-4">
           {/* content-header */}
-          <ContentHeader
-            topics={user?.contents.topics}
-            setFetchTag={(t: string) => setFetchTag(t)}
-            tag={fetchTag}
-            following={ROLE === "professional" ? true : false}
-          />
+          { ROLE &&
+            <ContentHeader
+              topics={user?.contents.topics}
+              setFetchTag={(t: string) => setFetchTag(t)}
+              tag={fetchTag}
+              role={ROLE}
+            />
+          }
           {/* Notification */}
           <div className={`w-full flex justify-center ${ !fetchFailed ? "hidden" : "visible" }`}>
             <ErrorNotification
