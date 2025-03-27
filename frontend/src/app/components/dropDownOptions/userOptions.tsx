@@ -5,8 +5,8 @@ const UserOptions = ({
   imageURL,
   userId
 }:{
-  imageURL: string,
-  userId: string
+  imageURL: string | undefined,
+  userId: string | undefined,
 }) => {
   return (
     <Menu.Root>

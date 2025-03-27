@@ -6,7 +6,7 @@ import { MdOutlineArticle, MdOutlineLiveTv, MdOutlinePeople, MdOutlineVideocam }
 const CreateOptions = ({
   creatorId
 }:{
-  creatorId: string
+  creatorId: string | undefined
 }) => {
   
   const router = useRouter();

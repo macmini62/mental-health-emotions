@@ -74,7 +74,7 @@ const LogInPage = () => {
   });
 
   return (
-    <div className="h-screen p-6 flex justify-center items-center relative overflow-hidden">
+    <div className="h-screen p-6 flex flex-col justify-center items-center relative overflow-hidden">
       <div className="w-[512px] rounded-md shadow-lg shadow-gray-300 p-10">
         <div className="flex gap-4 justify-center">
           <img src="/logo/logo-white.png" alt="" className="w-48 h-14"/>
@@ -107,10 +107,12 @@ const LogInPage = () => {
           auth={"login"}
         />
       </div>
-      <ErrorNotification
-        action={"Log In"}
-        failed={failed}
-      />
+      <div className="w-full flex justify-center ">
+        <ErrorNotification
+          action={"Log In"}
+          failed={failed}
+        />
+      </div>
     </div>
   )
 }

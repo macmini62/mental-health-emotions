@@ -8,19 +8,21 @@ import { topic } from "../interface/interface";
 const ContentHeader = ({
   topics,
   setFetchTag,
-  tag
+  tag,
+  following
 }:{
-  topics: Array<string>,
+  topics: Array<string> | undefined,
   setFetchTag: (t: string) => void,
   tag: string
+  following: boolean
 }) => {
 
   // fetch seeker subscribed topics
   const[tp, setTp] = React.useState<Array<topic>>([]);
   React.useEffect(() => {
-    const accessToken: string | null = localStorage.getItem("access token");
+    const accessToken: string | null = localStorage.getItem("accessToken");
     const userId: string | null = localStorage.getItem("userId");
-    if(accessToken && userId){
+    if(accessToken && userId && topics){
       axios.post<Array<topic>>(`http://localhost:3001/topics/${JSON.parse(userId)}`, 
       topics,
       {
@@ -45,11 +47,14 @@ const ContentHeader = ({
             <p className="text-sm pb-6 group-hover:text-black">For you</p>
           </button>
         </div>
-        <div onClick={() => setFetchTag("following")}>
-          <button className={`mr-6 group  ${tag === "following" && "border-b-2 border-black text-black"}`}>
-            <p className="text-sm pb-6 group-hover:text-black">Following</p>
-          </button>
-        </div>
+        {
+          following &&
+          <div onClick={() => setFetchTag("following")}>
+            <button className={`mr-6 group  ${tag === "following" && "border-b-2 border-black text-black"}`}>
+              <p className="text-sm pb-6 group-hover:text-black">Following</p>
+            </button>
+          </div>
+        }
         {
           tp.map((t: topic, i:number) => (
             <div

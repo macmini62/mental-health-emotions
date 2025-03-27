@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
         hostname: "d1m6naxu3t6ela.cloudfront.net",
         port: "",
         pathname: "/**",
-        search: "",
+        search: ""
       },
     ],
   },

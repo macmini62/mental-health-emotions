@@ -14,56 +14,20 @@ import ErrorNotification from "../components/notifications/notificationAlert";
 import Header from "../components/header";
 import ContentHeader from "../components/contentHeader";
 import ContentOptions from "../components/dropDownOptions/contentOptions";
-import { seeker, article, topic, professional } from "../interface/interface";
 import Image from "next/image";
-import { user } from "../types/types";
-
+import { professional, seeker, article, topic } from "../interface/interface";
 
 const MONTHS = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-
+const USERID: string | null = localStorage.getItem("userId");
+const ACCESSTOKEN: string | null = localStorage.getItem("accessToken");
+const ROLE: string | null = localStorage.getItem("role");
 
 const Articles = () => {
-  
-  const [seeker, setSeeker] = React.useState<seeker>({
-    _id: "",
-    userId: "",
-    profile: {
-      profileURL: "",
-      nickname: "",
-      imageURL: ""
-    },
-    contents: {
-      topics: new Array<string>,
-      bookmarks: {
-        articles: new Array<string>,
-        videos: new Array<string>
-      }
-    },
-    createdAt: "",
-    updatedAt: ""
-  });
 
-  const [professional, setProfessional] = React.useState<professional>({
-    _id: "",
-    userId: "",
-    profession: "",
-    institution: "",
-    profile: {
-      profileURL: "",
-      imageURL: "",
-    },
-    contents: {
-      topics: new Array<string>,
-      authored: {
-        articles: new Array<string>,
-        videos: new Array<string>,
-        liveSessions: new Array<string>
-      }
-    }
-  });
-  
-  const [user, setUser] = React.useState<user>()
+  // Stores the state of the logged in user. 
+  const [user, setUser] = React.useState<professional | seeker>();
 
+  // stroes the state of the fetched articles.
   const [articles, setArticles] = React.useState<Array<article>>([]);
   
   // Fetch data according to the topic selected and page scroll.
@@ -86,7 +50,7 @@ const Articles = () => {
     setArticles([]);
   },[fetchTag])
 
-  // Check if the seeker has scrolled to the bottom
+  // Check if the user has scrolled to the bottom
   const handleScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
     // console.log(fetch.f);
     if(fetch.f){
@@ -120,26 +84,19 @@ const Articles = () => {
   
   // Fetch Data.
   React.useEffect(() => {
-    const userId: string | null = localStorage.getItem("userId");
-    const accessToken: string | null = localStorage.getItem("access token");
-    const role: string | null = localStorage.getItem("role");
 
-    if(userId && accessToken && role){
+    if(USERID && ACCESSTOKEN && ROLE){
       // Fetch seeker data for after login.
-      axios.get<user>(`http://localhost:3001/${JSON.parse(role) === "professional" ? "professionals" : "seekers"}/${JSON.parse(userId)}`,
+      axios.get(`http://localhost:3001/${JSON.parse(ROLE) === "professional" ? "professionals" : "seekers"}/${JSON.parse(USERID)}`,
           {
             headers: {
-              Authorization: `Bearer ${JSON.parse(accessToken)}`
+              Authorization: `Bearer ${JSON.parse(ACCESSTOKEN)}`
             }
           }
         )
         .then((res) => {
-          if(role === "profesional"){
-            setUser(res.data.type === "professional" ? res.data : undefined);
-          }
-          else{
-            setUser(res.data.type === "seeker" ? res.data : undefined);
-          }
+          // console.log(res.data);
+          setUser(res.data as professional | seeker);
         })
         .catch((e) => {
           console.log(e);
@@ -147,25 +104,23 @@ const Articles = () => {
     }
   }, []);
 
-  console.log(seeker);
-  console.log(articles);
-  console.log(fetchTag);
+  // console.log(user);
+  // console.log(articles);
+  // console.log(fetchTag);
 
 
   // Fetch data that with the specific tags.
   const fetchArticles = () => {
     !loading && setLoading(!loading);
-    const userId: string | null = localStorage.getItem("userId");
-    const accessToken: string | null = localStorage.getItem("access token");
     
-    if(userId && accessToken && fetch.f){
+    if(USERID && ACCESSTOKEN && fetch.f){
       if(fetchTag === "all"){
         // console.log(fetchTag);
         // Fetches all the article data.
         axios.get<Array<article>>(`http://localhost:3001/resources/articles?p=${fetch.page}`,
           {
             headers: {
-              Authorization: `Bearer ${JSON.parse(accessToken)}`
+              Authorization: `Bearer ${JSON.parse(ACCESSTOKEN)}`
             }
           }
         )
@@ -194,10 +149,10 @@ const Articles = () => {
       }
       else if(fetchTag === "following"){
         // Fetches all the users" subscribed article data.
-        axios.get<Array<article>>(`http://localhost:3001/resources/articles/seeker?id=${JSON.parse(userId)}&p=${fetch.page}`,
+        axios.get<Array<article>>(`http://localhost:3001/resources/articles/seeker?id=${JSON.parse(USERID)}&p=${fetch.page}`,
           {
             headers: {
-              Authorization: `Bearer ${JSON.parse(accessToken)}`
+              Authorization: `Bearer ${JSON.parse(ACCESSTOKEN)}`
             }
           }
         )
@@ -229,7 +184,7 @@ const Articles = () => {
         axios.get<Array<article>>(`http://localhost:3001/resources/articles/tag?t=${fetchTag}&p=${fetch.page}`,
           {
             headers: {
-              Authorization: `Bearer ${JSON.parse(accessToken)}`
+              Authorization: `Bearer ${JSON.parse(ACCESSTOKEN)}`
             }
           }
         )
@@ -288,9 +243,9 @@ const Articles = () => {
     <div onScroll={(e) => handleScroll(e)} className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
       {/* HEADER */}
       <Header
-        imageURL={seeker.profile?.imageURL}
-        userId={seeker.userId}
-        role="seeker"
+        imageURL={user?.profile?.imageURL}
+        userId={user?.userId}
+        create={ ROLE === "professional" ? true : false }
       /> 
       {/* BODY */}
       <div className="w-[1338px] flex justify-between p-4">
@@ -302,9 +257,10 @@ const Articles = () => {
         <div className="w-[728px] max-h-fit py-4">
           {/* content-header */}
           <ContentHeader
-            topics={seeker.contents.topics}
+            topics={user?.contents.topics}
             setFetchTag={(t: string) => setFetchTag(t)}
             tag={fetchTag}
+            following={ROLE === "professional" ? true : false}
           />
           {/* Notification */}
           <div className={`w-full flex justify-center ${ !fetchFailed ? "hidden" : "visible" }`}>
@@ -349,7 +305,7 @@ const Articles = () => {
                             </p>
                             <div className="flex gap-1.5 items-center">
                               {
-                                a.stats.likes.includes(seeker.userId) ?
+                                user && a.stats.likes.includes(user.userId) ?
                                 <FcLike className="w-5 h-5 cursor-pointer"/>
                                 :
                                 <FcLikePlaceholder className="w-5 h-5 cursor-pointer"/>
@@ -373,7 +329,7 @@ const Articles = () => {
                         </div>
                       </div>
                       {/* image */}
-                      <Link href={`articles/${a._id}`}><Image width={146} height={160} src={`https://d1m6naxu3t6ela.cloudfront.net/meme2.png`} alt="" className="rounded-md"/></Link>
+                      <Link href={`articles/${a._id}`}><Image priority={true} width={146} height={160} src={`https://d1m6naxu3t6ela.cloudfront.net/meme2.png`} alt="" className="rounded-md w-auto h-auto"/></Link>
                     </div>
                   </div>
                 </li>

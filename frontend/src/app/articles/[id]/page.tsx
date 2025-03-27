@@ -20,6 +20,8 @@ import { ContentItem } from "@/app/types/types";
 import Image from "next/image";
 
 const MONTHS = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+const ACCESSTOKEN: string | null = localStorage.getItem("accessToken");
+const ROLE: string | null = localStorage.getItem("role");
 
 const Post = ({
   params
@@ -45,15 +47,15 @@ const Post = ({
   const [article, setArticle] = React.useState<article>();
   React.useEffect(() => {
     const fetchArticle = async () => {
-      const accessToken: string | null = localStorage.getItem("access token");
-      if (accessToken) {
+      if (ACCESSTOKEN) {
         const { id } = await params;
         axios.get<article>(`http://localhost:3001/resources/articles/read/${id}`, {
           headers: {
-            Authorization: `Bearer ${JSON.parse(accessToken)}`
+            Authorization: `Bearer ${JSON.parse(ACCESSTOKEN)}`
           }
         })
         .then((res) => {
+          // console.log(res);
           setTimeout(() => {
             setArticle(res.data);
             setLoading(false);
@@ -69,7 +71,7 @@ const Post = ({
     fetchArticle();
   }, [params]);
 
-  console.log(article);
+  // console.log(article);
 
   return (
     <div className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
@@ -77,7 +79,7 @@ const Post = ({
       <Header
         imageURL="/faces/face4.jpg"
         userId="John Doe"
-        role="seeker"
+        create={ ROLE === "professional" ? true : false }
       />
       <div className="w-full max-h-fit p-4 flex items-center justify-center">
         { loading && <LoadingBar/> }
@@ -88,12 +90,12 @@ const Post = ({
         <article className="flex flex-col items-start w-1/3 py-8 text-lg text-nowrap">
           {/* heading */}
           <div className="w-full p-2">
-            <h2 className="text-5xl text-black font-semibold my-3 capitalize">{article.title}</h2>
-            <h3 className="text-xl my-3">{article.overview}</h3>
-            <div className="flex gap-4 items-center my-6">
+            <h2 className="text-5xl text-black font-semibold my-4 capitalize text-wrap">{article.title}</h2>
+            <h3 className="text-xl my-3 text-wrap">{article.overview}</h3>
+            <div className="flex gap-4 items-center my-8">
               <Link href="/"><img src="/faces/face4.jpg" alt="" className="w-14 h-14 rounded-full hover:opacity-80"/></Link>
               <div className="max-w-fit">
-                <Link href="/"><p className="text-black hover:underline">{article.creatorId}</p></Link>
+                <Link href={`localhost:3000/writer/${article.creatorId}`}><p className="text-black hover:underline">{article.creatorId}</p></Link>
                 <div className="flex items-center gap-1 text-sm">
                   <p className="">2 min read</p>
                   <BsDot/>
@@ -134,7 +136,7 @@ const Post = ({
           </div>
           {/* content */}
           <div className="w-full border-b border-gray-200 mt-8">
-            <div className="text-wrap text-black flex flex-col items-center gap-4 py-8 mb-8">
+            <div className="text-wrap text-black flex flex-col items-center gap-6 py-8 mb-8">
               {
                 article.content.map((c: ContentItem, i: number) => (
                   <div key={i}>
