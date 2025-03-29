@@ -60,8 +60,6 @@ const ContentHeader = ({
       const newScrollX = Math.max(scrollX - scrollAmount, maxScrollX);
       setScrollX(newScrollX);
     }
-
-    console.log(viewableWidth)
   };
 
 
