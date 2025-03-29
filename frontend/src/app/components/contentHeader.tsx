@@ -37,39 +37,86 @@ const ContentHeader = ({
     }
   }, [topics]);
 
+  // scrolling of the header.
+  const [scrollX, setScrollX] = React.useState(0);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  const handleScroll = (direction: "left" | "right") => {
+    if (!containerRef.current || !containerRef.current.parentElement) return;
+    
+    // Viewable area's width and sliding container's total width
+    const viewableWidth = containerRef.current.parentElement.offsetWidth;
+    const slidingWidth = containerRef.current.scrollWidth;
+    const scrollAmount = viewableWidth / 6; // Adjust scroll increment as needed
+
+    if (direction === "left") {
+      // Scroll left without exceeding the default (0)
+      const newScrollX = Math.min(scrollX + scrollAmount, 0);
+      setScrollX(newScrollX);
+    } else {
+      // Calculate the maximum negative scroll value:
+      // It stops when the last item is fully visible.
+      const maxScrollX = viewableWidth - slidingWidth - 4;
+      const newScrollX = Math.max(scrollX - scrollAmount, maxScrollX);
+      setScrollX(newScrollX);
+    }
+
+    console.log(viewableWidth)
+  };
+
+
   return (
-    <div className="flex pt-6 px-14 sticky z-10 top-16 overflow-visible text-nowrap bg-white border-b border-gray-300 shadow-sm">
-     <div><button className="group absolute left-2"><IoAdd className="w-8 h-8 pb-2 group-hover:text-black"/></button></div>
-      <button className="group absolute left-2 invisible"><IoIosArrowBack className="w-8 h-8 pb-2 group-hover:text-black"/></button>
-      <div className="flex overflow-hidden shadow-3xl">
-        <div onClick={() => setFetchTag("all")}>
-          <button className={`mr-6 group  ${tag === "all" && "border-b-2 border-black text-black"}`}>
-            <p className="text-sm pb-6 group-hover:text-black">For you</p>
-          </button>
-        </div>
-        {
-          role === "seeker" &&
-          <div onClick={() => setFetchTag("following")}>
-            <button className={`mr-6 group  ${tag === "following" && "border-b-2 border-black text-black"}`}>
-              <p className="text-sm pb-6 group-hover:text-black">Following</p>
+    <div className="flex justify-center items-center pt-6 sticky z-10 top-16 text-nowrap bg-white border-b border-gray-300">
+      {/* Add button only visible when at default scroll position */}
+      {scrollX === 0 && (
+        <button className="group absolute left-2">
+          <IoAdd className="w-6 h-6 group-hover:text-black" />
+        </button>
+      )}
+      {/* Left arrow button is visible only when scrolled */}
+      <button
+        className={`group absolute left-2 ${scrollX === 0 ? "invisible" : ""}`}
+        onClick={() => handleScroll("left")}
+      >
+        <IoIosArrowBack className="w-6 h-6 group-hover:text-black" />
+      </button>
+      {/* Viewable area with overflow hidden */}
+      <div className="w-[calc(100%-80px)] relative h-12 overflow-hidden">
+        {/* Sliding container */}
+        <div
+          ref={containerRef}
+          className="h-full flex items-center whitespace-nowrap"
+          style={{
+            transform: `translateX(${scrollX}px)`,
+            transition: "transform 0.3s ease-out",
+          }}
+        >
+          {
+            role === "seeker" &&
+            <button onClick={() => setFetchTag("following")}>
+              <p className={`text-sm hover:text-black ${ tag === "following" && "text-black underline"}`}>following</p>
             </button>
-          </div>
-        }
-        {
-          tp.map((t: topic, i:number) => (
-            <div
+          }
+          {tp.map((t: topic, i: number) => (
+            <button
               key={i}
+              className={`mr-6 group`}
               onClick={() => setFetchTag(t._id)}
-              >
-              <button className={`mr-6 group  ${tag === t._id && "border-b-2 border-black text-black"}`}>
-              <p className="text-sm pb-6 group-hover:text-black">{t.name}</p></button>
-            </div>
-          ))
-        }
+            >
+              <p className={`text-sm hover:text-black ${t._id === tag && "text-black underline"}`}>{t.name}</p>
+            </button>
+          ))}
+        </div>
       </div>
-      <button className="group absolute right-2"><IoIosArrowForward className="w-8 h-8 pb-2 group-hover:text-black"/></button>
+      {/* Right arrow button */}
+      <button
+        className="group absolute right-2"
+        onClick={() => handleScroll("right")}
+      >
+        <IoIosArrowForward className="w-6 h-6 group-hover:text-black" />
+      </button>
     </div>
-  )
-}
+  );
+};
 
 export default ContentHeader;
