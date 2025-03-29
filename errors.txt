@@ -1,0 +1,28 @@
+### SERVER SIDE
+- Create different images on AWS for contents and user image profiles.
+- Add link addresses to the articles for redirection.
+- Separate the data fetched in the article page and those fetched in the articles reading page.
+- Update the data in the database with the new version of the articles.
+
+### CLIENT SIDE
+- Change the issue on the type of user fetched in the article page. ***
+- Update the fetch of the new structure of the articles. ***
+- Handle error on change of tags select when page is more than 1 the fetch affects the number of fetches on tags change. ***
+- Update the topics header to allow sliding features. ***
+- Solve issue on error on the display of the create button and the following content header option. should display according to user.
+- Add functionality to each component.
+- Handle delete error on the paragraph sections.
+- Handle functionality to the buttons.
+- Handle the error resoponses on the pages.
+
+### FINALIZATION
+- Store the state of the article to prevent rerender after page refresh.!!!
+- Like images, comment, bookmark features for the contents.
+- Add routes to all the links in the pages.
+- Add notifications for every action that has been done on the server side.!!
+
+
+### NEW ERRORS
+
+
+----> Work on the above errors and modifications in the client side and then move on to the server side <----
