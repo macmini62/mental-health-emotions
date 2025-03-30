@@ -8,9 +8,7 @@ import Auth0Options from "@/app/components/authComponents/Auth0Options";
 import axios from "axios";
 import ErrorNotification from "@/app/components/notifications/notificationAlert";
 import React from "react";
-import { useRouter } from "next/navigation";
-import { user } from "@/app/types/types";
-import { professional, seeker } from "@/app/interface/interface";
+import { res } from "@/app/interface/interface";
 // import { AxiosHeaders } from "axios";
  
 
@@ -20,17 +18,6 @@ const schema = z.object({
 });
 
 type Inputs = z.infer<typeof schema>;
-
-interface res {
-  user: {
-    _id: string,
-    name: string,
-    email: string,
-    password: string,
-    role: string
-  },
-  accessToken: Axios.AxiosHttpBasicAuth
-}
 
 const LogInPage = () => {
 
@@ -51,7 +38,6 @@ const LogInPage = () => {
     };
   }, []);
 
-  const router = useRouter();
   // Verify user.
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
@@ -62,7 +48,7 @@ const LogInPage = () => {
         localStorage.setItem("userId", JSON.stringify(res.data.user._id));
         localStorage.setItem("role", JSON.stringify(res.data.user.role));
   
-        router.push("/articles");
+        window.location.href = "/articles"
       })
       .catch((e) => {
         console.log(e);

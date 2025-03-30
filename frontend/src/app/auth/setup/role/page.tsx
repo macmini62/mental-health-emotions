@@ -33,9 +33,9 @@ const RolePage = () => {
   const handleRoute = () => {
     if(role !== ""){
       if(role === "professional"){
-        router.push("title");
+        window.location.href = "title";
       }else{
-        router.push("topics");
+        window.location.href = "topics";
       }
     }
   };
@@ -57,9 +57,9 @@ const RolePage = () => {
             </button>
             <button
               className="bg-gray-100 h-12 px-16 rounded-full border border-gray-100"
-              style={role === "healthSeeker" ? {borderColor: "black", backgroundColor: "transparent"} : {}}
+              style={role === "seeker" ? {borderColor: "black", backgroundColor: "transparent"} : {}}
               onClick={(e) => handleSelect(e)}
-              name="healthSeeker"
+              name="seeker"
             >
               Health seeker
             </button>
@@ -84,4 +84,4 @@ const RolePage = () => {
   )
 }
 
-export default RolePage
+export default RolePage;

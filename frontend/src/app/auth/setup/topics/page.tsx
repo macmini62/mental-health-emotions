@@ -43,7 +43,7 @@ const TopicsPage = () => {
 
   // Load topics data
   React.useEffect(() => {
-    axios.get<topic[]>(`http://localhost:3001/topics?size=${15}`)
+    axios.get<topic[]>(`http://localhost:3001/topics?s=${5}`)
     .then((res) => {
       setTopics(res.data);
       console.log(res);
@@ -55,7 +55,7 @@ const TopicsPage = () => {
   
   // Reload more topics
   const handleTopicsLoad = () => {
-    axios.get<topic[]>(`http://localhost:3001/topics?size=${topics.length+15}`)
+    axios.get<topic[]>(`http://localhost:3001/topics?s=${topics.length+15}`)
       .then((res) => {
         setTopics(res.data);
       })
@@ -74,18 +74,18 @@ const TopicsPage = () => {
         const accessToken: string | null = localStorage.getItem("accessToken");
         const data: string | null = localStorage.getItem("userData");
         if(userId && accessToken && data){
+          localStorage.setItem("role", JSON.stringify(JSON.parse(data).role));
           let userData: userData = JSON.parse(data);
           console.log(userData);
-          axios
-            .post(`http://localhost:3001/auth/signup/completeRegistration/${JSON.parse(userId)}`,
+          axios.post(`http://localhost:3001/auth/signup/completeRegistration/${JSON.parse(userId)}`,
               userData,
               { headers: { authorization: `Bearer ${JSON.parse(accessToken)}` } }
             )
             .then((res) => {
+              console.log(res);
               if(res.status === 201){
-                console.log(res);
-                localStorage.clear();
-                router.replace("/articles");
+                localStorage.removeItem("userData");
+                window.location.href = "/articles";
               }
               else{
                 throw new Error();
@@ -155,10 +155,10 @@ const TopicsPage = () => {
           Continue
         </button>
       </div>
-      <ErrorNotification
+      {/* <ErrorNotification
         action={"Sign Up"}
         failed={failed}
-      />
+      /> */}
     </div>
   )
 }

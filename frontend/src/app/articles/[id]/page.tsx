@@ -68,7 +68,7 @@ const Post = ({
         const { id } = await params;
         axios.get<article>(`http://localhost:3001/resources/articles/read/${id}`, {
           headers: {
-            Authorization: `Bearer ${JSON.parse(storedLogs.ACCESSTOKEN)}`
+            Authorization: `Bearer ${storedLogs.ACCESSTOKEN}`
           }
         })
         .then((res) => {

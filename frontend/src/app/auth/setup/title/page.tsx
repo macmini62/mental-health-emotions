@@ -45,9 +45,9 @@ const TitlePage = () => {
     if(btn.name === "continue"){
       if(title !== ""){
         if(title === "professional"){
-          router.push("title");
+          window.location.href = "title";
         }else{
-          router.push("topics");
+          window.location.href = "topics";
         }
       }
     }else{

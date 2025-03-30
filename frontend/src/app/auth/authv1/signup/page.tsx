@@ -9,6 +9,7 @@ import * as React from "react";
 import Auth0Options from "@/app/components/authComponents/Auth0Options";
 import { useRouter } from "next/navigation";
 import axios from "axios"; 
+import { res } from "@/app/interface/interface";
 
 const schema = z.object({
   name: z.string().min(3, {message: "Full Name must be more than 3 characters long!"}).toLowerCase(),
@@ -47,17 +48,14 @@ const SignUpPage = () => {
   const router = useRouter();
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
-    // Store the user data in the browser's local storage.
-    // localStorage.setItem("userData", JSON.stringify(data));
-
-    axios.post("http://localhost:3001/auth/signup", data)
+    axios.post<res>("http://localhost:3001/auth/signup", data)
       .then((res) => {
         console.log(res);
         localStorage.setItem("userId", JSON.stringify(res.data.user._id));
         localStorage.setItem("accessToken", JSON.stringify(res.data.accessToken));
 
         // Reroute user to the details pages.
-        router.push("/auth/setup/role");
+        window.location.href = "/auth/setup/role";
       })
       .catch((e) => {
         console.log(e);

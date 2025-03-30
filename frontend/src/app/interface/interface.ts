@@ -102,3 +102,15 @@ export interface topic {
   _id: string;
   name: string;
 }
+
+export interface res {
+  user: {
+    _id: string,
+    name: string,
+    email: string,
+    password: string,
+    role: string
+  },
+  accessToken: Axios.AxiosHttpBasicAuth
+}
+
