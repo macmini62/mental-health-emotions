@@ -22,8 +22,10 @@ let SeekerService = class SeekerService {
         this.SeekerModel = SeekerModel;
     }
     async addUser(userId, data) {
+        let userCreatedId = "";
         try {
             const results = await new this.SeekerModel().save();
+            userCreatedId = results._id;
             if (results) {
                 return await this.SeekerModel.updateOne({ _id: results._id }, { $set: {
                         "userId": userId,
@@ -35,10 +37,11 @@ let SeekerService = class SeekerService {
                         "contents.bookmarks.videos": []
                     } }, { new: true, runValidators: true });
             }
-            throw new Error("Error creating professional!");
+            throw new Error("Error creating seeker!");
         }
         catch (e) {
             console.log(e);
+            await this.SeekerModel.findOneAndDelete({ _id: userCreatedId });
         }
     }
     async getUser(userId) {

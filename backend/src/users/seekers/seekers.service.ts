@@ -35,9 +35,11 @@ export class SeekerService {
       topics: string[]
     }
   ): Promise<any>{
+    let userCreatedId: string = ""
     try{
       // create a user before updating it with the uploaded data.
       const results = await new this.SeekerModel().save();
+      userCreatedId = results._id;
       if(results){
         return await this.SeekerModel.updateOne({ _id: results._id },
           {$set: {
@@ -52,10 +54,11 @@ export class SeekerService {
           { new: true, runValidators: true }
         )
       }
-      throw new Error("Error creating professional!");
+      throw new Error("Error creating seeker!");
     }
     catch(e){
       console.log(e);
+      await this.SeekerModel.findOneAndDelete({ _id: userCreatedId });
     }    
   }
 

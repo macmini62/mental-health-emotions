@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Professional } from "./schema/professional.schema";
 import { Model } from "mongoose";
-import { contents, professional, profile } from "./interface/professionals.interface";
+import { professional } from "./interface/professionals.interface";
 
 @Injectable()
 export class ProfessionalService {

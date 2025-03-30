@@ -31,24 +31,22 @@ let AuthController = class AuthController {
         res.status(500).send("User email already in user!!");
     }
     async completeSignUp(res, userId, data) {
-        console.log(userId);
-        console.log(data);
         if (data.role === "professional") {
             const results = await this.userService.addUserProfessional(userId, data);
             if (results) {
                 res.status(201).send(results);
             }
             else {
-                res.status(500);
+                res.status(500).send();
             }
         }
         else if (data.role === "seeker") {
             const results = await this.userService.addUserSeeker(userId, data);
             if (results) {
-                res.status(400).send(results);
+                res.status(201).send(results);
             }
             else {
-                res.status(500);
+                res.status(500).send();
             }
         }
     }

@@ -88,7 +88,6 @@ export class UsersService {
           throw new Error("Failed to update the user!!");
         }
       }
-
       throw new NotFoundException;
     }
     catch(e){
