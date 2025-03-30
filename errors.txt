@@ -9,7 +9,7 @@
 - Update the fetch of the new structure of the articles. ***
 - Handle error on change of tags select when page is more than 1 the fetch affects the number of fetches on tags change. ***
 - Update the topics header to allow sliding features. ***
-- Solve issue on error on the display of the create button and the following content header option. should display according to user.
+- Solve issue on error on the display of the create button and the following content header option. should display according to user. ***
 - Add functionality to each component.
 - Handle delete error on the paragraph sections.
 - Handle functionality to the buttons.
@@ -23,6 +23,7 @@
 
 
 ### NEW ERRORS
+- Add users data from server.
 
 
 ----> Work on the above errors and modifications in the client side and then move on to the server side <----
