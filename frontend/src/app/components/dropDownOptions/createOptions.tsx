@@ -10,7 +10,7 @@ const CreateOptions = ({
   
   const router = useRouter();
   const handleRoute = (route: string) => {
-    router.push(`/create/${route}`);
+    window.location.href = `/create/${route}`
   }
 
   return (

@@ -18,12 +18,33 @@ import Image from "next/image";
 import { professional, seeker, article, topic } from "../interface/interface";
 
 const MONTHS = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-const USERID: string | null = localStorage.getItem("userId");
-const ACCESSTOKEN: string | null = localStorage.getItem("accessToken");
-const ROLE: string | null = localStorage.getItem("role");
 
 const Articles = () => {
+	// stores the data from the browsers storage.
+  const [storedLogs, setStoredLogs] = React.useState(
+    {
+      USERID: "",
+      ACCESSTOKEN: "",
+      ROLE: ""
+    }
+  );
 
+  React.useEffect(() => {
+    const USERID: string | null = localStorage.getItem("userId");
+    const ACCESSTOKEN: string | null = localStorage.getItem("accessToken");
+    const ROLE: string | null = localStorage.getItem("role");
+
+    if(USERID && ACCESSTOKEN && ROLE){
+      setStoredLogs({
+        USERID: JSON.parse(USERID),
+        ACCESSTOKEN: JSON.parse(ACCESSTOKEN),
+        ROLE: JSON.parse(ROLE)
+      });
+    }
+  }, []);
+
+	// console.log(storedLogs)
+  
   // Stores the state of the logged in user. 
   const [user, setUser] = React.useState<professional | seeker>();
 
@@ -84,25 +105,24 @@ const Articles = () => {
   
   // Fetch Data.
   React.useEffect(() => {
-
-    if(USERID && ACCESSTOKEN && ROLE){
-      // Fetch seeker data for after login.
-      axios.get(`http://localhost:3001/${JSON.parse(ROLE) === "professional" ? "professionals" : "seekers"}/${JSON.parse(USERID)}`,
-          {
-            headers: {
-              Authorization: `Bearer ${JSON.parse(ACCESSTOKEN)}`
-            }
-          }
-        )
-        .then((res) => {
-          // console.log(res.data);
-          setUser(res.data as professional | seeker);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-  }, []);
+		// Fetch seeker data for after login.
+		if(storedLogs.USERID && storedLogs.ACCESSTOKEN && storedLogs.ROLE){
+			axios.get(`http://localhost:3001/${storedLogs.ROLE === "professional" ? "professionals" : "seekers"}/${storedLogs.USERID}`,
+					{
+						headers: {
+							Authorization: `Bearer ${storedLogs.ACCESSTOKEN}`
+						}
+					}
+				)
+				.then((res) => {
+					// console.log(res.data);
+					setUser(res.data as professional | seeker);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		}
+  }, [storedLogs]);
 
   // console.log(user);
   // console.log(articles);
@@ -113,106 +133,104 @@ const Articles = () => {
   const fetchArticles = () => {
     !loading && setLoading(!loading);
     
-    if(USERID && ACCESSTOKEN && fetch.f){
-      if(fetchTag === "all"){
-        // setFetch({f: false, page: fetch.page});
-        // console.log(fetchTag);
-        // Fetches all the article data.
-        axios.get<Array<article>>(`http://localhost:3001/resources/articles?p=${fetch.page}`,
-          {
-            headers: {
-              Authorization: `Bearer ${JSON.parse(ACCESSTOKEN)}`
-            }
-          }
-        )
-        .then((res) => {
-          // console.log(res.status);
-          if(res.status == 200){
-            setTimeout(() => {
-              setArticles(res.data);
-              setLoading(false);
-            }, 4000);
-          }
-          else if(res.status == 204){
-            setFetch((d) => {
-              return {
-                ...d,
-                f: false
-              };
-            });
-            setLoading(false);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-          setFetchFailed(true);
-        });
-      }
-      else if(fetchTag === "following"){
-        // Fetches all the users" subscribed article data.
-        axios.get<Array<article>>(`http://localhost:3001/resources/articles/seeker?id=${JSON.parse(USERID)}&p=${fetch.page}`,
-          {
-            headers: {
-              Authorization: `Bearer ${JSON.parse(ACCESSTOKEN)}`
-            }
-          }
-        )
-        .then((res) => {
-          // console.log(res.status);
-          if(res.status == 200){
-            setTimeout(() => {
-              setArticles(res.data);
-              setLoading(false);
-            }, 4000);
-          }
-          else if(res.status == 204){
-            setFetch((d) => {
-              return {
-                ...d,
-                f: false
-              };
-            });
-            setLoading(false);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-          setFetchFailed(true);
-        });
-      }
-      else{
-        // Fetches the articles with the specified tag.
-        axios.get<Array<article>>(`http://localhost:3001/resources/articles/tag?t=${fetchTag}&p=${fetch.page}`,
-          {
-            headers: {
-              Authorization: `Bearer ${JSON.parse(ACCESSTOKEN)}`
-            }
-          }
-        )
-        .then((res) => {
-          // console.log(res.status);
-          if(res.status == 200){
-            setTimeout(() => {
-              setArticles(res.data);
-              setLoading(false);
-            }, 4000);
-          }
-          else if(res.status == 204){
-            setFetch((d) => {
-              return {
-                ...d,
-                f: false
-              };
-            });
-            setLoading(false);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-          setFetchFailed(true);
-        });
-      }
-    }
+    if(fetchTag === "all"){
+			// setFetch({f: false, page: fetch.page});
+			// console.log(fetchTag);
+			// Fetches all the article data.
+			axios.get<Array<article>>(`http://localhost:3001/resources/articles?p=${fetch.page}`,
+				{
+					headers: {
+						Authorization: `Bearer ${storedLogs.ACCESSTOKEN}`
+					}
+				}
+			)
+			.then((res) => {
+				// console.log(res.status);
+				if(res.status == 200){
+					setTimeout(() => {
+						setArticles(res.data);
+						setLoading(false);
+					}, 4000);
+				}
+				else if(res.status == 204){
+					setFetch((d) => {
+						return {
+							...d,
+							f: false
+						};
+					});
+					setLoading(false);
+				}
+			})
+			.catch((e) => {
+				console.log(e);
+				setFetchFailed(true);
+			});
+		}
+		else if(fetchTag === "following"){
+			// Fetches all the users" subscribed article data.
+			axios.get<Array<article>>(`http://localhost:3001/resources/articles/seeker?id=${storedLogs.USERID}&p=${fetch.page}`,
+				{
+					headers: {
+						Authorization: `Bearer ${storedLogs.ACCESSTOKEN}`
+					}
+				}
+			)
+			.then((res) => {
+				// console.log(res.status);
+				if(res.status == 200){
+					setTimeout(() => {
+						setArticles(res.data);
+						setLoading(false);
+					}, 4000);
+				}
+				else if(res.status == 204){
+					setFetch((d) => {
+						return {
+							...d,
+							f: false
+						};
+					});
+					setLoading(false);
+				}
+			})
+			.catch((e) => {
+				console.log(e);
+				setFetchFailed(true);
+			});
+		}
+		else{
+			// Fetches the articles with the specified tag.
+			axios.get<Array<article>>(`http://localhost:3001/resources/articles/tag?t=${fetchTag}&p=${fetch.page}`,
+				{
+					headers: {
+						Authorization: `Bearer ${storedLogs.ACCESSTOKEN}`
+					}
+				}
+			)
+			.then((res) => {
+				// console.log(res.status);
+				if(res.status == 200){
+					setTimeout(() => {
+						setArticles(res.data);
+						setLoading(false);
+					}, 4000);
+				}
+				else if(res.status == 204){
+					setFetch((d) => {
+						return {
+							...d,
+							f: false
+						};
+					});
+					setLoading(false);
+				}
+			})
+			.catch((e) => {
+				console.log(e);
+				setFetchFailed(true);
+			});
+		}
   };
 
   // Load topics data
@@ -244,11 +262,11 @@ const Articles = () => {
     <div onScroll={(e) => handleScroll(e)} className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
       {/* HEADER */}
       {
-        ROLE &&
+        storedLogs.ROLE &&
         <Header
           imageURL={user?.profile?.imageURL}
           userId={user?.userId}
-          role={ROLE}
+          role={storedLogs.ROLE}
         /> 
       }
       {/* BODY */}
@@ -260,12 +278,12 @@ const Articles = () => {
         {/* CONTENT SECTION */}
         <div className="w-[728px] max-h-fit py-4">
           {/* content-header */}
-          { ROLE &&
+          { storedLogs.ROLE &&
             <ContentHeader
               topics={user?.contents.topics}
               setFetchTag={(t: string) => setFetchTag(t)}
               tag={fetchTag}
-              role={ROLE}
+              role={storedLogs.ROLE}
             />
           }
           {/* Notification */}
@@ -279,7 +297,7 @@ const Articles = () => {
           <ul className="mt-4">
             {
               articles.map((a: article, i: number) => (
-                <li key={i} className="py-8 border-b border-gray-300">
+                <li key={i} className="py-8 border-b border-gray-300 cursor-pointer" onClick={() => (window.location.href = `articles/${a._id}`)}>
                   <div className="flex flex-col gap-4">
                     {/* section-header --NB:fetch the creators content and use it here!-- */}
                     <div className="flex gap-2 items-center text-black">
@@ -290,7 +308,7 @@ const Articles = () => {
                     <div className="flex gap-10">
                       {/* contents */}
                       <div className="flex flex-col gap-6 w-[calc(100%-200px)]">
-                        <Link href={`articles/${a._id}`} className="flex gap-10 justify-between">
+                        <div className="flex gap-10 justify-between">
                           <div className="flex flex-col gap-2">
                             {/* title */}
                             <h3 className="text-black font-semibold text-3xl capitalize">
@@ -301,7 +319,7 @@ const Articles = () => {
                               {a.overview}
                             </p>
                           </div>
-                        </Link>
+                        </div>
                         {/* section-footer */}
                         <div className="flex items-center justify-between">
                           <div className="flex gap-6 text-md">
@@ -335,8 +353,8 @@ const Articles = () => {
                         </div>
                       </div>
                       {/* image */}
-                      <Link href={`articles/${a._id}`}><Image priority={true} width={146} height={160} src={`https://d1m6naxu3t6ela.cloudfront.net/meme2.png`} alt="" className="rounded-md w-auto h-auto"/></Link>
-                    </div>
+											<Image priority={true} width={240} height={168} src={a.thumbnail.imageURL} alt="thumbnail" className="rounded-md"/>
+										</div>
                   </div>
                 </li>
               ))

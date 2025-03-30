@@ -1,20 +1,10 @@
 "use client"
 
 import ErrorNotification from "@/app/components/notifications/notificationAlert";
+import { topic, userData } from "@/app/interface/interface";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-
-interface userData {
-  role: string;
-  title: string;
-  topics: string[];
-}
-
-interface topic {
-  _id: string;
-  name: string;
-}
 
 const TopicsPage = () => {
 
@@ -53,7 +43,7 @@ const TopicsPage = () => {
 
   // Load topics data
   React.useEffect(() => {
-    axios.get(`http://localhost:3001/topics?size=${15}`)
+    axios.get<topic[]>(`http://localhost:3001/topics?size=${15}`)
     .then((res) => {
       setTopics(res.data);
       console.log(res);
@@ -65,7 +55,7 @@ const TopicsPage = () => {
   
   // Reload more topics
   const handleTopicsLoad = () => {
-    axios.get(`http://localhost:3001/topics?size=${topics.length+15}`)
+    axios.get<topic[]>(`http://localhost:3001/topics?size=${topics.length+15}`)
       .then((res) => {
         setTopics(res.data);
       })

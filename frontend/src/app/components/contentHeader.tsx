@@ -91,7 +91,7 @@ const ContentHeader = ({
         >
           {
             role === "seeker" &&
-            <button onClick={() => setFetchTag("following")}>
+            <button className="mr-6" onClick={() => setFetchTag("following")}>
               <p className={`text-sm hover:text-black ${ tag === "following" && "text-black underline"}`}>following</p>
             </button>
           }

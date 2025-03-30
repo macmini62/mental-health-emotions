@@ -8,7 +8,6 @@ import React from "react";
 import { BsDot } from "react-icons/bs";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 import { IoBookmarkOutline, IoShareOutline } from "react-icons/io5";
-import { SlOptions } from "react-icons/sl";
 import { TbMessageCircleFilled } from "react-icons/tb";
 import { article, tag } from "@/app/interface/interface";
 import axios from "axios";
@@ -20,14 +19,32 @@ import { ContentItem } from "@/app/types/types";
 import Image from "next/image";
 
 const MONTHS = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-const ACCESSTOKEN: string | null = localStorage.getItem("accessToken");
-const ROLE: string | null = localStorage.getItem("role");
 
 const Post = ({
   params
 }:{
   params: Promise<{ id: string }>
 }) => {
+  // stores the data from the browsers storage.
+  const [storedLogs, setStoredLogs] = React.useState(
+    {
+      ACCESSTOKEN: "",
+      ROLE: ""
+    }
+  );
+
+  React.useEffect(() => {
+    const USERID: string | null = localStorage.getItem("userId");
+    const ACCESSTOKEN: string | null = localStorage.getItem("accessToken");
+    const ROLE: string | null = localStorage.getItem("role");
+
+    if(USERID && ACCESSTOKEN && ROLE){
+      setStoredLogs({
+        ACCESSTOKEN: JSON.parse(ACCESSTOKEN),
+        ROLE: JSON.parse(ROLE)
+      });
+    }
+  }, []);
   
   // Notifications and feedback
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -47,11 +64,11 @@ const Post = ({
   const [article, setArticle] = React.useState<article>();
   React.useEffect(() => {
     const fetchArticle = async () => {
-      if (ACCESSTOKEN) {
+      if (storedLogs.ACCESSTOKEN) {
         const { id } = await params;
         axios.get<article>(`http://localhost:3001/resources/articles/read/${id}`, {
           headers: {
-            Authorization: `Bearer ${JSON.parse(ACCESSTOKEN)}`
+            Authorization: `Bearer ${JSON.parse(storedLogs.ACCESSTOKEN)}`
           }
         })
         .then((res) => {
@@ -77,11 +94,11 @@ const Post = ({
     <div className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
       {/* HEADER */}
       {
-        ROLE &&
+        storedLogs.ROLE &&
         <Header
           imageURL="/faces/face4.jpg"
           userId="John Doe"
-          role={ROLE}
+          role={storedLogs.ROLE}
         />
       }
       <div className="w-full max-h-fit p-4 flex items-center justify-center">
@@ -147,8 +164,8 @@ const Post = ({
                       c.type === "paragraph" ?
                       parse(DOMPurify.sanitize(c.paragraph))
                       :
-                      <div className="flex flex-col w-full items-center justify-center gap-4 py-4">
-                        <Image priority={true} src={`https://d1m6naxu3t6ela.cloudfront.net/meme2.png`} alt="" width={500} height={500}/>
+                      <div className="flex flex-col w-full items-center justify-center gap-4 py-10">
+                        <Image priority={true} src={`${parse(DOMPurify.sanitize(c.image as string))}`} alt="creator image" width={500} height={500}/>
                       </div>
                     }
                   </div>

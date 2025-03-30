@@ -91,3 +91,14 @@ export interface createArticle {
     imageURL: string;
   }
 }
+
+export interface userData {
+  role: string;
+  title: string;
+  topics: string[];
+}
+
+export interface topic {
+  _id: string;
+  name: string;
+}

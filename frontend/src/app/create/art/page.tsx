@@ -118,8 +118,8 @@ const CreateArticle = (
       setPublish(true);
       if(thumbnail){
         try{
-          // const creatorId = localStorage.getItem("userId");
-          const creatorId = "37ec1a1b-1231-4552-b071-e05a19ca64ca";
+          const creatorId = localStorage.getItem("userId");
+          // const creatorId = "37ec1a1b-1231-4552-b071-e05a19ca64ca";
           if(creatorId){
             if(contents.length > 0){
               const cnt: ContentItem[] = (await Promise.all(contents.map(async (c: ContentItem) => {
