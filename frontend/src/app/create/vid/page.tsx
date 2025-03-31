@@ -12,6 +12,7 @@ import { SlOptions } from "react-icons/sl";
 import { IoMdCheckmark } from "react-icons/io";
 import ErrorNotification from "@/app/components/notifications/notificationAlert";
 import { FiAlertTriangle } from "react-icons/fi";
+import { AWSUtil } from "@/app/utils/AWSUtil";
 
 const languages = [
   "English",
@@ -69,7 +70,6 @@ const CreateVideo = () => {
     title: "",
     description: ""
   });
-
   const handleTextInput = (e:  React.ChangeEvent<HTMLTextAreaElement>) => {
     setText((t) => {
       return {
@@ -84,10 +84,8 @@ const CreateVideo = () => {
   const handleButtonClick = () => {
     fileInputRef.current?.click();
   }
-
   // Thumbnail upload handler.
-  const [thumbnail, setThumbnail] = React.useState<object>();
-
+  const [thumbnail, setThumbnail] = React.useState<File>();
   const handleUploadThumbnail = (thumData: FileList|null) => {
     const selThumb = thumData?.item(0);
     console.log(selThumb);
@@ -105,13 +103,12 @@ const CreateVideo = () => {
   }
 
   const handleDeleteThumbnail = () => {
-    setThumbnail({})
+    setThumbnail(undefined);
   }
 
   // video upload buttons.
   const [loading, setLoading] = React.useState<boolean>(false);
   const [success, setSuccess] = React.useState<boolean>(false);
-
   const buttonSx = {
     width: 200,
     height: 200,
@@ -136,20 +133,43 @@ const CreateVideo = () => {
     };
   }, []);
   
-  // Video upload handler.
-  const [video, setVideo] = React.useState<object | null>(null);
-  const handleVideoUpload = (vidData: FileList|null) => {
+  // Video upload handler. Uploads the video to AWS Bucket.
+  const AWS = React.useMemo(() => {
+    return new AWSUtil();
+  }, []);
+  const [video, setVideo] = React.useState({
+    name: "",
+    type: "",
+    size: 0,
+    lastModified: 0,
+    webkitRelativePath: ""
+  });
+  const handleVideoUpload = (vidData: FileList | null) => {
     setLoading(true);
     const selVid = vidData?.item(0);
     console.log(selVid);
     if(selVid !== null){
       if(selVid?.type.split("/")[0] === "video"){
+        setText((t) => {
+          return{
+            ...t,
+            title: selVid.name,
+          };
+        });
         timer.current = setTimeout(() => {
           setLoading(false);
           setSuccess(true);
         }, 6000);
         timer.current = setTimeout(() => {
-          setVideo(selVid);
+          setVideo((v) => {
+            return {
+              name: selVid.name,
+              type: selVid.type,
+              size: selVid.size,
+              lastModified: selVid.lastModified,
+              webkitRelativePath: selVid.webkitRelativePath
+            };
+          });
         }, 10000);
       }else{
         console.log("File uploaded must be a video!!");
@@ -162,13 +182,6 @@ const CreateVideo = () => {
       }
     }
   }
-
-  // Uploads the video to AWS Bucket.
-  React.useEffect(() => {
-    if(video){
-      // Add the AWS upload code.
-    }
-  }, [video]);
 
   // State for topics
   const [topics, setTopics] = React.useState<Array<string>>([]);
@@ -183,7 +196,16 @@ const CreateVideo = () => {
   };
 
   const handlePublish = () => {
-  
+    const data = {
+      creatorId: "",
+      title: text.title,
+      description: text.description,
+      tags: topics,
+      duration: 0,
+      languages: "",
+      thumbnail: thumbnail,
+      licenses: ""
+    }
   }
 
   return (
@@ -195,7 +217,7 @@ const CreateVideo = () => {
         </div>
         <div className="flex items-center gap-8">
           <button
-            // className={`text-black bg-green-600 px-5 py-2 rounded-full ${titles.title.length === 0 && "opacity-50"} ${titles.subTitle.length === 0 && "opacity-50"}`}
+            className={`text-black bg-green-600 px-5 py-2 rounded-full ${text.title.length === 0 && "opacity-50"} ${text.description.length === 0 && "opacity-50"}`}
             onClick={() => handlePublish()}
           >
             Publish
@@ -206,55 +228,55 @@ const CreateVideo = () => {
       </header>
       {/* upload section */}
       {
-        // !video &&
-        // <div className="flex flex-col gap-6 justify-center items-center h-[calc(100%-60px)] relative">
-        //   <Box sx={{ m: 1, position: "relative", display: "flex", alignItems: "center", justifyContent: "center"}}>
-        //     <Fab
-        //       aria-label="save"
-        //       sx={buttonSx}
-        //       onClick={() => handleButtonClick()}
-        //     >
-        //       {success ? <IoMdCheckmark className="w-24 h-24 text-white"/> : <MdOutlineFileUpload className="w-24 h-24"/>}
-        //     </Fab>
-        //     {loading && (
-        //       <CircularProgress
-        //         size={215}
-        //         sx={{
-        //           color: green[500],
-        //           position: "absolute",
-        //           zIndex: 1,
-        //         }}
-        //         />
-        //       )}
-        //   </Box>
-        //   <VisuallyHiddenInput
-        //     type="file"
-        //     ref={fileInputRef}
-        //     onChange={(event) => handleVideoUpload(event.target.files)}
-        //   />
-        //   <p className="">Your videos will be private until you publish them</p>
-        //   <div className="">
-        //     <button
-        //         className="w-40 p-3 rounded-full text-white border border-black bg-black active:bg-transparent active:text-black"
-        //         onClick={() => handleButtonClick()}
-        //       >
-        //         Upload
-        //         <VisuallyHiddenInput
-        //           type="file"
-        //           ref={fileInputRef}
-        //           onChange={(event) => handleVideoUpload(event.target.files)}
-        //         />
-        //     </button>
-        //   </div>
-        //   {/* <ErrorNotification
-        //     action={"Upload Video"}
-        //     failed={failed}
-        //   /> */}
-        // </div>
+        video.name === "" &&
+        <div className="flex flex-col gap-6 justify-center items-center h-[calc(100%-60px)] relative">
+          <Box sx={{ m: 1, position: "relative", display: "flex", alignItems: "center", justifyContent: "center"}}>
+            <Fab
+              aria-label="save"
+              sx={buttonSx}
+              onClick={() => handleButtonClick()}
+            >
+              {success ? <IoMdCheckmark className="w-24 h-24 text-white"/> : <MdOutlineFileUpload className="w-24 h-24"/>}
+            </Fab>
+            {loading && (
+              <CircularProgress
+                size={215}
+                sx={{
+                  color: green[500],
+                  position: "absolute",
+                  zIndex: 1,
+                }}
+                />
+              )}
+          </Box>
+          <VisuallyHiddenInput
+            type="file"
+            ref={fileInputRef}
+            onChange={(event) => handleVideoUpload(event.target.files)}
+          />
+          <p className="">Your videos will be private until you publish them</p>
+          <div className="">
+            <button
+                className="w-40 p-3 rounded-full text-white border border-black bg-black active:bg-transparent active:text-black"
+                onClick={() => handleButtonClick()}
+              >
+                Upload
+                <VisuallyHiddenInput
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={(event) => handleVideoUpload(event.target.files)}
+                />
+            </button>
+          </div>
+          {/* <ErrorNotification
+            action={"Upload Video"}
+            failed={failed}
+          /> */}
+        </div>
       }
       {/* editing section*/}
       {
-        !video &&
+        video.name !== "" &&
         <div className="gap-6 mt-6 px-4 pb-6">
           <h3 className="font-semibold text-3xl h-16">Details</h3>
           <div className="flex gap-6">
@@ -285,7 +307,7 @@ const CreateVideo = () => {
               <div className="w-full">
                 <h2 className="font-semibold text-xl">Thumbnail</h2>
                 <div className="w-full my-2 flex flex-col items-center relative group">
-                  { <img src="" alt="" className="w-[500px] h-[300px] rounded-md" /> }
+                  { <img src={thumbnail && URL.createObjectURL(thumbnail)} alt="" className="w-[500px] h-[300px] rounded-md" /> }
                   <div className="flex items-center justify-center absolute z-10 w-[500px] h-[300px] invisible group-hover:visible bg-gray-50 opacity-80 rounded-md">
                     {
                       !thumbnail ?
@@ -477,11 +499,11 @@ const CreateVideo = () => {
                 <div className="w-full px-4">
                   <div className="my-3">
                     <p className="text-lg text-gray-600">Video link</p>
-                    <Link href="" className="text-blue-600">http://localhost:3000/create/vid</Link>
+                    <div className="text-blue-600">{process.env.AWS_VIDEOS_URL}/{video.name}</div>
                   </div>
                   <div className="my-3">
                     <p className="text-lg text-gray-600">Filename</p>
-                    <p className="">The Video Name.mp4</p>
+                    <p className="">{video.name}</p>
                   </div>
                 </div>
               </div>
