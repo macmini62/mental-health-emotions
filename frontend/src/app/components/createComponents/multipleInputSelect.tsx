@@ -19,36 +19,27 @@ const MenuProps = {
   },
 };
 
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
-
-function getStyles(name: string, personName: readonly string[], theme: Theme) {
+const getStyles = (i: string, items: readonly string[], theme: Theme) => {
   return {
-    fontWeight: personName.includes(name)
+    fontWeight: items.includes(i)
       ? theme.typography.fontWeightMedium
       : theme.typography.fontWeightRegular,
   };
 }
 
-const MultipleInputSelect = () => {
+const MultipleInputSelect = ({
+  choices
+}:{
+  choices: Array<string>
+}) => {
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState<string[]>([]);
+  const [items, setItems] = React.useState<string[]>([]);
 
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+  const handleChange = (event: SelectChangeEvent<typeof items>) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
+    setItems(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value,
     );
@@ -62,7 +53,7 @@ const MultipleInputSelect = () => {
           labelId="multipleInputSelectLabel"
           id="multipleInputSelect"
           multiple
-          value={personName}
+          value={items}
           onChange={handleChange}
           input={<OutlinedInput id="inputSelect" label="Select" style={{borderRadius: 8}} />}
           renderValue={(selected) => (
@@ -74,13 +65,13 @@ const MultipleInputSelect = () => {
           )}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
+          {choices.map((i) => (
             <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
+              key={i}
+              value={i}
+              style={getStyles(i, items, theme)}
             >
-              {name}
+              {i}
             </MenuItem>
           ))}
         </Select>

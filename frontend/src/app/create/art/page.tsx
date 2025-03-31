@@ -79,13 +79,9 @@ const CreateArticle = (
 
   // Handles the state of the publish section
   // State for topics
+  // Add a new topic (up to 5)
   const [topics, setTopics] = React.useState<Array<string>>([]);
   const [topicInput, setTopicInput] = React.useState("");
-
-  // State for thumbnail upload
-  const [thumbnail, setThumbnail] = React.useState<File | null>(null);
-
-  // Add a new topic (up to 5)
   const handleAddTopic = () => {
     if (topicInput.trim() && topics.length < 5) {
       setTopics((prev) => [...prev, topicInput.trim()]);
@@ -93,7 +89,9 @@ const CreateArticle = (
     }
   };
 
+  // State for thumbnail upload
   // Handle thumbnail file upload
+  const [thumbnail, setThumbnail] = React.useState<File | null>(null);
   const handleThumbnailUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.[0]) return;
     const file = e.target.files[0];
@@ -107,7 +105,6 @@ const CreateArticle = (
   };
   
   const AWS = React.useMemo(() => {
-    console.log("Hello world")
     return new AWSUtil();
   }, []);
 
@@ -184,7 +181,9 @@ const CreateArticle = (
               <button
                 className={`text-black bg-green-600 px-5 py-2 rounded-full ${titles.title.length === 0 && "opacity-50"} ${titles.subTitle.length === 0 && "opacity-50"}`}
                 onClick={() => handlePublish()}
-              >Publish</button>
+              >
+                Publish
+              </button>
               <button><SlOptions className="w-7 h-7 hover:text-black"/></button>
               <button><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full hover:opacity-80"/></button>
             </div>

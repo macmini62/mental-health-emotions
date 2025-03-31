@@ -261,14 +261,11 @@ const Articles = () => {
   return (
     <div onScroll={(e) => handleScroll(e)} className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
       {/* HEADER */}
-      {
-        storedLogs.ROLE &&
-        <Header
-          imageURL={user?.profile?.imageURL}
-          userId={user?.userId}
-          role={storedLogs.ROLE}
-        /> 
-      }
+      <Header
+        imageURL={user?.profile?.imageURL}
+        userId={user?.userId}
+        role={storedLogs.ROLE}
+      /> 
       {/* BODY */}
       <div className="w-[1338px] flex justify-between p-4">
         {/* MENU SECTION */}
@@ -278,14 +275,12 @@ const Articles = () => {
         {/* CONTENT SECTION */}
         <div className="w-[728px] max-h-fit py-4">
           {/* content-header */}
-          { storedLogs.ROLE &&
-            <ContentHeader
-              topics={user?.contents.topics}
-              setFetchTag={(t: string) => setFetchTag(t)}
-              tag={fetchTag}
-              role={storedLogs.ROLE}
-            />
-          }
+          <ContentHeader
+            topics={user?.contents.topics}
+            setFetchTag={(t: string) => setFetchTag(t)}
+            tag={fetchTag}
+            role={storedLogs.ROLE}
+          />
           {/* Notification */}
           <div className={`w-full flex justify-center ${ !fetchFailed ? "hidden" : "visible" }`}>
             <ErrorNotification

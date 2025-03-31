@@ -6,7 +6,11 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { OutlinedInput } from "@mui/material";
 
-const SingleInputSelect = () => {
+const SingleInputSelect = ({
+  choices
+}:{
+  choices: Array<string>
+}) => {
   const [age, setAge] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -25,8 +29,11 @@ const SingleInputSelect = () => {
           input={<OutlinedInput id="inputSelect" label="Select" style={{borderRadius: 8}} />}
           onChange={handleChange}
         >
-          <MenuItem value={"yes"}>Yes</MenuItem>
-          <MenuItem value={"no"}>No</MenuItem>
+          {
+            choices.map((c: string, i: number) => (
+              <MenuItem key={i} value={c}>{c}</MenuItem>
+            ))
+          }
         </Select>
       </FormControl>
     </Box>

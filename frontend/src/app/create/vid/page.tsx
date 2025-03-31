@@ -13,6 +13,36 @@ import { IoMdCheckmark } from "react-icons/io";
 import ErrorNotification from "@/app/components/notifications/notificationAlert";
 import { FiAlertTriangle } from "react-icons/fi";
 
+const languages = [
+  "English",
+  "Mandarin Chinese",
+  "Hindi",
+  "Spanish",
+  "French",
+  "Standard Arabic",
+  "Bengali",
+  "Portuguese",
+  "Russian",
+  "Urdu",
+  "Indonesian",
+  "German",
+  "Japanese",
+  "Lahnda (Western Punjabi)",
+  "Marathi",
+  "Telugu",
+  "Turkish",
+  "Tamil",
+  "Vietnamese",
+  "Korean",
+  "Italian",
+  "Swahili"
+];
+
+const licenses = [
+  "Standard eMOTIONS License",
+  "Creative Commons - Attribution"
+]
+
 const buttonStyle = {
   backgroundColor: "transparent",
   color: "black",
@@ -34,6 +64,20 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const CreateVideo = () => {
+  // handles the title and description text input change.
+  const [text, setText] = React.useState({
+    title: "",
+    description: ""
+  });
+
+  const handleTextInput = (e:  React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText((t) => {
+      return {
+        ...t,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
 
   // file directory upload.
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -126,6 +170,22 @@ const CreateVideo = () => {
     }
   }, [video]);
 
+  // State for topics
+  const [topics, setTopics] = React.useState<Array<string>>([]);
+  const [topicInput, setTopicInput] = React.useState("");
+  // Add a new topic (up to 5)
+  const handleAddTopic = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    if (topicInput.trim() && topics.length < 5) {
+      setTopics((prev) => [...prev, topicInput.trim()]);
+      setTopicInput("");
+    }
+  };
+
+  const handlePublish = () => {
+  
+  }
+
   return (
     <div className="w-1/2 p-2">
       {/* HEADER */}
@@ -134,61 +194,67 @@ const CreateVideo = () => {
           <Link href=""><img src="/logo/logo-white.png" alt="" className="w-54 h-16"/></Link>
         </div>
         <div className="flex items-center gap-8">
+          <button
+            // className={`text-black bg-green-600 px-5 py-2 rounded-full ${titles.title.length === 0 && "opacity-50"} ${titles.subTitle.length === 0 && "opacity-50"}`}
+            onClick={() => handlePublish()}
+          >
+            Publish
+          </button>
           <button><SlOptions className="w-7 h-7 hover:text-black"/></button>
           <button><img src="/faces/face1.jpg" alt="" className="w-12 h-12 rounded-full hover:opacity-80"/></button>
         </div>
       </header>
       {/* upload section */}
       {
-        !video &&
-        <div className="flex flex-col gap-6 justify-center items-center h-[calc(100%-60px)] relative">
-          <Box sx={{ m: 1, position: "relative", display: "flex", alignItems: "center", justifyContent: "center"}}>
-            <Fab
-              aria-label="save"
-              sx={buttonSx}
-              onClick={() => handleButtonClick()}
-            >
-              {success ? <IoMdCheckmark className="w-24 h-24 text-white"/> : <MdOutlineFileUpload className="w-24 h-24"/>}
-            </Fab>
-            {loading && (
-              <CircularProgress
-                size={215}
-                sx={{
-                  color: green[500],
-                  position: "absolute",
-                  zIndex: 1,
-                }}
-                />
-              )}
-          </Box>
-          <VisuallyHiddenInput
-            type="file"
-            ref={fileInputRef}
-            onChange={(event) => handleVideoUpload(event.target.files)}
-          />
-          <p className="">Your videos will be private until you publish them</p>
-          <div className="">
-            <button
-                className="w-40 p-3 rounded-full text-white border border-black bg-black active:bg-transparent active:text-black"
-                onClick={() => handleButtonClick()}
-              >
-                Upload
-                <VisuallyHiddenInput
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={(event) => handleVideoUpload(event.target.files)}
-                />
-            </button>
-          </div>
-          {/* <ErrorNotification
-            action={"Upload Video"}
-            failed={failed}
-          /> */}
-        </div>
+        // !video &&
+        // <div className="flex flex-col gap-6 justify-center items-center h-[calc(100%-60px)] relative">
+        //   <Box sx={{ m: 1, position: "relative", display: "flex", alignItems: "center", justifyContent: "center"}}>
+        //     <Fab
+        //       aria-label="save"
+        //       sx={buttonSx}
+        //       onClick={() => handleButtonClick()}
+        //     >
+        //       {success ? <IoMdCheckmark className="w-24 h-24 text-white"/> : <MdOutlineFileUpload className="w-24 h-24"/>}
+        //     </Fab>
+        //     {loading && (
+        //       <CircularProgress
+        //         size={215}
+        //         sx={{
+        //           color: green[500],
+        //           position: "absolute",
+        //           zIndex: 1,
+        //         }}
+        //         />
+        //       )}
+        //   </Box>
+        //   <VisuallyHiddenInput
+        //     type="file"
+        //     ref={fileInputRef}
+        //     onChange={(event) => handleVideoUpload(event.target.files)}
+        //   />
+        //   <p className="">Your videos will be private until you publish them</p>
+        //   <div className="">
+        //     <button
+        //         className="w-40 p-3 rounded-full text-white border border-black bg-black active:bg-transparent active:text-black"
+        //         onClick={() => handleButtonClick()}
+        //       >
+        //         Upload
+        //         <VisuallyHiddenInput
+        //           type="file"
+        //           ref={fileInputRef}
+        //           onChange={(event) => handleVideoUpload(event.target.files)}
+        //         />
+        //     </button>
+        //   </div>
+        //   {/* <ErrorNotification
+        //     action={"Upload Video"}
+        //     failed={failed}
+        //   /> */}
+        // </div>
       }
       {/* editing section*/}
       {
-        video &&
+        !video &&
         <div className="gap-6 mt-6 px-4 pb-6">
           <h3 className="font-semibold text-3xl h-16">Details</h3>
           <div className="flex gap-6">
@@ -196,18 +262,22 @@ const CreateVideo = () => {
               <div className="w-full px-4 py-2 border border-black rounded-lg">
                 <p className="text-sm text-gray-500 mb-1">Title (required)</p>
                 <textarea
-                  name=""
+                  name="title"
                   id=""
+                  value={text.title}
                   rows={2}
+                  onChange={(e) => handleTextInput(e)}
                   className="overflow-none outline-none resize-none w-full"
                 ></textarea>
               </div>
               <div className="w-full px-4 py-2 border border-black rounded-lg">
                 <p className="text-sm text-gray-500 mb-1">Description</p>
                 <textarea
-                  name=""
+                  name="description"
                   id=""
+                  value={text.description}
                   rows={5}
+                  onChange={(e) => handleTextInput(e)}
                   placeholder="Tell viewers about your video"
                   className="overflow-none outline-none resize-none w-full"
                 ></textarea>
@@ -263,13 +333,6 @@ const CreateVideo = () => {
                   </div>
                 }
               </div>
-              <div className="w-full">
-                <h2 className="font-semibold text-xl">Playlist</h2>
-                <p className="text-gray-500 my-2">
-                  Add your video to one or more playlists to organize your content for viewers.
-                </p>
-                <MultipleInputSelect/>
-              </div>
               <div className="font-semibold">
                 <h2 className="text-xl">Altered content</h2>
                 <p className="font-normal my-2">Do any of the following describe your content?</p>
@@ -305,30 +368,45 @@ const CreateVideo = () => {
               </div>
               <div className="">
                 <h2 className="text-xl font-semibold">Tags</h2>
-                <div className="">
-                  <p className="my-4">
-                    Tags can be useful if content in your video is commonly mispelled. Otherwise, tags play
-                    a minimal role in helping viewers find your video.
-                  </p>
-                  <div className="w-full">
-                    <textarea
-                      name=""
-                      id=""
-                      rows={1}
-                      placeholder="Add tags"
-                      className="p-4 overflow-none outline-none resize-none w-full border border-gray-400 hover:border-black cursor-pointer rounded-lg placeholder:text-gray-400 placeholder:text-sm"
-                    ></textarea>
-                    <p className="text-sm text-gray-700 mb-1">Enter a comma after each tag</p>
-                  </div>
+                <label
+                  htmlFor="topicInput"
+                  className="block font-medium my-4"
+                >
+                  Tags can be useful if content in your video is commonly mispelled. Otherwise, tags play
+                  a minimal role in helping viewers find your video.
+                </label>
+                <div className="flex items-center gap-4 mb-4">
+                  <input
+                    id="topicInput"
+                    type="text"
+                    placeholder="Add a topic..."
+                    value={topicInput}
+                    onChange={(e) => setTopicInput(e.target.value)}
+                    className="flex-1 border border-gray-300 p-2 rounded-lg h-16"
+                  />
+                  <button
+                    onClick={(e) => handleAddTopic(e)}
+                    className={`w-32 h-12 px-4 py-2 rounded-lg ${topics.length == 5 ? "bg-gray-100 cursor-not-allowed hover:bg-gray-200 text-black" : "bg-blue-600 hover:bg-blue-700 text-white"}`}
+                  >
+                    Add
+                  </button>
+                </div>
+                {/* List of topics */}
+                <div className="flex gap-4 ml-6 mb-4">
+                  {topics.map((t, i) => (
+                    <p className="rounded-full py-2 px-6 bg-gray-200" key={i}>{t}</p>
+                  ))}
                 </div>
               </div>
               <div className="">
                 <h2 className="font-semibold text-xl">Language</h2>
                 <div className="">
                   <p className="my-4">
-                    Select your video"s language(s)
+                    Select your video's language(s)
                   </p>
-                  <MultipleInputSelect/>
+                  <MultipleInputSelect
+                    choices={languages}
+                  />
                 </div>
               </div>
               <div className="">
@@ -337,16 +415,17 @@ const CreateVideo = () => {
                   <p className="my-4">
                     Add your video to a category so viewers can find it more easily
                   </p>
-                  <SingleInputSelect/>
+                  <SingleInputSelect
+                    choices={["Yes", "No"]}
+                  />
                 </div>
               </div>
               <div className="">
-                <h2 className="font-semibold text-xl">License</h2>
+                <h2 className="font-semibold text-xl mb-4">License</h2>
                 <div className="">
-                  <p className="my-4">
-                    Select your video's language(s)
-                  </p>
-                  <SingleInputSelect/>
+                  <SingleInputSelect
+                    choices={licenses}
+                  />
                   <div className="flex flex-col my-2">
                     <FormControlLabel
                       control={<Checkbox defaultChecked
@@ -373,7 +452,9 @@ const CreateVideo = () => {
                   <p className="my-4">
                     Choose if and how you want to show comments
                   </p>
-                  <SingleInputSelect/>
+                  <SingleInputSelect
+                    choices={["Yes", "No"]}
+                  />
                   <div className="flex flex-col my-2">
                     <FormControlLabel
                       control={<Checkbox defaultChecked
@@ -405,11 +486,6 @@ const CreateVideo = () => {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="w-full flex justify-end my-2">
-            <button className="w-48 h-12 bg-black rounded-full active:bg-white active:border border-black active:text-black text-white">
-              Submit
-            </button>
           </div>
         </div>
       }
