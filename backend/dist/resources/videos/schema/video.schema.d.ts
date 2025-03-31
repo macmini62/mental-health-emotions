@@ -2,14 +2,17 @@ import { HydratedDocument } from "mongoose";
 export type VideoDocument = HydratedDocument<Video>;
 export declare class Video {
     _id: string;
+    creatorId: string;
     title: string;
-    creatorName: string;
-    tags: string[];
+    description: string;
+    tags: Array<string>;
     duration: number;
+    languages: Array<string>;
+    thumbnail: string;
+    license: string;
     fileFormat: string;
     resolution: string;
     bitrate: string;
-    thumbnail: string;
     technicalMetadata: {};
     administrativeMetadata: {};
     feedback: {
