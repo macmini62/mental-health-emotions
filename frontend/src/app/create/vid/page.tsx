@@ -13,39 +13,34 @@ import { IoMdCheckmark } from "react-icons/io";
 import ErrorNotification from "@/app/components/notifications/notificationAlert";
 import { FiAlertTriangle } from "react-icons/fi";
 import { AWSUtil } from "@/app/utils/AWSUtil";
-import { title } from "node:process";
+import axios from "axios";
+import { video } from "@/app/interface/interface";
 
-const languages = [
+const LANGUAGES = [
   "English",
+  "Swahili",
+  "Italian",
   "Mandarin Chinese",
-  "Hindi",
+  "Japanese",
+  "Portuguese",
   "Spanish",
   "French",
-  "Standard Arabic",
-  "Bengali",
-  "Portuguese",
-  "Russian",
-  "Urdu",
-  "Indonesian",
-  "German",
-  "Japanese",
-  "Lahnda (Western Punjabi)",
-  "Marathi",
-  "Telugu",
-  "Turkish",
-  "Tamil",
-  "Vietnamese",
   "Korean",
-  "Italian",
-  "Swahili"
+  "German",
+  "Standard Arabic",
+  "Russian",
+  "Hindi",
+  "Indonesian",
+  "Turkish",
+  "Vietnamese"
 ];
 
-const licenses = [
+const LICENSES = [
   "Standard eMOTIONS License",
   "Creative Commons - Attribution"
-]
+];
 
-const buttonStyle = {
+const BUTTONSTYLE = {
   backgroundColor: "transparent",
   color: "black",
   boxShadow: "none",
@@ -66,6 +61,12 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const CreateVideo = () => {
+
+  // Intializes the AWS services.
+  const AWS = React.useMemo(() => {
+    return new AWSUtil();
+  }, []);
+
   // handles the title and description text input change.
   const [text, setText] = React.useState({
     title: "",
@@ -86,13 +87,20 @@ const CreateVideo = () => {
     fileInputRef.current?.click();
   }
   // Thumbnail upload handler.
-  const [thumbnail, setThumbnail] = React.useState<File | undefined>();
-  const handleUploadThumbnail = (thumData: FileList | null) => {
+  const [thumbnail, setThumbnail] = React.useState<string>("");
+  const handleUploadThumbnail = async (thumData: FileList | null) => {
     const selThumb = thumData?.item(0);
-    console.log(selThumb);
     if(selThumb !== null){
       if(selThumb?.type.split("/")[0] === "image"){
-        setThumbnail(selThumb);
+        try{
+          const res: string | null = await AWS.services("image", selThumb);
+          if(res){
+            setThumbnail(res);
+          }
+        }
+        catch(e){
+          console.log("File uploaded must be an image!!");
+        }
       }else{
         console.log("File uploaded must be an image!!");
         setFailed(true);
@@ -104,7 +112,7 @@ const CreateVideo = () => {
   }
 
   const handleDeleteThumbnail = () => {
-    setThumbnail(undefined);
+    setThumbnail("");
   }
 
   // video upload buttons.
@@ -135,20 +143,45 @@ const CreateVideo = () => {
   }, []);
   
   // Video upload handler. Uploads the video to AWS Bucket.
-  const AWS = React.useMemo(() => {
-    return new AWSUtil();
-  }, []);
-  const [video, setVideo] = React.useState<string>("");
+  const [video, setVideo] = React.useState({
+    URL: "",
+    duration: 0
+  });
+
+  const getVideoDuration = (file: File): Promise<number> => {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const video = document.createElement("video");
+      video.preload = "metadata";
+      video.src = url;
+  
+      // When metadata is loaded, the duration is available
+      video.onloadedmetadata = () => {
+        URL.revokeObjectURL(url); // clean up after yourself
+        resolve(video.duration);
+      };
+  
+      video.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error("Failed to load video metadata"));
+      };
+    });
+  };
   const handleVideoUpload = async (vidData: FileList | null) => {
     setLoading(true);
     const selVid = vidData?.item(0);
-    console.log(selVid);
     if(selVid !== null){
       if(selVid?.type.split("/")[0] === "video"){        
         try{
           setLoading(true);
+          
+          // Get the video duration before uploading (if needed)
+          const duration = await getVideoDuration(selVid);
+          // console.log("Video duration (in seconds):", duration);
+
+          // Upload video to AWS s3
           const res: string | any = await AWS.services("video", selVid);
-          console.log(res);
+          
           if(typeof(res) === "string"){
             setLoading(false);
             setSuccess(true);
@@ -159,7 +192,10 @@ const CreateVideo = () => {
                   title: selVid.name,
                 };
               });
-              setVideo(res);              
+              setVideo({
+                URL: res,
+                duration: duration
+              });              
             }, 2000)
           }
         }
@@ -193,16 +229,42 @@ const CreateVideo = () => {
     }
   };
 
+  // States to handles the different form inputs
+  const[languageSelected, setLanguageSelected] = React.useState<Array<string>>([]);
+  const [options, setOptions] = React.useState({
+    category: "",
+    license: "",
+    comments: ""
+  });
+
   const handlePublish = () => {
-    const data = {
-      creatorId: "",
-      title: text.title,
-      description: text.description,
-      tags: topics,
-      duration: 0,
-      languages: "",
-      thumbnail: thumbnail,
-      licenses: ""
+    const creatorId: string | null = localStorage.getItem("userId");
+    if(
+      options.category !== "" &&
+      options.comments !== "" &&
+      options.license !== "" &&
+      languageSelected.length > 0 &&
+      creatorId
+    ){
+      const data = {
+        creatorId: creatorId,
+        title: text.title,
+        URL: video.URL,
+        description: text.description,
+        tags: topics,
+        duration: video.duration,
+        languages: languageSelected,
+        thumbnail: thumbnail,
+        license: options.license
+      }
+
+      axios.post<video>("http://localhost:3001/resources/videos/create", data)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        })
     }
   }
 
@@ -226,7 +288,7 @@ const CreateVideo = () => {
       </header>
       {/* upload section */}
       {
-        !video &&
+        !video.URL &&
         <div className="flex flex-col gap-6 justify-center items-center h-[calc(100%-60px)] relative">
           <Box sx={{ m: 1, position: "relative", display: "flex", alignItems: "center", justifyContent: "center"}}>
             <Fab
@@ -274,7 +336,7 @@ const CreateVideo = () => {
       }
       {/* editing section*/}
       {
-        video &&
+        video.URL &&
         <div className="gap-6 mt-6 px-4 pb-6">
           <h3 className="font-semibold text-3xl h-16">Details</h3>
           <div className="flex gap-6">
@@ -305,27 +367,33 @@ const CreateVideo = () => {
               <div className="w-full">
                 <h2 className="font-semibold text-xl">Thumbnail</h2>
                 <div className="w-full my-2 flex flex-col items-center relative group">
-                  { <img src={thumbnail && URL.createObjectURL(thumbnail)} alt="" className="w-[500px] h-[300px] rounded-md" /> }
-                  <div className="flex items-center justify-center absolute z-10 w-[500px] h-[300px] invisible group-hover:visible bg-gray-50 opacity-80 rounded-md">
-                    <Button
-                      component="label"
-                      role={undefined}
-                      variant="contained"
-                      tabIndex={-1}
-                      startIcon={<MdOutlineFileUpload />}
-                      style={buttonStyle}
-                      onClick={() => handleButtonClick()}
-                    >
-                      { !thumbnail? "Upload" : "Delete" } thumbnail
-                      {
-                        !thumbnail &&
-                        <VisuallyHiddenInput
-                          type="file"
-                          ref={fileInputRef}
-                          onChange={(event) => handleUploadThumbnail(event.target.files)}
-                        />
-                      }
-                    </Button>
+                  { <img src={thumbnail} alt="" className="w-[500px] h-[300px] rounded-md" /> }
+                  <div className="flex items-center justify-center absolute w-[500px] h-[300px] invisible group-hover:visible bg-gray-50 opacity-80 rounded-md">
+                    {
+                      !thumbnail ? 
+                      ( <Button
+                          component="label"
+                          variant="contained"
+                          startIcon={<MdOutlineFileUpload />}
+                          style={BUTTONSTYLE}
+                        >
+                          Upload thumbnail
+                          <VisuallyHiddenInput
+                            type="file"
+                            ref={fileInputRef}
+                            onChange={(event) => handleUploadThumbnail(event.target.files)}
+                          />
+                        </Button> )
+                        :
+                      ( <Button
+                          variant="contained"
+                          startIcon={<MdDeleteOutline />}
+                          style={BUTTONSTYLE}
+                          onClick={() => handleDeleteThumbnail()}  // This would handle deletion
+                        >
+                          Delete thumbnail
+                        </Button> )
+                    }
                   </div>
                 </div>
                 {
@@ -352,19 +420,17 @@ const CreateVideo = () => {
                 </ol>
                 <div className="flex flex-col my-2">
                   <FormControlLabel
-                    control={<Checkbox defaultChecked
+                    control={<Checkbox
                     icon={<FaRegCircle  className="text-black w-6 h-6"/>}
                     checkedIcon={<FaCheckCircle className="text-black w-6 h-6" />}
-                    size="large"
-                  />} 
+                    size="large"/>}
                     label="Yes"
                   />
                   <FormControlLabel
-                    control={<Checkbox defaultChecked
+                    control={<Checkbox
                     icon={<FaRegCircle className="text-black w-6 h-6" />}
                     checkedIcon={<FaCheckCircle className="text-black w-6 h-6" />}
-                    size="large"
-                  />} 
+                    size="large"/>}
                     label="No"
                   />
                 </div>
@@ -385,7 +451,7 @@ const CreateVideo = () => {
                     placeholder="Add a topic..."
                     value={topicInput}
                     onChange={(e) => setTopicInput(e.target.value)}
-                    className="flex-1 border border-gray-300 p-2 rounded-lg h-16"
+                    className="flex-1 border border-gray-300 p-2 rounded-lg h-16 focus:border-blue-500 outline-none"
                   />
                   <button
                     onClick={(e) => handleAddTopic(e)}
@@ -408,7 +474,9 @@ const CreateVideo = () => {
                     Select your video's language(s)
                   </p>
                   <MultipleInputSelect
-                    choices={languages}
+                    choices={LANGUAGES}
+                    choicesSelected={languageSelected}
+                    setChoicesSelected={setLanguageSelected}
                   />
                 </div>
               </div>
@@ -419,7 +487,10 @@ const CreateVideo = () => {
                     Add your video to a category so viewers can find it more easily
                   </p>
                   <SingleInputSelect
+                    name={"category"}
                     choices={["Yes", "No"]}
+                    choiceSelected={options.category}
+                    setChoiceSelected={setOptions}
                   />
                 </div>
               </div>
@@ -427,11 +498,14 @@ const CreateVideo = () => {
                 <h2 className="font-semibold text-xl mb-4">License</h2>
                 <div className="">
                   <SingleInputSelect
-                    choices={licenses}
+                    name={"license"}
+                    choices={LICENSES}
+                    choiceSelected={options.license}
+                    setChoiceSelected={setOptions}
                   />
                   <div className="flex flex-col my-2">
                     <FormControlLabel
-                      control={<Checkbox defaultChecked
+                      control={<Checkbox
                       icon={<MdOutlineCheckBoxOutlineBlank  className="text-black w-6 h-6"/>}
                       checkedIcon={<MdCheckBox className="text-black w-6 h-6" />}
                       size="large"
@@ -439,7 +513,7 @@ const CreateVideo = () => {
                       label="Allow embedding"
                     />
                     <FormControlLabel
-                      control={<Checkbox defaultChecked
+                      control={<Checkbox
                       icon={<MdOutlineCheckBoxOutlineBlank className="text-black w-6 h-6" />}
                       checkedIcon={<MdCheckBox className="text-black w-6 h-6" />}
                       size="large"
@@ -456,11 +530,14 @@ const CreateVideo = () => {
                     Choose if and how you want to show comments
                   </p>
                   <SingleInputSelect
+                    name={"comments"}
                     choices={["Yes", "No"]}
+                    choiceSelected={options.comments}
+                    setChoiceSelected={setOptions}
                   />
                   <div className="flex flex-col my-2">
                     <FormControlLabel
-                      control={<Checkbox defaultChecked
+                      control={<Checkbox
                       icon={<MdOutlineCheckBoxOutlineBlank className="text-black w-6 h-6" />}
                       checkedIcon={<MdCheckBox className="text-black w-6 h-6" />}
                       size="large"
@@ -474,11 +551,11 @@ const CreateVideo = () => {
             {/* video preview */}
             <div className="w-[40%] max-h-fit sticky top-24">
               <div className="w-full flex flex-col border border-black rounded-lg">
-                <video src={video} controls={true} controlsList="nodownload nofullscreen noremoteplayback noplaybackrate nopictureinpicture" className="w-full h-64 border"></video>
+                <video src={video.URL} controls={true} controlsList="nodownload nofullscreen noremoteplayback noplaybackrate nopictureinpicture" className="w-full h-64 border"></video>
                 <div className="w-full px-4">
                   <div className="my-3">
                     <p className="text-lg text-gray-600">Video link</p>
-                    <p className="text-blue-600 text-wrap">{video}</p>
+                    <p className="text-blue-600 text-wrap">{video.URL}</p>
                   </div>
                   <div className="my-3 w-full">
                     <p className="text-lg text-gray-600 text-wrap">Filename</p>
