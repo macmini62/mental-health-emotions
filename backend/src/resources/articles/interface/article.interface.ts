@@ -6,7 +6,7 @@ export interface article{
   title: string;
   overview: string;
   content: Array<ContentItem>;
-  tags: string[];
+  tags: Array<string>;
   thumbnail: {
     imageURL: string;
   };

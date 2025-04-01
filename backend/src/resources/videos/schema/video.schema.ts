@@ -4,16 +4,19 @@ import { v4 as uuidv4 } from "uuid";
 
 export type VideoDocument = HydratedDocument<Video>;
 
-export class Video{
+export class Video {
   @Prop({ required: true, default: uuidv4, unique: true })
   _id: string
   
   @Prop({ required: true })
   creatorId: string
 
-  @Prop({ required: true })
-  title: string
+  @Prop({ required: true, unique: true })
+  URL: string
   
+  @Prop({ required: true, unique: true })
+  title: string
+
   @Prop({ required: true })
   description: string
 
@@ -39,7 +42,7 @@ export class Video{
       comments: { type: Number }
     }
   })
-  feedback: {
+  stats: {
     likes: Array<string>,
     comments: number //change to store comments ids from comments schema.
   }

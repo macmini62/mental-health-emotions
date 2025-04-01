@@ -7,6 +7,7 @@ import { SkipAuth } from "src/decorators/auth.decorator";
 import { ContentItem } from "src/types/types";
 import { createArticle } from "./resources.interface";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { video } from "./videos/interface/video.interface";
 
 @Controller("resources")
 export class ResourcesController {
@@ -108,51 +109,92 @@ export class ResourcesController {
 
   // <--- VIDEOS SERVICES --->
 
+  @SkipAuth()
+  @Post("videos/create")
+  async createVideo(@Body() data: {
+    creatorId: string;
+    title: string;
+    URL: string;
+    description: string;
+    tags: Array<string>;
+    duration: number;
+    languages: Array<string>;
+    thumbnail: string;
+    license: string;
+  }, @Res() res: Response<video>){
+    const results: video = await this.videosService.create(data);
+    if(results){
+      res.status(201).send(results);
+    }
+
+    res.status(500).send();
+  }
+  
+  @SkipAuth()
+  @Get("videos")
+  async findAllVideos(@Res() res: Response<Array<video>>, @Query("p") p: number) {
+    const results: Array<video> =  await this.videosService.findAll(p);
+    // console.log(results.length)
+
+    if(!results){
+      res.status(404).send();
+    }
+    else if (results.length < p * 5 && p > 2){
+      res.status(204).send();
+    }
+    else{
+      res.status(200).send(results);
+    }
+  }
+
   // @SkipAuth()
-  // @Post("create")
-  // createVideo(@Body() article: article) {
-  //   return this.videosService.create(article);
-  // }
+  // @Get("videos/seeker")
+  // async findCreatorsVideos(@Query("id") id: string,@Query("p") p: number, @Res() res: Response<Array<video>>){
+  //   const results: Array<video> = await this.videosService.findCreators(id, p);
 
-  // @Post("/:id")
-  // findCreatorsVideos(@Param() id: string, @Res() res: Response){
-  //   const results = this.videosService.findCreators(id);
-
-  //   if(results){
-  //     return res.status(400).send(results);
+  //   if(!results){
+  //     res.status(404).send();
   //   }
-
-  //   return res.status(404).send({ message: "Creator has not created an article!!" });
-  // }
-
-  // @Get()
-  // findAllVideos(@Res() res: Response) {
-  //   const results = this.videosService.findAll();
-  //   console.log(results);
-
-  //   if(typeof(results) === "string"){
-  //     return res.status(200).json(results);
+  //   else if (results.length < p * 5 && p > 2){
+  //     res.status(204).send();
+  //   }
+  //   else{
+  //     res.status(200).send(results);
   //   }
   // }
 
-  // @Get("/:id")
-  // findOneVideo(@Param("id") id: string,  @Res() res: Response) {
-  //   const result = this.videosService.findOne(id);
-  //   if(!result){
-  //     return res.status(500).send({ message: "Error in the server!" });
-  //   }
+  @SkipAuth()
+  @Get("/videos/read/:id")
+  async findOneVideo(@Param("id") id: string, @Res() res: Response<video>) {
+    const result: video = await this.videosService.findOne(id);
+    // console.log(result);
+    if(!result){
+      res.status(500).send();
+    }
     
-  //   return res.status(200).json(result);
+    res.status(200).json(result);
+  }
+
+  // @SkipAuth()
+  // @Get("videos/tag")
+  // async fetchVideosTag(@Res() res: Response<Array<video>>, @Query("t") t: string, @Query("p") p: number){
+  //   const results = await this.videosService.findVideoTags(t, p);
+    
+  //   if(!results){
+  //     res.status(404).send()
+  //   }
+   
+  //   res.status(200).send(results);
   // }
 
-  // @Put("/:id")
-  // updateVideo(@Param("id") id: string, @Body() article: article) {
-  //   return this.videosService.update(id, article);
+  // @SkipAuth()
+  // @Put("/videos/:id")
+  // async updateVideo(@Param("id") id: string, @Body() video: video) {
+  //   return await this.videosService.update(id, video);
   // }
 
-  // @Delete("/:id")
-  // removeVideo(@Param("id") id: string) {
-  //   return this.videosService.deleteOne(id);
+  // @Delete("/videos/:id")
+  // async removeVideo(@Param("id") id: string) {
+  //   return await this.videosService.deleteOne(id);
   // }
 }
-
