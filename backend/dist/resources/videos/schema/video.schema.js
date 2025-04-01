@@ -52,38 +52,12 @@ __decorate([
     __metadata("design:type", String)
 ], Video.prototype, "license", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
-], Video.prototype, "fileFormat", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
-], Video.prototype, "resolution", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
-], Video.prototype, "bitrate", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({
-        type: {}
-    }),
-    __metadata("design:type", Object)
-], Video.prototype, "technicalMetadata", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({
-        type: {}
-    }),
-    __metadata("design:type", Object)
-], Video.prototype, "administrativeMetadata", void 0);
-__decorate([
     (0, mongoose_1.Prop)({
         type: {
-            feedback: {
-                likes: Number,
-                comments: Number
-            }
-        },
-        required: true
+            _id: { type: String, default: uuid_1.v4 },
+            likes: { type: (Array) },
+            comments: { type: Number }
+        }
     }),
     __metadata("design:type", Object)
 ], Video.prototype, "feedback", void 0);

@@ -32,46 +32,16 @@ export class Video{
   @Prop({ required: true })
   license: string
 
-  @Prop({ required: true })
-  fileFormat: string
-
-  @Prop({ required: true })
-  resolution: string
-
-  @Prop({ required: true })
-  bitrate: string
-
-  
   @Prop({
     type: {
-      
+      _id: { type: String, default: uuidv4 },
+      likes: { type: Array<String> },
+      comments: { type: Number }
     }
-  })
-  technicalMetadata: {
-
-  }
-  
-  @Prop({
-    type: {
-      
-    }
-  })
-  administrativeMetadata: {
-    
-  }
-
-  @Prop({
-    type: {
-      feedback: {
-        likes: Number,
-        comments: Number
-      }
-    },
-    required: true
   })
   feedback: {
-    likes: number,
-    comments: number
+    likes: Array<string>,
+    comments: number //change to store comments ids from comments schema.
   }
 }
 

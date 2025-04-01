@@ -10,13 +10,8 @@ export declare class Video {
     languages: Array<string>;
     thumbnail: string;
     license: string;
-    fileFormat: string;
-    resolution: string;
-    bitrate: string;
-    technicalMetadata: {};
-    administrativeMetadata: {};
     feedback: {
-        likes: number;
+        likes: Array<string>;
         comments: number;
     };
 }
