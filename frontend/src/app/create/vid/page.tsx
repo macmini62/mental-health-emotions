@@ -13,6 +13,7 @@ import { IoMdCheckmark } from "react-icons/io";
 import ErrorNotification from "@/app/components/notifications/notificationAlert";
 import { FiAlertTriangle } from "react-icons/fi";
 import { AWSUtil } from "@/app/utils/AWSUtil";
+import { title } from "node:process";
 
 const languages = [
   "English",
@@ -85,8 +86,8 @@ const CreateVideo = () => {
     fileInputRef.current?.click();
   }
   // Thumbnail upload handler.
-  const [thumbnail, setThumbnail] = React.useState<File>();
-  const handleUploadThumbnail = (thumData: FileList|null) => {
+  const [thumbnail, setThumbnail] = React.useState<File | undefined>();
+  const handleUploadThumbnail = (thumData: FileList | null) => {
     const selThumb = thumData?.item(0);
     console.log(selThumb);
     if(selThumb !== null){
@@ -137,40 +138,37 @@ const CreateVideo = () => {
   const AWS = React.useMemo(() => {
     return new AWSUtil();
   }, []);
-  const [video, setVideo] = React.useState({
-    name: "",
-    type: "",
-    size: 0,
-    lastModified: 0,
-    webkitRelativePath: ""
-  });
-  const handleVideoUpload = (vidData: FileList | null) => {
+  const [video, setVideo] = React.useState<string>("");
+  const handleVideoUpload = async (vidData: FileList | null) => {
     setLoading(true);
     const selVid = vidData?.item(0);
     console.log(selVid);
     if(selVid !== null){
-      if(selVid?.type.split("/")[0] === "video"){
-        setText((t) => {
-          return{
-            ...t,
-            title: selVid.name,
-          };
-        });
-        timer.current = setTimeout(() => {
+      if(selVid?.type.split("/")[0] === "video"){        
+        try{
+          setLoading(true);
+          const res: string | any = await AWS.services("video", selVid);
+          console.log(res);
+          if(typeof(res) === "string"){
+            setLoading(false);
+            setSuccess(true);
+            timer.current = setTimeout(() => {
+              setText((t) => {
+                return{
+                  ...t,
+                  title: selVid.name,
+                };
+              });
+              setVideo(res);              
+            }, 2000)
+          }
+        }
+        catch(e){
+          console.log(e);
           setLoading(false);
-          setSuccess(true);
-        }, 6000);
-        timer.current = setTimeout(() => {
-          setVideo((v) => {
-            return {
-              name: selVid.name,
-              type: selVid.type,
-              size: selVid.size,
-              lastModified: selVid.lastModified,
-              webkitRelativePath: selVid.webkitRelativePath
-            };
-          });
-        }, 10000);
+          setSuccess(false);
+          setFailed(true);
+        }
       }else{
         console.log("File uploaded must be a video!!");
         setLoading(false);
@@ -228,7 +226,7 @@ const CreateVideo = () => {
       </header>
       {/* upload section */}
       {
-        video.name === "" &&
+        !video &&
         <div className="flex flex-col gap-6 justify-center items-center h-[calc(100%-60px)] relative">
           <Box sx={{ m: 1, position: "relative", display: "flex", alignItems: "center", justifyContent: "center"}}>
             <Fab
@@ -276,7 +274,7 @@ const CreateVideo = () => {
       }
       {/* editing section*/}
       {
-        video.name !== "" &&
+        video &&
         <div className="gap-6 mt-6 px-4 pb-6">
           <h3 className="font-semibold text-3xl h-16">Details</h3>
           <div className="flex gap-6">
@@ -309,42 +307,25 @@ const CreateVideo = () => {
                 <div className="w-full my-2 flex flex-col items-center relative group">
                   { <img src={thumbnail && URL.createObjectURL(thumbnail)} alt="" className="w-[500px] h-[300px] rounded-md" /> }
                   <div className="flex items-center justify-center absolute z-10 w-[500px] h-[300px] invisible group-hover:visible bg-gray-50 opacity-80 rounded-md">
-                    {
-                      !thumbnail ?
-                      <Button
-                        component="label"
-                        role={undefined}
-                        variant="contained"
-                        tabIndex={-1}
-                        startIcon={< MdOutlineFileUpload/>}
-                        style={buttonStyle}
-                        onClick={() => handleButtonClick()}
-                      >
-                        Upload thumbnail
+                    <Button
+                      component="label"
+                      role={undefined}
+                      variant="contained"
+                      tabIndex={-1}
+                      startIcon={<MdOutlineFileUpload />}
+                      style={buttonStyle}
+                      onClick={() => handleButtonClick()}
+                    >
+                      { !thumbnail? "Upload" : "Delete" } thumbnail
+                      {
+                        !thumbnail &&
                         <VisuallyHiddenInput
                           type="file"
                           ref={fileInputRef}
                           onChange={(event) => handleUploadThumbnail(event.target.files)}
                         />
-                      </Button>
-                      :
-                      <Button
-                        component="label"
-                        role={undefined}
-                        variant="contained"
-                        tabIndex={-1}
-                        startIcon={<MdDeleteOutline />}
-                        style={buttonStyle}
-                        onClick={() => handleButtonClick()}
-                      >
-                        Delete thumbnail
-                        <VisuallyHiddenInput
-                          type="file"
-                          ref={fileInputRef}
-                          onChange={() => handleDeleteThumbnail()}
-                        />
-                      </Button>
-                    }
+                      }
+                    </Button>
                   </div>
                 </div>
                 {
@@ -493,17 +474,15 @@ const CreateVideo = () => {
             {/* video preview */}
             <div className="w-[40%] max-h-fit sticky top-24">
               <div className="w-full flex flex-col border border-black rounded-lg">
-                <video src="" className="w-full h-64 border">
-
-                </video>
+                <video src={video} controls={true} controlsList="nodownload nofullscreen noremoteplayback noplaybackrate nopictureinpicture" className="w-full h-64 border"></video>
                 <div className="w-full px-4">
                   <div className="my-3">
                     <p className="text-lg text-gray-600">Video link</p>
-                    <div className="text-blue-600">{process.env.AWS_VIDEOS_URL}/{video.name}</div>
+                    <p className="text-blue-600 text-wrap">{video}</p>
                   </div>
-                  <div className="my-3">
-                    <p className="text-lg text-gray-600">Filename</p>
-                    <p className="">{video.name}</p>
+                  <div className="my-3 w-full">
+                    <p className="text-lg text-gray-600 text-wrap">Filename</p>
+                    <p className="">{text.title}</p>
                   </div>
                 </div>
               </div>

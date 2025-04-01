@@ -26,6 +26,7 @@ export class AWSUtil {
   public async services(type: string, file: File | null, key?: string): Promise<string | any>{
     try{
       const bucket = type === "image" ? AWS_S3_IMAGE_BUCKET_NAME : AWS_S3_VIDEO_BUCKET_NAME;
+      console.log(bucket)
       if (!bucket) {
         throw new Error("Bucket name is undefined");
       }
@@ -36,7 +37,7 @@ export class AWSUtil {
       }
       else if(file){
         console.log("Uploading...");
-        return await AWSUtil.uploadToS3(file, bucket);
+        return await AWSUtil.uploadToS3(type, file, bucket);
       }
       else{
         throw new Error("Cannot upload or fetch your data. Please check your service parameters..");
@@ -48,6 +49,7 @@ export class AWSUtil {
   }
   
   private static async uploadToS3(
+    fileType: string,
     file: File,
     bucket: string
   ): Promise<string | any>{
@@ -63,7 +65,12 @@ export class AWSUtil {
         })
       );
 
-      return `${process.env.AWS_IMAGES_URL}/${name}`;
+      if(fileType === "image"){
+        return `${process.env.AWS_IMAGES_URL}/${name}`;
+      }
+      else{
+        return `${process.env.AWS_VIDEOS_URL}/${name}`;
+      }
     }
     catch(e){
       return e;
