@@ -28,18 +28,20 @@ const getStyles = (i: string, items: readonly string[], theme: Theme) => {
 }
 
 const MultipleInputSelect = ({
-  choices
+  choices,
+  setChoicesSelected,
+  choicesSelected
 }:{
-  choices: Array<string>
+  choices: Array<string>,
+  setChoicesSelected: React.Dispatch<React.SetStateAction<string[]>>,
+  choicesSelected: Array<string>
 }) => {
   const theme = useTheme();
-  const [items, setItems] = React.useState<string[]>([]);
-
-  const handleChange = (event: SelectChangeEvent<typeof items>) => {
+  const handleChange = (event: SelectChangeEvent<typeof choicesSelected>) => {
     const {
       target: { value },
     } = event;
-    setItems(
+    setChoicesSelected(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value,
     );
@@ -53,7 +55,7 @@ const MultipleInputSelect = ({
           labelId="multipleInputSelectLabel"
           id="multipleInputSelect"
           multiple
-          value={items}
+          value={choicesSelected}
           onChange={handleChange}
           input={<OutlinedInput id="inputSelect" label="Select" style={{borderRadius: 8}} />}
           renderValue={(selected) => (
@@ -69,7 +71,7 @@ const MultipleInputSelect = ({
             <MenuItem
               key={i}
               value={i}
-              style={getStyles(i, items, theme)}
+              style={getStyles(i, choicesSelected, theme)}
             >
               {i}
             </MenuItem>

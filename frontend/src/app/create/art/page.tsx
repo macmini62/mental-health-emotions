@@ -115,7 +115,7 @@ const CreateArticle = (
       setPublish(true);
       if(thumbnail){
         try{
-          const creatorId = localStorage.getItem("userId");
+          const creatorId: string | null = localStorage.getItem("userId");
           // const creatorId = "37ec1a1b-1231-4552-b071-e05a19ca64ca";
           if(creatorId){
             if(contents.length > 0){
@@ -149,12 +149,12 @@ const CreateArticle = (
               console.log(data);
 
               axios.post<article>("http://localhost:3001/resources/articles/create", data)
-              .then((res) => {
-                console.log(res);
-              })
-              .catch((e) => {
-                console.log(e);
-              })
+                .then((res) => {
+                  console.log(res);
+                })
+                .catch((e) => {
+                  console.log(e);
+                })
             }
           }
         }
@@ -165,7 +165,7 @@ const CreateArticle = (
     }
   }
 
-  console.log(contents);
+  // console.log(contents);
 
   return (
     <div className="w-screen h-screen flex justify-center">

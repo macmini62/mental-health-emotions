@@ -26,7 +26,6 @@ export class AWSUtil {
   public async services(type: string, file: File | null, key?: string): Promise<string | any>{
     try{
       const bucket = type === "image" ? AWS_S3_IMAGE_BUCKET_NAME : AWS_S3_VIDEO_BUCKET_NAME;
-      console.log(bucket)
       if (!bucket) {
         throw new Error("Bucket name is undefined");
       }

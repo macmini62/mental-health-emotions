@@ -114,3 +114,20 @@ export interface res {
   accessToken: Axios.AxiosHttpBasicAuth
 }
 
+export interface video {
+  _id: string;
+  creatorId: string;
+  URL: string;
+  title: string;
+  description: string;
+  tags: Array<string>;
+  duration: number;
+  languages: Array<string>;
+  thumbnail: string;
+  license: string;
+  feedback: {
+    _id: string;
+    likes: Array<string>;
+    comments: number;
+  };
+}

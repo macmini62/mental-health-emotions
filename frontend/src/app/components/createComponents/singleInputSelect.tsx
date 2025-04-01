@@ -7,14 +7,29 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { OutlinedInput } from "@mui/material";
 
 const SingleInputSelect = ({
-  choices
+  name,
+  choices,
+  setChoiceSelected,
+  choiceSelected
 }:{
-  choices: Array<string>
+  name: string,
+  choices: Array<string>,
+  setChoiceSelected:  React.Dispatch<React.SetStateAction<{
+      category: string;
+      license: string;
+      comments: string;
+    }>>,
+  choiceSelected: string
 }) => {
-  const [age, setAge] = React.useState("");
+  // const [age, setAge] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
+    setChoiceSelected((c) => {
+      return{
+        ...c,
+        [event.target.name]: event.target.value
+      };
+    });
   };
 
   return (
@@ -24,8 +39,8 @@ const SingleInputSelect = ({
         <Select
           labelId="singleInputSelectLabel"
           id="singleInputSelect"
-          value={age}
-          label="Select"
+          value={choiceSelected}
+          name={name}
           input={<OutlinedInput id="inputSelect" label="Select" style={{borderRadius: 8}} />}
           onChange={handleChange}
         >
