@@ -1,17 +1,16 @@
-export interface Video {
+export interface video {
     _id: string;
+    creatorId: string;
+    URL: string;
     title: string;
-    creatorName: string;
-    tags: string[];
+    description: string;
+    tags: Array<string>;
     duration: number;
-    fileFormat: string;
-    resolution: string;
-    bitrate: string;
+    languages: Array<string>;
     thumbnail: string;
-    technicalMetadata: Record<string, any>;
-    administrativeMetadata: Record<string, any>;
-    feedback: {
-        likes: number;
+    license: string;
+    stats: {
+        likes: Array<string>;
         comments: number;
     };
 }

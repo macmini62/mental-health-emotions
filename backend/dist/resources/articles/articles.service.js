@@ -47,7 +47,7 @@ let ArticlesService = class ArticlesService {
     async findAll(p) {
         try {
             const total = p * 5;
-            const articles = Array();
+            const articles = new Array();
             for await (const a of this.articleModel.find()) {
                 articles.push(a);
             }
@@ -82,7 +82,7 @@ let ArticlesService = class ArticlesService {
         try {
             const creators = await this.seekerService.findFollowing(id);
             const total = p * 5;
-            let articles = Array();
+            let articles = new Array();
             for (let i = 0; i < creators.length; i++) {
                 if (await this.professionalService.userExists(creators[i])) {
                     const article = await this.articleModel.find({ creatorId: creators[i] });
@@ -111,9 +111,9 @@ let ArticlesService = class ArticlesService {
     }
     async update(id, article) {
         try {
-            const a = this.articleModel.findById({ id: id });
+            const a = this.articleModel.findById({ _id: id });
             if (a) {
-                const results = this.articleModel.findByIdAndUpdate({ id: id }, article);
+                const results = this.articleModel.findByIdAndUpdate({ _id: id }, article);
                 if (results !== null) {
                     return results;
                 }
@@ -131,7 +131,7 @@ let ArticlesService = class ArticlesService {
     }
     async deleteOne(id) {
         try {
-            const results = this.articleModel.deleteOne({ id: id });
+            const results = this.articleModel.deleteOne({ _id: id });
             if (results !== null) {
                 return true;
             }

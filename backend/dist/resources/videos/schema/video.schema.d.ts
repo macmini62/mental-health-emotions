@@ -3,6 +3,7 @@ export type VideoDocument = HydratedDocument<Video>;
 export declare class Video {
     _id: string;
     creatorId: string;
+    URL: string;
     title: string;
     description: string;
     tags: Array<string>;
@@ -10,7 +11,7 @@ export declare class Video {
     languages: Array<string>;
     thumbnail: string;
     license: string;
-    feedback: {
+    stats: {
         likes: Array<string>;
         comments: number;
     };

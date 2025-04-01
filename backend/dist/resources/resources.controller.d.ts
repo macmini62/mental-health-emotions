@@ -3,6 +3,7 @@ import { article } from "./articles/interface/article.interface";
 import { ArticlesService } from "./articles/articles.service";
 import { VideosService } from "./videos/videos.service";
 import { ContentItem } from "src/types/types";
+import { video } from "./videos/interface/video.interface";
 export declare class ResourcesController {
     private articlesService;
     private videosService;
@@ -23,4 +24,17 @@ export declare class ResourcesController {
     fetchArticlesTag(res: Response<Array<article>>, t: string, p: number): Promise<void>;
     updateArticle(id: string, article: article): Promise<article>;
     removeArticle(id: string): Promise<boolean>;
+    createVideo(data: {
+        creatorId: string;
+        title: string;
+        URL: string;
+        description: string;
+        tags: Array<string>;
+        duration: number;
+        languages: Array<string>;
+        thumbnail: string;
+        license: string;
+    }, res: Response<video>): Promise<void>;
+    findAllVideos(res: Response<Array<video>>, p: number): Promise<void>;
+    findOneVideo(id: string, res: Response<video>): Promise<void>;
 }

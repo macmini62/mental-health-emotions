@@ -24,7 +24,11 @@ __decorate([
     __metadata("design:type", String)
 ], Video.prototype, "creatorId", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)({ required: true, unique: true }),
+    __metadata("design:type", String)
+], Video.prototype, "URL", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)
 ], Video.prototype, "title", void 0);
 __decorate([
@@ -60,6 +64,6 @@ __decorate([
         }
     }),
     __metadata("design:type", Object)
-], Video.prototype, "feedback", void 0);
+], Video.prototype, "stats", void 0);
 exports.VideoSchema = mongoose_1.SchemaFactory.createForClass(Video);
 //# sourceMappingURL=video.schema.js.map
