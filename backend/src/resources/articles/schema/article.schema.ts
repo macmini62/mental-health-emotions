@@ -11,7 +11,7 @@ export class Article{
   _id: string;
 
   @Prop({ required: true })
-  creatorId: string
+  creatorId: string;
 
   @Prop({ required: true, unique: true })
   title: string;
