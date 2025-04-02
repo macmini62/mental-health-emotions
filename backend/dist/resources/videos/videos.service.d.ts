@@ -30,7 +30,7 @@ export declare class VideosService {
     findAll(p: number): Promise<Array<video>>;
     findOne(id: string): Promise<video>;
     findCreators(id: string, p: number): Promise<Array<video>>;
-    findArticleTags(tagId: string, p: number): Promise<Video[]>;
+    findVideoTags(tagId: string, p: number): Promise<Video[]>;
     update(id: string, video: video): Promise<video>;
     deleteOne(id: string): Promise<boolean>;
 }

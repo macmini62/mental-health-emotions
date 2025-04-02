@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VideoSchema = exports.Video = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const uuid_1 = require("uuid");
-class Video {
-}
+let Video = class Video {
+};
 exports.Video = Video;
 __decorate([
     (0, mongoose_1.Prop)({ required: true, default: uuid_1.v4, unique: true }),
@@ -65,5 +65,8 @@ __decorate([
     }),
     __metadata("design:type", Object)
 ], Video.prototype, "stats", void 0);
+exports.Video = Video = __decorate([
+    (0, mongoose_1.Schema)({ timestamps: true })
+], Video);
 exports.VideoSchema = mongoose_1.SchemaFactory.createForClass(Video);
 //# sourceMappingURL=video.schema.js.map

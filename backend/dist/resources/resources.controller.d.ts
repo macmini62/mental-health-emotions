@@ -36,5 +36,9 @@ export declare class ResourcesController {
         license: string;
     }, res: Response<video>): Promise<void>;
     findAllVideos(res: Response<Array<video>>, p: number): Promise<void>;
+    findCreatorsVideos(id: string, p: number, res: Response<Array<video>>): Promise<void>;
     findOneVideo(id: string, res: Response<video>): Promise<void>;
+    fetchVideosTag(res: Response<Array<video>>, t: string, p: number): Promise<void>;
+    updateVideo(id: string, video: video): Promise<video>;
+    removeVideo(id: string): Promise<boolean>;
 }

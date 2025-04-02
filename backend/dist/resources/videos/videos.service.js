@@ -96,7 +96,7 @@ let VideosService = class VideosService {
             console.log(e);
         }
     }
-    async findArticleTags(tagId, p) {
+    async findVideoTags(tagId, p) {
         try {
             const videos = new Array();
             for (let i = 0; i < p; i++) {

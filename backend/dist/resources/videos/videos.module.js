@@ -22,14 +22,14 @@ exports.VideosModule = VideosModule = __decorate([
     (0, common_1.Module)({
         controllers: [],
         providers: [videos_service_1.VideosService],
-        exports: [videos_service_1.VideosService],
         imports: [
             mongoose_1.MongooseModule.forFeature([{ name: video_schema_1.Video.name, schema: video_schema_1.VideoSchema }]),
             users_module_1.UsersModule,
             professionals_module_1.ProfessionalsModule,
             seekers_module_1.SeekersModule,
             topics_module_1.TopicsModule
-        ]
+        ],
+        exports: [videos_service_1.VideosService]
     })
 ], VideosModule);
 //# sourceMappingURL=videos.module.js.map

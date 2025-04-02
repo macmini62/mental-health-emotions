@@ -92,12 +92,37 @@ let ResourcesController = class ResourcesController {
             res.status(200).send(results);
         }
     }
+    async findCreatorsVideos(id, p, res) {
+        const results = await this.videosService.findCreators(id, p);
+        if (!results) {
+            res.status(404).send();
+        }
+        else if (results.length < p * 5 && p > 2) {
+            res.status(204).send();
+        }
+        else {
+            res.status(200).send(results);
+        }
+    }
     async findOneVideo(id, res) {
         const result = await this.videosService.findOne(id);
         if (!result) {
             res.status(500).send();
         }
         res.status(200).json(result);
+    }
+    async fetchVideosTag(res, t, p) {
+        const results = await this.videosService.findVideoTags(t, p);
+        if (!results) {
+            res.status(404).send();
+        }
+        res.status(200).send(results);
+    }
+    async updateVideo(id, video) {
+        return await this.videosService.update(id, video);
+    }
+    async removeVideo(id) {
+        return await this.videosService.deleteOne(id);
     }
 };
 exports.ResourcesController = ResourcesController;
@@ -184,6 +209,16 @@ __decorate([
 ], ResourcesController.prototype, "findAllVideos", null);
 __decorate([
     (0, auth_decorator_1.SkipAuth)(),
+    (0, common_1.Get)("videos/seeker"),
+    __param(0, (0, common_1.Query)("id")),
+    __param(1, (0, common_1.Query)("p")),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Number, Object]),
+    __metadata("design:returntype", Promise)
+], ResourcesController.prototype, "findCreatorsVideos", null);
+__decorate([
+    (0, auth_decorator_1.SkipAuth)(),
     (0, common_1.Get)("/videos/read/:id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Res)()),
@@ -191,6 +226,32 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "findOneVideo", null);
+__decorate([
+    (0, auth_decorator_1.SkipAuth)(),
+    (0, common_1.Get)("videos/tag"),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)("t")),
+    __param(2, (0, common_1.Query)("p")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, Number]),
+    __metadata("design:returntype", Promise)
+], ResourcesController.prototype, "fetchVideosTag", null);
+__decorate([
+    (0, auth_decorator_1.SkipAuth)(),
+    (0, common_1.Put)("/videos/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], ResourcesController.prototype, "updateVideo", null);
+__decorate([
+    (0, common_1.Delete)("/videos/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ResourcesController.prototype, "removeVideo", null);
 exports.ResourcesController = ResourcesController = __decorate([
     (0, common_1.Controller)("resources"),
     __metadata("design:paramtypes", [articles_service_1.ArticlesService,
