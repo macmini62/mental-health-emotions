@@ -106,11 +106,12 @@ export class UsersService {
 
   async findName(userId: string): Promise<user["name"]>{
     try{
+      console.log(userId)
       const user = await this.UserModel.findOne({ _id: userId });
+      console.log(user);
       if(user){
         return user.name;
       }
-
       throw new NotFoundException;
     }
     catch(e){

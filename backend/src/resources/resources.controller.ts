@@ -164,7 +164,7 @@ export class ResourcesController {
   }
 
   @SkipAuth()
-  @Get("/videos/read/:id")
+  @Get("/videos/watch/:id")
   async findOneVideo(@Param("id") id: string, @Res() res: Response<video>) {
     const result: video = await this.videosService.findOne(id);
     // console.log(result);
