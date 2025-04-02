@@ -260,7 +260,8 @@ const CreateVideo = () => {
 
       axios.post<video>("http://localhost:3001/resources/videos/create", data)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
+          window.location.href = "/articles";
         })
         .catch((e) => {
           console.log(e);
