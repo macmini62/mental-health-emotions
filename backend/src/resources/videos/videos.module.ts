@@ -10,13 +10,13 @@ import { Video, VideoSchema } from "./schema/video.schema";
 @Module({
   controllers: [],
   providers: [VideosService],
-  exports: [VideosService],
   imports: [
     MongooseModule.forFeature([{name: Video.name, schema: VideoSchema}]),
     UsersModule,
     ProfessionalsModule,
     SeekersModule,
     TopicsModule
-  ]
+  ],
+  exports: [VideosService]
 })
 export class VideosModule {}

@@ -1,39 +1,40 @@
-import { Prop, SchemaFactory } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
 export type VideoDocument = HydratedDocument<Video>;
 
+@Schema({ timestamps: true })
 export class Video {
   @Prop({ required: true, default: uuidv4, unique: true })
-  _id: string
+  _id: string;
   
   @Prop({ required: true })
-  creatorId: string
+  creatorId: string;
 
   @Prop({ required: true, unique: true })
-  URL: string
+  URL: string;
   
   @Prop({ required: true, unique: true })
-  title: string
+  title: string;
 
   @Prop({ required: true })
-  description: string
+  description: string;
 
   @Prop({ required: true })
-  tags: Array<string>
+  tags: Array<string>;
 
   @Prop({ required: true })
-  duration: number
+  duration: number;
 
   @Prop({ required: true })
-  languages: Array<string>
+  languages: Array<string>;
   
   @Prop({ required: true })
-  thumbnail: string
+  thumbnail: string;
 
   @Prop({ required: true })
-  license: string
+  license: string;
 
   @Prop({
     type: {
@@ -43,8 +44,8 @@ export class Video {
     }
   })
   stats: {
-    likes: Array<string>,
-    comments: number //change to store comments ids from comments schema.
+    likes: Array<string>;
+    comments: number; //change to store comments ids from comments schema.
   }
 }
 

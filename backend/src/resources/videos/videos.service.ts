@@ -107,7 +107,7 @@ export class VideosService {
     }
   }
 
-  async findArticleTags(tagId: string, p: number){
+  async findVideoTags (tagId: string, p: number){
     try{
       const videos: Array<Video> = new Array();
       for(let i = 0; i < p; i++){
