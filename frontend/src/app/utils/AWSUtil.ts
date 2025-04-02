@@ -43,7 +43,7 @@ export class AWSUtil {
       }
     }
     catch(e){
-      console.log(e);
+      return e;
     }
   }
   
