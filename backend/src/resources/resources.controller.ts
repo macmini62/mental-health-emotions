@@ -147,21 +147,21 @@ export class ResourcesController {
     }
   }
 
-  // @SkipAuth()
-  // @Get("videos/seeker")
-  // async findCreatorsVideos(@Query("id") id: string,@Query("p") p: number, @Res() res: Response<Array<video>>){
-  //   const results: Array<video> = await this.videosService.findCreators(id, p);
+  @SkipAuth()
+  @Get("videos/seeker")
+  async findCreatorsVideos(@Query("id") id: string,@Query("p") p: number, @Res() res: Response<Array<video>>){
+    const results: Array<video> = await this.videosService.findCreators(id, p);
 
-  //   if(!results){
-  //     res.status(404).send();
-  //   }
-  //   else if (results.length < p * 5 && p > 2){
-  //     res.status(204).send();
-  //   }
-  //   else{
-  //     res.status(200).send(results);
-  //   }
-  // }
+    if(!results){
+      res.status(404).send();
+    }
+    else if (results.length < p * 5 && p > 2){
+      res.status(204).send();
+    }
+    else{
+      res.status(200).send(results);
+    }
+  }
 
   @SkipAuth()
   @Get("/videos/read/:id")
@@ -175,26 +175,26 @@ export class ResourcesController {
     res.status(200).json(result);
   }
 
-  // @SkipAuth()
-  // @Get("videos/tag")
-  // async fetchVideosTag(@Res() res: Response<Array<video>>, @Query("t") t: string, @Query("p") p: number){
-  //   const results = await this.videosService.findVideoTags(t, p);
+  @SkipAuth()
+  @Get("videos/tag")
+  async fetchVideosTag(@Res() res: Response<Array<video>>, @Query("t") t: string, @Query("p") p: number){
+    const results = await this.videosService.findVideoTags(t, p);
     
-  //   if(!results){
-  //     res.status(404).send()
-  //   }
+    if(!results){
+      res.status(404).send()
+    }
    
-  //   res.status(200).send(results);
-  // }
+    res.status(200).send(results);
+  }
 
-  // @SkipAuth()
-  // @Put("/videos/:id")
-  // async updateVideo(@Param("id") id: string, @Body() video: video) {
-  //   return await this.videosService.update(id, video);
-  // }
+  @SkipAuth()
+  @Put("/videos/:id")
+  async updateVideo(@Param("id") id: string, @Body() video: video) {
+    return await this.videosService.update(id, video);
+  }
 
-  // @Delete("/videos/:id")
-  // async removeVideo(@Param("id") id: string) {
-  //   return await this.videosService.deleteOne(id);
-  // }
+  @Delete("/videos/:id")
+  async removeVideo(@Param("id") id: string) {
+    return await this.videosService.deleteOne(id);
+  }
 }
