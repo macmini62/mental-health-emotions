@@ -35,6 +35,8 @@ export interface professional {
   institution: string;
   profile: profile;
   contents: contents;
+  createdAt: string;
+  updatedAt: string;
 }
 interface contents{
   topics: Array<string>,
@@ -130,4 +132,6 @@ export interface video {
     likes: Array<string>;
     comments: number;
   };
+  createdAt: string;
+  updatedAt: string;
 }

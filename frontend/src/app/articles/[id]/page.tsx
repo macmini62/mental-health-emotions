@@ -86,7 +86,7 @@ const Post = ({
       }
     };
     fetchArticle();
-  }, [params]);
+  }, [params, storedLogs]);
 
   // console.log(article);
 

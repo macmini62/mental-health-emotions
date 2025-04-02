@@ -4,7 +4,7 @@ const LoadingSkeleton = () => {
   return (
     <Stack spacing={2}>
       {/* For variant="text", adjust the height via font-size */}
-      <Skeleton variant="rounded" width={260} height={150} />
+      <Skeleton variant="rounded" width={350} height={280} />
       <div className="flex gap-4">
         {/* For other variants, adjust the size with `width` and `height` */}
         <Skeleton variant="circular" width={48} height={48} />

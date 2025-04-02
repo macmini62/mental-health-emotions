@@ -329,10 +329,10 @@ const CreateVideo = () => {
                 />
             </button>
           </div>
-          {/* <ErrorNotification
+          <ErrorNotification
             action={"Upload Video"}
             failed={failed}
-          /> */}
+          />
         </div>
       }
       {/* editing section*/}

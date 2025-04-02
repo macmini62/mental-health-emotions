@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react";
-import Link from "next/link";
 import Menu from "../components/sideMenu/menu";
 import Footer from "../components/footerOptions/footer";
 import LoadingSkeleton from "../components/loadings/loadingSkeleton";
@@ -11,7 +10,8 @@ import ContentOptions from "../components/dropDownOptions/contentOptions";
 import { professional, seeker, topic, video } from "../interface/interface";
 import axios from "axios";
 
-const SKELETONS = 4;
+const SKELETONS = 3;
+const MONTHS = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
 const Videos = () => {
   // stores the data from the browsers storage.
@@ -267,7 +267,7 @@ const Videos = () => {
             role={storedLogs.ROLE}
           />
           {/* contents */}
-            <div className="w-full flex flex-wrap col-span-4 gap-y-8 justify-around mt-6 relative">
+            <div className="w-full flex flex-wrap col-span-3 gap-y-8 justify-around mt-6 relative">
               {
                 videos.length == 0 &&
                 skeletons.map((s: React.JSX.Element, i: number) => (
@@ -278,14 +278,14 @@ const Videos = () => {
               }
               {
                 videos.map((v: video, i: number) => (
-                  <div onClick={() => window.location.href = `/video/${v._id}`} key={i} className="w-[350px] hover:shadow-md rounded-b-md cursor-pointer">
+                  <div onClick={() => window.location.href = `/videos/${v._id}`} key={i} className="w-[350px] hover:shadow-md rounded-b-md cursor-pointer">
                     <img src={v.thumbnail} alt="video thumbnail" className="h-[240px] w-full rounded-md" />
                     <div className="w-full flex justify-between gap-2 my-4 px-2">
                       <img onClick={() => window.location.href = `user/${user?._id}`} src="/faces/face1.jpg" alt="user" className="w-12 h-12 rounded-full" />
                       <div className="text-sm w-2/3">
                       <h3 className="text-black font-bold line-clamp-2 mb-1">{v.title}</h3>
                         <p className="my-1">eMotions</p>
-                        <p className="capitalize my-1">21 dec</p>
+                        <p className="capitalize my-1">{ `${MONTHS[new Date(v.createdAt).getMonth()]} ${new Date(v.createdAt).getFullYear()-2000}` }</p>
                       </div>
                       <ContentOptions
                         type="video"
