@@ -127,7 +127,7 @@ export interface video {
   languages: Array<string>;
   thumbnail: string;
   license: string;
-  feedback: {
+  stats: {
     _id: string;
     likes: Array<string>;
     comments: number;

@@ -24,7 +24,9 @@ type Inputs = z.infer<typeof schema>;
 const SignUpPage = () => {
 
   // Clear the browsers storage.
-  localStorage.clear();
+  React.useEffect(() => {
+    localStorage.clear();
+  }, []);
 
   // Handle data input in the form.
   const{

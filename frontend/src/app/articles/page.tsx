@@ -41,6 +41,9 @@ const Articles = () => {
         ROLE: JSON.parse(ROLE)
       });
     }
+    else{
+      window.location.href = "/auth/authv1/login";
+    }
   }, []);
 
 	// console.log(storedLogs)

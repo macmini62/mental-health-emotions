@@ -12,11 +12,11 @@ const Auth0Options = ({
     <div className="w-full">
       <p className="inline-block text-center w-full">
         {auth == "login"? "Don't" : "Already"} have an account?
-        <span>
-          <Link 
-            href={auth == "login" ? "/auth/authv1/signup" : "/auth/authv1/login"}
-            className="hover:underline ml-1">{auth == "login" ? "Sign Up" : "Log In"}
-          </Link>
+        <span
+          onClick={() => (window.location.href = auth == "login" ? "/auth/authv1/signup" : "/auth/authv1/login")}
+          className="hover:underline ml-1 cursor-pointer"
+        >
+          {auth == "login" ? "Sign Up" : "Log In"}
         </span>
       </p>
       <div className="w-full my-4 flex gap-4 items-center justify-center text-gray-500">

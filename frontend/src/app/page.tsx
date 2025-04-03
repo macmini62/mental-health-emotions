@@ -21,17 +21,17 @@ export default function LandingPage() {
         <header className="flex justify-between items-center w-full h-48 border-b-4 border-black">
           <Link href={"/"}><img src="logo/logo-white.png" alt="" className="w-48 h-14"/></Link>
           <div className="flex justify-between gap-14 items-center font-[500] text-2xl">
-            <Link href={"/"}>ABOUT</Link>
-            <Link href={"/"}>SERVICES</Link>
-            <Link href={"/"}>HELP</Link>
-            <Link href={"/"}>CAREERS</Link>
+            <div onClick={() => (window.location.href = `/about`)}>ABOUT</div>
+            <div onClick={() => (window.location.href = `/services`)}>SERVICES</div>
+            <div onClick={() => (window.location.href = `/help`)}>HELP</div>
+            <div onClick={() => (window.location.href = `/careers`)}>CAREERS</div>
           </div>
           <div className="w-72 flex items-center relative">
-            <Link href="auth/authv1/signup"
+            <div onClick={() => (window.location.href = "auth/authv1/signup")}
               className="w-64 flex justify-center font-[500] text-2xl border border-black rounded-full py-2 px-8 absolute right-10 hover:bg-black hover:text-white
                 ease-in-out duration-300 hover:right-14"
               > GET STARTED
-            </Link>
+            </div>
             <IoPersonOutline className="absolute right-0 text-white w-12 h-12 p-3 bg-black rounded-full "/>
           </div>
         </header>
