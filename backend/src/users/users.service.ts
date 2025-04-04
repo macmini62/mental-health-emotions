@@ -104,10 +104,10 @@ export class UsersService {
     }
   }
 
-  async findName(userId: string): Promise<user["name"]>{
+  async findName(id: string): Promise<user["name"]>{
     try{
-      console.log(userId)
-      const user = await this.UserModel.findOne({ _id: userId });
+      console.log(id)
+      const user = await this.UserModel.findOne({ _id: "c246be5e-31c9-4e55-8677-b48f976d06f0" });
       console.log(user);
       if(user){
         return user.name;
