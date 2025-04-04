@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Card, CardHeader, CardContent } from "@mui/material";
 import SessionMenu from "../components/sessionComponents/sessionMenu";
 import SessionWithCode from "../components/sessionComponents/sessionWithCode";
+import { MdOutlineContentCopy } from "react-icons/md";
 
 const LiveSession = () => {
   // stores the data from the browsers storage.
@@ -85,14 +86,16 @@ const LiveSession = () => {
                 Our live sessions are designed to support, uplift, and guide you every step of the way toward healing and mental wellness.
                 </p>
               </div>
-              <div className="w-full h-3/4 flex flex-col justify-between mt-4 pt-8">
-                <div>
-                  <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-16 mt-4">
-                    <SessionMenu />
-                    <SessionWithCode />
-                  </div>
+              <div className="w-full h-3/4 flex flex-col items-center justify-between mt-4 pt-8">
+                <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-16 mt-4">
+                  <SessionMenu />
+                  <SessionWithCode />
                 </div>
-                <div className="border-t px-6 py-4">
+                <div className="flex gap-4 w-1/2 px-4 py-3 border rounded-lg">
+                  <p className="w-full outline-none border-r-2 border-black">sosjdflj-nskdfn3ls03no-2nslnjfd</p>
+                  <MdOutlineContentCopy className="text-black w-6 h-6"/>
+                </div>
+                <div className="w-full border-t px-6 py-4">
                   <p className="text-sm">
                     <Link href={"#"} className="text-blue-500">Learn More</Link> about Google Meet
                   </p>
