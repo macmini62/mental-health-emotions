@@ -106,7 +106,7 @@ const Articles = () => {
     setFetchFailed(false);
   }, 10000);
   
-  // Fetch Data.
+  // Fetch User Data.
   React.useEffect(() => {
 		// Fetch seeker data for after login.
 		if(storedLogs.USERID && storedLogs.ACCESSTOKEN && storedLogs.ROLE){
@@ -425,7 +425,6 @@ const Articles = () => {
             </div>
             {/* FOOTER */}
             <Footer/>
-          <div className=""></div>
         </div>
       </div>
     </div>
