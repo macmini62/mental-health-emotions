@@ -12,7 +12,7 @@ const SessionWithCode = () => {
     }
 
     return (
-        <div className="w-1/2 flex items-center justify-start gap-8">
+        <div className="w-1/2 flex items-center gap-8">
           <div className="flex items-center gap-2 w-3/4 border-2 border-black rounded-md px-3">
             <MdKeyboard className="h-8 w-8 text-black" />
             <input

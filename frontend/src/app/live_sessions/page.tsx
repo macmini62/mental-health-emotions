@@ -77,7 +77,7 @@ const LiveSession = () => {
           menu="live_sessions"
         />
         <div className="w-full h-full flex items-center justify-center pt-4 px-6">
-          <div className="w-full h-3/4 flex flex-col px-4 pt-8 rounded-md border-2">
+          <div className="w-full h-3/4 flex flex-col px-4 pt-8 rounded-lg border-2 border-gray-300">
               <div className="flex flex-col gap-8 px-0 sm:px-6">
                 <h3 className="text-5xl font-semibold text-black">Video sessions and meetings for everyone</h3>
                 <p className="text-xl w-full text-black">
@@ -87,7 +87,7 @@ const LiveSession = () => {
                 </p>
               </div>
               <div className="w-full h-3/4 flex flex-col items-center justify-between mt-4 pt-8">
-                <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-16 mt-4">
+                <div className="w-full flex flex-col sm:flex-row items-center justify-evenly gap-16 mt-4">
                   <SessionMenu />
                   <SessionWithCode />
                 </div>
