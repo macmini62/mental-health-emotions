@@ -16,7 +16,6 @@ const ContentHeader = ({
   tag: string
   role: string
 }) => {
-
   // fetch seeker subscribed topics
   const[tp, setTp] = React.useState<Array<topic>>([]);
   React.useEffect(() => {

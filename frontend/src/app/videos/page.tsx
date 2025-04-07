@@ -61,6 +61,26 @@ const Videos = () => {
 
   // Stores the state of the logged in user. 
   const [user, setUser] = React.useState<professional | seeker>();
+  // Fetch User Data.
+  React.useEffect(() => {
+    // Fetch seeker data for after login.
+    if(storedLogs.USERID && storedLogs.ACCESSTOKEN && storedLogs.ROLE){
+      axios.get(`http://localhost:3001/${storedLogs.ROLE === "professional" ? "professionals" : "seekers"}/${storedLogs.USERID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedLogs.ACCESSTOKEN}`
+            }
+          }
+        )
+        .then((res) => {
+          // console.log(res.data);
+          setUser(res.data as professional | seeker);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, [storedLogs]);
    
   // Fetch data according to the topic selected and page scroll.
   const [fetch, setFetch] = React.useState<{
