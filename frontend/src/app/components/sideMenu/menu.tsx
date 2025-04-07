@@ -10,8 +10,8 @@ const Menu = ({
   const menus = [
     "articles",
     "videos",
-    "live_sessions",
-    "communities"
+    "live_session",
+    "community"
   ];
 
   return(
