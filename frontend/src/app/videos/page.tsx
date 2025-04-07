@@ -225,31 +225,6 @@ const Videos = () => {
     }
   };
 
-  // Load topics data
-  const [topics, setTopics] = React.useState<topic[]>([]);
-  React.useEffect(() => {
-    setLoading(true);
-    axios.get<topic[]>(`http://localhost:3001/topics?s=${10}`)
-    .then((res) => {
-      setTopics(res.data);
-    })
-    .catch((e) => {
-      console.log(e);
-      setFetchFailed(true);
-    });
-  }, []);
-
-  // Reload more topics
-  const handleTopicsLoad = () => {
-    axios.get<topic[]>(`http://localhost:3001/topics?s=${topics.length+5}`)
-      .then((res) => {
-        setTopics(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
   // Notifications and feedback
   const [loading, setLoading] = React.useState<boolean>(true);
   const [fetchFailed, setFetchFailed] = React.useState<boolean>(false);
@@ -287,9 +262,9 @@ const Videos = () => {
             role={storedLogs.ROLE}
           />
           {/* contents */}
-            <div className="w-full flex flex-wrap col-span-3 gap-y-8 justify-around mt-6 relative">
+            <div className="w-full flex flex-wrap col-span-3 gap-y-8 gap-9 mt-6 relative">
               {
-                videos.length == 0 &&
+                videos.length == 0 && loading &&
                 skeletons.map((s: React.JSX.Element, i: number) => (
                   <React.Fragment key={i}>
                     {s}
