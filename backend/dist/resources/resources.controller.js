@@ -219,7 +219,7 @@ __decorate([
 ], ResourcesController.prototype, "findCreatorsVideos", null);
 __decorate([
     (0, auth_decorator_1.SkipAuth)(),
-    (0, common_1.Get)("/videos/read/:id"),
+    (0, common_1.Get)("/videos/watch/:id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
