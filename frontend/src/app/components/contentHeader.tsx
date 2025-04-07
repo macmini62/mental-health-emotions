@@ -63,7 +63,7 @@ const ContentHeader = ({
 
 
   return (
-    <div className="flex justify-center items-center pt-6 sticky z-10 top-16 text-nowrap bg-white border-b border-gray-300">
+    <div className="flex justify-center items-center pt-6 sticky top-16 text-nowrap bg-white border-b border-gray-300">
       {/* Add button only visible when at default scroll position */}
       {scrollX === 0 && (
         <button className="group absolute left-2">
