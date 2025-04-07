@@ -12,6 +12,7 @@ import { MdMicOff, MdMicNone, MdOutlineSettings } from "react-icons/md";
 import { LuHeadphoneOff, LuHeadphones } from "react-icons/lu";
 import { FaPaperclip, FaPaperPlane } from "react-icons/fa";
 import { IoPaperPlane, IoPaperPlaneOutline } from "react-icons/io5";
+import CommunityMenu from "../components/communityComponents/menu";
 
 const Communities = () => {
   // stores the data from the browsers storage.
@@ -87,23 +88,7 @@ const Communities = () => {
           {/* LEFT SECTION */}
           <div className="w-1/4 h-full flex flex-col justify-between border-r-2 p-2">
             {/* menu */}
-            <SimpleTreeView apiRef={apiRef} sx={{ marginTop: 10, overflow: "auto"}}>
-              <TreeItem itemId="grid" label="COMMUNITIES">
-                <TreeItem itemId="grid-community" label="@mui/x-data-grid" />
-                <TreeItem itemId="grid-pro" label="@mui/x-data-grid-pro" />
-                <TreeItem itemId="grid-premium" label="@mui/x-data-grid-premium" />
-              </TreeItem>
-              <div className="my-6"></div>
-              <TreeItem itemId="pickers" label="INFORMATION">
-                <TreeItem itemId="pickers-community" label="@mui/x-date-pickers" />
-                <TreeItem itemId="pickers-pro" label="@mui/x-date-pickers-pro" />
-              </TreeItem>
-              <div className="my-6"></div>
-              <TreeItem itemId="charts" label="DIRECT MESSAGE">
-                <TreeItem itemId="charts-community" label="@mui/x-charts" />
-              </TreeItem>
-            </SimpleTreeView>
-
+            <CommunityMenu/>
             {/* options */}
             <div className="h-[5%] flex justify-between p-2 border-t-2">
               <div className="flex items-center gap-3">
