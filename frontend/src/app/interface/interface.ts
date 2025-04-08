@@ -17,16 +17,9 @@ export interface seeker {
     nickname: string;
     imageURL: string;
   };
-  contents: seekerContents;
+  topics: Array<string>;
   createdAt: string;
   updatedAt: string;
-}
-interface seekerContents{
-  topics: Array<string>;
-  bookmarks: {
-    articles: Array<string>;
-    videos: Array<string>;
-  }
 }
 
 export interface professional {
@@ -71,7 +64,8 @@ export interface article {
   stats: {
     _id: string;
     likes: Array<string>;
-    comments: number;
+    bookmarks: Array<string>;
+    comments: Array<string>;
   }
   createdAt: string;
   updatedAt: string;
@@ -131,7 +125,8 @@ export interface video {
   stats: {
     _id: string;
     likes: Array<string>;
-    comments: number;
+    bookmarks: Array<string>;
+    comments: Array<string>;
   };
   createdAt: string;
   updatedAt: string;
