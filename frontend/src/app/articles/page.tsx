@@ -311,6 +311,50 @@ const Articles = () => {
 
   // Handles the Bookmark on the article
   const handelBookmarkArticle = (id: string) => {
+    const article = articles.find(article => article._id === id);
+    const user = article?.stats.bookmarks.includes(storedLogs.USERID);
+    // console.log(user)
+    let updatedArticles: article[];
+    if(user){
+      updatedArticles = articles.map(article => {
+        if (article._id === id) {
+          return {
+            ...article,
+            stats: {
+              ...article.stats,
+              bookmarks: article.stats.bookmarks.filter((v: string) => v !== storedLogs.USERID)
+            }
+          };
+        }
+        return article;
+      });
+    }
+    else{
+      updatedArticles = articles.map(article => {
+        if (article._id === id) {
+          return {
+            ...article,
+            stats: {
+              ...article.stats,
+              bookmarks: [...article.stats.bookmarks, storedLogs.USERID]
+            } ,
+          };
+        }
+        return article;
+      });
+    }
+    // console.log(updatedArticles);
+    
+    const updatedArticle = updatedArticles.find(article => article._id === id);
+    
+    axios.put(`http://localhost:3001/resources/articles/${id}`, updatedArticle)
+      .then(() => {
+        setArticles(updatedArticles);
+      })
+      .catch((e) => {
+        console.log(e);
+        console.log("Error Liking the video");
+      })
 
   }
 
@@ -332,7 +376,13 @@ const Articles = () => {
         <div className="w-[728px] max-h-fit py-4">
           {/* content-header */}
           <ContentHeader
-            topics={user?.contents.topics}
+            topics={
+              user
+                ? "contents" in user
+                  ? user.contents.topics // professional
+                  : user.topics          // seeker
+                : []
+            }
             setFetchTag={(t: string) => setFetchTag(t)}
             tag={fetchTag}
             role={storedLogs.ROLE}
@@ -397,7 +447,7 @@ const Articles = () => {
                             storedLogs.ROLE === "seeker" &&
                             <div className="flex gap-10">
                               {
-                                user && "bookmarks" in user?.contents && user?.contents.bookmarks.articles.includes(a._id) ?
+                                user && a.stats.bookmarks.includes(user?.userId) ?
                                 <button><IoBookmark onClick={() => handelBookmarkArticle(a._id)} className="w-7 h-7 text-black"/></button>
                                 :
                                 <button><IoBookmarkOutline onClick={() => handelBookmarkArticle(a._id)} className="w-7 h-7 hover:text-black"/></button>
