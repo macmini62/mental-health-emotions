@@ -35,18 +35,9 @@ __decorate([
     __metadata("design:type", Object)
 ], Seeker.prototype, "profile", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({
-        type: {
-            _id: { type: String, default: uuid_1.v4 },
-            topics: { type: (Array) },
-            bookmarks: {
-                articles: { type: (Array) },
-                videos: { type: (Array) }
-            },
-        }
-    }),
-    __metadata("design:type", Object)
-], Seeker.prototype, "contents", void 0);
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Array)
+], Seeker.prototype, "topics", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", Array)

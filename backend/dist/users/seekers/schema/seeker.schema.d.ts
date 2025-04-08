@@ -8,13 +8,7 @@ export declare class Seeker {
         nickname: string;
         imageURL: string;
     };
-    contents: {
-        topics: Array<string>;
-        bookmarks: {
-            articles: Array<string>;
-            videos: Array<string>;
-        };
-    };
+    topics: Array<string>;
     following: Array<string>;
 }
 export declare const SeekerSchema: import("mongoose").Schema<Seeker, import("mongoose").Model<Seeker, any, any, any, import("mongoose").Document<unknown, any, Seeker> & Seeker & Required<{
