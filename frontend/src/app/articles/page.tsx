@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { CiCircleMinus } from "react-icons/ci";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
-import { IoBookmarkOutline } from "react-icons/io5";
+import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import { TbMessageCircle } from "react-icons/tb";
 import Menu from "../components/sideMenu/menu";
 import axios from "axios";
@@ -261,6 +261,59 @@ const Articles = () => {
       });
   };
 
+  // Handles the Likes on the article
+  const handleLikeArticle = (id: string) => {
+    const article = articles.find(article => article._id === id);
+    const user = article?.stats.likes.includes(storedLogs.USERID);
+    // console.log(user)
+    let updatedArticles: article[];
+    if(user){
+      updatedArticles = articles.map(article => {
+        if (article._id === id) {
+          return {
+            ...article,
+            stats: {
+              ...article.stats,
+              likes: article.stats.likes.filter((v: string) => v !== storedLogs.USERID)
+            }
+          };
+        }
+        return article;
+      });
+    }
+    else{
+      updatedArticles = articles.map(article => {
+        if (article._id === id) {
+          return {
+            ...article,
+            stats: {
+              ...article.stats,
+              likes: [...article.stats.likes, storedLogs.USERID]
+            } ,
+          };
+        }
+        return article;
+      });
+    }
+    // console.log(updatedArticles);
+    
+    const updatedArticle = updatedArticles.find(article => article._id === id);
+    
+    axios.put(`http://localhost:3001/resources/articles/${id}`, updatedArticle)
+      .then(() => {
+        setArticles(updatedArticles);
+      })
+      .catch((e) => {
+        console.log(e);
+        console.log("Error Liking the video");
+      })
+  }
+
+  // Handles the Bookmark on the article
+  const handelBookmarkArticle = (id: string) => {
+
+  }
+
   return (
     <div onScroll={(e) => handleScroll(e)} className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
       {/* HEADER */}
@@ -295,7 +348,7 @@ const Articles = () => {
           <ul className="mt-4">
             {
               articles.map((a: article, i: number) => (
-                <li key={i} className="py-8 border-b border-gray-300 cursor-pointer" onClick={() => (window.location.href = `articles/${a._id}`)}>
+                <li key={i} className="py-8 border-b border-gray-300 cursor-pointer">
                   <div className="flex flex-col gap-4">
                     {/* section-header --NB:fetch the creators content and use it here!-- */}
                     <div className="flex gap-2 items-center text-black">
@@ -306,7 +359,7 @@ const Articles = () => {
                     <div className="flex gap-10">
                       {/* contents */}
                       <div className="flex flex-col gap-6 w-[calc(100%-200px)]">
-                        <div className="flex gap-10 justify-between">
+                        <div className="flex gap-10 justify-between" onClick={() => (window.location.href = `articles/${a._id}`)}>
                           <div className="flex flex-col gap-2">
                             {/* title */}
                             <h3 className="text-black font-semibold text-3xl capitalize">
@@ -328,9 +381,9 @@ const Articles = () => {
                             <div className="flex gap-1.5 items-center">
                               {
                                 user && a.stats.likes.includes(user.userId) ?
-                                <FcLike className="w-5 h-5 cursor-pointer"/>
+                                <FcLike onClick={() => handleLikeArticle(a._id)} className="w-5 h-5 cursor-pointer"/>
                                 :
-                                <FcLikePlaceholder className="w-5 h-5 cursor-pointer"/>
+                                <FcLikePlaceholder onClick={() => handleLikeArticle(a._id)} className="w-5 h-5 cursor-pointer"/>
                               }
                               <p className="h-5">{a.stats.likes.length}</p>
                             </div>
@@ -340,18 +393,24 @@ const Articles = () => {
                               <p className="h-5">{a.stats.comments}</p>
                             </div>
                           </div>
-                          <div className="flex gap-10">
-                            <button><CiCircleMinus className="w-7 h-7 hover:text-black"/></button>
-                            <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button>
-                            {/* <button><IoBookmark className="w-7 h-7 text-black"/></button> */}
-                            <ContentOptions
-                              type="article"
-                            />
-                          </div>
+                          {
+                            storedLogs.ROLE === "seeker" &&
+                            <div className="flex gap-10">
+                              {
+                                user && "bookmarks" in user?.contents && user?.contents.bookmarks.articles.includes(a._id) ?
+                                <button><IoBookmark onClick={() => handelBookmarkArticle(a._id)} className="w-7 h-7 text-black"/></button>
+                                :
+                                <button><IoBookmarkOutline onClick={() => handelBookmarkArticle(a._id)} className="w-7 h-7 hover:text-black"/></button>
+                              }
+                              <ContentOptions
+                                type="article"
+                              />
+                            </div>
+                          }
                         </div>
                       </div>
                       {/* image */}
-											<Image priority={true} width={240} height={168} src={a.thumbnail.imageURL} alt="thumbnail" className="rounded-md"/>
+											<Image priority={true} width={240} height={168} src={a.thumbnail.imageURL} alt="thumbnail" className="rounded-md" onClick={() => (window.location.href = `articles/${a._id}`)}/>
 										</div>
                   </div>
                 </li>

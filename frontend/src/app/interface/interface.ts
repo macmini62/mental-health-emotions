@@ -17,15 +17,16 @@ export interface seeker {
     nickname: string;
     imageURL: string;
   };
-  contents: {
-    topics: Array<string>;
-    bookmarks: {
-      articles: Array<string>;
-      videos: Array<string>;
-    }
-  }
+  contents: seekerContents;
   createdAt: string;
   updatedAt: string;
+}
+interface seekerContents{
+  topics: Array<string>;
+  bookmarks: {
+    articles: Array<string>;
+    videos: Array<string>;
+  }
 }
 
 export interface professional {
@@ -34,11 +35,11 @@ export interface professional {
   profession: string;
   institution: string;
   profile: profile;
-  contents: contents;
+  contents: professionalContents;
   createdAt: string;
   updatedAt: string;
 }
-interface contents{
+interface professionalContents{
   topics: Array<string>,
   authored: {
     articles: Array<string>,
