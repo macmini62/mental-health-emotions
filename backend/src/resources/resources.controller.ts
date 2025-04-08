@@ -79,8 +79,9 @@ export class ResourcesController {
     if(!result){
       res.status(500).send();
     }
-    
-    res.status(200).json(result);
+    else{
+      res.status(200).json(result);
+    }
   }
 
   @SkipAuth()
@@ -89,21 +90,34 @@ export class ResourcesController {
     const results = await this.articlesService.findArticleTags(t, p);
     
     if(!results){
-      res.status(404).send()
+      res.status(404).send();
     }
-   
-    res.status(200).send(results);
+    else{
+      res.status(200).send(results);
+    }
   }
 
   @SkipAuth()
   @Put("/articles/:id")
-  async updateArticle(@Param("id") id: string, @Body() article: article) {
-    return await this.articlesService.update(id, article);
+  async updateArticle(@Param("id") id: string, @Body() article: article, @Res() res: Response) {
+    const results = await this.articlesService.update(id, article);
+    if(results){
+      res.status(200).send();
+    }
+    else{
+      res.status(500).send();
+    }
   }
 
   @Delete("/articles/:id")
-  async removeArticle(@Param("id") id: string) {
-    return await this.articlesService.deleteOne(id);
+  async removeArticle(@Param("id") id: string, @Res() res: Response) {
+    const results = await this.articlesService.deleteOne(id);
+    if(results){
+      res.status(200).send();
+    }
+    else{
+      res.status(500).send();
+    }
   }
 
 
