@@ -11,6 +11,7 @@ export interface video {
     license: string;
     stats: {
         likes: Array<string>;
-        comments: number;
+        bookmarks: Array<string>;
+        comments: Array<string>;
     };
 }

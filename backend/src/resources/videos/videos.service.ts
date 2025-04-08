@@ -36,7 +36,7 @@ export class VideosService {
         ...data,
         stats: {
           likes: new Array<string>,
-          comments: 0
+          comments: new Array<string>
         }
       }
       console.log(d)

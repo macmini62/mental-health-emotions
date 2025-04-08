@@ -37,7 +37,7 @@ export class ArticlesService {
         ...data,
         stats: {
           likes: new Array<string>,
-          comments: 0
+          comments: new Array<string>
         }
       }
       return await new this.articleModel(d).save();

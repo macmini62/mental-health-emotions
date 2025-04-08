@@ -35,7 +35,7 @@ let VideosService = class VideosService {
                 ...data,
                 stats: {
                     likes: new Array,
-                    comments: 0
+                    comments: new Array
                 }
             };
             console.log(d);

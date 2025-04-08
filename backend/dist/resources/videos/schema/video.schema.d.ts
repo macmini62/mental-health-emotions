@@ -13,7 +13,8 @@ export declare class Video {
     license: string;
     stats: {
         likes: Array<string>;
-        comments: number;
+        bookmarks: Array<string>;
+        comments: Array<string>;
     };
 }
 export declare const VideoSchema: import("mongoose").Schema<Video, import("mongoose").Model<Video, any, any, any, import("mongoose").Document<unknown, any, Video> & Video & Required<{

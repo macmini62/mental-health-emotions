@@ -39,12 +39,14 @@ export class Article{
     type: {
       _id: { type: String, default: uuidv4 },
       likes: { type: Array<String> },
-      comments: { type: Number }
+      bookmarks: { type: Array<String> },
+      comments: { type: Array<String> }
     }
   })
   stats: {
     likes: Array<string>,
-    comments: number //change to store comments ids from comments schema.
+    bookmarks: Array<string>,
+    comments: Array<string>
   }
 }
 

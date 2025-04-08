@@ -11,6 +11,7 @@ export interface article {
     };
     stats: {
         likes: Array<string>;
-        comments: number;
+        bookmarks: Array<string>;
+        comments: Array<string>;
     };
 }

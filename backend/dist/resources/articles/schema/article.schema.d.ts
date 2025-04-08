@@ -13,7 +13,8 @@ export declare class Article {
     };
     stats: {
         likes: Array<string>;
-        comments: number;
+        bookmarks: Array<string>;
+        comments: Array<string>;
     };
 }
 export declare const ArticleSchema: import("mongoose").Schema<Article, import("mongoose").Model<Article, any, any, any, import("mongoose").Document<unknown, any, Article> & Article & Required<{

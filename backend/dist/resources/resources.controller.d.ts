@@ -22,8 +22,8 @@ export declare class ResourcesController {
     findCreatorsArticles(id: string, p: number, res: Response<Array<article>>): Promise<void>;
     findOneArticle(id: string, res: Response<article>): Promise<void>;
     fetchArticlesTag(res: Response<Array<article>>, t: string, p: number): Promise<void>;
-    updateArticle(id: string, article: article): Promise<article>;
-    removeArticle(id: string): Promise<boolean>;
+    updateArticle(id: string, article: article, res: Response): Promise<void>;
+    removeArticle(id: string, res: Response): Promise<void>;
     createVideo(data: {
         creatorId: string;
         title: string;

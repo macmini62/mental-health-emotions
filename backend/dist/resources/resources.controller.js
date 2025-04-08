@@ -58,20 +58,36 @@ let ResourcesController = class ResourcesController {
         if (!result) {
             res.status(500).send();
         }
-        res.status(200).json(result);
+        else {
+            res.status(200).json(result);
+        }
     }
     async fetchArticlesTag(res, t, p) {
         const results = await this.articlesService.findArticleTags(t, p);
         if (!results) {
             res.status(404).send();
         }
-        res.status(200).send(results);
+        else {
+            res.status(200).send(results);
+        }
     }
-    async updateArticle(id, article) {
-        return await this.articlesService.update(id, article);
+    async updateArticle(id, article, res) {
+        const results = await this.articlesService.update(id, article);
+        if (results) {
+            res.status(200).send();
+        }
+        else {
+            res.status(500).send();
+        }
     }
-    async removeArticle(id) {
-        return await this.articlesService.deleteOne(id);
+    async removeArticle(id, res) {
+        const results = await this.articlesService.deleteOne(id);
+        if (results) {
+            res.status(200).send();
+        }
+        else {
+            res.status(500).send();
+        }
     }
     async createVideo(data, res) {
         const results = await this.videosService.create(data);
@@ -178,15 +194,17 @@ __decorate([
     (0, common_1.Put)("/articles/:id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String, Object, Object]),
     __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "updateArticle", null);
 __decorate([
     (0, common_1.Delete)("/articles/:id"),
     __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], ResourcesController.prototype, "removeArticle", null);
 __decorate([

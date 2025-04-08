@@ -60,7 +60,8 @@ __decorate([
         type: {
             _id: { type: String, default: uuid_1.v4 },
             likes: { type: (Array) },
-            comments: { type: Number }
+            bookmarks: { type: (Array) },
+            comments: { type: (Array) }
         }
     }),
     __metadata("design:type", Object)

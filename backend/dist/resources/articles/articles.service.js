@@ -35,7 +35,7 @@ let ArticlesService = class ArticlesService {
                 ...data,
                 stats: {
                     likes: new Array,
-                    comments: 0
+                    comments: new Array
                 }
             };
             return await new this.articleModel(d).save();
