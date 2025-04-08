@@ -27,23 +27,8 @@ export class Seeker {
     imageURL: string;
   }
 
-  @Prop({
-    type: {
-      _id: { type: String, default: uuidv4 },
-      topics: { type: Array<String> },
-      bookmarks: { 
-        articles: { type: Array<String> },
-        videos: { type: Array<String> }
-      },
-    }
-  })
-  contents: {
-    topics: Array<string>;
-    bookmarks: {
-      articles: Array<string>;
-      videos: Array<string>;
-    }
-  }
+  @Prop()
+  topics: Array<string>;
 
   @Prop()
   following: Array<string>;

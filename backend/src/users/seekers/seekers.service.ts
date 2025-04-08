@@ -47,9 +47,7 @@ export class SeekerService {
             "profile.profileURL": "",
             "profile.nickname": "",
             "profile.imageURL": "",
-            "contents.topics": data?.topics,
-            "contents.bookmarks.articles": [],
-            "contents.bookmarks.videos": []
+            "topics": data?.topics
           }},
           { new: true, runValidators: true }
         )
