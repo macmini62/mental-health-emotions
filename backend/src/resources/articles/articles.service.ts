@@ -65,22 +65,23 @@ export class ArticlesService {
   async findOne(id: string): Promise<article>{
     try{
       let a: article = await this.articleModel.findOne({ _id: id });
-      // console.log(a)
-      if(a !== null){
-        const creator: user["name"] = await this.userService.findName(a.creatorId);
-        const tags: Array<topic["name"]> = await this.topicService.fetchArticleTopics(a.tags);
-        if(creator !== null && tags.length > 0){
-          a.creatorId = creator;
-          a.tags = tags
-          // console.log(a);
-          return a;
-        }
-
-        throw new InternalServerErrorException;
-      }else{
-        throw new Error("No article found with the id!!");
-      }
+      return a;
     }catch(e){
+      console.log(e);
+    }
+  }
+
+  async findCreator(id: string): Promise<string> {
+    try{
+      const creator: user["name"] = await this.userService.findName(id);
+      if(creator !== null){
+        return creator;
+      }
+      else{
+        throw Error;
+      }
+    }
+    catch(e){
       console.log(e);
     }
   }
@@ -107,7 +108,23 @@ export class ArticlesService {
     }
   }
 
-  async findArticleTags(tagId: string, p: number){
+  async findArticleTags(tagsId: Array<string>): Promise<Array<topic>> {
+    try{
+      console.log()
+      const tags: Array<topic> = await this.topicService.fetchArticleTopics(tagsId);
+      if(tags.length > 0){
+        return tags;
+      }
+      else{
+        throw Error;
+      }
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
+
+  async findArticlesTags(tagId: string, p: number){
     try{
       const articles: Array<Article> = Array();
       for(let i = 0; i < p; i++){

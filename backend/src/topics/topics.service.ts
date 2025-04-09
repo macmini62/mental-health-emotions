@@ -74,11 +74,11 @@ export class TopicsService {
     }
   }
 
-  async fetchArticleTopics(data: Array<string>): Promise<Array<topic["name"]>>{
+  async fetchArticleTopics(data: Array<string>): Promise<Array<topic>>{
     try{
-      const topics: Array<topic["name"]> = Array();
+      const topics: Array<topic> = Array();
       for(let i = 0; i < data.length; i++){
-        const topic: topic["name"] = await this.TopicModel.findById({ _id: data[i]});
+        const topic: topic = await this.TopicModel.findById({ _id: data[i]});
         topics.push(topic);
       }
 

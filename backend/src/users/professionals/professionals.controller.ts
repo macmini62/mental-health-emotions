@@ -10,26 +10,28 @@ import { SkipAuth } from "src/decorators/auth.decorator";
 @Controller("professionals")
 @UseGuards(RolesGuard)
 export class ProfessionalController {
-  constructor(private usersService: ProfessionalService) {}
+  constructor(
+    private professionalService: ProfessionalService
+  ) {}
 
   @Get("/")
   getAll(){
     // console.log("hello professional!")
-    // return this.usersService.getAllUsers();
+    // return this.professionalService.getAllUsers();
   }
 
   @SkipAuth()
   @Get("/:id")
   get(@Req() req: Request, @Param("id") userId: string) {
     // console.log(req);
-    return this.usersService.getUser(userId);
+    return this.professionalService.getUser(userId);
   }
   
   // @SkipAuth()
   // @Post("create")
   // @Roles(Role.professional)
   // async add(@Body() data: professional, @Res() res: Response){
-  //   const results: professional = await this.usersService.addUser(data);
+  //   const results: professional = await this.professionalService.addUser(data);
   
   //   if(results){
   //     return res.status(201).send(results);
@@ -40,12 +42,18 @@ export class ProfessionalController {
   @SkipAuth()
   @Put("/:userId")
   update(@Body() data: professional, @Param("userId") userId: string){
-    return this.usersService.updateUser(userId, data);
+    return this.professionalService.updateUser(userId, data);
   }
 
   @Delete("/:id")
   delete(@Param("id") userId: string){
-    return this.usersService.deleteUser(userId);
+    return this.professionalService.deleteUser(userId);
+  }
+
+  @SkipAuth()
+  @Get("/user/:id")
+  fetchUserData(@Param("userId") userId: string){
+    return this.professionalService.getUser(userId);
   }
 }
 

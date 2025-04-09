@@ -4,6 +4,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { ProfessionalController } from "./professionals.controller";
 import { ProfessionalService } from "./professionals.service";
 import { ProfessionalsMiddleware } from "./professionals.middleware";
+import { UsersService } from "../users.service";
 
 
 @Module({

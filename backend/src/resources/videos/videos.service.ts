@@ -65,22 +65,23 @@ export class VideosService {
   async findOne(id: string): Promise<video>{
     try{
       let a: video = await this.videoModel.findOne({ _id: id });
-      // console.log(a)
-      if(a !== null){
-        const creator: user["name"] = await this.userService.findName(a.creatorId);
-        const tags: Array<topic["name"]> = await this.topicService.fetchArticleTopics(a.tags);
-        if(creator !== null && tags.length > 0){
-          a.creatorId = creator;
-          a.tags = tags
-          // console.log(a);
-          return a;
-        }
-
-        throw new InternalServerErrorException;
-      }else{
-        throw new Error("No video found with the id!!");
-      }
+      return a;
     }catch(e){
+      console.log(e);
+    }
+  }
+
+  async findCreator(id: string): Promise<string> {
+    try{
+      const creator: user["name"] = await this.userService.findName(id);
+      if(creator !== null){
+        return creator;
+      }
+      else{
+        throw Error;
+      }
+    }
+    catch(e){
       console.log(e);
     }
   }
@@ -107,7 +108,22 @@ export class VideosService {
     }
   }
 
-  async findVideoTags (tagId: string, p: number){
+  async findVideoTags(tagsId: Array<string>): Promise<Array<topic>> {
+    try{
+      const tags: Array<topic> = await this.topicService.fetchArticleTopics(tagsId);
+      if(tags.length > 0){
+        return tags;
+      }
+      else{
+        throw Error;
+      }
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
+
+  async findVideosTags (tagId: string, p: number){
     try{
       const videos: Array<Video> = new Array();
       for(let i = 0; i < p; i++){

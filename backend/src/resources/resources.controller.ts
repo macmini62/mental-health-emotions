@@ -8,6 +8,7 @@ import { ContentItem } from "src/types/types";
 import { createArticle } from "./resources.interface";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { video } from "./videos/interface/video.interface";
+import { topic } from "src/topics/interface/topic.interface";
 
 @Controller("resources")
 export class ResourcesController {
@@ -85,9 +86,35 @@ export class ResourcesController {
   }
 
   @SkipAuth()
+  @Get("/articles/read/creatorName/:id")
+  async fetchCreatorName(@Param("id") id: string, @Res() res: Response<string>) {
+    const result: string = await this.articlesService.findCreator(id);
+    // console.log(result);
+    if(!result){
+      res.status(500).send();
+    }
+    else{
+      res.status(200).json(result);
+    }
+  }
+
+  @SkipAuth()
+  @Post("/articles/read/tags/:id")
+  async fetchTagNames(@Body() tags: Array<string>, @Res() res: Response<Array<topic>>) {
+    const result: Array<topic> = await this.articlesService.findArticleTags(tags);
+    // console.log(result);
+    if(!result){
+      res.status(500).send();
+    }
+    else{
+      res.status(200).json(result);
+    }
+  }
+
+  @SkipAuth()
   @Get("articles/tag")
   async fetchArticlesTag(@Res() res: Response<Array<article>>, @Query("t") t: string, @Query("p") p: number){
-    const results = await this.articlesService.findArticleTags(t, p);
+    const results = await this.articlesService.findArticlesTags(t, p);
     
     if(!results){
       res.status(404).send();
@@ -192,7 +219,7 @@ export class ResourcesController {
   @SkipAuth()
   @Get("videos/tag")
   async fetchVideosTag(@Res() res: Response<Array<video>>, @Query("t") t: string, @Query("p") p: number){
-    const results = await this.videosService.findVideoTags(t, p);
+    const results = await this.videosService.findVideosTags(t, p);
     
     if(!results){
       res.status(404).send()
