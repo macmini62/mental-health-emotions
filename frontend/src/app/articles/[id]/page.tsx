@@ -7,9 +7,9 @@ import Link from "next/link";
 import React from "react";
 import { BsDot } from "react-icons/bs";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
-import { IoBookmarkOutline, IoShareOutline } from "react-icons/io5";
+import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import { TbMessageCircleFilled } from "react-icons/tb";
-import { article, tag } from "@/app/interface/interface";
+import { article, topic } from "@/app/interface/interface";
 import axios from "axios";
 import ErrorNotification from "@/app/components/notifications/notificationAlert";
 import ContentOptions from "@/app/components/dropDownOptions/contentOptions";
@@ -29,7 +29,8 @@ const Post = ({
   const [storedLogs, setStoredLogs] = React.useState(
     {
       ACCESSTOKEN: "",
-      ROLE: ""
+      ROLE: "",
+      USERID: ""
     }
   );
 
@@ -41,7 +42,8 @@ const Post = ({
     if(USERID && ACCESSTOKEN && ROLE){
       setStoredLogs({
         ACCESSTOKEN: JSON.parse(ACCESSTOKEN),
-        ROLE: JSON.parse(ROLE)
+        ROLE: JSON.parse(ROLE),
+        USERID: JSON.parse(USERID)
       });
     }
   }, []);
@@ -59,7 +61,7 @@ const Post = ({
     setFetchFailed(false);
   }, 10000);
   // console.log(fetchFailed);
-
+  
   // Article data
   const [article, setArticle] = React.useState<article>();
   React.useEffect(() => {
@@ -87,8 +89,125 @@ const Post = ({
     };
     fetchArticle();
   }, [params, storedLogs]);
-
   // console.log(article);
+  
+  // Fetch Creator Name.
+  const [creator, setCreator] = React.useState<string>();
+  React.useEffect(() => {
+		// Fetch seeker data for after login.
+		if(storedLogs.USERID && storedLogs.ACCESSTOKEN && storedLogs.ROLE){
+			axios.get<string>(`http://localhost:3001/resources/articles/read/creatorName/${article?.creatorId}`,
+					{
+						headers: {
+							Authorization: `Bearer ${storedLogs.ACCESSTOKEN}`
+						}
+					}
+				)
+				.then((res) => {
+					// console.log(res.data);
+					setCreator(res.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		}
+  }, [article]);
+
+// Fetch tags.
+const [tags, setTags] = React.useState<Array<topic>>([]);
+React.useEffect(() => {
+  // Fetch seeker data for after login.
+  if(storedLogs.USERID && storedLogs.ACCESSTOKEN && storedLogs.ROLE){
+    axios.post<Array<topic>>(`http://localhost:3001/resources/articles/read/Tags/${article?.creatorId}`, article?.tags,
+        {
+          headers: {
+            Authorization: `Bearer ${storedLogs.ACCESSTOKEN}`
+          }
+        }
+      )
+      .then((res) => {
+        // console.log(res.data);
+        setTags(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+}, [article]);
+
+  // Handles the Likes on the article
+  const handleLikeArticle = (id: string) => {
+    const user = article?.stats.likes.includes(storedLogs.USERID);
+    // console.log(user)
+    if(article){
+      let updatedArticle: article;
+      if(user){
+        updatedArticle = {
+          ...article,
+          stats: {
+            ...article.stats,
+            likes: article.stats.likes.filter((v: string) => v !== storedLogs.USERID)
+          }
+        };
+      }
+      else{
+        updatedArticle = {
+          ...article,
+          stats: {
+            ...article.stats,
+            likes: [...article.stats.likes, storedLogs.USERID]
+          } ,
+        };
+      }
+      console.log(updatedArticle);
+      
+      axios.put(`http://localhost:3001/resources/articles/${id}`, updatedArticle)
+        .then(() => {
+          setArticle(updatedArticle);
+        })
+        .catch((e) => {
+          console.log(e);
+          console.log("Error Liking the video");
+        })
+    }
+  }
+
+  // Handles the Bookmark on the article
+  const handelBookmarkArticle = (id: string) => {
+    const user = article?.stats.bookmarks.includes(storedLogs.USERID);
+    // console.log(user)
+    if(article){
+      let updatedArticle: article;
+      if(user){
+        updatedArticle = {
+          ...article,
+          stats: {
+            ...article.stats,
+            bookmarks: article.stats.bookmarks.filter((v: string) => v !== storedLogs.USERID)
+          }
+        };
+      }
+      else{
+        updatedArticle = {
+          ...article,
+          stats: {
+            ...article.stats,
+            bookmarks: [...article.stats.bookmarks, storedLogs.USERID]
+          } ,
+        };
+      }
+      console.log(updatedArticle);
+      
+      axios.put(`http://localhost:3001/resources/articles/${id}`, updatedArticle)
+        .then(() => {
+          setArticle(updatedArticle);
+        })
+        .catch((e) => {
+          console.log(e);
+          console.log("Error Liking the video");
+        })
+    }
+  }
 
   return (
     <div className="w-full h-screen overflow-y-visible overflow-x-hidden flex flex-col items-center text-gray-600">
@@ -115,7 +234,7 @@ const Post = ({
             <div className="flex gap-4 items-center my-8">
               <Link href="/"><img src="/faces/face4.jpg" alt="" className="w-14 h-14 rounded-full hover:opacity-80"/></Link>
               <div className="max-w-fit">
-                <Link href={`localhost:3000/writer/${article.creatorId}`}><p className="text-black hover:underline">{article.creatorId}</p></Link>
+                <Link href={`localhost:3000/writer/${creator}`}><p className="text-black hover:underline capitalize">{creator}</p></Link>
                 <div className="flex items-center gap-1 text-sm">
                   <p className="">2 min read</p>
                   <BsDot/>
@@ -130,12 +249,12 @@ const Post = ({
                 <div className="flex gap-1.5 items-center h-6">
                   <div className="flex gap-1.5 items-center">
                     {
-                      article.stats.likes.length > 0 ?
-                      <FcLikePlaceholder className="w-5 h-5"/>
+                      article.stats.likes.includes(storedLogs.USERID) ?
+                      <FcLike onClick={() => handleLikeArticle(article._id)} className="w-5 h-5 cursor-pointer"/>
                       :
-                      <FcLike className="w-5 h-5"/>
+                      <FcLikePlaceholder onClick={() => handleLikeArticle(article._id)} className="w-5 h-5 cursor-pointer"/>
                     }
-                    <p className="h-5 mb-1.5">{article.stats.likes.length}</p>
+                    <p className="h-6">{article.stats.likes.length}</p>
                   </div>
                 </div>
                 <div className="flex gap-1.5 items-center">
@@ -144,14 +263,20 @@ const Post = ({
                   <p className="h-5 text-sm">{article.stats.comments}</p>
                 </div>
               </div>
-              <div className="flex gap-10">
-                <button><IoShareOutline className="w-7 h-7 hover:text-black"/></button>
-                <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button>
-                {/* <button><IoBookmark className="w-7 h-7 text-black"/></button> */}
-                <ContentOptions
-                  type="article"
-                />
-              </div>
+              {
+                storedLogs.ROLE === "seeker" &&
+                <div className="flex gap-10">
+                  {
+                    article.stats.bookmarks.includes(storedLogs.USERID) ?
+                    <button><IoBookmark onClick={() => handelBookmarkArticle(article._id)} className="w-7 h-7 text-black"/></button>
+                    :
+                    <button><IoBookmarkOutline onClick={() => handelBookmarkArticle(article._id)} className="w-7 h-7 hover:text-black"/></button>
+                  }
+                  <ContentOptions
+                    type="article"
+                  />
+                </div>
+              }
             </div>
           </div>
           {/* content */}
@@ -176,7 +301,7 @@ const Post = ({
             <div className="">
               <div className="w-full max-h-fit flex flex-wrap col-span-2 gap-4 my-4">
                 {
-                  article.tags.map((t: tag, i: number) => (
+                  tags.map((t: topic, i: number) => (
                     <Link key={i} href={`locahost:3000/topic/${t._id}`} className="py-4 px-6 rounded-full bg-gray-100 text-black capitalize">{t.name}</Link>
                   ))
                 }
@@ -186,12 +311,12 @@ const Post = ({
                   <div className="flex gap-1.5 items-center h-6">
                     <div className="flex gap-1.5 items-center">
                       {
-                        article.stats.likes.length > 0 ?
-                        <FcLikePlaceholder className="w-5 h-5"/>
+                        article.stats.likes.includes(storedLogs.USERID) ?
+                        <FcLike onClick={() => handleLikeArticle(article._id)} className="w-5 h-5 cursor-pointer"/>
                         :
-                        <FcLike className="w-5 h-5"/>
+                        <FcLikePlaceholder onClick={() => handleLikeArticle(article._id)} className="w-5 h-5 cursor-pointer"/>
                       }
-                      <p className="h-5 mb-1.5">{article.stats.likes.length}</p>
+                      <p className="h-6">{article.stats.likes.length}</p>
                     </div>
                   </div>
                   <div className="flex gap-1.5 items-center">
@@ -200,14 +325,20 @@ const Post = ({
                     <p className="h-5 text-sm">{article.stats.comments}</p>
                   </div>
                 </div>
-                <div className="flex gap-10">
-                  <button><IoShareOutline className="w-7 h-7 hover:text-black"/></button>
-                  <button><IoBookmarkOutline className="w-7 h-7 hover:text-black"/></button>
-                  {/* <button><IoBookmark className="w-7 h-7 text-black"/></button> */}
-                  <ContentOptions
-                    type="article"
-                  />
-                </div>
+                {
+                  storedLogs.ROLE === "seeker" &&
+                  <div className="flex gap-10">
+                    {
+                      article.stats.bookmarks.includes(storedLogs.USERID) ?
+                      <button><IoBookmark onClick={() => handelBookmarkArticle(article._id)} className="w-7 h-7 text-black"/></button>
+                      :
+                      <button><IoBookmarkOutline onClick={() => handelBookmarkArticle(article._id)} className="w-7 h-7 hover:text-black"/></button>
+                    }
+                    <ContentOptions
+                      type="article"
+                    />
+                  </div>
+                }
               </div>
             </div>
           </div>

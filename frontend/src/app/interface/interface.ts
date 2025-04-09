@@ -56,7 +56,7 @@ export interface article {
   title: string;
   overview: string;
   content: Array<ContentItem>;
-  tags: Array<tag>;
+  tags: Array<string>;
   thumbnail: {
     _id: string;
     imageURL: string;
@@ -67,13 +67,6 @@ export interface article {
     bookmarks: Array<string>;
     comments: Array<string>;
   }
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface tag {
-  _id: string;
-  name: string;
   createdAt: string;
   updatedAt: string;
 }

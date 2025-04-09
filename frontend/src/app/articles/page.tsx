@@ -266,7 +266,7 @@ const Articles = () => {
     const article = articles.find(article => article._id === id);
     const user = article?.stats.likes.includes(storedLogs.USERID);
     // console.log(user)
-    let updatedArticles: article[];
+    let updatedArticles: Array<article>;
     if(user){
       updatedArticles = articles.map(article => {
         if (article._id === id) {
@@ -314,7 +314,7 @@ const Articles = () => {
     const article = articles.find(article => article._id === id);
     const user = article?.stats.bookmarks.includes(storedLogs.USERID);
     // console.log(user)
-    let updatedArticles: article[];
+    let updatedArticles: Array<article>;
     if(user){
       updatedArticles = articles.map(article => {
         if (article._id === id) {
@@ -355,7 +355,6 @@ const Articles = () => {
         console.log(e);
         console.log("Error Liking the video");
       })
-
   }
 
   return (
