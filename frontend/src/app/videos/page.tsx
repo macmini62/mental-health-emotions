@@ -256,7 +256,13 @@ const Videos = () => {
         <div className="w-[1114px] max-h-fit py-4">
           {/* content-header */}
           <ContentHeader
-            topics={user?.contents.topics}
+            topics={
+              user
+                ? "contents" in user
+                  ? user.contents.topics // professional
+                  : user.topics          // seeker
+                : []
+            }
             setFetchTag={(t: string) => setFetchTag(t)}
             tag={fetchTag}
             role={storedLogs.ROLE}

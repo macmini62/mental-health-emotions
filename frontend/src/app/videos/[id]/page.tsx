@@ -105,10 +105,10 @@ const Post = ({
       {
         (!loading && video) &&
         (
-          <div>
-            <video src={video.URL.replaceAll(" ", "+").replaceAll("?", "%3F")} controls={true} width={1280} className="rounded-md"/>
-            <div className="w-full my-16">
-              <h2 className="text-5xl text-black font-semibold my-4 capitalize text-wrap">{video.title}</h2>
+          <div className="w-full max-h-fit flex flex-col items-center">
+            <video src={video.URL.replaceAll(" ", "+").replaceAll("?", "%3F")} controls={true} width={1280} className="rounded-2xl shadow-2xl"/>
+            <div className="w-2/3 my-16 flex flex-col">
+              <h2 className="text-5xl text-black font-semibold capitalize text-wrap leading-[60px]">{video.title}</h2>
               <div className="flex gap-4 items-center my-8">
                 <Link href={`localhost:3000/writer/${video.creatorId}`}><img src="/faces/face4.jpg" alt="" className="w-14 h-14 rounded-full hover:opacity-80"/></Link>
                 <div className="max-w-fit">
@@ -151,7 +151,9 @@ const Post = ({
               </div>
             </div>
             {/* COMMENT */}
-            <CommentComponent/>
+            {/* <div className="w-2/3 overflow-hidden">
+              <CommentComponent/>
+            </div> */}
           </div>
         )
       }
